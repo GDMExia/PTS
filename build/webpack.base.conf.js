@@ -5,6 +5,8 @@ const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 const vuxLoader = require('vux-loader')
 
+var webpack=require('webpack');
+
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
@@ -30,16 +32,7 @@ let webpackConfig = {
   },
   module: {
     rules: [
-      ...(config.dev.useEslint? [{
-        test: /\.(js|vue)$/,
-        loader: 'eslint-loader',
-        enforce: 'pre',
-        include: [resolve('src'), resolve('test')],
-        options: {
-          formatter: require('eslint-friendly-formatter'),
-          emitWarning: !config.dev.showEslintErrorsInOverlay
-        }
-      }] : []),
+      ...(config.dev.useEslint? [] : []),
       {
         test: /\.vue$/,
         loader: 'vue-loader',
@@ -98,6 +91,7 @@ module.exports = vuxLoader.merge(webpackConfig, {
           }
         }
       }
-    }
+    },
+    {name: 'less-theme', path: 'src/styles/vux_theme.less'}
   ]
 })

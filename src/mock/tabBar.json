@@ -1,5 +1,5 @@
 {
     "data": [
-        {"link": "/home", "icon": "../../static/img/icon/ic_home@2x.png", "active": "../../static/img/icon/ic_home_s@2x@2x.png", "label": "首页"}
+        {"link": "/home", "icon": "/src/assets/icon/ic_home@2x.png", "active": "/src/assets/icon/ic_home_s@2x.png", "label": "首页"}
     ]
-}
+}  

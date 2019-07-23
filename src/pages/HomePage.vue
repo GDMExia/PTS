@@ -8,9 +8,10 @@
 
 <script>
 import wx from 'weixin-js-sdk'
+import TabbarComponent from "@/components/TabbarComponent.vue";
 export default {
   components: {
-    
+    TabbarComponent
   },
   name: "HomePage",
   data() {
@@ -31,7 +32,7 @@ export default {
     
   },
   mounted() {
-    
+    this.$bus.emit("onTabBarEvent", {});
   }
 };
 </script>
