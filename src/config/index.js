@@ -1,0 +1,5 @@
+export const HOST_RES = 'http://szphoto.happyvalley.cn/app/assets'
+export const HOST_WEIXIN = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect'
+// export const HOST_RES3 = 'https://ols.ugoodwx.cn/assets/'
+// export const HOST_RES4 = 'https://ols.ugoodwx.cn/assets/'
+// export const HOST_RES5 = 'https://ols.ugoodwx.cn/assets/'
