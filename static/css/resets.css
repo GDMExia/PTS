@@ -80,3 +80,8 @@ a:active {
 .swiper-demo-img img {
   width: 100%;
 }
+p img {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+}

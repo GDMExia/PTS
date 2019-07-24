@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
 		'/': {
-        target: '',
+        target: 'http://pts.suoqoo.com/home.php/',
         changeOrigin: true
       }
 	},

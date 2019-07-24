@@ -10,6 +10,9 @@ import SchoolPage from '@/pages/SchoolPage'
 import SchoolsPage from '@/pages/SchoolsPage'
 import OwnerPage from '@/pages/OwnerPage'
 import OwnersPage from '@/pages/OwnersPage'
+import ActivityView from '@/views/activity-view'
+import GuideView from '@/views/guide-view'
+import StoreView from '@/views/store-view'
 
 Vue.use(Router)
 
@@ -27,7 +30,24 @@ export default new Router({
     {
       path: '/homes',
       name: '首页',
-      component: HomesPage
+      component: HomesPage,
+      children: [
+        {
+          path: 'guide',
+          name: '使用指南',
+          component: GuideView
+        },
+        {
+          path: 'activity',
+          name: '活动分享',
+          component: ActivityView
+        },
+        {
+          path: 'store',
+          name: '商家列表',
+          component: StoreView
+        }
+      ]
     },
     {
       path: '/tour',

@@ -1,5 +1,6 @@
 <template>
   <div style="height:100%;">
+    
     <tabbarComponent :tabIndex=1></tabbarComponent>
     <home-provider></home-provider>
     
