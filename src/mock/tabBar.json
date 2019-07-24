@@ -1,5 +1,9 @@
 {
     "data": [
-        {"link": "/home", "icon": "/src/assets/icon/ic_home@2x.png", "active": "/src/assets/icon/ic_home_s@2x.png", "label": "首页"}
+        {"link": "/home", "icon": "/src/assets/icon/ic_home@2x.png", "active": "/src/assets/icon/ic_home_s@2x.png", "label": "首页"},
+        {"link": "/tour", "icon": "/src/assets/icon/ic_lvyou@2x.png", "active": "/src/assets/icon/ic_lvyou_s@2x.png", "label": "旅游"},
+        {"link": "/activity", "icon": "/src/assets/icon/icon_huodong@2x.png", "active": "/src/assets/icon/icon_huodong_s@2x.png", "label": "活动"},
+        {"link": "/school", "icon": "/src/assets/icon/icon_xueyuan@2x.png", "active": "/src/assets/icon/icon_xueyuan_s@2x.png", "label": "学院"},
+        {"link": "/owner", "icon": "/src/assets/icon/icon_wode@2x.png", "active": "/src/assets/icon/icon_wode_s@2x.png", "label": "我的"}
     ]
 }  
