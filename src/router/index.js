@@ -13,6 +13,7 @@ import OwnersPage from '@/pages/OwnersPage'
 import ActivityView from '@/views/activity-view'
 import GuideView from '@/views/guide-view'
 import StoreView from '@/views/store-view'
+import CauseView from '@/views/cause-view'
 
 Vue.use(Router)
 
@@ -75,9 +76,26 @@ export default new Router({
       component: SchoolPage
     },
     {
-      path: '/school',
+      path: '/schools',
       name: '学院',
-      component: SchoolsPage
+      component: SchoolsPage,
+      children: [
+        {
+          path: 'cause',
+          name: '事业学习',
+          component: CauseView
+        },
+        {
+          path: 'activity',
+          name: '资料分享',
+          component: ActivityView
+        },
+        {
+          path: 'store',
+          name: '热门文章',
+          component: StoreView
+        }
+      ]
     },
     {
       path: '/owner',
