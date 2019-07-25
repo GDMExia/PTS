@@ -12,7 +12,8 @@ export default {
   components: {
     TabbarComponent
   },
-  name: "HomePage",
+  name: "",
+  // name: "HomePage",
   data() {
     return {
       
