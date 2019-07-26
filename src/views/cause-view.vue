@@ -1,23 +1,19 @@
 <template>
   <div style="height:100%;">
-    <tabbarComponent :tabIndex=3></tabbarComponent>
     <home-provider></home-provider>
     <div class="main">
       <Flexbox style="marginTop:12px">
-        <FlexboxItem class="header_btn" @click="click()"><p @click="$router.push('/schools/cause')">事业学习</p></FlexboxItem>
-        <FlexboxItem class="header_btn" @click="$router.push('/schools/data')">资料分享</FlexboxItem>
-        <FlexboxItem class="header_btn" @click="$router.push('/schools/hot')">热门文章</FlexboxItem>
+        <FlexboxItem class="header_btn">公司介绍</FlexboxItem>
+        <FlexboxItem class="header_btn">新闻咨询</FlexboxItem>
+        <FlexboxItem class="header_btn">事业介绍</FlexboxItem>
       </Flexbox>
-      <div class="searchbar">
-        <input type="search" placeholder="搜索文章关键词"/>
-        <tab default-color="#333333" :active-color="'#06D5DE'" custom-bar-width="32px">
-          <tab-item @on-item-click="handler">最新</tab-item>
-          <tab-item @on-item-click="handler">最热</tab-item>
-          <tab-item @on-item-click="handler">推荐</tab-item>
-        </tab>
-      </div>
+      <Flexbox>
+        <FlexboxItem class="header_btn">视频介绍</FlexboxItem>
+        <FlexboxItem class="header_btn">会员分享</FlexboxItem>
+        <FlexboxItem class="header_btn">成功榜样</FlexboxItem>
+      </Flexbox>
       <div class="menu">
-        <div class="detail" @click="$router.push('/schools/cause')">
+        <div class="detail">
           <div class="image"><img src="" alt=""></div>
           <div class="body">
             <div class="title">5分钟读懂Dream Trip俱乐部的卖点和优势5 5分钟读懂Dream Trip俱乐部</div>
@@ -39,11 +35,9 @@
 </template>
 
 <script>
-import TabbarComponent from "@/components/TabbarComponent.vue";
 import { Tab, TabItem, Flexbox, FlexboxItem, Search } from 'vux'
 export default {
   components: {
-    TabbarComponent,
     Tab,
     TabItem,
     Flexbox,
@@ -57,10 +51,7 @@ export default {
     };
   },
   methods: {
-    click(){
-      console.log(111)
-    },
-    handler(){}
+    
   },
   computed: {
     
@@ -79,11 +70,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-*{padding:0;margin:0;touch-action: none;}
+*{padding:0;margin:0}
 .main{position: relative;background-color: #F8F8F8}
 .header_btn{width:105px;height:50px;background:#F8F8F8 url('/src/assets/icon/xueyuan_btn_small@2x.png')center no-repeat;background-size: 105px 50px;text-align: center;color:#fff;padding-top: 10px;font-size: 15px}
-.searchbar{height:91px;width:375px;background-color: #fff;position: relative;padding-top: 59px}
-.searchbar input{position: absolute;top:12px;display: inline-block;width:345px;height: 32px;border-radius: 20px;background-color: #F3F3F3;text-align:center;margin-left:15px;}
 .menu{width:375px;padding-top:23px;background-color: #F8F8F8;padding-bottom: 83px}
 .detail{min-height:257px;width: 355px;margin-left:10px;border-radius: 20px;background-color: #fff;margin-top:10px}
 .detail .image{background-color: aqua;width:355px;height:177px;border-radius: 20px 20px 0 0 }

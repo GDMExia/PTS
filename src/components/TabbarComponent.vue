@@ -1,6 +1,6 @@
 <template>
   <div>
-    <tabbar @on-index-change="indexChange">
+    <tabbar @on-index-change="indexChange" style="position:fixed;bottom:0;height:83px">
       <tabbar-item v-for="(item, index) in tabBarList" :key="index" :link="item.link" :selected="index==tabIndex">
         <img slot="icon" :src="item.icon">
         <img slot="icon-active" :src="item.active">
