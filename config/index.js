@@ -12,7 +12,8 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
 		'/': {
-        target: 'http://pts.suoqoo.com/home.php/',
+        target: '/',
+        // target: 'http://pts.suoqoo.com/home.php/',
         changeOrigin: true
       }
 	},
