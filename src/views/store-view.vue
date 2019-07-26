@@ -5,7 +5,7 @@
       <swiper loop auto :list="imageList" dots-position="center"></swiper>
     </div>
     <div v-for="item in storeList" :key="item.id" class="store">
-      <img :src="item.img" alt="">
+      <img class="store-img" :src="item.img" alt="">
       <div class="store-right">
         <p class="store-name">{{item.name}}
         <img class="activity-enable" v-if="status" src="/src/assets/ic_hdbq@2x.png" alt="">
@@ -64,6 +64,10 @@ export default {
   height: 120px;
   padding: 15px 10px;
   display: flex;
+}
+.store-img {
+  width: 90px;
+  height: 90px;
 }
 .store-right {
   margin-left: 10px;
