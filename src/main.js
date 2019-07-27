@@ -30,20 +30,7 @@ Vue.use(require('vue-wechat-title'))
 
 // 全局路由守卫
 router.beforeEach((to, from, next) => {
-    var token;
-    const userfreeze = localStorage.getItem('userfreeze')
-    if(window.localStorage.vuex) {
-        token = JSON.parse(window.localStorage.vuex).token
-    }
-    if(to.path==='/homes/register') {
-        next()
-    } else {
-        if(to.meta.auth && !token || to.meta.auth && userfreeze===0) {
-            next({path: '/homes/register'})
-        } else {
-            next()
-        }
-    }
+    next()
 });
 
 // const router = new VueRouter({

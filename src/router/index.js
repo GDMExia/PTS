@@ -14,6 +14,8 @@ import ActivityView from '@/views/activity-view'
 import GuideView from '@/views/guide-view'
 import StoreView from '@/views/store-view'
 import CauseView from '@/views/cause-view'
+import TourDetailView from '@/views/tour-detail-view'
+import ActivityDetailView from '@/views/activity-detail-view'
 
 Vue.use(Router)
 
@@ -58,7 +60,14 @@ export default new Router({
     {
       path: '/tours',
       name: '旅游',
-      component: ToursPage
+      component: ToursPage,
+      children: [
+        {
+          path: 'tourDetail',
+          name: '详情',
+          component: TourDetailView
+        }
+      ]
     },
     {
       path: '/activity',
@@ -68,7 +77,14 @@ export default new Router({
     {
       path: '/activities',
       name: '活动',
-      component: ActivitiesPage
+      component: ActivitiesPage,
+      children: [
+        {
+          path: 'activityDetail',
+          name: '详情',
+          component: ActivityDetailView
+        }
+      ]
     },
     {
       path: '/school',

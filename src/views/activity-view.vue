@@ -58,7 +58,7 @@ export default {
   border-radius: 15px;
 }
 .activity-img {
-  width: 355px;
+  max-width: 355px;
   height: 177px;
   border-radius: 15px 15px 0 0;
 }
@@ -83,6 +83,7 @@ export default {
 p img {
   width: 12px;
   height: 12px;
+  vertical-align: middle;
   display: inline-block;
 }
 </style>

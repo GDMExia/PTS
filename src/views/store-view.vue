@@ -87,6 +87,7 @@ p img {
   height: 12px;
   display: inline-block;
   margin-right: 5px;
+  vertical-align: middle;
 }
 .mt12 {
   margin-top: 12px;
