@@ -23,7 +23,7 @@
           </FlexboxItem>
         </Flexbox>
         <Flexbox style="marginTop:12px">
-          <FlexboxItem><div class="header_btn header_btn1" @click="$router.push('/schools/cause')">事业学习</div></FlexboxItem>
+          <FlexboxItem><div class="header_btn header_btn1" @click="$router.push('/owners/getvip')">续费VIP</div></FlexboxItem>
           <FlexboxItem><div class="header_btn header_btn2" @click="$router.push('/schools/cause')">事业学习</div></FlexboxItem>
         </Flexbox>
       </div>
@@ -31,8 +31,8 @@
     </div>
     <div class="mylink">
     <Group>
-      <CellBox :is-link="true" class="link"><span>个人信息</span></CellBox>
-      <CellBox :is-link="true" class="link"><span>我的钱包</span></CellBox>
+      <CellBox :is-link="true" class="link" link=/owners/info><span>个人信息</span></CellBox>
+      <CellBox :is-link="true" class="link" link=/owners/mywallet><span>我的钱包</span></CellBox>
       <CellBox :is-link="true" class="link"><span>我的订单</span></CellBox>
       <CellBox :is-link="true" class="link"><span>联系客服</span></CellBox>
     </Group>

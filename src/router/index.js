@@ -16,6 +16,8 @@ import StoreView from '@/views/store-view'
 import CauseView from '@/views/cause-view'
 import DetailView from '@/views/detail-view'
 import InfoView from '@/views/info-view'
+import GetvipView from '@/views/getvip-view'
+import WalletView from '@/views/mywallet-view'
 
 Vue.use(Router)
 
@@ -118,6 +120,16 @@ export default new Router({
           path: 'info',
           name: '个人信息',
           component: InfoView
+        },
+        {
+          path: 'getvip',
+          name: '成为VIP',
+          component: GetvipView
+        },
+        {
+        path: 'mywallet',
+        name: '我的钱包',
+        component: WalletView
         }
       ]
     },

@@ -18,6 +18,9 @@
           <div class="body">
             <div class="title">5分钟读懂Dream Trip俱乐部的卖点和优势5 5分钟读懂Dream Trip俱乐部</div>
             <div class="more">所属二级分类名称</div>
+            <div class="clock">
+              <img src="/src/assets/icon_time@2x.png" alt="">
+            </div>
             <div class="time">2019/05/10</div>
           </div>
         </div>
@@ -26,6 +29,9 @@
           <div class="body">
             <div class="title">5分钟读懂Dream Trip俱乐部的卖点和优势5 5分钟读懂Dream Trip俱乐部</div>
             <div class="more">所属二级分类名称</div>
+            <div class="clock">
+              <img src="/src/assets/icon_time@2x.png" alt="">
+            </div>
             <div class="time">2019/05/10</div>
           </div>
         </div>
@@ -78,6 +84,8 @@ export default {
 .detail .image{background-color: aqua;width:100%;height:177px;border-radius: 20px 20px 0 0 }
 .detail .body{background-color: #fff;position: relative;border-radius:0 0 20px 20px }
 .detail .body .title{max-width: 88%;color: #323643;font-size: 16px;margin-left:6%;margin-top:12px}
-.detail .body .more{color:#666666;font-size: 13px;margin-left:20px;margin-top:10px;padding-bottom: 15px}
-.detail .body .time{position: absolute;bottom:15px;right: 20px;color:#999999;font-size: 12px}
+.detail .body .more{color:#666666;font-size: 13px;margin-left:6%;margin-top:10px;padding-bottom: 15px}
+.detail .body .clock{width:12px;height: 12px;position: absolute;right:26.5%;bottom:17px}
+.detail .body .clock img{width:12px;height: 12px}
+.detail .body .time{position: absolute;bottom:15px;right: 6%;color:#999999;font-size: 12px}
 </style>
