@@ -70,14 +70,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-*{padding:0;margin:0}
+*{padding:0;margin:0;touch-action: none;}
 .main{position: relative;background-color: #F8F8F8}
 .header_btn{width:105px;height:50px;background:#F8F8F8 url('/src/assets/icon/xueyuan_btn_small@2x.png')center no-repeat;background-size: 105px 50px;text-align: center;color:#fff;padding-top: 10px;font-size: 15px}
-.menu{width:375px;padding-top:23px;background-color: #F8F8F8;padding-bottom: 83px}
-.detail{min-height:257px;width: 355px;margin-left:10px;border-radius: 20px;background-color: #fff;margin-top:10px}
-.detail .image{background-color: aqua;width:355px;height:177px;border-radius: 20px 20px 0 0 }
+.menu{width:100%;padding-top:23px;background-color: #F8F8F8;padding-bottom: 83px}
+.detail{min-height:257px;width: 95%;margin-left:2.5%;border-radius: 20px;background-color: #fff;margin-top:10px}
+.detail .image{background-color: aqua;width:100%;height:177px;border-radius: 20px 20px 0 0 }
 .detail .body{background-color: #fff;position: relative;border-radius:0 0 20px 20px }
-.detail .body .title{max-width: 317px;color: #323643;font-size: 16px;margin-left:20px;margin-top:12px}
+.detail .body .title{max-width: 88%;color: #323643;font-size: 16px;margin-left:6%;margin-top:12px}
 .detail .body .more{color:#666666;font-size: 13px;margin-left:20px;margin-top:10px;padding-bottom: 15px}
 .detail .body .time{position: absolute;bottom:15px;right: 20px;color:#999999;font-size: 12px}
 </style>
