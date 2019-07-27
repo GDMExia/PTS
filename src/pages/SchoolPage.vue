@@ -17,7 +17,7 @@
         </tab>
       </div>
       <div class="menu">
-        <div class="detail" @click="$router.push('/schools/cause')">
+        <div class="detail" @click="$router.push('/schools/detail')">
           <div class="image"><img src="" alt=""></div>
           <div class="body">
             <div class="title">5分钟读懂Dream Trip俱乐部的卖点和优势5 5分钟读懂Dream Trip俱乐部</div>

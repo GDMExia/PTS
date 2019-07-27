@@ -14,6 +14,8 @@ import ActivityView from '@/views/activity-view'
 import GuideView from '@/views/guide-view'
 import StoreView from '@/views/store-view'
 import CauseView from '@/views/cause-view'
+import DetailView from '@/views/detail-view'
+import InfoView from '@/views/info-view'
 
 Vue.use(Router)
 
@@ -94,6 +96,11 @@ export default new Router({
           path: 'store',
           name: '热门文章',
           component: StoreView
+        },
+        {
+          path: 'detail',
+          name: '详情',
+          component: DetailView
         }
       ]
     },
@@ -105,7 +112,14 @@ export default new Router({
     {
       path: '/owners',
       name: '我的',
-      component: OwnersPage
+      component: OwnersPage,
+      children: [
+        {
+          path: 'info',
+          name: '个人信息',
+          component: InfoView
+        }
+      ]
     },
   ]
 })
