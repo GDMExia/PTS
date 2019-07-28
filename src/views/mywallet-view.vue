@@ -17,11 +17,25 @@
             <div class="detail">
                 <div class="name">抵扣活动《xxxxxxxxxxxxxxx….》</div>
                 <div class="time">2019-05-15 10:42</div>
-                <div class="change">-200</div>
+                <div class="changenum">-200</div>
+            </div>
+            <div class="detail">
+                <div class="name">抵扣活动《xxxxxxxxxxxxxxx….》</div>
+                <div class="time">2019-05-15 10:42</div>
+                <div class="changenum">-200</div>
             </div>
         </div>
         <div class="getdetail" v-if="btn==1">
-
+            <div class="detail">
+                <div class="name">抵扣活动《xxxxxxxxxxxxxxx….》</div>
+                <div class="time">2019-05-15 10:42</div>
+                <div class="changenum">-200</div>
+            </div>
+            <div class="detail">
+                <div class="name">抵扣活动《xxxxxxxxxxxxxxx….》</div>
+                <div class="time">2019-05-15 10:42</div>
+                <div class="changenum">-200</div>
+            </div>
         </div>
     </div>
 </template>
@@ -57,6 +71,15 @@ export default {
 .change .getintegral{right:0}
 .change div.select{background-color: #06D5DE;border-radius: 20px;color:#fff}
 
-.usedetail{width:100%}
+.usedetail{width:100%;background-color: #fff;position: relative;margin-top:20px}
+.usedetail .detail{width:95%;margin-left:5%;border-bottom: 1px solid #F0F0F0;height:80px;position: relative;}
+.usedetail .detail .name{color:#333333;font-size: 15px;width: 63%;white-space: nowrap;position: absolute;left:0;top:21px;display: inline-block}
+.usedetail .detail .time{color:#999;position: absolute;font-size: 12px;left:0;top:48px;display: inline-block}
+.usedetail .detail .changenum{color:#0BB900;font-size: 18px;position: absolute;top:28px;right:5.6%;display: inline-block}
 
+.getdetail{width:100%;background-color: #fff;position: relative;margin-top:20px}
+.getdetail .detail{width:95%;margin-left:5%;border-bottom: 1px solid #F0F0F0;height:80px;position: relative;}
+.getdetail .detail .name{color:#333333;font-size: 15px;width: 63%;white-space: nowrap;position: absolute;left:0;top:21px;display: inline-block}
+.getdetail .detail .time{color:#999;position: absolute;font-size: 12px;left:0;top:48px;display: inline-block}
+.getdetail .detail .changenum{color:#DE1E06;font-size: 18px;position: absolute;top:28px;right:5.6%;display: inline-block}
 </style>

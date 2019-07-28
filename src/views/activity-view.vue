@@ -1,7 +1,7 @@
 <template>
   <div style="height:100%;">
     <div class="container" v-for="item in activityList" :key="item.id">
-      <img :src="item.img" alt="">
+      <img class="activity-img" :src="item.img" alt="">
       <div class="activity-title">
         <p class="title-text">{{item.title}}</p>
         <p class="time">
@@ -57,6 +57,11 @@ export default {
   height: 272px;
   border-radius: 15px;
 }
+.activity-img {
+  max-width: 355px;
+  height: 177px;
+  border-radius: 15px 15px 0 0;
+}
 .activity-title {
   height: 95px;
   padding: 14px 21px 10px 20px;
@@ -78,6 +83,7 @@ export default {
 p img {
   width: 12px;
   height: 12px;
+  vertical-align: middle;
   display: inline-block;
 }
 </style>

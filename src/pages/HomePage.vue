@@ -1,7 +1,7 @@
 <template>
   <div style="height:100%;">
     <div class="banner">
-      <swiper loop auto :list="banner_list" dots-position="center"></swiper>
+      <swiper loop auto :list="banner_list" dots-position="center" @swiper-indicator-active-color="'#76F7FC'" height="212px" dots-class="dotsbottom"></swiper>
       <img src="/src/assets/radian@2x.png" alt="">
     </div>
     <div class="container">
@@ -9,47 +9,64 @@
         <img slot="icon" @click="$router.push('/homes/activity')" src="/src/assets/home_activity_share@2x.png">
         <img slot="icon" @click="$router.push('/homes/guide')" src="/src/assets/home_guide@2x.png">
       </div>
-      <div class="local-life contain-activity">
+      <div class="local-life">
         <span class="local-life-text">本地生活</span>
         <span class="local-life-more" @click="$router.push('/homes/store')">MORE</span>
       </div>
-      <div>
-        <div>
-          <div>
-            <p>私房菜 咖啡馆</p>
-            <p>美食DIY</p>
+      <div class="local-life-body">
+        <div class="local-life-menu">
+          <div class="local-lift-item local-lift-item1">
+
           </div>
-          <div>
-            <p>定制旅游</p>
-            <p>精品度假酒店</p>
+          <div class="local-lift-item local-lift-item2">
+
           </div>
-          <div>
-            <p>亲子 教育</p>
-            <p>妈妈部落</p>
+          <div class="local-lift-item local-lift-item3">
+
           </div>
-          <div>
-            <p>美容 健身</p>
-            <p>健康</p>
+        </div>
+        <div class="local-life-menu">
+          <div class="local-lift-item local-lift-item4">
+
           </div>
-          <div>
-            <p>家居饰品 宠物</p>
-            <p>设计师的店</p>
+          <div class="local-lift-item local-lift-item5">
+
           </div>
-          <div>
-            <p>文艺 书房</p>
-            <p>美好空间</p>
+          <div class="local-lift-item local-lift-item6">
+
           </div>
         </div>
       </div>
       <div class="local-life">
         <span class="local-life-text">精品推荐</span>
       </div>
-      <div>
-        <div>
-          <img src="" alt="">
-          <p>品酒,会让你更</p>
+      <div class="getmore">
+        <div class="moreitem">
+          <div class="image">
+            <img src="" alt="">
+          </div>
+          <p>品酒,会让你更123123123</p>
+        </div>
+        <div class="moreitem">
+          <div class="image">
+            <img src="" alt="">
+          </div>
+          <p>品酒,会让你更123123123</p>
+        </div>
+        <div class="moreitem">
+          <div class="image">
+            <img src="" alt="">
+          </div>
+          <p>品酒,会让你更123123123</p>
+        </div>
+        <div class="moreitem">
+          <div class="image">
+            <img src="" alt="">
+          </div>
+          <p>品酒,会让你更123123123</p>
         </div>
       </div>
+      <div class="placeholder"></div>
     </div>
     <tabbarComponent :tabIndex=0></tabbarComponent>
     <home-provider></home-provider>
@@ -105,36 +122,76 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
   .banner {
     width: 100%;
-    height: 2.12rem;
+    /* height: 2.12rem; */
+    height:227px;
+    position: relative;
+    background-color:#81D8D0;
   }
   .banner img {
     width: 100%;
+    position: absolute;
+    bottom:14px
   }
+  .vux-slider{height:227px!important}
+  .dotsbottom{top:170px!important;z-index:1000}
   .container {
     background-color:#81D8D0;
-    padding: 15px;
-    margin-top: 54px;
+    width:100%;
+    padding-left: 4%;
+    padding-right: 4%;
+    padding-top: 29px;
   }
   .contain-activity {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
   }
   .contain-activity img {
     width: 170px;
+    height: 89px
   }
   .local-life {
     margin-top: 41px;
+    clear: both;
+    overflow: hidden
   }
   .local-life-text {
     color: #333333;
     font-size: 16px;
     font-weight: 600;
+    float: left;
   }
   .local-life-more {
     color: #ffffff;
     font-size: 12px;
+    float: right;
   }
+  .local-life-body{
+    margin-top:14px
+  }
+  .local-life-menu{width:100%;display: flex;align-content: center;margin-bottom: 24px}
+  .local-lift-item{
+    flex:1;
+    width:116px;
+    height:74px;
+    font-size: 14px;
+    color:#333;
+    display: inline-block;
+  }
+  .local-lift-item1{background: url('/src/assets/icon/block1@2x.png') center no-repeat;background-size: 116px 74px;}
+  .local-lift-item2{background: url('/src/assets/icon/block1@2x(1).png') center no-repeat;background-size: 116px 74px;}
+  .local-lift-item3{background: url('/src/assets/icon/block1@2x(2).png') center no-repeat;background-size: 116px 74px;}
+  .local-lift-item4{background: url('/src/assets/icon/block1@2x(3).png') center no-repeat;background-size: 116px 74px;}
+  .local-lift-item5{background: url('/src/assets/icon/block1@2x(4).png') center no-repeat;background-size: 116px 74px;}
+  .local-lift-item6{background: url('/src/assets/icon/block1@2x(5).png') center no-repeat;background-size: 116px 74px;}
+
+  .getmore{height:200px;overflow-x: scroll;overflow-y: hidden;display: flex}
+  .getmore .moreitem{height:200px;width:130px;margin-right:20px;display: inline-block;flex:1}
+  .getmore .moreitem .image{width:130px;height:160px;border-radius: 10px;background-color: #fff;}
+  .getmore .moreitem .image img{width:130px;height:160px;border-radius: 10px;}
+  .getmore .moreitem p{width:130px;white-space: nowrap;font-size: 15px;color:#666;overflow: hidden}
+
+  .placeholder{height:70px}
 </style>

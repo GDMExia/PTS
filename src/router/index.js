@@ -18,6 +18,8 @@ import DetailView from '@/views/detail-view'
 import InfoView from '@/views/info-view'
 import GetvipView from '@/views/getvip-view'
 import WalletView from '@/views/mywallet-view'
+import TourDetailView from '@/views/tour-detail-view'
+import ActivityDetailView from '@/views/activity-detail-view'
 
 Vue.use(Router)
 
@@ -62,7 +64,14 @@ export default new Router({
     {
       path: '/tours',
       name: '旅游',
-      component: ToursPage
+      component: ToursPage,
+      children: [
+        {
+          path: 'tourDetail',
+          name: '详情',
+          component: TourDetailView
+        }
+      ]
     },
     {
       path: '/activity',
@@ -72,7 +81,14 @@ export default new Router({
     {
       path: '/activities',
       name: '活动',
-      component: ActivitiesPage
+      component: ActivitiesPage,
+      children: [
+        {
+          path: 'activityDetail',
+          name: '详情',
+          component: ActivityDetailView
+        }
+      ]
     },
     {
       path: '/school',
