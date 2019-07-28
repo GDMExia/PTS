@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <router-view v-wechat-title="$route.name"></router-view>
   </div>
 </template>

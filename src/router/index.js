@@ -13,6 +13,26 @@ import OwnersPage from '@/pages/OwnersPage'
 import ActivityView from '@/views/activity-view'
 import GuideView from '@/views/guide-view'
 import StoreView from '@/views/store-view'
+import CauseView from '@/views/cause-view'
+import DetailView from '@/views/detail-view'
+import InfoView from '@/views/info-view'
+import GetvipView from '@/views/getvip-view'
+import WalletView from '@/views/mywallet-view'
+import signUpView from '@/views/signup-view'
+import OrderView from '@/views/order-view'
+import OrderdetailView from '@/views/orderdetail-view'
+import UnsubscribeView from '@/views/unsubscribe-view'
+import UnsubscribedetailView from '@/views/unsubscribedetail-view'
+import AdvicelView from '@/views/advice-view'
+import MyAdvicelView from '@/views/myadvice-view'
+
+
+import TourDetailView from '@/views/tour-detail-view'
+import ActivityDetailView from '@/views/activity-detail-view'
+import StoreDetailView from '@/views/store-detail-view'
+import PayView from '@/views/pay-view'
+import SearchView from '@/views/search-view'
+import ActivityShareView from '@/views/activity-share-view'
 
 Vue.use(Router)
 
@@ -43,9 +63,19 @@ export default new Router({
           component: ActivityView
         },
         {
+          path: 'shareDetail',
+          name: '活动分享',
+          component: ActivityShareView
+        },
+        {
           path: 'store',
           name: '商家列表',
           component: StoreView
+        },
+        {
+          path: 'storeDetail',
+          name: '商家详情',
+          component: StoreDetailView
         }
       ]
     },
@@ -57,7 +87,19 @@ export default new Router({
     {
       path: '/tours',
       name: '旅游',
-      component: ToursPage
+      component: ToursPage,
+      children: [
+        {
+          path: 'tourDetail',
+          name: '详情',
+          component: TourDetailView
+        },
+        {
+          path: 'search',
+          name: '搜索',
+          component: SearchView
+        }
+      ]
     },
     {
       path: '/activity',
@@ -67,7 +109,19 @@ export default new Router({
     {
       path: '/activities',
       name: '活动',
-      component: ActivitiesPage
+      component: ActivitiesPage,
+      children: [
+        {
+          path: 'activityDetail',
+          name: '详情',
+          component: ActivityDetailView
+        },
+        {
+          path: 'signup',
+          name: '立即报名',
+          component: signUpView
+        }
+      ]
     },
     {
       path: '/school',
@@ -75,9 +129,31 @@ export default new Router({
       component: SchoolPage
     },
     {
-      path: '/school',
+      path: '/schools',
       name: '学院',
-      component: SchoolsPage
+      component: SchoolsPage,
+      children: [
+        {
+          path: 'cause',
+          name: '事业学习',
+          component: CauseView
+        },
+        {
+          path: 'activity',
+          name: '资料分享',
+          component: ActivityView
+        },
+        {
+          path: 'store',
+          name: '热门文章',
+          component: StoreView
+        },
+        {
+          path: 'detail',
+          name: '详情',
+          component: DetailView
+        }
+      ]
     },
     {
       path: '/owner',
@@ -87,7 +163,59 @@ export default new Router({
     {
       path: '/owners',
       name: '我的',
-      component: OwnersPage
+      component: OwnersPage,
+      children: [
+        {
+          path: 'info',
+          name: '个人信息',
+          component: InfoView
+        },
+        {
+          path: 'getvip',
+          name: '成为VIP',
+          component: GetvipView
+        },
+        {
+        path: 'mywallet',
+        name: '我的钱包',
+        component: WalletView
+        },
+        {
+        path: 'pay',
+        name: '充值',
+        component: PayView
+        },
+        {
+        path: 'myorder',
+        name: '我的订单',
+        component: OrderView
+        },
+        {
+        path: 'orderdetail',
+        name: '订单详情',
+        component: OrderdetailView
+        },
+        {
+        path: 'unsubscribe',
+        name: '我要退订',
+        component: UnsubscribeView
+        },
+        {
+        path: 'unsubscribedetail',
+        name: '我要退订',
+        component: UnsubscribedetailView
+        },
+        {
+        path: 'advice',
+        name: '我要评价',
+        component: AdvicelView
+        },
+        {
+        path: 'myadvice',
+        name: '我的评价',
+        component: MyAdvicelView
+        }
+      ]
     },
   ]
 })

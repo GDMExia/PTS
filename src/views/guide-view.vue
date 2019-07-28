@@ -1,7 +1,7 @@
 <template>
   <div style="height:100%;">
     <group class="guide">
-      <cell v-for="item in guide_list" :key="item.id" :title="item.title" :link="'https://www.baidu.com'"></cell>
+      <cell v-for="item in guide_list" :key="item.id" :title="item.title" :link="'/homes/shareDetail'"></cell>
     </group>
   </div>
 </template>
