@@ -45,7 +45,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .main{width: 100%;padding-top: 10px;background-color: #F8F8F8;}
 .vipinfo{width: 92%;margin-left: 4%;height:80px;background-color: #fff;padding-top: 15px;box-sizing: border-box;position: relative;}
 .vipinfo .vipimg{width:50px;height: 50px;margin-left: 6%;}

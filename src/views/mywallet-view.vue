@@ -7,7 +7,7 @@
             <div class="integral">
                 <p style="color:#999999">当前积分</p><img src="/src/assets/icon/icon_tishi@2x.png" alt=""> <p style="color:#333333">89,019</p>
             </div>
-            <div class="paybutton"></div>
+            <div class="paybutton" @click="$router.push('/owners/pay')"></div>
         </div>
         <div class="change">
             <div class="useintegral" :class="btn==0?'select':''" @click="change(0)">消费积分记录</div>
@@ -55,7 +55,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .main{width: 100%;background-color: #F8F8F8}
 .info{width: 92%;height:100px;margin-left: 4%;border-radius: 10px;background-color: #fff;margin-top: 10px;position: relative;}
 .info .expiretime{font-size: 15px;position: absolute;top: 24px;left: 6.2%;width: 50%}

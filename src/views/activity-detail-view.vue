@@ -36,10 +36,10 @@
       </div>
     </div>
     <div class="bottom"> 
-      <div class="button submit f15" @click="$router.push('/activities/pay')">立即报名</div>
+      <div class="button submit f15" @click="$router.push('/activities/signup')">立即报名</div>
       <!-- <div class="button disabled f15">报名已结束</div> -->
     </div>
-    <div class="fixed-image"></div>
+    <div class="fixed-image" @click="$router.push('/home')"></div>
   </div>
 </template>
 

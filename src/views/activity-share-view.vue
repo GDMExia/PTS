@@ -6,7 +6,7 @@
     <div class="content-detail">
       <img src="/src/assets/img@2x.png" alt="">
     </div>
-    <div class="fixed-image"></div>
+    <div class="fixed-image" @click="$router.push('/home')"></div>
   </div>
 </template>
 
