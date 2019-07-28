@@ -1,18 +1,19 @@
 <template>
   <div class="main">
     <div class="flex f15">
-      <div class="flex-tab active">进行中</div>
-      <div class="flex-tab">历史</div>
+      <div @click="changeTab" :class="[type==0?'active':'','flex-tab']">进行中</div>
+      <div @click="changeTab" :class="[type==1?'active':'','flex-tab']">历史</div>
     </div>
-    <div>
-      <flexbox style="margin: 0 11px 20px 20px;">
+    <div v-if="type==0">
+      <flexbox style="margin: 0 11px 20px 20px;max-width: 344px;">
         <flexbox-item class="header_btn" @click="click()">官方</flexbox-item>
         <flexbox-item class="header_btn header-active" @click="$router.push('/schools/data')">私房菜</flexbox-item>
         <flexbox-item class="header_btn" @click="$router.push('/schools/hot')">咖啡馆</flexbox-item>
         <flexbox-item class="header_btn" @click="$router.push('/schools/hot')">美食DIY</flexbox-item>
       </flexbox>
     </div>
-    <div class="main-content" @click="$router.push('/activities/activityDetail')">
+    <div style="padding-bottom: 83px;">
+      <div v-for="item in activityList" :key="item.id" class="main-content" @click="$router.push('/activities/activityDetail')">
         <div class="image">
           <img src="http://iph.href.lu/355x177" alt="">
         </div>
@@ -20,19 +21,21 @@
         <div class="name-price">
           <div class="content-left">
             <p class="title f16 content-left">
-              从品酒来了解酒窖文化
+              {{item.name}}
             </p>
             <p class="time mt12">
               <img src="/src/assets/icon_time@2x.png" alt="">
-              截止报名时间：2019/05/10 19:00
+              截止报名时间：{{item.time}}
             </p>
           </div>
           <div>
-            <p class="price">¥ 2050</p>
-            <p class="num">抵500积分</p>
+            <p class="price">{{item.price}}</p>
+            <p class="num">抵{{item.num}}积分</p>
           </div>
         </div>
       </div>
+    </div>
+    
     <tabbarComponent :tabIndex=2></tabbarComponent>
     <home-provider></home-provider>
     
@@ -51,11 +54,18 @@ export default {
   name: "HomePage",
   data() {
     return {
-      
+      type: 0,
+      activityList: [
+        {img: '/src/assets/icon_time@2x.png', time: '2019/05/10 19:00', name: '从品酒来了解酒窖文化',price: '¥ 2050', num: 500},
+        {img: '/src/assets/icon_time@2x.png', time: '2019/05/10 19:00', name: '从品酒来了解酒窖文化',price: '¥ 2050', num: 500},
+        {img: '/src/assets/icon_time@2x.png', time: '2019/05/10 19:00', name: '从品酒来了解酒窖文化',price: '¥ 2050', num: 500},
+      ]
     };
   },
   methods: {
-    
+    changeTab() {
+      this.type = !this.type
+    }
   },
   computed: {
     
@@ -129,7 +139,7 @@ export default {
   margin-top:10px;
   position: relative;
 }
-.main-content .image{
+.main-content .image img{
   width:355px;
   height:177px;
   border-radius: 20px 20px 0 0 
@@ -177,6 +187,5 @@ p img {
   width: 12px;
   height: 12px;
   display: inline-block;
-  vertical-align: middle;
 }
 </style>

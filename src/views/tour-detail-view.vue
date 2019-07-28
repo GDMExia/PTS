@@ -29,26 +29,7 @@
       <span>我的名字叫</span>
     </div>
     <div class="tour-content">
-      <div class="content-title"><span class="f16">简介</span><span class="f12">/Introduction</span></div>
-      <div class="f15">
-        品酒并不是饮酒，品酒是艺术。譬如欣赏一幅画、听一首音乐，如果你没有美术和音乐的修养，就不可能说出他的好坏。品酒并不是大师们的专利，掌握它，你将真正享受到酒的美妙。 “一串葡萄是美丽，静止与纯洁的，但它只是水果而已；一但压榨后，它就变成了一种动物，因为它变成酒以后，就有了动物的生命。”－－威廉·杨格 迷人的色彩，神秘的情思，柔和醇香的红酒饱含了鲜活的生命原汁，蕴藏了深厚的历史内涵。曾几何时红酒在国内造成一股新的饮酒文化，在市场上到处可见红酒的踪迹，而一般人对红酒。
-      </div>
-      <div class="content-title"><span class="f16">内容</span><span class="f12">/Content</span></div>
-      <div class="f15">
-        品酒并不是饮酒，品酒是艺术。譬如欣赏一幅画、听一首音乐，如果你没有美术和音乐的修养，就不可能说出他的好坏。品酒并不是大师们的专利，掌握它，你将真正享受到酒的美妙。 “一串葡萄是美丽，静止与纯洁的，但它只是水果而已；一但压榨后，它就变成了一种动物，因为它变成酒以后，就有了动物的生命。”－－威廉·杨格 迷人的色彩，神秘的情思，柔和醇香的红酒饱含了鲜活的生命原汁，蕴藏了深厚的历史内涵。曾几何时红酒在国内造成一股新的饮酒文化，在市场上到处可见红酒的踪迹，而一般人对红酒。
-      </div>
-      <div class="content-title"><span class="f16">酒店</span><span class="f12">/Hotel</span></div>
-      <div class="f15">
-        品酒并不是饮酒，品酒是艺术。譬如欣赏一幅画、听一首音乐，如果你没有美术和音乐的修养，就不可能说出他的好坏。品酒并不是大师们的专利，掌握它，你将真正享受到酒的美妙。 “一串葡萄是美丽，静止与纯洁的，但它只是水果而已；一但压榨后，它就变成了一种动物，因为它变成酒以后，就有了动物的生命。”－－威廉·杨格 迷人的色彩，神秘的情思，柔和醇香的红酒饱含了鲜活的生命原汁，蕴藏了深厚的历史内涵。曾几何时红酒在国内造成一股新的饮酒文化，在市场上到处可见红酒的踪迹，而一般人对红酒。
-      </div>
-      <div class="content-title"><span class="f16">日程安排</span><span class="f12">/Schedule</span></div>
-      <div class="f15">
-        该日程原文网站地址（长按复制网址）： https://www.baidu.com
-      </div>
-      <div class="content-title"><span class="f16">温馨提示</span><span class="f12">/Hotel</span></div>
-      <div class="f15">
-        品酒并不是饮酒，品酒是艺术。譬如欣赏一幅画、听一首音乐，如果你没有美术和音乐的修养，就不可能说出他的好坏。品酒并不是大师们的专利，掌握它，你将真正享受到酒的美妙。 “一串葡萄是美丽，静止与纯洁的，但它只是水果而已；一但压榨后，它就变成了一种动物，因为它变成酒以后，就有了动物的生命。”－－威廉·杨格 迷人的色彩，神秘的情思，柔和醇香的红酒饱含了鲜活的生命原汁，蕴藏了深厚的历史内涵。曾几何时红酒在国内造成一股新的饮酒文化，在市场上到处可见红酒的踪迹，而一般人对红酒。
-      </div>
+      <img src="/src/assets/img@2x.png" alt="">
     </div>
     <div class="local-life name-price">
       <span class="local-life-text">相关套餐</span>
@@ -200,6 +181,10 @@ p img {
   background-color: #ffffff;
   padding: 15px 22px 0 20px;
   margin-top: 130px;
+  widows: 375px;
+}
+.tour-content img {
+  width: 100%;
 }
 .content-title {
   color: #06D5DE;

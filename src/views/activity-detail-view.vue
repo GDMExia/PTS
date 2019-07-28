@@ -23,7 +23,7 @@
     </div>
     <img class="activity-type" src="/src/assets/ic_guanfang@2x.png" alt="">
     <div class="tour-content">
-      <img style="wigth: 100%" src="/src/assets/demo.jpg" alt="">
+      <img style="wigth: 100%" src="/src/assets/img@2x.png" alt="">
     </div>
     <div class="local-life name-price">
       <span class="local-life-text">相关活动</span>
@@ -36,7 +36,7 @@
       </div>
     </div>
     <div class="bottom"> 
-      <div class="button submit f15">立即报名</div>
+      <div class="button submit f15" @click="$router.push('/activities/pay')">立即报名</div>
       <!-- <div class="button disabled f15">报名已结束</div> -->
     </div>
     <div class="fixed-image"></div>
@@ -161,8 +161,12 @@ p img {
   height: 100%;
 }
 .tour-content {
-  background-color: #ffffff;
+  background-color: #0f0b0b;
   margin-top: 136px;
+  width: 375px;
+}
+.tour-content img {
+  width: 100%;
 }
 .content-title {
   color: #06D5DE;

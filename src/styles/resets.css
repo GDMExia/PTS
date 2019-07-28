@@ -147,3 +147,28 @@ a:active {
   height: 100%;
   position: relative;
 }
+.weui-cell .vux-cell-primary a {
+  border: none;
+}
+.weui-cell .vux-cell-primary .vux-number-input{
+  border: none;
+  width: 44px;
+  height: 24px;
+  background: rgba(246,246,246,1);
+  font-size: 14px;
+  color: #323643;
+}
+.weui-search-bar {
+  padding: 0!important;
+}
+.images-slide .vux-swiper {
+  height: 120px!important;
+}
+.vux-slider > .vux-indicator-center {
+  font-size: 0;
+  bottom: 8px;
+}
+.tour-search .vux-x-input {
+  font-size: 15px;
+  width: 100%;
+}

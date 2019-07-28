@@ -3,8 +3,8 @@
     <h2 class="title">
       前往圣地亚哥，追逐历史长河中的多姿色彩
     </h2>
-    <div class="conte">
-
+    <div class="content-detail">
+      <img src="/src/assets/img@2x.png" alt="">
     </div>
     <div class="fixed-image"></div>
   </div>
@@ -57,14 +57,22 @@ export default {
 .title {
   color: #222222;
   font-size: 20px;
+  padding-top: 11px;
 }
 .fixed-image {
-  width: 44px;
-  height: 44px;
-  position:fixed;
-  background: url('/src/assets/icon/ic_btn_home@2x.png') no-repeat;
-  background-size: 44px 44px;
-  right: 26px;
-  bottom: 172px;
+    width: 54px;
+    height: 54px;
+    position: fixed;
+    background: url(/src/assets/icon/ic_btn_home@2x.png) no-repeat;
+    background-size: 54px 54px;
+    right: 19px;
+    bottom: 94px;
+}
+.content-detail {
+  width: 335px;
+  margin-top: 13px;
+}
+.content-detail img {
+  width: 100%;
 }
 </style>

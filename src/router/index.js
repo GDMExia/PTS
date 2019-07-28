@@ -20,6 +20,10 @@ import GetvipView from '@/views/getvip-view'
 import WalletView from '@/views/mywallet-view'
 import TourDetailView from '@/views/tour-detail-view'
 import ActivityDetailView from '@/views/activity-detail-view'
+import StoreDetailView from '@/views/store-detail-view'
+import PayView from '@/views/pay-view'
+import SearchView from '@/views/search-view'
+import ActivityShareView from '@/views/activity-share-view'
 
 Vue.use(Router)
 
@@ -50,9 +54,19 @@ export default new Router({
           component: ActivityView
         },
         {
+          path: 'shareDetail',
+          name: '活动分享',
+          component: ActivityShareView
+        },
+        {
           path: 'store',
           name: '商家列表',
           component: StoreView
+        },
+        {
+          path: 'storeDetail',
+          name: '商家详情',
+          component: StoreDetailView
         }
       ]
     },
@@ -70,6 +84,11 @@ export default new Router({
           path: 'tourDetail',
           name: '详情',
           component: TourDetailView
+        },
+        {
+          path: 'search',
+          name: '搜索',
+          component: SearchView
         }
       ]
     },
@@ -87,6 +106,11 @@ export default new Router({
           path: 'activityDetail',
           name: '详情',
           component: ActivityDetailView
+        },
+        {
+          path: 'pay',
+          name: '立即报名',
+          component: PayView
         }
       ]
     },

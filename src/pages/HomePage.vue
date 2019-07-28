@@ -122,7 +122,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style scoped>
   .banner {
     width: 100%;
     /* height: 2.12rem; */
@@ -140,9 +140,10 @@ export default {
   .container {
     background-color:#81D8D0;
     width:100%;
-    padding-left: 4%;
-    padding-right: 4%;
+    padding-left: 11px;
+    padding-right: 11px;
     padding-top: 29px;
+    padding-bottom: 83px;
   }
   .contain-activity {
     display: flex;
@@ -187,11 +188,19 @@ export default {
   .local-lift-item5{background: url('/src/assets/icon/block1@2x(4).png') center no-repeat;background-size: 116px 74px;}
   .local-lift-item6{background: url('/src/assets/icon/block1@2x(5).png') center no-repeat;background-size: 116px 74px;}
 
-  .getmore{height:200px;overflow-x: scroll;overflow-y: hidden;display: flex}
+  .getmore{height:200px;overflow-x: scroll;overflow-y: hidden;display: flex;margin-top: 16px;}
   .getmore .moreitem{height:200px;width:130px;margin-right:20px;display: inline-block;flex:1}
   .getmore .moreitem .image{width:130px;height:160px;border-radius: 10px;background-color: #fff;}
   .getmore .moreitem .image img{width:130px;height:160px;border-radius: 10px;}
-  .getmore .moreitem p{width:130px;white-space: nowrap;font-size: 15px;color:#666;overflow: hidden}
+  .getmore .moreitem p{
+    width:120px;
+    white-space: nowrap;
+    font-size: 15px;
+    color:#666;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 17px;
+  }
 
   .placeholder{height:70px}
 </style>
