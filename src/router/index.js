@@ -23,6 +23,9 @@ import OrderView from '@/views/order-view'
 import OrderdetailView from '@/views/orderdetail-view'
 import UnsubscribeView from '@/views/unsubscribe-view'
 import UnsubscribedetailView from '@/views/unsubscribedetail-view'
+import AdvicelView from '@/views/advice-view'
+import MyAdvicelView from '@/views/myadvice-view'
+
 
 import TourDetailView from '@/views/tour-detail-view'
 import ActivityDetailView from '@/views/activity-detail-view'
@@ -201,6 +204,16 @@ export default new Router({
         path: 'unsubscribedetail',
         name: '我要退订',
         component: UnsubscribedetailView
+        },
+        {
+        path: 'advice',
+        name: '我要评价',
+        component: AdvicelView
+        },
+        {
+        path: 'myadvice',
+        name: '我的评价',
+        component: MyAdvicelView
         }
       ]
     },

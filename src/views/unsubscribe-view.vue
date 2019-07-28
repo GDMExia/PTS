@@ -6,7 +6,7 @@
                 <XInput title="手机号" is-type="china-mobile" v-model="phone" required text-align="right" placeholder="请输入手机号" placeholder-align="right"></XInput>
             </group>
                 <p>退订理由</p>
-            <group margin-top:>
+            <group>
                 <x-textarea title="" v-model="value" placeholder="请输入内容"></x-textarea>
             </group>
         </div>
