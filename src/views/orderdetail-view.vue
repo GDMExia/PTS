@@ -6,7 +6,7 @@
             </div>
             <div class="name">马来西亚、吉隆坡城市遗址、洞穴与缆车马来西亚吉隆坡</div>
             <div class="time">
-                <img src="/src/assets/icon_time@2x.png" alt=""><p>参与时间：2019/05/10</p>
+                <img src="../../static/img/icon_time@2x.png" alt=""><p>参与时间：2019/05/10</p>
             </div>
         </div>
         <div class="personinfo">
@@ -24,7 +24,7 @@
             </group>
         </div>
         <div class="moreinfo">
-            <img src="/src/assets/icon/icon_ddxq_tishi@2x.png" alt=""><p>如需退订，可在待使用状态下点击【退订】按钮，提交基本信息，我们将进行线下退款</p>
+            <img src="../../static/img/icon/icon_ddxq_tishi@2x.png" alt=""><p>如需退订，可在待使用状态下点击【退订】按钮，提交基本信息，我们将进行线下退款</p>
         </div>
         <div class="placeholder"></div>
         <div class="handle">

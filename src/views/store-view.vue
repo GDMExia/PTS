@@ -12,10 +12,10 @@
       <img class="store-img" :src="item.img" alt="">
       <div class="store-right">
         <p class="store-name">{{item.name}}
-        <img class="activity-enable" src="/src/assets/ic_hdbq@2x.png" alt="">
+        <img class="activity-enable" src="../../static/img/ic_hdbq@2x.png" alt="">
         </p>
-        <p class="store-address mt12"><img src="/src/assets/ic_dz02@2x.png" alt="">{{item.address}}</p>
-        <p class="store-address mt10"><img src="/src/assets/ic_owner@2x.png" alt="">{{item.shopowner}}</p>
+        <p class="store-address mt12"><img src="../../static/img/ic_dz02@2x.png" alt="">{{item.address}}</p>
+        <p class="store-address mt10"><img src="../../static/img/ic_owner@2x.png" alt="">{{item.shopowner}}</p>
       </div>
     </div>
   </div>

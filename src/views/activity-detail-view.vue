@@ -6,13 +6,13 @@
       <div class="name-price">
         <div>
           <p class="time">
-            <img src="/src/assets/icon_time@2x.png" alt="">
+            <img src="../../static/img/icon_time@2x.png" alt="">
             参与日期：2019/05/10
           </p>
           <p class="time mt12" @click="$router.push('/homes/storeDetail')">
-            <img src="/src/assets/icon_fabuzhe@2x.png" alt="">
+            <img src="../../static/img/icon_fabuzhe@2x.png" alt="">
             发布者：PTS俱乐部
-            <img class="arrow" src="/src/assets/icon/ic_arrow03@2x.png" alt="">
+            <img class="arrow" src="../../static/img/icon/ic_arrow03@2x.png" alt="">
           </p>
         </div>
         <div>
@@ -21,11 +21,11 @@
         </div>
       </div>
     </div>
-    <img class="activity-type" src="/src/assets/ic_guanfang@2x.png" alt="">
+    <img class="activity-type" src="../../static/img/ic_guanfang@2x.png" alt="">
     <div class="tour-content">
-      <img style="wigth: 100%" src="/src/assets/img@2x.png" alt="">
+      <img style="wigth: 100%" src="../../static/img/img@2x.png" alt="">
     </div>
-    <div class="local-life name-price">
+    <div class="local-life name-price" @click="$router.push('/activity')">
       <span class="local-life-text">相关活动</span>
       <span class="local-life-more">MORE</span>
     </div>
@@ -252,7 +252,7 @@ p img {
   width: 44px;
   height: 44px;
   position:fixed;
-  background: url('/src/assets/icon/ic_btn_home@2x.png') no-repeat;
+  background: url('../../static/img/icon/ic_btn_home@2x.png') no-repeat;
   background-size: 44px 44px;
   right: 26px;
   bottom: 172px;

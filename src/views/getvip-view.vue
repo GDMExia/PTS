@@ -2,7 +2,7 @@
     <div class="main">
         <div class="vipinfo">
             <div class="vipimg">
-                <img src="/src/assets/icon/icon_vip_small@2x.png" alt="">
+                <img src="../../static/img/icon/icon_vip_small@2x.png" alt="">
             </div>
             <div class="vipname">VIP会员</div>
             <div class="expiretime"><p>到期日</p> <p style="color:#06D5DE;">2020/05/10</p></div>

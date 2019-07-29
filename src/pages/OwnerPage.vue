@@ -7,7 +7,7 @@
         <div class="pic">
           <img src="" alt="">
           <div class="vip">
-            <img src="/src/assets/icon/icon_vip_small@2x.png" alt="">
+            <img src="../../static/img/icon/icon_vip_small@2x.png" alt="">
           </div>
         </div>
         </div>

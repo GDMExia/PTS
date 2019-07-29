@@ -2,12 +2,12 @@
   <div style="height:100%;">
     <div class="banner">
       <swiper loop auto :list="banner_list" dots-position="center" @swiper-indicator-active-color="'#76F7FC'" height="212px" dots-class="dotsbottom"></swiper>
-      <img src="/src/assets/radian@2x.png" alt="">
+      <img src="../../static/img/radian@2x.png" alt="">
     </div>
     <div class="container">
       <div class="contain-activity">
-        <img slot="icon" @click="$router.push('/homes/activity')" src="/src/assets/home_activity_share@2x.png">
-        <img slot="icon" @click="$router.push('/homes/guide')" src="/src/assets/home_guide@2x.png">
+        <img slot="icon" @click="$router.push('/homes/activity')" src="../../static/img/home_activity_share@2x.png">
+        <img slot="icon" @click="$router.push('/homes/guide')" src="../../static/img/home_guide@2x.png">
       </div>
       <div class="local-life">
         <span class="local-life-text">本地生活</span>
@@ -93,11 +93,11 @@ export default {
       banner_list: [
         {
         "url": "javascript:",
-        "img": "/src/assets/icon/no_data.png",
+        "img": "http://iph.href.lu/375x212",
         "title": ""
       }, {
         "url": "javascript:",
-        "img": "/src/assets/icon/no_data.png",
+        "img": "http://iph.href.lu/375x212",
         "title": ""
       }
       ]
@@ -181,12 +181,12 @@ export default {
     color:#333;
     display: inline-block;
   }
-  .local-lift-item1{background: url('/src/assets/icon/block1@2x.png') center no-repeat;background-size: 116px 74px;}
-  .local-lift-item2{background: url('/src/assets/icon/block1@2x(1).png') center no-repeat;background-size: 116px 74px;}
-  .local-lift-item3{background: url('/src/assets/icon/block1@2x(2).png') center no-repeat;background-size: 116px 74px;}
-  .local-lift-item4{background: url('/src/assets/icon/block1@2x(3).png') center no-repeat;background-size: 116px 74px;}
-  .local-lift-item5{background: url('/src/assets/icon/block1@2x(4).png') center no-repeat;background-size: 116px 74px;}
-  .local-lift-item6{background: url('/src/assets/icon/block1@2x(5).png') center no-repeat;background-size: 116px 74px;}
+  .local-lift-item1{background: url('../../static/img/icon/block1@2x.png') center no-repeat;background-size: 116px 74px;}
+  .local-lift-item2{background: url('../../static/img/icon/block1@2x(1).png') center no-repeat;background-size: 116px 74px;}
+  .local-lift-item3{background: url('../../static/img/icon/block1@2x(2).png') center no-repeat;background-size: 116px 74px;}
+  .local-lift-item4{background: url('../../static/img/icon/block1@2x(3).png') center no-repeat;background-size: 116px 74px;}
+  .local-lift-item5{background: url('../../static/img/icon/block1@2x(4).png') center no-repeat;background-size: 116px 74px;}
+  .local-lift-item6{background: url('../../static/img/icon/block1@2x(5).png') center no-repeat;background-size: 116px 74px;}
 
   .getmore{height:200px;overflow-x: scroll;overflow-y: hidden;display: flex;margin-top: 16px;}
   .getmore .moreitem{height:200px;width:130px;margin-right:20px;display: inline-block;flex:1}

@@ -5,7 +5,7 @@
       <div class="activity-title">
         <p class="title-text">{{item.title}}</p>
         <p class="time">
-          <img src="/src/assets/icon_time@2x.png" alt="">
+          <img src="../../static/img/icon_time@2x.png" alt="">
           {{item.created}}
         </p>
       </div>

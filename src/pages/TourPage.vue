@@ -1,7 +1,7 @@
 <template>
   <div style="height:100%;">
     <div class="tour-search">
-      <img src="/src/assets/icon_search@2x.png" alt="">
+      <img src="../../static/img/icon_search@2x.png" alt="">
         <x-input placeholder="输入目的地/关键词" placeholder-align="left" v-model="value" @on-enter="handleSearch"></x-input>
       <!-- <input type="search" v-model="value" placeholder="输入目的地/关键词"> -->
     </div>
@@ -18,7 +18,7 @@
               </div>
             </div>
             <p class="time">
-              <img src="/src/assets/icon_time@2x.png" alt="">
+              <img src="../../static/img/icon_time@2x.png" alt="">
               {{item.created}}
             </p>
           </div>

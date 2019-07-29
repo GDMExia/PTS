@@ -23,7 +23,7 @@
             <div class="title">5分钟读懂Dream Trip俱乐部的卖点和优势5 5分钟读懂Dream Trip俱乐部</div>
             <div class="more">所属二级分类名称</div>
             <div class="clock">
-              <img src="/src/assets/icon_time@2x.png" alt="">
+              <img src="../../static/img/icon_time@2x.png" alt="">
             </div>
             <div class="time">2019/05/10</div>
           </div>
@@ -34,7 +34,7 @@
             <div class="title">5分钟读懂Dream Trip俱乐部的卖点和优势5 5分钟读懂Dream Trip俱乐部</div>
             <div class="more">所属二级分类名称</div>
             <div class="clock">
-              <img src="/src/assets/icon_time@2x.png" alt="">
+              <img src="../../static/img/icon_time@2x.png" alt="">
             </div>
             <div class="time">2019/05/10</div>
           </div>
@@ -87,7 +87,7 @@ export default {
 <style scoped>
 *{padding:0;margin:0;touch-action: none;}
 .main{position: relative;background-color: #F8F8F8}
-.header_btn{width:105px;height:50px;background:#F8F8F8 url('/src/assets/icon/xueyuan_btn_small@2x.png')center no-repeat;background-size: 105px 50px;text-align: center;color:#fff;padding-top: 10px;font-size: 15px}
+.header_btn{width:105px;height:50px;background:#F8F8F8 url('../../static/img/icon/xueyuan_btn_small@2x.png')center no-repeat;background-size: 105px 50px;text-align: center;color:#fff;padding-top: 10px;font-size: 15px}
 .searchbar{height:91px;width:100%;background-color: #fff;position: relative;padding-top: 59px}
 .searchbar input{position: absolute;top:12px;display: inline-block;width:92%;height: 32px;border-radius: 20px;background-color: #F3F3F3;text-align:center;margin-left:4%;}
 .menu{width:100%;padding-top:23px;background-color: #F8F8F8;padding-bottom: 83px}

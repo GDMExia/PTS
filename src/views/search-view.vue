@@ -3,7 +3,7 @@
         <div class="top">
             <div class="search">
                 <input placeholder="搜索文章关键词" type="text">
-                <img style="width: 15px; height: 15px;margin-top: 3px;" src="/src/assets/sousuo_icon_search@2x.png" alt="">
+                <img style="width: 15px; height: 15px;margin-top: 3px;" src="../../static/img/sousuo_icon_search@2x.png" alt="">
             </div>
             <div>
                 <tab :line-width="1" custom-bar-width="22px">
@@ -25,7 +25,7 @@
                     </div>
                     </div>
                     <p class="time">
-                    <img src="/src/assets/icon_time@2x.png" alt="">
+                    <img src="../../static/img/icon_time@2x.png" alt="">
                     {{item.created}}
                     </p>
                 </div>

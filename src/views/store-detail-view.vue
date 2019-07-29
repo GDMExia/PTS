@@ -5,20 +5,20 @@
       <div class="store-detail-content">
         <p class="f16 store-name">玛雅水景工作室</p>
         <p class="store-address f13">
-          <img src="/src/assets/ic_dz02@2x.png" alt="">
+          <img src="../../static/img/ic_dz02@2x.png" alt="">
           上海市长宁路1018号 龙之梦购物中心6F
         </p>
         <div class="name-price">
           <p class="store-address f13" style="padding-top: 13px;">
-            <img src="/src/assets/ic_dz02@2x.png" alt="">
+            <img src="../../static/img/ic_dz02@2x.png" alt="">
             021-8899302
           </p>
-          <img class="mobile" src="/src/assets/btn_lxsj@2x.png" alt="">
+          <img class="mobile" src="../../static/img/btn_lxsj@2x.png" alt="">
         </div>
       </div>
     </div>
     <div class="content-detail">
-      <img src="/src/assets/img@2x.png" alt="">
+      <img src="../../static/img/img@2x.png" alt="">
     </div>
     <div class="div-title f16">
       <p style="color: #222222;font-weight: 600;padding-top: 11px;padding-left: 20px;">店铺活动</p>
@@ -26,8 +26,8 @@
         <img class="store-activity-img" :src="item.img" alt="">
         <div class="store-right f16">
           {{item.name}}
-          <img v-if="item.status" src="/src/assets/ing@2x.png" alt="">
-          <img v-if="!item.status" src="/src/assets/yjs@2x.png" alt="">
+          <img v-if="item.status" src="../../static/img/ing@2x.png" alt="">
+          <img v-if="!item.status" src="../../static/img/yjs@2x.png" alt="">
         </div>
       </div>
     </div>
