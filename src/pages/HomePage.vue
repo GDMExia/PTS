@@ -94,11 +94,11 @@ export default {
         {
         "url": "javascript:",
         "img": "/src/assets/icon/no_data.png",
-        "title": "送你一朵fua"
+        "title": ""
       }, {
         "url": "javascript:",
         "img": "/src/assets/icon/no_data.png",
-        "title": "送你一辆车"
+        "title": ""
       }
       ]
     };

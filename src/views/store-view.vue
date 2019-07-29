@@ -134,6 +134,8 @@ p img {
   margin-top: 10px;
 }
 .activity-enable {
-
+  width: 37px;
+  height: 16px;
+  margin-left: 5px;
 }
 </style>

@@ -6,7 +6,7 @@
       <!-- <input type="search" v-model="value" placeholder="输入目的地/关键词"> -->
     </div>
     <div style="padding-bottom: 83px;">
-      <pull-to :bottom-load-method="loadmore" :distance-index="distanceIdx" :bottom-config="configBtm">
+      <!-- <pull-to :bottom-load-method="loadmore" :distance-index="distanceIdx" :bottom-config="configBtm"> -->
         <div class="container" @click="$router.push('/tours/tourDetail')" v-for="item in activityList" :key="item.id">
           <img class="activity-img" :src="item.img" alt="">
           <div class="activity-title">
@@ -23,7 +23,7 @@
             </p>
           </div>
         </div>
-      </pull-to>
+      <!-- </pull-to> -->
     </div>
     <tabbarComponent :tabIndex=1></tabbarComponent>
     <home-provider></home-provider>
@@ -60,9 +60,9 @@ export default {
         triggerDistance: 40 // 下拉刷新触发的距离
       },
       activityList: [
-        {id: 1, img:'http://iph.href.lu/355x177', title: '【回顾】送给妈妈装满爱的花篮', created: '2019/07/24'},
-        {id: 2, img:'http://iph.href.lu/355x177', title: '【回顾】送给妈妈装满爱的花篮', created: '2019/07/24'},
-        {id: 3, img:'http://iph.href.lu/355x177', title: '【回顾】送给妈妈装满爱的花篮', created: '2019/07/24'},
+        {id: 1, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24'},
+        {id: 2, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24'},
+        {id: 3, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24'},
       ]
     };
   },

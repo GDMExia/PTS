@@ -9,7 +9,7 @@
             <img src="/src/assets/icon_time@2x.png" alt="">
             参与日期：2019/05/10
           </p>
-          <p class="time mt12">
+          <p class="time mt12" @click="$router.push('/homes/storeDetail')">
             <img src="/src/assets/icon_fabuzhe@2x.png" alt="">
             发布者：PTS俱乐部
             <img class="arrow" src="/src/assets/icon/ic_arrow03@2x.png" alt="">
@@ -74,7 +74,6 @@ export default {
     
   },
   mounted() {
-    this.$bus.emit("onTabBarEvent", {});
   }
 };
 </script>
