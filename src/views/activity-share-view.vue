@@ -69,7 +69,7 @@ export default {
     bottom: 94px;
 }
 .content-detail {
-  width: 335px;
+  width: 89%;
   margin-top: 13px;
 }
 .content-detail img {

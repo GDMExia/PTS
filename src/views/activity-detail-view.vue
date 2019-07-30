@@ -230,7 +230,7 @@ p img {
   margin-top: 20px;
 }
 .bottom .button {
-  max-width: 335px;
+  max-width: 89%;
   border-radius: 22px;
   height: 40px;
   text-align: center;

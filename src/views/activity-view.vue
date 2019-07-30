@@ -58,7 +58,7 @@ export default {
   border-radius: 15px;
 }
 .activity-img {
-  max-width: 355px;
+  max-width: 92%;
   height: 177px;
   border-radius: 15px 15px 0 0;
 }

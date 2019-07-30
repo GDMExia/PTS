@@ -89,7 +89,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .activity-detail {
-  width: 355px;
+  width: 92%;
   height: 150px;
   margin: 12px 10px 17px 10px;
   background: #ffffff;

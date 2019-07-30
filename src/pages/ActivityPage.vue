@@ -132,7 +132,7 @@ export default {
 }
 .main-content {
   min-height:257px;
-  width: 355px;
+  width: 92%;
   margin-left:10px;
   border-radius: 20px;
   background-color: #fff;
@@ -140,7 +140,7 @@ export default {
   position: relative;
 }
 .main-content .image img{
-  width:355px;
+  width:92%;
   height:177px;
   border-radius: 20px 20px 0 0 
 }

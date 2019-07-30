@@ -82,7 +82,7 @@ export default {
   padding: 10px;
 }
 .store-detail .store-img {
-  width: 355px;
+  width: 92%;
   height: 160px;
   border-radius: 15px;
 }

@@ -97,7 +97,7 @@ export default {
   box-shadow: 0 -2px 14px rgba(0,0,0,0.06);
 }
 .activity-img {
-  max-width: 355px;
+  max-width: 92%;
   height: 177px;
   border-radius: 15px 15px 0 0;
 }
