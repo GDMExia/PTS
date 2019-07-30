@@ -90,21 +90,44 @@ export default {
   name: "HomePage",
   data() {
     return {
-      banner_list: [
-        {
-        "url": "javascript:",
-        "img": "http://iph.href.lu/375x212",
-        "title": ""
-      }, {
-        "url": "javascript:",
-        "img": "http://iph.href.lu/375x212",
-        "title": ""
-      }
-      ]
+      banner_list: [],
+      recomend_list: []
     };
   },
   methods: {
-    // ...mapActions(),
+    ...mapActions(['bannerList', 'recomendList']),
+    handleBanner() {
+      this.bannerList().then(res=>{
+        if(res.StatusInfo.success) {
+          this.banner_list = res.Banner.map(item=>{
+            // 1活动页面;2外链页面;3签到页面
+            if(item.jump_type == '1') {
+              item.url = `${item.link_url}`
+            } else if (item.jump_type == '2') {
+              item.url = `${item.link_url}`
+            } else if (item.jump_type == '3') {
+              item.url = `${item.link_url}`
+            } else {
+              item.url = "javascript;"
+            }
+            item.img = item.bannerCover
+            return item
+          })
+          console.log(this.banner_list)
+        } else {
+          this.toastShow(res.StatusInfo.ErrorDetailCode)
+        }
+      })
+    },
+    handleRecomend() {
+      this.recomendList().then(res=>{
+        if(res.StatusInfo.success) {
+          this.recomend_list = res.goodsInfo
+        } else {
+          this.toastShow(res.StatusInfo.ErrorDetailCode)
+        }
+      })
+    }
   },
   computed: {
     
@@ -117,6 +140,8 @@ export default {
   },
   mounted() {
     this.$bus.emit("onTabBarEvent", {});
+    this.handleBanner()
+    // this.handleRecomend()
   }
 };
 </script>

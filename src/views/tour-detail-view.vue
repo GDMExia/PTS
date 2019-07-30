@@ -1,26 +1,30 @@
 <template>
   <div class="main">
-    <img class="activity-img" src="http://iph.href.lu/375x227" alt="">
+    <div>
+      
+    </div>
+    <swiper loop auto :list="picList" dots-position="center" @swiper-indicator-active-color="'#76F7FC'" height="227px"></swiper>
+    <!-- <img class="activity-img" src="http://iph.href.lu/375x227" alt=""> -->
     <div class="tour-detail">
-      <p class="title-text">马来西亚、吉隆坡城市遗址、洞穴与缆车马来西亚吉隆坡</p>
+      <p class="title-text">{{tourItem.goods_name}}</p>
       <div class="name-price">
         <div>
           <p class="time">
             <img src="../../static/img/icon_time@2x.png" alt="">
-            2019/05/10～2019/05/10
+            {{tourItem.start_time}}～{{tourItem.end_time}}
           </p>
           <p class="time mt12">
             <img src="../../static/img/icon_fabuzhe@2x.png" alt="">
-            发布者：PTS俱乐部
+            发布者：{{tourItem.create_name}}
           </p>
         </div>
         <div style="text-align: right;">
-          <p class="price">¥ 2050</p>
-          <p class="num">最高可抵扣500积分</p>
+          <p class="price">¥ {{tourItem.goods_price}}</p>
+          <p class="num">最高可抵扣{{tourItem.discount_point}}积分</p>
         </div>
       </div>
     </div>
-    <div class="tour-vip">
+    <div class="tour-vip" @click="changeUser">
       <img src="../../static/img/btn_qh@2x.png" alt="">
     </div>
     <!-- <div class="tour-share f10">
@@ -28,8 +32,8 @@
       <img src="http://iph.href.lu/20x20" alt="">
       <span>我的名字叫</span>
     </div> -->
-    <div class="tour-content">
-      <img src="../../static/img/img@2x.png" alt="">
+    <div class="tour-content" v-html="tourItem.content">
+      <!-- <img src="../../static/img/img@2x.png" alt=""> -->
     </div>
     <div class="local-life name-price" @click="$router.push('/tour')">
       <span class="local-life-text">相关套餐</span>
@@ -46,11 +50,10 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import { Swiper } from 'vux'
 export default {
   components: {
-  },
-  computed: {
-    // ...mapGetters([])
+    Swiper
   },
   name: "HomePage",
   data() {
@@ -59,14 +62,36 @@ export default {
         {id: 1, img:'http://iph.href.lu/90x90', name: '品酒会活动策划方案', status: true,address: '上海市长宁路1018号 龙之梦购物中心6F',shopowner: 'Shy', created: '2019/07/24'},
         {id: 2, img:'http://iph.href.lu/90x90', name: '品酒会活动策划方案',status: false, address: '上海市长宁路1018号 龙之梦购物中心6F',shopowner: 'Shy', created: '2019/07/24'},
         {id: 3, img:'http://iph.href.lu/90x90', name: '品酒会活动策划方案',status: false, address: '上海市长宁路1018号 龙之梦购物中心6F',shopowner: 'Shy', created: '2019/07/24'},
-      ]
+      ],
+      tourItem: {},
+      picList: [],
+      id: 0
     };
   },
-  methods: {
-    // ...mapActions(),
-  },
   computed: {
-    
+    ...mapGetters(['getToken'])
+  },
+  methods: {
+    ...mapActions(['tourDetails']),
+    handleDetail() {
+      const params = {
+        token: this.getToken,
+        tourism_id: this.id
+      }
+      this.tourDetails(params).then(res=>{
+        if(res.StatusInfo.success) {
+          this.tourItem = res.tourismInfo
+          this.picList = res.picList.map(item=>{
+            item.img = item.file_path
+            return item
+          })
+          // this.storeList = res.newsCateTree
+        } else {
+          this.toastShow(res.StatusInfo.ErrorDetailCode)
+        }
+      })
+    },
+    changeUser() {}
   },
   beforeDestroy() {
     
@@ -75,7 +100,9 @@ export default {
     
   },
   mounted() {
+    this.id = this.$route.query.id
     this.$bus.emit("onTabBarEvent", {});
+    this.handleDetail()
   }
 };
 </script>

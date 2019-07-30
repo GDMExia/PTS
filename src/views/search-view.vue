@@ -2,71 +2,102 @@
     <div class="main">
         <div class="top">
             <div class="search">
-                <input placeholder="搜索文章关键词" type="text">
+                <x-input placeholder="搜索文章关键词" style="width: 95%;" placeholder-align="center" v-model="search"  @on-enter="handleQuery()"></x-input>
+                <!-- <input placeholder="搜索文章关键词" v-model="search" type="text"> -->
                 <img style="width: 15px; height: 15px;margin-top: 3px;" src="../../static/img/sousuo_icon_search@2x.png" alt="">
             </div>
             <div>
                 <tab :line-width="1" custom-bar-width="22px">
-                    <tab-item selected>旅游</tab-item>
-                    <tab-item>学院</tab-item>
+                    <tab-item @on-item-click="handleQuery(0)" :selected="type==0">旅游</tab-item>
+                    <tab-item @on-item-click="handleQuery(1)" :selected="type==1">学院</tab-item>
                 </tab>
             </div>
         </div>
-        <div style="padding-bottom: 83px;">
-            <pull-to :bottom-load-method="loadmore" :distance-index="distanceIdx" :bottom-config="configBtm">
-                <div class="container" @click="$router.push('/tours/tourDetail')" v-for="item in activityList" :key="item.id">
-                <img class="activity-img" :src="item.img" alt="">
+        <div>
+            <div style="display: flex;padding:68% 0;justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="activityList.length==0">
+                <img style="width: 40px; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
+                <span> 暂无数据 </span>
+            </div>
+            <div class="container" @click="handleClick(item.tourism_id)" v-for="item in activityList" :key="item.id">
+                <img class="activity-img" :src="item.pic" alt="">
                 <div class="activity-title">
                     <div class="name-price">
-                    <span class="title-text">{{item.title}}</span>
+                    <span class="title-text">{{item.goods_name}}</span>
                     <div>
-                        <p class="price">¥ 2050</p>
-                        <p class="num">抵500积分</p>
+                        <p class="price">¥ {{item.goods_price}}</p>
+                        <p class="num">抵{{item.discount_point}}积分</p>
                     </div>
                     </div>
                     <p class="time">
                     <img src="../../static/img/icon_time@2x.png" alt="">
-                    {{item.created}}
+                    {{item.start_time}}~{{item.end_time}}
                     </p>
                 </div>
-                </div>
-            </pull-to>
+            </div>
         </div>
     </div>
 </template>
 <script>
-import PullTo from 'vue-pull-to';
-import { Tab, TabItem } from 'vux'
+import { Tab, TabItem, XInput } from 'vux'
+import {mapActions,mapGetters} from 'vuex'
 export default {
     components: {
-        PullTo,
         Tab,
-        TabItem
+        TabItem,
+        XInput
     },
     data() {
         return {
             pageNum: 0,
-            distanceIdx: 3,
-            configBtm: {
-                pullText: '下拉刷新', // 下拉时显示的文字
-                triggerText: '释放更新', // 下拉到触发距离时显示的文字
-                loadingText: '加载中...', // 加载中的文字
-                doneText: '加载完成', // 加载完成的文字
-                failText: '无数据', // 加载失败的文字
-                loadedStayTime: 500, // 加载完后停留的时间ms
-                stayDistance: 50, // 触发刷新后停留的距离
-                triggerDistance: 40 // 下拉刷新触发的距离
-            },
             activityList: [
-                {id: 1, img:'http://iph.href.lu/355x177', title: '【回顾】送给妈妈装满爱的花篮', created: '2019/07/24'},
-                {id: 2, img:'http://iph.href.lu/355x177', title: '【回顾】送给妈妈装满爱的花篮', created: '2019/07/24'},
-                {id: 3, img:'http://iph.href.lu/355x177', title: '【回顾】送给妈妈装满爱的花篮', created: '2019/07/24'},
-            ]
+                // {id: 1, img:'http://iph.href.lu/355x177', title: '【回顾】送给妈妈装满爱的花篮', created: '2019/07/24'},
+                // {id: 2, img:'http://iph.href.lu/355x177', title: '【回顾】送给妈妈装满爱的花篮', created: '2019/07/24'},
+                // {id: 3, img:'http://iph.href.lu/355x177', title: '【回顾】送给妈妈装满爱的花篮', created: '2019/07/24'},
+            ],
+            search: '',
+            type: 0,
+            pageNum: 1,
+            totalPage: 0
         }
     },
+    computed: {
+        ...mapGetters(['getToken'])
+    },
     methods: {
-        loadmore() {},
-    }
+        ...mapActions(['tourList']),
+        handleQuery(val) {
+            this.type = val || this.type
+            if(this.type == 0) {
+                this.handleTour()
+            }
+        },
+        handleTour() {
+            const params = {
+                page: this.pageNum,
+                pageSize: 5,
+                token: this.getToken,
+                keywords: this.search
+            }
+            this.tourList(params).then(res=>{
+                if(res.StatusInfo.success) {
+                    this.activityList = res.newsList?res.newsList:[]
+                    this.totalPage = res.PageInfo.TotalPages
+                } else {
+                    this.toastShow(res.StatusInfo.ErrorDetailCode)
+                }
+            })
+        },
+        handleClick(id) {
+            if(this.type == 0) {
+                this.$router.push(`/tours/tourDetail?id=${item.tourism_id}`)
+            }
+        }
+    },
+    mounted() {
+        this.type = this.$route.query.type
+        this.search = this.$route.query.search
+        this.handleQuery()
+    },
 }
 </script>
 <style scoped>
@@ -97,7 +128,7 @@ export default {
   box-shadow: 0 -2px 14px rgba(0,0,0,0.06);
 }
 .activity-img {
-  max-width: 92%;
+  width: 100%;
   height: 177px;
   border-radius: 15px 15px 0 0;
 }

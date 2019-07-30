@@ -10,7 +10,7 @@
         </p>
         <div class="name-price">
           <p class="store-address f13" style="padding-top: 13px;">
-            <img src="../../static/img/ic_dz02@2x.png" alt="">
+            <img src="../../static/img/mobile@2x.png" alt="">
             021-8899302
           </p>
           <img class="mobile" src="../../static/img/btn_lxsj@2x.png" alt="">

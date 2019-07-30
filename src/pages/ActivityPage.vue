@@ -1,41 +1,44 @@
 <template>
   <div class="main">
     <div class="flex f15">
-      <div @click="changeTab" :class="[type==0?'active':'','flex-tab']">进行中</div>
-      <div @click="changeTab" :class="[type==1?'active':'','flex-tab']">历史</div>
+      <div @click="changeTab" :class="[type==1?'active':'','flex-tab']">进行中</div>
+      <div @click="changeTab" :class="[type==2?'active':'','flex-tab']">历史</div>
     </div>
-    <div v-if="type==0">
+    <div v-if="type==1">
       <flexbox style="margin: 0 11px 20px 4%;width: 92%;">
-        <flexbox-item class="header_btn" @click="click()">官方</flexbox-item>
-        <flexbox-item class="header_btn header-active" @click="$router.push('/schools/data')">私房菜</flexbox-item>
+        <flexbox-item v-for="(item, index) in typeList" :key="index" :class="[typeId==item.cid?'header-active':'','header_btn']">
+          <div @click="changeType(item.cid)">{{item.cate_name}}</div>
+        </flexbox-item>
+        <!-- <flexbox-item class="header_btn header-active" @click="$router.push('/schools/data')">私房菜</flexbox-item>
         <flexbox-item class="header_btn" @click="$router.push('/schools/hot')">咖啡馆</flexbox-item>
-        <flexbox-item class="header_btn" @click="$router.push('/schools/hot')">美食DIY</flexbox-item>
+        <flexbox-item class="header_btn" @click="$router.push('/schools/hot')">美食DIY</flexbox-item> -->
       </flexbox>
     </div>
-    <div style="padding-bottom: 83px;">
-      <div v-for="item in activityList" :key="item.id" class="main-content" @click="$router.push('/activities/activityDetail')">
-        <div class="image">
-          <img src="http://iph.href.lu/355x177" alt="">
-        </div>
-        <img class="activity-type" src="../../static/img/ic_guanfang@2x.png" alt="">
-        <div class="name-price">
-          <div class="content-left">
-            <p class="title f16 content-left">
-              {{item.name}}
-            </p>
-            <p class="time mt12">
-              <img src="../../static/img/icon_time@2x.png" alt="">
-              截止报名时间：{{item.time}}
-            </p>
+    <list-pull-loading :options="options" ref="listPullLoading">
+      <div class="ofy_auto flx_1" style="padding-bottom: 83px;">
+        <div v-for="item in activityList" :key="item.id" class="main-content" @click="$router.push('/activities/activityDetail')">
+          <div class="image">
+            <img src="http://iph.href.lu/355x177" alt="">
           </div>
-          <div>
-            <p class="price">{{item.price}}</p>
-            <p class="num">抵{{item.num}}积分</p>
+          <img class="activity-type" src="../../static/img/ic_guanfang@2x.png" alt="">
+          <div class="name-price">
+            <div class="content-left">
+              <p class="title f16 content-left">
+                {{item.name}}
+              </p>
+              <p class="time mt12">
+                <img src="../../static/img/icon_time@2x.png" alt="">
+                截止报名时间：{{item.time}}
+              </p>
+            </div>
+            <div>
+              <p class="price">{{item.price}}</p>
+              <p class="num">抵{{item.num}}积分</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    
+    </list-pull-loading>
     <tabbarComponent :tabIndex=2></tabbarComponent>
     <home-provider></home-provider>
     
@@ -43,18 +46,32 @@
 </template>
 
 <script>
+import {listPullLoading} from 'list-pull-loading'
+import "list-pull-loading/dist/list-pull-loading.css"
 import TabbarComponent from "@/components/TabbarComponent.vue";
 import { Flexbox, FlexboxItem, } from 'vux'
+import { mapGetters, mapActions } from "vuex";
 export default {
   components: {
     TabbarComponent,
     Flexbox,
-    FlexboxItem
+    FlexboxItem,
+    listPullLoading
   },
   name: "HomePage",
   data() {
     return {
-      type: 0,
+      type: 1,
+      typeId: '',
+      typeList: [],
+      options: {
+        auto: true,
+        parameters: {typeId: null},
+        down: {
+          offset: 50
+        },
+        api: this.queryList
+      },
       activityList: [
         {img: '../../static/img/icon_time@2x.png', time: '2019/05/10 19:00', name: '从品酒来了解酒窖文化',price: '¥ 2050', num: 500},
         {img: '../../static/img/icon_time@2x.png', time: '2019/05/10 19:00', name: '从品酒来了解酒窖文化',price: '¥ 2050', num: 500},
@@ -63,9 +80,36 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['activityType', 'activityList']),
     changeTab() {
-      this.type = !this.type
-    }
+      this.type = this.type==1?2:1
+    },
+    changeType(id) {
+      this.typeId = id
+    },
+    handleActivityType() {
+      this.activityType().then(res=>{
+        if(res.StatusInfo.success) {
+          this.typeList = res.cateTree
+          this.typeId = this.typeList[0].cid
+        } else {
+          this.toastShow(res.StatusInfo.ErrorDetailCode)
+        }
+      })
+    },
+    /**
+     * 数据列表查询
+     * @param {Object} parameters 数据查询列表的参数
+     * @param {Boolean} isLoadingMore 是否是在加载更多数据
+     * @return {Promise} Promise
+     **/
+    queryList(parameters, isLoadingMore){
+      var _this = this;
+      let params = {
+        
+      }
+      this.activityList()
+    },
   },
   computed: {
     
@@ -78,6 +122,7 @@ export default {
   },
   mounted() {
     this.$bus.emit("onTabBarEvent", {});
+    this.handleActivityType()
   }
 };
 </script>

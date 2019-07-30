@@ -62,7 +62,12 @@ export default {
     };
   },
   methods: {
-    // ...mapActions(),
+    ...mapActions(['activityDetails']),
+    handleDetail() {
+      this.activityDetails().then(res=>{
+        
+      })
+    }
   },
   computed: {
     

@@ -5,30 +5,26 @@
         <x-input placeholder="输入目的地/关键词" placeholder-align="left" v-model="value" @on-enter="handleSearch"></x-input>
       <!-- <input type="search" v-model="value" placeholder="输入目的地/关键词"> -->
     </div>
+    <!-- <list-pull-loading :options="options" ref="listPullLoading"> -->
     <div class="ofy_auto flx_1" style="padding-bottom: 83px;">
-      <!-- <pull-to :bottom-load-method="loadmore" :distance-index="distanceIdx" :bottom-config="configBtm"> -->
-        <div class="container" @click="$router.push('/tours/tourDetail')" v-for="item in activityList" :key="item.id">
-          <img class="activity-img" :src="item.img" alt="">
+        <div class="container" @click="$router.push(`/tours/tourDetail?id=${item.tourism_id}`)" v-for="(item, index) in activityList" :key="index">
+          <img class="activity-img" :src="item.pic" alt="">
           <div class="activity-title">
             <div class="name-price">
-              <span class="title-text">{{item.title}}</span>
+              <span class="title-text">{{item.goods_name}}</span>
               <div>
-                <p class="price">¥ 2050</p>
-                <p class="num">抵500积分</p>
+                <p class="price">¥ {{item.goods_price}}</p>
+                <p class="num">抵{{item.discount_point}}积分</p>
               </div>
             </div>
             <p class="time">
               <img src="../../static/img/icon_time@2x.png" alt="">
-              {{item.created}}
+              {{item.start_time}}~{{item.end_time}}
             </p>
           </div>
         </div>
-        <!-- <infinite-loading @infinite="handleTourList">
-          <span slot="no-results" style="padding-bottom:50px;">没有更多了～</span>
-          <span slot="no-more">没有更多了～</span>
-        </infinite-loading> -->
-      <!-- </pull-to> -->
     </div>
+    <!-- </list-pull-loading> -->
     <tabbarComponent :tabIndex=1></tabbarComponent>
     <home-provider></home-provider>
     
@@ -36,8 +32,8 @@
 </template>
 
 <script>
-import PullTo from 'vue-pull-to';
-import InfiniteLoading from "vue-infinite-loading"; //引入加载更多组件
+import {listPullLoading} from 'list-pull-loading'
+import "list-pull-loading/dist/list-pull-loading.css"
 import TabbarComponent from "@/components/TabbarComponent.vue";
 import {mapActions,mapGetters} from 'vuex'
 import { XInput } from 'vux'
@@ -45,98 +41,61 @@ export default {
   components: {
     TabbarComponent,
     XInput,
-    PullTo,
-    InfiniteLoading
+    listPullLoading
   },
   name: "HomePage",
   data() {
     return {
       results: [],
-      list: [],
-      value: '',
-      pageNum: 0,
-      distanceIdx: 3,
-      configBtm: {
-        pullText: '下拉刷新', // 下拉时显示的文字
-        triggerText: '释放更新', // 下拉到触发距离时显示的文字
-        loadingText: '加载中...', // 加载中的文字
-        doneText: '加载完成', // 加载完成的文字
-        failText: '无数据', // 加载失败的文字
-        loadedStayTime: 500, // 加载完后停留的时间ms
-        stayDistance: 50, // 触发刷新后停留的距离
-        triggerDistance: 40 // 下拉刷新触发的距离
-      },
-      activityList: [
+      list: [
         {id: 1, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24'},
         {id: 2, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24'},
         {id: 3, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24'},
+      ],
+      options: {
+        auto: true,
+        parameters: {typeId: null},
+        down: {
+          offset: 50
+        },
+        api: this.queryList
+      },
+      value: '',
+      pageNum: 0,
+      totalPage: 0,
+      activityList: [
+        // {id: 1, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24'},
+        // {id: 2, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24'},
+        // {id: 3, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24'},
       ]
     };
   },
   methods: {
     ...mapActions(['tourList']),
-    //下拉刷新加载更多
-    loadmore(loaded) {
-        this.pageNum++;
-        this.handleTourList(loaded)
+    queryList(parameters, isLoadingMore){
+      var _this = this;
+      
     },
-    handleTourList(loaded) {
+    handleTourList() {
       const params = {
         page: this.pageNum,
         pageSize: 5,
         token: this.getToken,
-        keywords: ''
+        keywords: this.value
       }
       this.tourList(params).then(res=>{
         if(res.StatusInfo.success) {
-          if (res.data) {
-            this.list = this.list.concat(res.data.list);
-            this.page++;
-            if (res.data.agentareausers.length === 10) {
-              $state.loaded();
-            } else {
-              $state.complete();
-            }
-          } else {
-            $state.complete();
-          }
+          this.activityList = res.newsList
+          this.totalPage = res.PageInfo.TotalPages
         } else {
-          $state.complete();
           this.toastShow(res.StatusInfo.ErrorDetailCode)
         }
-        // if (loaded) {
-        //   if (res.data.length === 0) {
-        //     loaded("finish")
-        //   } else {
-        //     loaded("done")
-        //   }
-        // }
       })
     },
     handleSearch() {
-      this.$router.push('/tours/search')
+      // this.$bus.emit('searchParams', {type: 0, search: this.value})
+      this.$router.push(`/tours/search?type=0&search=${this.value}`)
     },
-    resultClick (item) {
-      window.alert('you click the result item: ' + JSON.stringify(item))
-    },
-    getResult (val) {
-      console.log('on-change', val)
-      this.results = val ? getResult(this.value) : []
-    },
-    onSubmit () {
-      this.$refs.search.setBlur()
-      this.$vux.toast.show({
-        type: 'text',
-        position: 'top',
-        text: 'on submit'
-      })
-    },
-    onFocus () {
-      console.log('on focus')
-    },
-    onCancel () {
-      console.log('on cancel')
-    }
   },
   computed: {
     ...mapGetters(['getToken'])
@@ -149,7 +108,7 @@ export default {
   },
   mounted() {
     this.$bus.emit("onTabBarEvent", {});
-    // this.handleTourList(0)
+    this.handleTourList()
   }
 };
 </script>
@@ -166,12 +125,15 @@ export default {
   border-radius: 28px;
   padding: 0px 20px;
   box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+  -ms-touch-action: none;
+  touch-action: none;
 }
 .tour-search img {
     width: 16px;
     height: 16px;
     margin-top: 20px;
     margin-right: 10px;
+    touch-action: none;
 }
 .container {
   margin: 4% 10px;
