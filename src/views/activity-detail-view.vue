@@ -23,7 +23,7 @@
     </div>
     <img class="activity-type" src="../../static/img/ic_guanfang@2x.png" alt="">
     <div class="tour-content">
-      <img style="wigth: 100%" src="../../static/img/img@2x.png" alt="">
+      <img style="width: 100%" src="../../static/img/img@2x.png" alt="">
     </div>
     <div class="local-life name-price" @click="$router.push('/activity')">
       <span class="local-life-text">相关活动</span>
@@ -90,19 +90,19 @@ export default {
   border-radius: 15px;
 }
 .activity-img {
-  max-width: 375px;
+  width: 100%;
   height: 227px;
   border-radius: 0 0 15px 15px;
 }
 .tour-detail {
-  max-width: 345px;
+  width: 92%;
   height: 130px;
   border-radius: 5px;
   background: #ffffff;
   position: absolute;
   margin: 0 15px;
   top: 171px;
-  padding: 14px 20px 12px 20px;
+  padding: 14px 20px 12px 4%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -162,7 +162,7 @@ p img {
 .tour-content {
   background-color: #0f0b0b;
   margin-top: 136px;
-  width: 375px;
+  width: 100%;
 }
 .tour-content img {
   width: 100%;
@@ -225,12 +225,12 @@ p img {
 }
 .bottom {
   width: 100%;
-  padding: 6px 20px 37px;
+  padding: 6px 4% 37px;
   background: #ffffff;
   margin-top: 20px;
 }
 .bottom .button {
-  max-width: 89%;
+  width: 100%;
   border-radius: 22px;
   height: 40px;
   text-align: center;

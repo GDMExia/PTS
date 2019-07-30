@@ -5,7 +5,7 @@
       <div @click="changeTab" :class="[type==1?'active':'','flex-tab']">历史</div>
     </div>
     <div v-if="type==0">
-      <flexbox style="margin: 0 11px 20px 20px;max-width: 344px;">
+      <flexbox style="margin: 0 11px 20px 4%;width: 92%;">
         <flexbox-item class="header_btn" @click="click()">官方</flexbox-item>
         <flexbox-item class="header_btn header-active" @click="$router.push('/schools/data')">私房菜</flexbox-item>
         <flexbox-item class="header_btn" @click="$router.push('/schools/hot')">咖啡馆</flexbox-item>
@@ -90,7 +90,7 @@ export default {
 }
 .flex {
   display: flex;
-  margin: 12px 20px 20px 20px;
+  margin:  20px;
   background: #ffffff;
   height: 40px;
   color: #333333;
@@ -101,7 +101,7 @@ export default {
   font-size: 15px;
 }
 .flex-tab {
-  width: 168px;
+  width: 46%;
   flex: 1;
   height: 100%;
   line-height: 40px;
@@ -133,14 +133,14 @@ export default {
 .main-content {
   min-height:257px;
   width: 92%;
-  margin-left:10px;
+  margin-left:4%;
   border-radius: 20px;
   background-color: #fff;
   margin-top:10px;
   position: relative;
 }
 .main-content .image img{
-  width:92%;
+  width:100%;
   height:177px;
   border-radius: 20px 20px 0 0 
 }

@@ -96,8 +96,8 @@ export default {
   margin-right: 10px;
 }
 .images-slide {
-  margin: 10px;
-  max-width: 92%;
+  margin: 10px 4%;
+  width: 92%;
   height: 120px;
 }
 .store-type .active {

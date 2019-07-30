@@ -159,7 +159,7 @@ export default {
 .tour-search {
   max-width: 89%;
   height: 55px;
-  margin: 12px 15px 17px 25px;
+  margin: 5.5% 15px 17px 25px;
   position: relative;
   display: flex;
   background: #fff;
@@ -174,12 +174,12 @@ export default {
     margin-right: 10px;
 }
 .container {
-  margin: 10px;
+  margin: 4% 10px;
   height: 272px;
   border-radius: 15px;
 }
 .activity-img {
-  max-width: 92%;
+  width: 100%;
   height: 177px;
   border-radius: 15px 15px 0 0;
 }

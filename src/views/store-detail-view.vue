@@ -82,7 +82,7 @@ export default {
   padding: 10px;
 }
 .store-detail .store-img {
-  width: 92%;
+  width: 100%;
   height: 160px;
   border-radius: 15px;
 }
@@ -117,14 +117,14 @@ p img {
   justify-content: space-between;
 }
 .content-detail {
-  width: 375px;
+  width: 100%;
   margin-top: 10px;
 }
 .content-detail img {
   width: 100%;
 }
 .div-title {
-  width: 375px;
+  width: 100%;
   background: #ffffff;
   margin-top: 10px;
 }

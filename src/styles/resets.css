@@ -175,3 +175,6 @@ a:active {
 .vux-slider > .vux-swiper > .vux-swiper-item > a > .vux-swiper-desc {
   background-image: none!important;
 }
+.weui-tabbar {
+  background-color: #fff!important;
+}

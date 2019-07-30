@@ -11,11 +11,11 @@
           </div>
         </div>
         </div>
-        <div class="name">{{nickname}}</div>
+        <div class="name">我的名字叫雪梨</div>
         <div class="phone"></div>
         <Flexbox class="infobox">
           <FlexboxItem class="expiretime">
-            <p class="num">{{overtime}}</p>
+            <p class="num">2020-07-22</p>
             <p class="infoname">会员到期日</p>
           </FlexboxItem>
           <FlexboxItem class="integral">
@@ -25,8 +25,8 @@
         </Flexbox>
         <Flexbox style="marginTop:12px">
           <FlexboxItem v-if="overtime<date"><div class="header_btn header_btn1" @click="$router.push('/owners/getvip')">续费VIP</div></FlexboxItem>
-          <FlexboxItem><div class="header_btn" @click="$router.push('/owners/advice')">每日打卡</div></FlexboxItem>
-          <FlexboxItem><div class="header_btn" @click="$router.push('/owners/advice')">成为vip</div></FlexboxItem>
+          <FlexboxItem><div class="header_btn header_btn2" @click="$router.push('/owners/advice')">每日打卡</div></FlexboxItem>
+          <!-- <FlexboxItem><div class="header_btn" @click="$router.push('/owners/advice')">成为vip</div></FlexboxItem> -->
         </Flexbox>
       </div>
     <div class="mylink">
@@ -112,9 +112,10 @@ export default {
 .personnalinfo .infobox div .num{color:#333333;font-size: 15px;width: 100%;text-align: center}
 .personnalinfo .infobox div .infoname{color:#999999;font-size: 10px;width: 100%;text-align: center}
 /* width:150px!important; */
-.header_btn{width:42.7%;margin-left:28.6%;height:39px;border-radius:20px;background:#06D5DE;line-height: 39px;text-align: center;color:#fff;font-size: 15px;flex: 1}
-/* .header_btn1{margin-left: 13.3%}
-.header_btn2{margin-left: 6%} */
+/* 42.7% */
+.header_btn{width:79%;margin-left:28.6%;height:39px;border-radius:20px;background:#06D5DE;line-height: 39px;text-align: center;color:#fff;font-size: 15px;flex: 1}
+.header_btn1{margin-left: 13.3%}
+.header_btn2{margin-left: 6%}
 .mylink{width: 95%;margin-left: 2.5%}
 .mylink .link{height:52px}
 .placeholder{height:100px}

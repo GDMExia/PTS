@@ -53,12 +53,12 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .container {
-  margin: 10px;
+  margin: 4%;
   height: 272px;
   border-radius: 15px;
 }
 .activity-img {
-  max-width: 92%;
+  width: 100%;
   height: 177px;
   border-radius: 15px 15px 0 0;
 }

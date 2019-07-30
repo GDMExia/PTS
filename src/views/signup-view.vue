@@ -91,7 +91,7 @@ export default {
 .activity-detail {
   width: 92%;
   height: 150px;
-  margin: 12px 10px 17px 10px;
+  margin: 12px 4% 17px 4%;
   background: #ffffff;
   padding: 15px 16px 15px 10px;
   display: flex;

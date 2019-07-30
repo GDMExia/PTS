@@ -92,19 +92,19 @@ export default {
   border-radius: 15px;
 }
 .activity-img {
-  max-width: 375px;
+  width: 100%;
   height: 227px;
   border-radius: 0 0 15px 15px;
 }
 .tour-detail {
-  max-width: 345px;
+  width: 92%;
   height: 130px;
   border-radius: 5px;
   background: #ffffff;
   position: absolute;
   margin: 0 15px;
   top: 171px;
-  padding: 14px 20px 12px 20px;
+  padding: 14px 4% 12px 4%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
