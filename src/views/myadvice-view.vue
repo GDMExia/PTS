@@ -5,10 +5,10 @@
                 <p>活动内容</p>
                 <div class="stars">
                     <div class="starselevt" v-for="(item,index) of Array(activitycontentstar)" :key="index">
-                        <img src="/src/assets/icon/icon_pingjia_pre@2x.png" alt="" @click="changeactivitycontent(index+1)">
+                        <img src="../../static/img/icon/icon_pingjia_pre@2x.png" alt="" @click="changeactivitycontent(index+1)">
                     </div>
                     <div class="star" v-for="(item,index) of activitycontent" v-if="index>activitycontentstar-1" :key="index">
-                        <img src="/src/assets/icon/icon_pingjia@2x.png" alt="" @click="changeactivitycontent(index+1)">
+                        <img src="../../static/img/icon/icon_pingjia@2x.png" alt="" @click="changeactivitycontent(index+1)">
                     </div>
                 </div>
             </div>
@@ -18,10 +18,10 @@
                 <p>服务态度</p>
                 <div class="stars">
                     <div class="starselevt" v-for="(item,index) of Array(servieattributestar)" :key="index">
-                        <img src="/src/assets/icon/icon_pingjia_pre@2x.png" alt="" @click="changeservieattribute(index+1)">
+                        <img src="../../static/img/icon/icon_pingjia_pre@2x.png" alt="" @click="changeservieattribute(index+1)">
                     </div>
                     <div class="star" v-for="(item,index) of servieattribute" v-if="index>servieattributestar-1" :key="index">
-                        <img src="/src/assets/icon/icon_pingjia@2x.png" alt="" @click="changeservieattribute(index+1)">
+                        <img src="../../static/img/icon/icon_pingjia@2x.png" alt="" @click="changeservieattribute(index+1)">
                     </div>
                 </div>
             </div>
@@ -31,10 +31,10 @@
                 <p>场地环境</p>
                 <div class="stars">
                     <div class="starselevt" v-for="(item,index) of Array(placeenvironmentstar)" :key="index">
-                        <img src="/src/assets/icon/icon_pingjia_pre@2x.png" alt="" @click="changeplaceenvironment(index+1)">
+                        <img src="../../static/img/icon/icon_pingjia_pre@2x.png" alt="" @click="changeplaceenvironment(index+1)">
                     </div>
                     <div class="star" v-for="(item,index) of placeenvironment" v-if="index>placeenvironmentstar-1" :key="index">
-                        <img src="/src/assets/icon/icon_pingjia@2x.png" alt="" @click="changeplaceenvironment(index+1)">
+                        <img src="../../static/img/icon/icon_pingjia@2x.png" alt="" @click="changeplaceenvironment(index+1)">
                     </div>
                 </div>
             </div>
@@ -44,10 +44,10 @@
                 <p>性价比</p>
                 <div class="stars">
                     <div class="starselevt" v-for="(item,index) of Array(costperformancestar)" :key="index">
-                        <img src="/src/assets/icon/icon_pingjia_pre@2x.png" alt="" @click="changecostperformance(index+1)">
+                        <img src="../../static/img/icon/icon_pingjia_pre@2x.png" alt="" @click="changecostperformance(index+1)">
                     </div>
                     <div class="star" v-for="(item,index) of costperformance" v-if="index>costperformancestar-1" :key="index">
-                        <img src="/src/assets/icon/icon_pingjia@2x.png" alt="" @click="changecostperformance(index+1)">
+                        <img src="../../static/img/icon/icon_pingjia@2x.png" alt="" @click="changecostperformance(index+1)">
                     </div>
                 </div>
             </div>
@@ -135,6 +135,6 @@ export default {
 .advicedetail .stars div img{width: 20px;height:20px;display: inline-block;}
 .other{height:106px;width:92%;margin-left:4%;border-radius: 20px}
 .other p{font-size: 15px;color:#333;margin-top:15px;margin-left:4.5%}
-.other div{font-size: 15px;color:#333;flex:1;display: inline-block;width: 45%;text-align: center;background: url('/src/assets/icon/icon_danxuan@2x.png') 20% no-repeat;background-size: 20px 20px;}
-.other div.select{background: url('/src/assets/icon/icon_danxuan_pre@2x.png') 20% no-repeat;background-size: 20px 20px;}
+.other div{font-size: 15px;color:#333;flex:1;display: inline-block;width: 45%;text-align: center;background: url('../../static/img/icon/icon_danxuan@2x.png') 20% no-repeat;background-size: 20px 20px;}
+.other div.select{background: url('../../static/img/icon/icon_danxuan_pre@2x.png') 20% no-repeat;background-size: 20px 20px;}
 </style>

@@ -5,7 +5,7 @@
         <div class="title">
             <div class="name">马来西亚、吉隆坡城市遗址、洞穴与缆车马来西亚吉隆坡</div>
             <div class="publisher">
-                <div class="image"><img src="/src/assets/icon/icon_wode_s@2x.png" alt=""></div>
+                <div class="image"><img src="../../static/img/icon/icon_wode_s@2x.png" alt=""></div>
                 <div class="publishername">发布者：PTS俱乐部</div>
             </div>
             <div class="origin">
@@ -40,7 +40,7 @@
           </div>
         </div>
         <div class="homebutton"  @click="$router.push('/school')">
-          <img src="/src/assets/icon/ic_btn_home@2x.png" alt="">
+          <img src="../../static/img/icon/ic_btn_home@2x.png" alt="">
         </div>
     </div>
   </div>

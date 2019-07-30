@@ -6,32 +6,32 @@
       <div class="name-price">
         <div>
           <p class="time">
-            <img src="/src/assets/icon_time@2x.png" alt="">
+            <img src="../../static/img/icon_time@2x.png" alt="">
             2019/05/10～2019/05/10
           </p>
           <p class="time mt12">
-            <img src="/src/assets/icon_fabuzhe@2x.png" alt="">
+            <img src="../../static/img/icon_fabuzhe@2x.png" alt="">
             发布者：PTS俱乐部
           </p>
         </div>
-        <div>
+        <div style="text-align: right;">
           <p class="price">¥ 2050</p>
           <p class="num">最高可抵扣500积分</p>
         </div>
       </div>
     </div>
     <div class="tour-vip">
-      <img src="/src/assets/btn_qh@2x.png" alt="">
+      <img src="../../static/img/btn_qh@2x.png" alt="">
     </div>
-    <div class="tour-share f10">
+    <!-- <div class="tour-share f10">
       <span>分享来自</span>
       <img src="http://iph.href.lu/20x20" alt="">
       <span>我的名字叫</span>
-    </div>
+    </div> -->
     <div class="tour-content">
-      <img src="/src/assets/img@2x.png" alt="">
+      <img src="../../static/img/img@2x.png" alt="">
     </div>
-    <div class="local-life name-price">
+    <div class="local-life name-price" @click="$router.push('/tour')">
       <span class="local-life-text">相关套餐</span>
       <span class="local-life-more">MORE</span>
     </div>

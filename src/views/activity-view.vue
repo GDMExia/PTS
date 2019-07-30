@@ -5,7 +5,7 @@
       <div class="activity-title">
         <p class="title-text">{{item.title}}</p>
         <p class="time">
-          <img src="/src/assets/icon_time@2x.png" alt="">
+          <img src="../../static/img/icon_time@2x.png" alt="">
           {{item.created}}
         </p>
       </div>
@@ -58,7 +58,7 @@ export default {
   border-radius: 15px;
 }
 .activity-img {
-  max-width: 355px;
+  max-width: 92%;
   height: 177px;
   border-radius: 15px 15px 0 0;
 }

@@ -172,3 +172,6 @@ a:active {
   font-size: 15px;
   width: 100%;
 }
+.vux-slider > .vux-swiper > .vux-swiper-item > a > .vux-swiper-desc {
+  background-image: none!important;
+}

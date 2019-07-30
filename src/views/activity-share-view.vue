@@ -4,7 +4,7 @@
       前往圣地亚哥，追逐历史长河中的多姿色彩
     </h2>
     <div class="content-detail">
-      <img src="/src/assets/img@2x.png" alt="">
+      <img src="../../static/img/img@2x.png" alt="">
     </div>
     <div class="fixed-image" @click="$router.push('/home')"></div>
   </div>
@@ -63,13 +63,13 @@ export default {
     width: 54px;
     height: 54px;
     position: fixed;
-    background: url(/src/assets/icon/ic_btn_home@2x.png) no-repeat;
+    background: url(../../static/img/icon/ic_btn_home@2x.png) no-repeat;
     background-size: 54px 54px;
     right: 19px;
     bottom: 94px;
 }
 .content-detail {
-  width: 335px;
+  width: 89%;
   margin-top: 13px;
 }
 .content-detail img {

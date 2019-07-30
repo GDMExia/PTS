@@ -5,7 +5,7 @@
             <div class="activity-right">
                 <p class="f16 title-text">马来西亚、吉隆坡城市遗址、洞穴与缆车马来西亚吉隆坡</p>
                 <p class="time">
-                    <img src="/src/assets/icon_time@2x.png" alt="">
+                    <img src="../../static/img/icon_time@2x.png" alt="">
                     参与日期：2019/05/10
                 </p>
             </div>
@@ -35,7 +35,7 @@
                     <span>积分抵扣</span>
                     <span class="f12 color45">(每人可抵扣200）</span>
                 </div>
-                <img style="width: 16px; height: 16px;" src="/src/assets/check out_s@2x.png" alt="">
+                <img style="width: 16px; height: 16px;" src="../../static/img/check out_s@2x.png" alt="">
             </div>
         </div>
         <div class="tips f0">
@@ -89,7 +89,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .activity-detail {
-  width: 355px;
+  width: 92%;
   height: 150px;
   margin: 12px 10px 17px 10px;
   background: #ffffff;

@@ -17,14 +17,14 @@
         <div class="image">
           <img src="http://iph.href.lu/355x177" alt="">
         </div>
-        <img class="activity-type" src="/src/assets/ic_guanfang@2x.png" alt="">
+        <img class="activity-type" src="../../static/img/ic_guanfang@2x.png" alt="">
         <div class="name-price">
           <div class="content-left">
             <p class="title f16 content-left">
               {{item.name}}
             </p>
             <p class="time mt12">
-              <img src="/src/assets/icon_time@2x.png" alt="">
+              <img src="../../static/img/icon_time@2x.png" alt="">
               截止报名时间：{{item.time}}
             </p>
           </div>
@@ -56,9 +56,9 @@ export default {
     return {
       type: 0,
       activityList: [
-        {img: '/src/assets/icon_time@2x.png', time: '2019/05/10 19:00', name: '从品酒来了解酒窖文化',price: '¥ 2050', num: 500},
-        {img: '/src/assets/icon_time@2x.png', time: '2019/05/10 19:00', name: '从品酒来了解酒窖文化',price: '¥ 2050', num: 500},
-        {img: '/src/assets/icon_time@2x.png', time: '2019/05/10 19:00', name: '从品酒来了解酒窖文化',price: '¥ 2050', num: 500},
+        {img: '../../static/img/icon_time@2x.png', time: '2019/05/10 19:00', name: '从品酒来了解酒窖文化',price: '¥ 2050', num: 500},
+        {img: '../../static/img/icon_time@2x.png', time: '2019/05/10 19:00', name: '从品酒来了解酒窖文化',price: '¥ 2050', num: 500},
+        {img: '../../static/img/icon_time@2x.png', time: '2019/05/10 19:00', name: '从品酒来了解酒窖文化',price: '¥ 2050', num: 500},
       ]
     };
   },
@@ -132,7 +132,7 @@ export default {
 }
 .main-content {
   min-height:257px;
-  width: 355px;
+  width: 92%;
   margin-left:10px;
   border-radius: 20px;
   background-color: #fff;
@@ -140,7 +140,7 @@ export default {
   position: relative;
 }
 .main-content .image img{
-  width:355px;
+  width:92%;
   height:177px;
   border-radius: 20px 20px 0 0 
 }

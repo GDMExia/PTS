@@ -50,8 +50,8 @@ export default {
 .main{width: 100%;background-color: #F8F8F8}
 p{font-size: 16px;color: #222;display: inline-block;margin: 12px 0 0 4%;font-weight: bold}
 .selectmode{width: 100%;display: flex;flex-wrap: wrap}
-.selectmode .button{flex: 1;width:180px;height: 105px;background: url('/src/assets/icon/pay@2x.png') center no-repeat;background-size: 180px 105px;display:inline-block;flex-basis: 180px;display: flex;flex-direction: column;align-items: space-around}
-.selectmode .button.selected{background: url('/src/assets/icon/payselected@2x.png') center no-repeat;background-size: 180px 105px;}
+.selectmode .button{flex: 1;width:180px;height: 105px;background: url('../../static/img/icon/pay@2x.png') center no-repeat;background-size: 180px 105px;display:inline-block;flex-basis: 180px;display: flex;flex-direction: column;align-items: space-around}
+.selectmode .button.selected{background: url('../../static/img/icon/payselected@2x.png') center no-repeat;background-size: 180px 105px;}
 .selectmode .button .price{text-align: center;font-size: 18px;color: #222;display: block;margin-top: 21px}
 .selectmode .button .detail{text-align: center;font-size: 15px;color: #999;display: block;}
 .placehold{flex: 1;width:180px;height: 105px;display:inline-block;flex-basis: 180px;}

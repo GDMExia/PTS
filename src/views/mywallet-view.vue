@@ -5,7 +5,7 @@
                 <p style="color:#999999">会员到期日</p> <p style="color:#333333">2020/10/10</p>
             </div>
             <div class="integral">
-                <p style="color:#999999">当前积分</p><img src="/src/assets/icon/icon_tishi@2x.png" alt=""> <p style="color:#333333">89,019</p>
+                <p style="color:#999999">当前积分</p><img src="../../static/img/icon/icon_tishi@2x.png" alt=""> <p style="color:#333333">89,019</p>
             </div>
             <div class="paybutton" @click="$router.push('/owners/pay')"></div>
         </div>
@@ -63,7 +63,7 @@ export default {
 .info .integral{font-size: 15px;position: absolute;top: 60px;left: 6.2%;width: 50%}
 .info .integral p{display: inline-block;vertical-align: top}
 .info .integral img{width: 16px;height: 16px;display: inline-block;margin-top:2px}
-.info .paybutton{width:118px;height:58px;background: #fff url('/src/assets/icon/btn_wycz@2x.png') center no-repeat;background-size: 118px 58px;position: absolute;top:22px;right:1.5%}
+.info .paybutton{width:118px;height:58px;background: #fff url('../../static/img/icon/btn_wycz@2x.png') center no-repeat;background-size: 118px 58px;position: absolute;top:22px;right:1.5%}
 
 .change{background-color: #fff;width: 90%;margin-left:5%;height:40px;border-radius: 20px;overflow: hidden;position: relative;margin-top:31px}
 .change div{display:inline-block;width:50%;font-size: 15px;height:40px;line-height: 40px;text-align: center;position: absolute;}

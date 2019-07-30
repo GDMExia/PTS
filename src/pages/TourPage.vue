@@ -1,12 +1,12 @@
 <template>
   <div style="height:100%;">
     <div class="tour-search">
-      <img src="/src/assets/icon_search@2x.png" alt="">
+      <img src="../../static/img/icon_search@2x.png" alt="">
         <x-input placeholder="输入目的地/关键词" placeholder-align="left" v-model="value" @on-enter="handleSearch"></x-input>
       <!-- <input type="search" v-model="value" placeholder="输入目的地/关键词"> -->
     </div>
-    <div style="padding-bottom: 83px;">
-      <pull-to :bottom-load-method="loadmore" :distance-index="distanceIdx" :bottom-config="configBtm">
+    <div class="ofy_auto flx_1" style="padding-bottom: 83px;">
+      <!-- <pull-to :bottom-load-method="loadmore" :distance-index="distanceIdx" :bottom-config="configBtm"> -->
         <div class="container" @click="$router.push('/tours/tourDetail')" v-for="item in activityList" :key="item.id">
           <img class="activity-img" :src="item.img" alt="">
           <div class="activity-title">
@@ -18,12 +18,16 @@
               </div>
             </div>
             <p class="time">
-              <img src="/src/assets/icon_time@2x.png" alt="">
+              <img src="../../static/img/icon_time@2x.png" alt="">
               {{item.created}}
             </p>
           </div>
         </div>
-      </pull-to>
+        <!-- <infinite-loading @infinite="handleTourList">
+          <span slot="no-results" style="padding-bottom:50px;">没有更多了～</span>
+          <span slot="no-more">没有更多了～</span>
+        </infinite-loading> -->
+      <!-- </pull-to> -->
     </div>
     <tabbarComponent :tabIndex=1></tabbarComponent>
     <home-provider></home-provider>
@@ -33,6 +37,7 @@
 
 <script>
 import PullTo from 'vue-pull-to';
+import InfiniteLoading from "vue-infinite-loading"; //引入加载更多组件
 import TabbarComponent from "@/components/TabbarComponent.vue";
 import {mapActions,mapGetters} from 'vuex'
 import { XInput } from 'vux'
@@ -40,12 +45,14 @@ export default {
   components: {
     TabbarComponent,
     XInput,
-    PullTo
+    PullTo,
+    InfiniteLoading
   },
   name: "HomePage",
   data() {
     return {
       results: [],
+      list: [],
       value: '',
       pageNum: 0,
       distanceIdx: 3,
@@ -60,9 +67,9 @@ export default {
         triggerDistance: 40 // 下拉刷新触发的距离
       },
       activityList: [
-        {id: 1, img:'http://iph.href.lu/355x177', title: '【回顾】送给妈妈装满爱的花篮', created: '2019/07/24'},
-        {id: 2, img:'http://iph.href.lu/355x177', title: '【回顾】送给妈妈装满爱的花篮', created: '2019/07/24'},
-        {id: 3, img:'http://iph.href.lu/355x177', title: '【回顾】送给妈妈装满爱的花篮', created: '2019/07/24'},
+        {id: 1, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24'},
+        {id: 2, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24'},
+        {id: 3, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24'},
       ]
     };
   },
@@ -82,8 +89,19 @@ export default {
       }
       this.tourList(params).then(res=>{
         if(res.StatusInfo.success) {
-
+          if (res.data) {
+            this.list = this.list.concat(res.data.list);
+            this.page++;
+            if (res.data.agentareausers.length === 10) {
+              $state.loaded();
+            } else {
+              $state.complete();
+            }
+          } else {
+            $state.complete();
+          }
         } else {
+          $state.complete();
           this.toastShow(res.StatusInfo.ErrorDetailCode)
         }
         // if (loaded) {
@@ -139,7 +157,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .tour-search {
-  max-width: 335px;
+  max-width: 89%;
   height: 55px;
   margin: 12px 15px 17px 25px;
   position: relative;
@@ -161,7 +179,7 @@ export default {
   border-radius: 15px;
 }
 .activity-img {
-  max-width: 355px;
+  max-width: 92%;
   height: 177px;
   border-radius: 15px 15px 0 0;
 }

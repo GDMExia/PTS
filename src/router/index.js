@@ -33,6 +33,7 @@ import StoreDetailView from '@/views/store-detail-view'
 import PayView from '@/views/pay-view'
 import SearchView from '@/views/search-view'
 import ActivityShareView from '@/views/activity-share-view'
+import GuideDetailView from '@/views/guide-detail-view'
 
 Vue.use(Router)
 
@@ -56,6 +57,11 @@ export default new Router({
           path: 'guide',
           name: '使用指南',
           component: GuideView
+        },
+        {
+          path: 'guideDetail',
+          name: '详情',
+          component: GuideDetailView
         },
         {
           path: 'activity',
