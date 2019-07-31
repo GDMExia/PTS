@@ -20,8 +20,8 @@ const types = {
 
 const state = {
   tourList: [],
-  token: 'cef10909ef1ea4da1969f2812da24fa921ff98aa',
-  // token:'c1599f283f6bce195a98a3f3d9c3f10865891753',
+  // token: 'cef10909ef1ea4da1969f2812da24fa921ff98aa',
+  token:'c1599f283f6bce195a98a3f3d9c3f10865891753',
   virtualNumber:'3453167517',
   bannerList: [],
   recomendList: [],
