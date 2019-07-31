@@ -5,29 +5,30 @@
       <div class="personnalinfo">
         <div class="flexpic">
         <div class="pic">
-          <img src="" alt="">
+          <img :src="header_pic" alt="">
           <div class="vip">
-            <img src="../../static/img/icon/icon_vip_small@2x.png" alt="">
+            <img v-if="is_member==1" src="../../static/img/icon/icon_vip_small@2x.png" alt="">
           </div>
         </div>
         </div>
-        <div class="name">我的名字叫雪梨</div>
-        <div class="phone"></div>
-        <Flexbox class="infobox">
+        <div class="name">{{nickname}}</div>
+        <div class="phone">{{phone}}</div>
+        <Flexbox class="infobox" v-if="is_member==1">
           <FlexboxItem class="expiretime">
-            <p class="num">2020-07-22</p>
+            <p class="num">{{over_time}}</p>
             <p class="infoname">会员到期日</p>
           </FlexboxItem>
           <FlexboxItem class="integral">
-            <p class="num">38900</p>
+            <p class="num">{{account_price}}</p>
             <p class="infoname">当前积分</p>
           </FlexboxItem>
         </Flexbox>
-        <Flexbox style="marginTop:12px">
-          <FlexboxItem v-if="overtime<date"><div class="header_btn header_btn1" @click="$router.push('/owners/getvip')">续费VIP</div></FlexboxItem>
+        <Flexbox v-if="is_member==1" style="marginTop:12px">
+          <FlexboxItem v-if="is_member==1"><div class="header_btn header_btn1" @click="$router.push('/owners/getvip')">续费VIP</div></FlexboxItem>
           <FlexboxItem><div class="header_btn header_btn2" @click="$router.push('/owners/advice')">每日打卡</div></FlexboxItem>
           <!-- <FlexboxItem><div class="header_btn" @click="$router.push('/owners/advice')">成为vip</div></FlexboxItem> -->
         </Flexbox>
+        <div class="getvip" v-else @click="getvip">成为VIP</div>
       </div>
     <div class="mylink">
     <Group>
@@ -55,10 +56,12 @@ export default {
   name: "OwnerPage",
   data() {
     return {
+      is_member:'',
+      header_pic:'',
       nickname:'',
-      overtime:'',
-      vipprice:'',
-      virtualNumber:'',
+      over_time:'',
+      phone:'',
+      account_price:'',
       date:''
     };
   },
@@ -66,6 +69,31 @@ export default {
     getDate(){
       let date=new Date()
       this.date=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()
+    },
+    getvip(){
+      this.$http.get('http://pts.suoqoo.com/home.php/User/createMember?token=c1599f283f6bce195a98a3f3d9c3f10865891753').then(res=>{
+        console.log(res)
+        if(res.data.StatusInfo.success){
+          this.getinfo()
+        }else{
+          this.$router.push('/owners/getvip')
+        }
+      })
+    },
+    getinfo(){
+      this.$http.get('http://pts.suoqoo.com/home.php/User/getUserInfo?token=c1599f283f6bce195a98a3f3d9c3f10865891753').then(res=>{
+      console.log(res)
+      if(res.data.StatusInfo.ReturnCode==200){
+        this.$nextTick(()=>{
+          this.nickname=res.data.userInfo.nickname
+          this.over_time=res.data.userInfo.over_time
+          this.phone=res.data.userInfo.phone
+          this.account_price=res.data.userInfo.account_price
+          this.header_pic=res.data.userInfo.header_pic
+          this.is_member=res.data.userInfo.is_member
+        })
+      }
+    })
     }
   },
   computed: {
@@ -75,20 +103,11 @@ export default {
     
   },
   created() {
+    // this.$http.get('http://pts.suoqoo.com/home.php/WechatLogin/accountLogin').then(res=>{console.log(res)})
+    console.log(this.$store.state.token)
+    // this.$http.get('http://pts.suoqoo.com/home.php/User/getUserInfo?token='+this.$store.state.token).then(res=>{http://pts.suoqoo.com/home.php/User/createMember
+    this.getinfo()
     
-    this.$http.get('http://pts.suoqoo.com/home.php/WechatLogin/accountLogin').then(res=>{console.log(res)})
-
-    this.$http.get('http://pts.suoqoo.com/home.php/User/previewMember?token='+this.$store.state.token).then(res=>{
-      console.log(res)
-      if(res.data.StatusInfo.ReturnCode==200){
-        this.$nextTick(()=>{
-          this.nickname=res.data.nickname
-          this.overtime=res.data.overTime
-          this.vipprice=res.data.vipPrice
-          this.virtualNumber=res.data.virtualNumber
-        })
-      }
-    })
   },
   mounted() {
     this.$bus.emit("onTabBarEvent", {});
@@ -99,11 +118,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.personnalinfo{padding-top:28px;padding-bottom: 23px;max-height: 387px;background-color: #fff;}
+.personnalinfo{padding-top:28px;padding-bottom: 23px;max-height: 387px;background-color: #fff;position: relative;}
 .personnalinfo .flexpic{display: flex;justify-content: center}
-.personnalinfo .pic{width: 120px;height: 120px;background-color: aqua;border-radius: 50%;position: relative;align-content: center}
-.personnalinfo .pic .vip{width:26px;height: 26px;position: absolute;right:3px;bottom:0}
-.personnalinfo .pic .vip img{width:26px;height: 26px;}
+.personnalinfo .pic{width: 120px;height: 120px;background-color: aqua;border-radius: 50%;position: relative;align-content: center;overflow:hidden}
+.personnalinfo .pic .vip{width:26px;height: 26px;position: absolute;right:3px;bottom:0;border-radius: 50%;overflow:hidden}
+.personnalinfo .pic .vip img{width:26px;height: 26px;border-radius: 50%;}
 .personnalinfo .name{color:#333333;font-size: 20px;font-weight: bold;width:100%;text-align: center;margin-top: 20px}
 .personnalinfo .phone{color:#494949;font-size: 18px;width: 100%;text-align: center;margin-top: 12px}
 .personnalinfo .infobox{width:100%;margin-top: 33px}
@@ -113,10 +132,11 @@ export default {
 .personnalinfo .infobox div .infoname{color:#999999;font-size: 10px;width: 100%;text-align: center}
 /* width:150px!important; */
 /* 42.7% */
+.getvip{width:42.7%;height:39px;margin-left:28.65%;text-align: center;background-color: #38DDE5;line-height: 39px;font-size: 15px;color:#fff;border-radius: 20px;position: absolute;bottom:-20px}
 .header_btn{width:79%;margin-left:28.6%;height:39px;border-radius:20px;background:#06D5DE;line-height: 39px;text-align: center;color:#fff;font-size: 15px;flex: 1}
 .header_btn1{margin-left: 13.3%}
 .header_btn2{margin-left: 6%}
-.mylink{width: 95%;margin-left: 2.5%}
+.mylink{width: 95%;margin-left: 2.5%;margin-top:35px}
 .mylink .link{height:52px}
 .placeholder{height:100px}
 </style>
