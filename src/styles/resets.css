@@ -181,6 +181,6 @@ a:active {
 .weui-tabbar {
   background-color: #fff!important;
 }
-.weui-cell:before {
+/* .weui-cell:before {
   border: none!important;
-}
+} */

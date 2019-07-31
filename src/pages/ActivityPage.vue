@@ -9,36 +9,39 @@
         <flexbox-item v-for="(item, index) in typeList" :key="index" :class="[typeId==item.cid?'header-active':'','header_btn']">
           <div @click="changeType(item.cid)">{{item.cate_name}}</div>
         </flexbox-item>
-        <!-- <flexbox-item class="header_btn header-active" @click="$router.push('/schools/data')">私房菜</flexbox-item>
-        <flexbox-item class="header_btn" @click="$router.push('/schools/hot')">咖啡馆</flexbox-item>
-        <flexbox-item class="header_btn" @click="$router.push('/schools/hot')">美食DIY</flexbox-item> -->
       </flexbox>
     </div>
-    <list-pull-loading :options="options" ref="listPullLoading">
-      <div class="ofy_auto flx_1" style="padding-bottom: 83px;">
-        <div v-for="item in activityList" :key="item.id" class="main-content" @click="$router.push('/activities/activityDetail')">
-          <div class="image">
-            <img src="http://iph.href.lu/355x177" alt="">
-          </div>
-          <img class="activity-type" src="../../static/img/ic_guanfang@2x.png" alt="">
-          <div class="name-price">
-            <div class="content-left">
-              <p class="title f16 content-left">
-                {{item.name}}
-              </p>
-              <p class="time mt12">
-                <img src="../../static/img/icon_time@2x.png" alt="">
-                截止报名时间：{{item.time}}
-              </p>
+      <div style="display: flex; height: calc(100% - 203px);justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="activityListData.length==0">
+        <img style="width: 40px; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
+        <span> 暂无数据 </span>
+      </div>
+      <scroller v-if="activityListData.length" lock-x @on-scroll-bottom="onScrollBottom" height="-107" ref="scrollerBottom">
+        <div class="ofy_auto flx_1" style="padding-bottom: 83px;">
+          <div v-for="item in activityListData" :key="item.goods_id" class="main-content" @click="$router.push(`/activities/activityDetail?id=${item.goods_id}`)">
+            <div class="image">
+              <img :src="item.cover" alt="">
             </div>
-            <div>
-              <p class="price">{{item.price}}</p>
-              <p class="num">抵{{item.num}}积分</p>
+            <img v-if="item.pid==2" class="activity-type" src="../../static/img/ic_guanfang@2x.png" alt="">
+            <img v-if="item.pid==1" class="activity-type" src="../../static/img/ic_shangjia@2x.png" alt="">
+            <div class="name-price">
+              <div class="content-left">
+                <p class="title f16 content-left">
+                  {{item.goods_name}}
+                </p>
+                <p class="time mt12">
+                  <img src="../../static/img/icon_time@2x.png" alt="">
+                  截止报名时间：{{item.registration_time}}
+                </p>
+              </div>
+              <div>
+                <p class="price">{{item.goods_price}}</p>
+                <p class="num">抵{{item.discount_price}}积分</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </list-pull-loading>
+        <load-more v-show="pageNum > totalPage" :show-loading="false" :tip="'暂无数据'" background-color="#fbf9fe"></load-more>
+      </scroller>
     <tabbarComponent :tabIndex=2></tabbarComponent>
     <home-provider></home-provider>
     
@@ -49,13 +52,15 @@
 import {listPullLoading} from 'list-pull-loading'
 import "list-pull-loading/dist/list-pull-loading.css"
 import TabbarComponent from "@/components/TabbarComponent.vue";
-import { Flexbox, FlexboxItem, } from 'vux'
+import { Flexbox, FlexboxItem,Scroller,LoadMore, } from 'vux'
 import { mapGetters, mapActions } from "vuex";
 export default {
   components: {
     TabbarComponent,
     Flexbox,
     FlexboxItem,
+    Scroller,
+    LoadMore,
     listPullLoading
   },
   name: "HomePage",
@@ -64,51 +69,64 @@ export default {
       type: 1,
       typeId: '',
       typeList: [],
-      options: {
-        auto: true,
-        parameters: {typeId: null},
-        down: {
-          offset: 50
-        },
-        api: this.queryList
-      },
-      activityList: [
-        {img: '../../static/img/icon_time@2x.png', time: '2019/05/10 19:00', name: '从品酒来了解酒窖文化',price: '¥ 2050', num: 500},
-        {img: '../../static/img/icon_time@2x.png', time: '2019/05/10 19:00', name: '从品酒来了解酒窖文化',price: '¥ 2050', num: 500},
-        {img: '../../static/img/icon_time@2x.png', time: '2019/05/10 19:00', name: '从品酒来了解酒窖文化',price: '¥ 2050', num: 500},
-      ]
+      activityListData: [],
+      pageNum: 1,
+      totalPage: 0,
+      onFetching: false, // 请求控制
+      loadDataDone: false, //页面加载器
     };
   },
   methods: {
     ...mapActions(['activityType', 'activityList']),
     changeTab() {
       this.type = this.type==1?2:1
+      this.pageNum = 1
+      this.activityListData = []
+      this.handleQuery()
+    },
+    handleQuery() {
+      const params = {
+        cid: this.typeId,
+        pageSize: 5,
+        page: this.pageNum,
+        goods_status: this.type
+      }
+      this.activityList(params).then(res=>{
+        if(res.StatusInfo.success) {
+          this.activityListData = res.goodsList?this.activityListData.concat(res.goodsList):[]
+          this.totalPage = res.PageInfo.TotalPages
+        } else {
+          this.toastShow(res.StatusInfo.ErrorDetailCode)
+        }
+        this.loadDataDone = true; // 请求成功 控制空数据显示
+        this.onFetching = false; // 防止重复请求 
+      })
+    },
+    onScrollBottom () {
+      if (this.onFetching) return;
+      this.onFetching = true;
+      this.pageNum += 1;
+      if (this.pageNum > this.totalPage) return;
+      this.handleQuery();
     },
     changeType(id) {
       this.typeId = id
+      this.pageNum = 1
+      this.activityListData = []
+      this.handleQuery()
     },
     handleActivityType() {
       this.activityType().then(res=>{
         if(res.StatusInfo.success) {
           this.typeList = res.cateTree
           this.typeId = this.typeList[0].cid
+          this.handleQuery()
         } else {
           this.toastShow(res.StatusInfo.ErrorDetailCode)
         }
+        this.loadDataDone = true; // 请求成功 控制空数据显示
+        this.onFetching = false; // 防止重复请求 
       })
-    },
-    /**
-     * 数据列表查询
-     * @param {Object} parameters 数据查询列表的参数
-     * @param {Boolean} isLoadingMore 是否是在加载更多数据
-     * @return {Promise} Promise
-     **/
-    queryList(parameters, isLoadingMore){
-      var _this = this;
-      let params = {
-        
-      }
-      this.activityList()
     },
   },
   computed: {

@@ -5,26 +5,50 @@
         <x-input placeholder="输入目的地/关键词" placeholder-align="left" v-model="value" @on-enter="handleSearch"></x-input>
       <!-- <input type="search" v-model="value" placeholder="输入目的地/关键词"> -->
     </div>
-    <!-- <list-pull-loading :options="options" ref="listPullLoading"> -->
-    <div class="ofy_auto flx_1" style="padding-bottom: 83px;">
-        <div class="container" @click="$router.push(`/tours/tourDetail?id=${item.tourism_id}`)" v-for="(item, index) in activityList" :key="index">
-          <img class="activity-img" :src="item.pic" alt="">
-          <div class="activity-title">
-            <div class="name-price">
-              <span class="title-text">{{item.goods_name}}</span>
-              <div>
-                <p class="price">¥ {{item.goods_price}}</p>
-                <p class="num">抵{{item.discount_point}}积分</p>
+      <div style="height: calc(100% - (92px + 83px));">
+        <div style="display: flex;justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="activityList.length==0">
+            <img style="width: 40px;padding: 55% 0; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
+            <span> 暂无数据 </span>
+        </div>
+        <scroller v-if="activityList.length" lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottom">
+          <div class="ofy_auto flx_1">
+            <div class="container" @click="$router.push(`/tours/tourDetail?id=${item.tourism_id}`)" v-for="(item, index) in activityList" :key="index">
+              <img class="activity-img" :src="item.pic" alt="">
+              <div class="activity-title">
+                <div class="name-price">
+                  <span class="title-text">{{item.goods_name}}</span>
+                  <div>
+                    <p class="price">¥ {{item.goods_price}}</p>
+                    <p class="num">抵{{item.discount_point}}积分</p>
+                  </div>
+                </div>
+                <p class="time">
+                  <img src="../../static/img/icon_time@2x.png" alt="">
+                  {{item.start_time}}～{{item.end_time}}
+                </p>
               </div>
             </div>
-            <p class="time">
-              <img src="../../static/img/icon_time@2x.png" alt="">
-              {{item.start_time}}~{{item.end_time}}
-            </p>
           </div>
-        </div>
-    </div>
-    <!-- </list-pull-loading> -->
+          <load-more v-show="pageNum > totalPage" :show-loading="false" :tip="'暂无数据'" background-color="#fbf9fe"></load-more>
+        </scroller>
+      </div>
+      <div>
+      <div v-show="maskShow" class="modal_confirm_mask">
+        
+      </div>
+      <confirm v-model="show"
+        title="提醒"
+        confirm-text="升级VIP"
+        cancel-text="返回"
+        @on-cancel="onCancel"
+        @on-confirm="onConfirm">
+          <p style="text-align:left;">
+            开通VIP后转发文章可带自己的名片信息
+            可浏览更多旅游资讯
+            现在升级VIP，特惠价168元/年
+          </p>
+        </confirm>
+      </div>
     <tabbarComponent :tabIndex=1></tabbarComponent>
     <home-provider></home-provider>
     
@@ -36,12 +60,15 @@ import {listPullLoading} from 'list-pull-loading'
 import "list-pull-loading/dist/list-pull-loading.css"
 import TabbarComponent from "@/components/TabbarComponent.vue";
 import {mapActions,mapGetters} from 'vuex'
-import { XInput } from 'vux'
+import { XInput, Scroller,LoadMore,Confirm } from 'vux'
 export default {
   components: {
     TabbarComponent,
     XInput,
-    listPullLoading
+    listPullLoading,
+    Scroller,
+    LoadMore,
+    Confirm
   },
   name: "HomePage",
   data() {
@@ -52,17 +79,13 @@ export default {
         {id: 2, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24'},
         {id: 3, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24'},
       ],
-      options: {
-        auto: true,
-        parameters: {typeId: null},
-        down: {
-          offset: 50
-        },
-        api: this.queryList
-      },
       value: '',
-      pageNum: 0,
+      pageNum: 1,
       totalPage: 0,
+      onFetching: false, // 请求控制
+      loadDataDone: false, //页面加载器
+      show: false,
+      maskShow: false,
       activityList: [
         // {id: 1, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24'},
         // {id: 2, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24'},
@@ -72,26 +95,37 @@ export default {
   },
   methods: {
     ...mapActions(['tourList']),
-    queryList(parameters, isLoadingMore){
-      var _this = this;
-      
-    },
     handleTourList() {
       const params = {
         page: this.pageNum,
         pageSize: 5,
-        token: this.getToken,
+        token: 'cef10909ef1ea4da1969f2812da24fa921ff98aa',
         keywords: this.value
       }
       this.tourList(params).then(res=>{
         if(res.StatusInfo.success) {
-          this.activityList = res.newsList
+          this.activityList = res.newsList?this.activityList.concat(res.newsList):[]
           this.totalPage = res.PageInfo.TotalPages
         } else {
           this.toastShow(res.StatusInfo.ErrorDetailCode)
         }
+        this.loadDataDone = true; // 请求成功 控制空数据显示
+        this.onFetching = false; // 防止重复请求 
       })
     },
+    onScrollBottom () {
+      if (this.onFetching) return;
+      this.onFetching = true;
+      this.pageNum += 1;
+      if (this.pageNum > this.totalPage) return;
+      this.handleTourList();
+    },
+    // 不是VIP点击取消
+    onCancel() {
+      this.maskShow = true
+    },
+    // 不是VIP点击升级VIP
+    onConfirm() {},
     handleSearch() {
       // this.$bus.emit('searchParams', {type: 0, search: this.value})
       this.$router.push(`/tours/search?type=0&search=${this.value}`)
@@ -129,11 +163,11 @@ export default {
   touch-action: none;
 }
 .tour-search img {
-    width: 16px;
-    height: 16px;
-    margin-top: 20px;
-    margin-right: 10px;
-    touch-action: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 20px;
+  margin-right: 10px;
+  touch-action: none;
 }
 .container {
   margin: 4% 10px;
@@ -170,7 +204,13 @@ export default {
   color: #323643;
   font-size: 16px;
   font-weight: 600;
-  max-width: 211px;
+  width: 56%;
+  text-overflow: -o-ellipsis-lastline; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  display: -webkit-box; 
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 .time {
   color: #666666;

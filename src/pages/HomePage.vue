@@ -141,7 +141,7 @@ export default {
   mounted() {
     this.$bus.emit("onTabBarEvent", {});
     this.handleBanner()
-    // this.handleRecomend()
+    this.handleRecomend()
   }
 };
 </script>

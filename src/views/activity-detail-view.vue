@@ -1,38 +1,39 @@
 <template>
   <div class="main">
-    <img class="activity-img" src="http://iph.href.lu/375x227" alt="">
+    <img class="activity-img" :src="detail.cover" alt="">
     <div class="tour-detail">
-      <p class="title-text">马来西亚、吉隆坡城市遗址、洞穴与缆车马来西亚吉隆坡</p>
+      <p class="title-text">{{detail.goods_name}}</p>
       <div class="name-price">
         <div>
           <p class="time">
             <img src="../../static/img/icon_time@2x.png" alt="">
-            参与日期：2019/05/10
+            参与日期：{{detail.join_time}}
           </p>
           <p class="time mt12" @click="$router.push('/homes/storeDetail')">
             <img src="../../static/img/icon_fabuzhe@2x.png" alt="">
-            发布者：PTS俱乐部
+            发布者：{{detail.create_name}}
             <img class="arrow" src="../../static/img/icon/ic_arrow03@2x.png" alt="">
           </p>
         </div>
         <div>
-          <p class="price">¥ 2050</p>
-          <p class="num">最高可抵扣500积分</p>
+          <p class="price">¥ {{detail.goods_price}}</p>
+          <p class="num">最高可抵扣{{detail.discount_price}}积分</p>
         </div>
       </div>
     </div>
-    <img class="activity-type" src="../../static/img/ic_guanfang@2x.png" alt="">
-    <div class="tour-content">
-      <img style="width: 100%" src="../../static/img/img@2x.png" alt="">
+    <img class="activity-type" v-if="detail.pid==2" src="../../static/img/ic_guanfang@2x.png" alt="">
+    <img class="activity-type" v-if="detail.pid==1" src="../../static/img/ic_shangjia@2x.png" alt="">
+    <div class="tour-content" v-html="detail.content">
+      <!-- <img style="width: 100%" src="../../static/img/img@2x.png" alt=""> -->
     </div>
     <div class="local-life name-price" @click="$router.push('/activity')">
       <span class="local-life-text">相关活动</span>
       <span class="local-life-more">MORE</span>
     </div>
     <div v-for="item in storeList" :key="item.id" class="store">
-      <img class="store-img" :src="item.img" alt="">
+      <img class="store-img" :src="item.cover" alt="">
       <div class="store-right f16">
-        {{item.name}}
+        {{item.goods_name}}
       </div>
     </div>
     <div class="bottom"> 
@@ -54,18 +55,24 @@ export default {
   name: "HomePage",
   data() {
     return {
-      storeList: [
-        {id: 1, img:'http://iph.href.lu/90x90', name: '品酒会活动策划方案', status: true,address: '上海市长宁路1018号 龙之梦购物中心6F',shopowner: 'Shy', created: '2019/07/24'},
-        {id: 2, img:'http://iph.href.lu/90x90', name: '品酒会活动策划方案',status: false, address: '上海市长宁路1018号 龙之梦购物中心6F',shopowner: 'Shy', created: '2019/07/24'},
-        {id: 3, img:'http://iph.href.lu/90x90', name: '品酒会活动策划方案',status: false, address: '上海市长宁路1018号 龙之梦购物中心6F',shopowner: 'Shy', created: '2019/07/24'},
-      ]
+      storeList: [],
+      detail: {},
+      id: 0
     };
   },
   methods: {
     ...mapActions(['activityDetails']),
     handleDetail() {
-      this.activityDetails().then(res=>{
-        
+      const params = {
+        goods_id: this.id
+      }
+      this.activityDetails(params).then(res=>{
+        if(res.StatusInfo.success) {
+          this.detail = res.goodsInfo
+          this.storeList = res.goodsCateTree.slice(-5)
+        } else {
+          this.toastShow(res.StatusInfo.ErrorDetailCode)
+        }
       })
     }
   },
@@ -79,6 +86,8 @@ export default {
     
   },
   mounted() {
+    this.id = this.$route.query.id
+    this.handleDetail()
   }
 };
 </script>
@@ -165,7 +174,6 @@ p img {
   height: 100%;
 }
 .tour-content {
-  background-color: #0f0b0b;
   margin-top: 136px;
   width: 100%;
 }

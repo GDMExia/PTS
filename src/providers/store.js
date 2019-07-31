@@ -16,6 +16,9 @@ const types = {
   ACTIVITY_LIST: 'ACTIVITY_LIST',
   ACTIVITY_DETAILS: 'ACTIVITY_DETAILS',
   TOUR_DETAILS: 'TOUR_DETAILS',
+  CHANGE_USER: 'CHANGE_USER',
+  ARTICLE_LIST: 'ARTICLE_LIST',
+  ARTICLE_DETAIL: 'ARTICLE_DETAIL'
 }
 
 const state = {
@@ -29,6 +32,9 @@ const state = {
   activityList: [],
   activityDetail: {},
   tourDetail: {},
+  changeUser: {},
+  articleList: [],
+  articleDetail: {}
 }
 
 const getters = {
@@ -55,6 +61,15 @@ const getters = {
   },
   getTourDetail(state) {
     return state.tourDetail
+  },
+  getChangeUser(state) {
+    return state.changeUser
+  },
+  getArticleList(state) {
+    return state.articleList
+  },
+  getArticleDetail(state) {
+    return state.articleDetail
   },
 }
 
@@ -121,7 +136,7 @@ const actions = {
   activityDetails({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
-      `/User/goodsTourismView?${params}`, 
+      `/Index/goodsView?${params}`, 
     ).then(res => {
       if (res.data.StatusInfo.success) {
         commit(types.ACTIVITY_DETAILS, res.data)
@@ -137,6 +152,42 @@ const actions = {
     ).then(res => {
       if (res.data.StatusInfo.success) {
         commit(types.TOUR_DETAILS, res.data)
+      }
+      return new Promise(resolve=>{resolve(res.data)})
+    })
+  },
+  // 换成我的
+  changeUser({commit}, playload) {
+    let params = qs.stringify(playload)
+    return Axios.get(
+      `/User/changeNickName?${params}`
+    ).then(res => {
+      if (res.data.StatusInfo.success) {
+        commit(types.CHANGE_USER, res.data)
+      }
+      return new Promise(resolve=>{resolve(res.data)})
+    })
+  },
+  // 活动分享/指南列表
+  articleList({commit}, playload) {
+    let params = qs.stringify(playload)
+    return Axios.get(
+      `/Index/getNews?${params}`
+    ).then(res => {
+      if (res.data.StatusInfo.success) {
+        commit(types.ARTICLE_LIST, res.data)
+      }
+      return new Promise(resolve=>{resolve(res.data)})
+    })
+  },
+  // 活动分享/指南详情
+  articleDetail({commit}, playload) {
+    let params = qs.stringify(playload)
+    return Axios.get(
+      `/Index/getNewsView?${params}`
+    ).then(res => {
+      if (res.data.StatusInfo.success) {
+        commit(types.ARTICLE_DETAIL, res.data)
       }
       return new Promise(resolve=>{resolve(res.data)})
     })
@@ -167,6 +218,15 @@ const mutations = {
   },
   [types.TOUR_DETAILS](state, playload) {
     state.tourDetail = playload
+  },
+  [types.CHANGE_USER](state, playload) {
+    state.changeUser = playload
+  },
+  [types.ARTICLE_LIST](state, playload) {
+    state.articleList = playload
+  },
+  [types.ARTICLE_DETAIL](state, playload) {
+    state.articleDetail = playload
   },
 }
 

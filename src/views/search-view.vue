@@ -48,7 +48,6 @@ export default {
     },
     data() {
         return {
-            pageNum: 0,
             activityList: [
                 // {id: 1, img:'http://iph.href.lu/355x177', title: '【回顾】送给妈妈装满爱的花篮', created: '2019/07/24'},
                 // {id: 2, img:'http://iph.href.lu/355x177', title: '【回顾】送给妈妈装满爱的花篮', created: '2019/07/24'},

@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-    <div class="tour-vip" @click="changeUser">
+    <div v-if="changeShow" class="tour-vip" @click="handlechangeUser">
       <img src="../../static/img/btn_qh@2x.png" alt="">
     </div>
     <!-- <div class="tour-share f10">
@@ -39,10 +39,12 @@
       <span class="local-life-text">相关套餐</span>
       <span class="local-life-more">MORE</span>
     </div>
-    <div v-for="item in storeList" :key="item.id" class="store">
-      <img class="store-img" :src="item.img" alt="">
+    <div v-for="item in storeList" :key="item.tourism_id" class="store">
+      <div class="store-img">
+        <img :src="item.pic" alt="">
+      </div>
       <div class="store-right f16">
-        {{item.name}}
+        {{item.goods_name}}
       </div>
     </div>
   </div>
@@ -65,14 +67,15 @@ export default {
       ],
       tourItem: {},
       picList: [],
-      id: 0
+      id: 0,
+      changeShow: true
     };
   },
   computed: {
     ...mapGetters(['getToken'])
   },
   methods: {
-    ...mapActions(['tourDetails']),
+    ...mapActions(['tourDetails', 'changeUser']),
     handleDetail() {
       const params = {
         token: this.getToken,
@@ -85,13 +88,25 @@ export default {
             item.img = item.file_path
             return item
           })
-          // this.storeList = res.newsCateTree
+          this.storeList = res.newsCateTree.slice(-5)
         } else {
           this.toastShow(res.StatusInfo.ErrorDetailCode)
         }
       })
     },
-    changeUser() {}
+    handlechangeUser() {
+      const params = {
+        token: this.getToken
+      }
+      this.changeUser(params).then(res=>{
+        // if(res.StatusInfo.success) {
+          this.tourItem.create_name = res.userInfo.nickname
+          this.changeShow = false
+        // } else {
+        //   this.toastShow(res.StatusInfo.ErrorDetailCode)
+        // }
+      })
+    }
   },
   beforeDestroy() {
     
@@ -251,6 +266,9 @@ p img {
 .store-img {
   width: 90px;
   height: 90px;
+}
+.store-img img {
+  width: 100%;
 }
 .store-right {
   margin-left: 10px;
