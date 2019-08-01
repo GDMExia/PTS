@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import Axios from 'axios'
 import qs from 'qs'
+// import { stat } from 'fs';
 
 
 Vue.use(Vuex)
@@ -16,6 +17,7 @@ const types = {
   ACTIVITY_LIST: 'ACTIVITY_LIST',
   ACTIVITY_DETAILS: 'ACTIVITY_DETAILS',
   TOUR_DETAILS: 'TOUR_DETAILS',
+  IS_MEMBER:'IS_MEMBER'
 }
 
 const state = {
@@ -29,6 +31,7 @@ const state = {
   activityList: [],
   activityDetail: {},
   tourDetail: {},
+  isMember:''
 }
 
 const getters = {
@@ -56,6 +59,9 @@ const getters = {
   getTourDetail(state) {
     return state.tourDetail
   },
+  getIsMenber(state) {
+    return state.getIsMenber
+  }
 }
 
 const actions = {
@@ -141,6 +147,18 @@ const actions = {
       return new Promise(resolve=>{resolve(res.data)})
     })
   },
+  // 个人信息
+  getUserInfo({commit},playload){
+    let params = qs.stringify(playload)
+    return Axios.get(
+      `/User/getUserInfo?${params}`
+    ).then(res => {
+      if (res.data.StatusInfo.success) {
+        commit(types.IS_MEMBER, res.data.userInfo.is_member)
+      }
+      return new Promise(resolve=>{resolve(res.data)})
+    })
+  }
 }
 
 const mutations = {
@@ -168,6 +186,9 @@ const mutations = {
   [types.TOUR_DETAILS](state, playload) {
     state.tourDetail = playload
   },
+  [types.IS_MEMBER](state, playload) {
+    state.isMember = playload
+  }
 }
 
 const middlewares = store => {
