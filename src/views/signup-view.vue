@@ -55,7 +55,7 @@
 </template>
 
 <script>
-
+import { mapGetters, mapActions } from "vuex";
 import { Group, Cell, XNumber, XInput } from 'vux'
 export default {
   components: {
@@ -63,6 +63,9 @@ export default {
     Cell,
     XNumber,
     XInput
+  },
+  computed: {
+    ...mapGetters(['getToken', 'activityDetail'])
   },
   name: "HomePage",
   data() {
@@ -72,8 +75,6 @@ export default {
   },
   methods: {
     change() {},
-  },
-  computed: {
   },
   beforeDestroy() {
     

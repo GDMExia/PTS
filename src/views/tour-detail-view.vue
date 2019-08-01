@@ -40,8 +40,9 @@
       <span class="local-life-more">MORE</span>
     </div>
     <div v-for="item in storeList" :key="item.tourism_id" class="store">
-      <div class="store-img">
-        <img :src="item.pic" alt="">
+      <div class="store-img" :style="{backgroundImage: 'url(' + item.pic + ')'}">
+      <!-- <div class="store-img" :style="'background-image: '+item.pic"> -->
+        <!-- <img :src="item.pic" alt=""> -->
       </div>
       <div class="store-right f16">
         {{item.goods_name}}
@@ -60,11 +61,7 @@ export default {
   name: "HomePage",
   data() {
     return {
-      storeList: [
-        {id: 1, img:'http://iph.href.lu/90x90', name: '品酒会活动策划方案', status: true,address: '上海市长宁路1018号 龙之梦购物中心6F',shopowner: 'Shy', created: '2019/07/24'},
-        {id: 2, img:'http://iph.href.lu/90x90', name: '品酒会活动策划方案',status: false, address: '上海市长宁路1018号 龙之梦购物中心6F',shopowner: 'Shy', created: '2019/07/24'},
-        {id: 3, img:'http://iph.href.lu/90x90', name: '品酒会活动策划方案',status: false, address: '上海市长宁路1018号 龙之梦购物中心6F',shopowner: 'Shy', created: '2019/07/24'},
-      ],
+      storeList: [],
       tourItem: {},
       picList: [],
       id: 0,
@@ -78,7 +75,8 @@ export default {
     ...mapActions(['tourDetails', 'changeUser']),
     handleDetail() {
       const params = {
-        token: this.getToken,
+        token: this.GetQueryString('token'),
+        // token: this.getToken,
         tourism_id: this.id
       }
       this.tourDetails(params).then(res=>{
@@ -96,7 +94,7 @@ export default {
     },
     handlechangeUser() {
       const params = {
-        token: this.getToken
+        token: this.GetQueryString('token')
       }
       this.changeUser(params).then(res=>{
         // if(res.StatusInfo.success) {
@@ -223,7 +221,7 @@ p img {
   background-color: #ffffff;
   padding: 15px 22px 0 20px;
   margin-top: 130px;
-  widows: 375px;
+  width: 100%;
 }
 .tour-content img {
   width: 100%;
@@ -266,6 +264,9 @@ p img {
 .store-img {
   width: 90px;
   height: 90px;
+  background-position: center center;    
+  background-size: 100% 100%;               
+  background-repeat: no-repeat;
 }
 .store-img img {
   width: 100%;

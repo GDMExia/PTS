@@ -139,6 +139,9 @@ export default {
     
   },
   mounted() {
+    this.$nextTick(() => {
+      this.$refs.scrollerBottom.reset({top: 0})
+    })
     this.$bus.emit("onTabBarEvent", {});
     this.handleActivityType()
   }

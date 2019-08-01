@@ -9,7 +9,6 @@ Vue.use(Vuex)
 
 const types = {
   TOUR_LIST: 'TOUR_LIST',
-  TOKEN: 'TOKEN',
   BNNER_LIST: 'BANNER_LIST',
   RECOMEND_LIST: 'RECOMEND_LIST',
   ACTIVITY_TYPE: 'ACTIVITY_TYPE',
@@ -18,12 +17,14 @@ const types = {
   TOUR_DETAILS: 'TOUR_DETAILS',
   CHANGE_USER: 'CHANGE_USER',
   ARTICLE_LIST: 'ARTICLE_LIST',
-  ARTICLE_DETAIL: 'ARTICLE_DETAIL'
+  ARTICLE_DETAIL: 'ARTICLE_DETAIL',
+  USER_INFO: 'USER_INFO',
+  USER_VIP: 'USER_VIP',
 }
 
 const state = {
   tourList: [],
-  // token: 'cef10909ef1ea4da1969f2812da24fa921ff98aa',
+  // token: '',
   token:'c1599f283f6bce195a98a3f3d9c3f10865891753',
   virtualNumber:'3453167517',
   bannerList: [],
@@ -34,7 +35,9 @@ const state = {
   tourDetail: {},
   changeUser: {},
   articleList: [],
-  articleDetail: {}
+  articleDetail: {},
+  userInfo: {},
+  userVIP: {},
 }
 
 const getters = {
@@ -70,6 +73,12 @@ const getters = {
   },
   getArticleDetail(state) {
     return state.articleDetail
+  },
+  getUserInfo(state) {
+    return state.userInfo
+  },
+  getUserVIP(state) {
+    return state.userVIP
   },
 }
 
@@ -192,13 +201,39 @@ const actions = {
       return new Promise(resolve=>{resolve(res.data)})
     })
   },
+  // 个人信息
+  userDetail({commit}, playload) {
+    let params = qs.stringify(playload)
+    return Axios.get(
+      `/User/getUserInfo?${params}`
+    ).then(res => {
+      if (res.data.StatusInfo.success) {
+        commit(types.USER_INFO, res.data)
+      }
+      return new Promise(resolve=>{resolve(res.data)})
+    })
+  },
+  // VIP价格
+  getVIP({commit}, playload) {
+    let params = qs.stringify(playload)
+    return Axios.get(
+      `/User/previewMember?${params}`
+    ).then(res => {
+      if (res.data.StatusInfo.success) {
+        commit(types.USER_VIP, res.data)
+      }
+      return new Promise(resolve=>{resolve(res.data)})
+    })
+  },
+  // 立即报名
+  
 }
 
 const mutations = {
   [types.TOUR_LIST](state, playload) {
     state.tourList = playload
   },
-  [types.TOKEN](state, playload) {
+  setToken(state, playload) {
     state.token = playload
   },
   [types.BNNER_LIST](state, playload) {
@@ -227,6 +262,12 @@ const mutations = {
   },
   [types.ARTICLE_DETAIL](state, playload) {
     state.articleDetail = playload
+  },
+  [types.USER_INFO](state, playload) {
+    state.userInfo = playload
+  },
+  [types.USER_VIP](state, playload) {
+    state.userVIP = playload
   },
 }
 

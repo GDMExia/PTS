@@ -74,7 +74,7 @@ export default {
             const params = {
                 page: this.pageNum,
                 pageSize: 5,
-                token: this.getToken,
+                token: this.GetQueryString('token'),
                 keywords: this.search
             }
             this.tourList(params).then(res=>{
@@ -156,7 +156,13 @@ export default {
   color: #323643;
   font-size: 16px;
   font-weight: 600;
-  max-width: 211px;
+  width: 56%;
+  text-overflow: -o-ellipsis-lastline; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  display: -webkit-box; 
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 .time {
   color: #666666;

@@ -45,7 +45,7 @@
           <p style="text-align:left;">
             开通VIP后转发文章可带自己的名片信息
             可浏览更多旅游资讯
-            现在升级VIP，特惠价168元/年
+            现在升级VIP，特惠价{{VIPprice}}元/年
           </p>
         </confirm>
       </div>
@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import {listPullLoading} from 'list-pull-loading'
 import "list-pull-loading/dist/list-pull-loading.css"
 import TabbarComponent from "@/components/TabbarComponent.vue";
@@ -86,20 +87,18 @@ export default {
       loadDataDone: false, //页面加载器
       show: false,
       maskShow: false,
-      activityList: [
-        // {id: 1, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24'},
-        // {id: 2, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24'},
-        // {id: 3, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24'},
-      ]
+      activityList: [],
+      userInfo: {},
+      VIPprice: 0
     };
   },
   methods: {
-    ...mapActions(['tourList']),
+    ...mapActions(['tourList', 'userDetail', 'getVIP']),
     handleTourList() {
       const params = {
         page: this.pageNum,
         pageSize: 5,
-        token: 'cef10909ef1ea4da1969f2812da24fa921ff98aa',
+        token: this.GetQueryString('token'),
         keywords: this.value
       }
       this.tourList(params).then(res=>{
@@ -125,7 +124,40 @@ export default {
       this.maskShow = true
     },
     // 不是VIP点击升级VIP
-    onConfirm() {},
+    onConfirm() {
+      this.$router.push('/owners/getvip')
+    },
+    // 查看会员预览
+    handleVIP() {
+      let params = {
+        token: this.GetQueryString('token'),
+      }
+      this.getVIP(params).then(res=>{
+        if(res.StatusInfo.success) {
+          this.VIPprice = res.vipPrice 
+        } else {
+          this.toastShow(res.StatusInfo.ErrorDetailCode)
+        }
+      })
+    },
+    // 查看是否是会员，如果是且未过期，则浏览数据，否则弹出升级VIP
+    handleUser() {
+      let params = {
+        token: this.GetQueryString('token'),
+      }
+      this.userDetail(params).then(res=>{
+        if(res.StatusInfo.success) {
+          this.userInfo = res.userInfo
+          if(res.userInfo.is_member == 0 || res.userInfo.over_time < moment().format("YYYY-MM-DD")) {
+            this.show = true
+          } else {
+            this.handleTourList()
+          }
+        } else {
+          this.toastShow(res.StatusInfo.ErrorDetailCode)
+        }
+      })
+    },
     handleSearch() {
       // this.$bus.emit('searchParams', {type: 0, search: this.value})
       this.$router.push(`/tours/search?type=0&search=${this.value}`)
@@ -141,8 +173,12 @@ export default {
     
   },
   mounted() {
+    // this.$nextTick(() => {
+    //   this.$refs.scrollerBottom.reset({top: 0})
+    // })
     this.$bus.emit("onTabBarEvent", {});
-    this.handleTourList()
+    this.handleUser()
+    this.handleVIP()
   }
 };
 </script>
