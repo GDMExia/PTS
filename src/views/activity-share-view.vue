@@ -1,10 +1,10 @@
 <template>
   <div class="main">
     <h2 class="title">
-      前往圣地亚哥，追逐历史长河中的多姿色彩
+      {{article.title}}
     </h2>
-    <div class="content-detail">
-      <img src="../../static/img/img@2x.png" alt="">
+    <div class="content-detail" v-html="article.content">
+      
     </div>
     <div class="fixed-image" @click="$router.push('/home')"></div>
   </div>
@@ -21,15 +21,24 @@ export default {
   name: "HomePage",
   data() {
     return {
-      storeList: [
-        {id: 1, img:'http://iph.href.lu/90x90', name: '品酒会活动策划方案', status: true,address: '上海市长宁路1018号 龙之梦购物中心6F',shopowner: 'Shy', created: '2019/07/24'},
-        {id: 2, img:'http://iph.href.lu/90x90', name: '品酒会活动策划方案',status: false, address: '上海市长宁路1018号 龙之梦购物中心6F',shopowner: 'Shy', created: '2019/07/24'},
-        {id: 3, img:'http://iph.href.lu/90x90', name: '品酒会活动策划方案',status: false, address: '上海市长宁路1018号 龙之梦购物中心6F',shopowner: 'Shy', created: '2019/07/24'},
-      ]
+      id: 0,
+      article: {}
     };
   },
   methods: {
-    // ...mapActions(),
+    ...mapActions(['articleDetail']),
+    handleDetail() {
+      const params = {
+        news_id: this.id
+      }
+      this.articleDetail(params).then(res=>{
+        if(res.StatusInfo.success) {
+          this.article = res.goodsInfo
+        } else {
+          this.toastShow(res.StatusInfo.ErrorDetailCode)
+        }
+      })
+    }
   },
   computed: {
     
@@ -41,7 +50,8 @@ export default {
     
   },
   mounted() {
-    this.$bus.emit("onTabBarEvent", {});
+    this.id = this.$route.query.id
+    this.handleDetail()
   }
 };
 </script>

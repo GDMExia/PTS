@@ -10,19 +10,22 @@ Vue.use(Vuex)
 
 const types = {
   TOUR_LIST: 'TOUR_LIST',
-  TOKEN: 'TOKEN',
   BNNER_LIST: 'BANNER_LIST',
   RECOMEND_LIST: 'RECOMEND_LIST',
   ACTIVITY_TYPE: 'ACTIVITY_TYPE',
   ACTIVITY_LIST: 'ACTIVITY_LIST',
   ACTIVITY_DETAILS: 'ACTIVITY_DETAILS',
   TOUR_DETAILS: 'TOUR_DETAILS',
-  IS_MEMBER:'IS_MEMBER'
+  CHANGE_USER: 'CHANGE_USER',
+  ARTICLE_LIST: 'ARTICLE_LIST',
+  ARTICLE_DETAIL: 'ARTICLE_DETAIL',
+  USER_INFO: 'USER_INFO',
+  USER_VIP: 'USER_VIP',
 }
 
 const state = {
   tourList: [],
-  // token: 'cef10909ef1ea4da1969f2812da24fa921ff98aa',
+  // token: '',
   token:'c1599f283f6bce195a98a3f3d9c3f10865891753',
   virtualNumber:'3453167517',
   bannerList: [],
@@ -31,7 +34,11 @@ const state = {
   activityList: [],
   activityDetail: {},
   tourDetail: {},
-  isMember:''
+  changeUser: {},
+  articleList: [],
+  articleDetail: {},
+  userInfo: {},
+  userVIP: {},
 }
 
 const getters = {
@@ -59,9 +66,21 @@ const getters = {
   getTourDetail(state) {
     return state.tourDetail
   },
-  getIsMenber(state) {
-    return state.getIsMenber
-  }
+  getChangeUser(state) {
+    return state.changeUser
+  },
+  getArticleList(state) {
+    return state.articleList
+  },
+  getArticleDetail(state) {
+    return state.articleDetail
+  },
+  getUserInfo(state) {
+    return state.userInfo
+  },
+  getUserVIP(state) {
+    return state.userVIP
+  },
 }
 
 const actions = {
@@ -127,7 +146,7 @@ const actions = {
   activityDetails({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
-      `/User/goodsTourismView?${params}`, 
+      `/Index/goodsView?${params}`, 
     ).then(res => {
       if (res.data.StatusInfo.success) {
         commit(types.ACTIVITY_DETAILS, res.data)
@@ -147,25 +166,75 @@ const actions = {
       return new Promise(resolve=>{resolve(res.data)})
     })
   },
+  // 换成我的
+  changeUser({commit}, playload) {
+    let params = qs.stringify(playload)
+    return Axios.get(
+      `/User/changeNickName?${params}`
+    ).then(res => {
+      if (res.data.StatusInfo.success) {
+        commit(types.CHANGE_USER, res.data)
+      }
+      return new Promise(resolve=>{resolve(res.data)})
+    })
+  },
+  // 活动分享/指南列表
+  articleList({commit}, playload) {
+    let params = qs.stringify(playload)
+    return Axios.get(
+      `/Index/getNews?${params}`
+    ).then(res => {
+      if (res.data.StatusInfo.success) {
+        commit(types.ARTICLE_LIST, res.data)
+      }
+      return new Promise(resolve=>{resolve(res.data)})
+    })
+  },
+  // 活动分享/指南详情
+  articleDetail({commit}, playload) {
+    let params = qs.stringify(playload)
+    return Axios.get(
+      `/Index/getNewsView?${params}`
+    ).then(res => {
+      if (res.data.StatusInfo.success) {
+        commit(types.ARTICLE_DETAIL, res.data)
+      }
+      return new Promise(resolve=>{resolve(res.data)})
+    })
+  },
   // 个人信息
-  getUserInfo({commit},playload){
+  userDetail({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
       `/User/getUserInfo?${params}`
     ).then(res => {
       if (res.data.StatusInfo.success) {
-        commit(types.IS_MEMBER, res.data.userInfo.is_member)
+        commit(types.USER_INFO, res.data)
       }
       return new Promise(resolve=>{resolve(res.data)})
     })
-  }
+  },
+  // VIP价格
+  getVIP({commit}, playload) {
+    let params = qs.stringify(playload)
+    return Axios.get(
+      `/User/previewMember?${params}`
+    ).then(res => {
+      if (res.data.StatusInfo.success) {
+        commit(types.USER_VIP, res.data)
+      }
+      return new Promise(resolve=>{resolve(res.data)})
+    })
+  },
+  // 立即报名
+  
 }
 
 const mutations = {
   [types.TOUR_LIST](state, playload) {
     state.tourList = playload
   },
-  [types.TOKEN](state, playload) {
+  setToken(state, playload) {
     state.token = playload
   },
   [types.BNNER_LIST](state, playload) {
@@ -186,9 +255,21 @@ const mutations = {
   [types.TOUR_DETAILS](state, playload) {
     state.tourDetail = playload
   },
-  [types.IS_MEMBER](state, playload) {
-    state.isMember = playload
-  }
+  [types.CHANGE_USER](state, playload) {
+    state.changeUser = playload
+  },
+  [types.ARTICLE_LIST](state, playload) {
+    state.articleList = playload
+  },
+  [types.ARTICLE_DETAIL](state, playload) {
+    state.articleDetail = playload
+  },
+  [types.USER_INFO](state, playload) {
+    state.userInfo = playload
+  },
+  [types.USER_VIP](state, playload) {
+    state.userVIP = playload
+  },
 }
 
 const middlewares = store => {

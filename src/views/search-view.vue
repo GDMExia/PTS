@@ -48,7 +48,6 @@ export default {
     },
     data() {
         return {
-            pageNum: 0,
             activityList: [
                 // {id: 1, img:'http://iph.href.lu/355x177', title: '【回顾】送给妈妈装满爱的花篮', created: '2019/07/24'},
                 // {id: 2, img:'http://iph.href.lu/355x177', title: '【回顾】送给妈妈装满爱的花篮', created: '2019/07/24'},
@@ -75,7 +74,7 @@ export default {
             const params = {
                 page: this.pageNum,
                 pageSize: 5,
-                token: this.getToken,
+                token: this.GetQueryString('token'),
                 keywords: this.search
             }
             this.tourList(params).then(res=>{
@@ -157,7 +156,13 @@ export default {
   color: #323643;
   font-size: 16px;
   font-weight: 600;
-  max-width: 211px;
+  width: 56%;
+  text-overflow: -o-ellipsis-lastline; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  display: -webkit-box; 
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 .time {
   color: #666666;

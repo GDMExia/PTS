@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-    <div class="tour-vip" @click="changeUser">
+    <div v-if="changeShow" class="tour-vip" @click="handlechangeUser">
       <img src="../../static/img/btn_qh@2x.png" alt="">
     </div>
     <!-- <div class="tour-share f10">
@@ -39,10 +39,13 @@
       <span class="local-life-text">相关套餐</span>
       <span class="local-life-more">MORE</span>
     </div>
-    <div v-for="item in storeList" :key="item.id" class="store">
-      <img class="store-img" :src="item.img" alt="">
+    <div v-for="item in storeList" :key="item.tourism_id" class="store">
+      <div class="store-img" :style="{backgroundImage: 'url(' + item.pic + ')'}">
+      <!-- <div class="store-img" :style="'background-image: '+item.pic"> -->
+        <!-- <img :src="item.pic" alt=""> -->
+      </div>
       <div class="store-right f16">
-        {{item.name}}
+        {{item.goods_name}}
       </div>
     </div>
   </div>
@@ -58,24 +61,22 @@ export default {
   name: "HomePage",
   data() {
     return {
-      storeList: [
-        {id: 1, img:'http://iph.href.lu/90x90', name: '品酒会活动策划方案', status: true,address: '上海市长宁路1018号 龙之梦购物中心6F',shopowner: 'Shy', created: '2019/07/24'},
-        {id: 2, img:'http://iph.href.lu/90x90', name: '品酒会活动策划方案',status: false, address: '上海市长宁路1018号 龙之梦购物中心6F',shopowner: 'Shy', created: '2019/07/24'},
-        {id: 3, img:'http://iph.href.lu/90x90', name: '品酒会活动策划方案',status: false, address: '上海市长宁路1018号 龙之梦购物中心6F',shopowner: 'Shy', created: '2019/07/24'},
-      ],
+      storeList: [],
       tourItem: {},
       picList: [],
-      id: 0
+      id: 0,
+      changeShow: true
     };
   },
   computed: {
     ...mapGetters(['getToken'])
   },
   methods: {
-    ...mapActions(['tourDetails']),
+    ...mapActions(['tourDetails', 'changeUser']),
     handleDetail() {
       const params = {
-        token: this.getToken,
+        token: this.GetQueryString('token'),
+        // token: this.getToken,
         tourism_id: this.id
       }
       this.tourDetails(params).then(res=>{
@@ -85,13 +86,25 @@ export default {
             item.img = item.file_path
             return item
           })
-          // this.storeList = res.newsCateTree
+          this.storeList = res.newsCateTree.slice(-5)
         } else {
           this.toastShow(res.StatusInfo.ErrorDetailCode)
         }
       })
     },
-    changeUser() {}
+    handlechangeUser() {
+      const params = {
+        token: this.GetQueryString('token')
+      }
+      this.changeUser(params).then(res=>{
+        // if(res.StatusInfo.success) {
+          this.tourItem.create_name = res.userInfo.nickname
+          this.changeShow = false
+        // } else {
+        //   this.toastShow(res.StatusInfo.ErrorDetailCode)
+        // }
+      })
+    }
   },
   beforeDestroy() {
     
@@ -208,7 +221,7 @@ p img {
   background-color: #ffffff;
   padding: 15px 22px 0 20px;
   margin-top: 130px;
-  widows: 375px;
+  width: 100%;
 }
 .tour-content img {
   width: 100%;
@@ -251,6 +264,12 @@ p img {
 .store-img {
   width: 90px;
   height: 90px;
+  background-position: center center;    
+  background-size: 100% 100%;               
+  background-repeat: no-repeat;
+}
+.store-img img {
+  width: 100%;
 }
 .store-right {
   margin-left: 10px;
