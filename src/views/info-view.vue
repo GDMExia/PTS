@@ -2,21 +2,22 @@
     <div>
         <div class="form">
         <group>
-            <XInput title="昵称" v-model="nickname" disabled text-align="right"></XInput>
+            <XInput title="昵称" v-model="nickname" text-align="right"></XInput>
             <Selector title="性别" v-model="sex" :options="sexlist" direction="rtl"></Selector>
-            <XInput title="年龄" v-model="old" required text-align="right" placeholder="请输入年龄" placeholder-align="right"></XInput>
+            <XInput title="年龄" v-model="age" required text-align="right" placeholder="请输入年龄" placeholder-align="right"></XInput>
             <XInput title="手机号" is-type="china-mobile" v-model="phone" required text-align="right" placeholder="请输入手机号" placeholder-align="right"></XInput>
-            <XInput title="验证码" v-model="code" required text-align="right" placeholder="请输入验证码" placeholder-align="right"><div slot="right" style="color:#06D5DE;borderLeft:1px solid #F0F0F0">获取验证码</div></XInput>
+            <XInput title="验证码" v-model="phone_code" required text-align="right" placeholder="请输入验证码" placeholder-align="right" :show-clear="false"><div slot="right" style="color:#06D5DE;borderLeft:1px solid #F0F0F0" @click="getcode">{{codeshow}}</div></XInput>
         </group>
         </div>
         <div class="handle">
-            <div class="button">提交</div>
+            <div class="button" @click="setinfo">提交</div>
         </div>
     </div>
 </template>
 
 <script>
 import { Group , Selector , XInput } from 'vux'
+import { mapActions } from "vuex";
 
 export default {
     components:{
@@ -26,12 +27,82 @@ export default {
     },
     data(){
         return{
-            sexlist:[{value:'女',label:'女'},{value:'男',label:'男'}],
-            nickname:'我的名字叫雪梨',
-            sex:'0',
-            old:'',
+            sexlist:['女','男'],
+            nickname:'',
+            sex:'',
+            age:'',
             phone:'',
-            code:''
+            phone_code:'',
+            clickable:true,
+            codeshow:'获取验证码',
+            interval:'',
+        }
+    },
+    methods:{
+    ...mapActions(['userDetail']),
+    getinfo(){
+        this.$http.get(`/User/getUserInfo?token=${this.$store.state.token}`).then(res=>{
+        // this.userDetail({token: 'c1599f283f6bce195a98a3f3d9c3f10865891753'}).then(res=>{})
+        console.log(res)
+        if(res.data.StatusInfo.ReturnCode==200){
+            this.$nextTick(()=>{
+            this.nickname=res.data.userInfo.nickname
+            this.sex=res.data.userInfo.sex==1?'男':'女'
+            this.phone=res.data.userInfo.phone
+            this.age=res.data.userInfo.age
+            })
+        }
+        // console.log(this.$store.state.isMember)
+        })
+    },
+    setinfo(){
+        this.$http({
+        method: 'post',
+        url: `/User/updateUserInfo?token=${this.$store.state.token}`,
+        header: {
+            'Content-Type':'multipart/form-data'  
+        },
+        params: {token:this.$store.state.token,nickname:this.nickname,sex:this.sex=='男'?'1':'0',phone:this.phone,phone_code:this.phone_code}
+        }).then(res=>{
+            this.$router.push('/owner')
+        });
+    },
+    getcode(){
+            console.log(111)
+            if(/^1[3456789]\d{9}$/.test(this.phone)){
+            if(this.clickable){
+                this.clickable=false
+                this.codeshow=60
+                this.interval=setInterval(()=>{
+                    this.codeshow--;
+                },1000)
+                this.$http.post(`/Sms/pushPhoneCode?phone=${this.phone}`).then(res=>{
+                    console.log(res)
+                    if(res.data.StatusInfo.ReturnCode!=200){
+                        clearInterval(this.interval)
+                        this.clickable=true
+                        this.codeshow='重新获取'
+                    }
+                })
+            }
+            }else{
+                this.$vux.toast.text('请输入正确手机号', 'top')
+            }
+        }
+    },
+    created(){
+        this.getinfo()
+    },
+    watch:{
+        codeshow:{
+            handler:function(val){
+                console.log(val)
+                if(val<=0){
+                    clearInterval(this.interval)
+                    this.clickable=true
+                    this.codeshow='重新获取'
+                }
+            }
         }
     }
 }

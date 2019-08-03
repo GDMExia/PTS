@@ -14,7 +14,7 @@
             <Selector title="性别" v-model="sex" :options="sexlist" direction="rtl"></Selector>
             <XInput title="年龄" v-model="old" text-align="right" placeholder="请输入年龄" placeholder-align="right"></XInput>
             <XInput title="手机号" is-type="china-mobile" v-model="phone" text-align="right" placeholder="请输入手机号" placeholder-align="right"></XInput>
-            <XInput title="验证码" v-model="phone_code" text-align="right" placeholder="请输入验证码" placeholder-align="right"><div slot="right" style="color:#06D5DE;borderLeft:1px solid #F0F0F0" @click="getcode">{{codeshow}}</div></XInput>
+            <XInput title="验证码" v-model="phone_code" text-align="right" placeholder="请输入验证码" placeholder-align="right" :show-clear="false"><div slot="right" style="color:#06D5DE;borderLeft:1px solid #F0F0F0" @click="getcode">{{codeshow}}</div></XInput>
         </group>
         </div>
         <div class="handle">
@@ -42,7 +42,6 @@ export default {
             phone:'',
             phone_code:'',
             codeshow:'获取验证码',
-            recommended_uid:'',
             clickable:true,
             interval:'',
             overTime:'',
@@ -75,7 +74,7 @@ export default {
             header: {
                 'Content-Type':'multipart/form-data'  
             },
-            params: {nickname:this.nickname,sex:this.sex=='男'?'1':'0',phone:this.phone,phone_code:this.phone_code}
+            params: {token:this.$store.state.token,nickname:this.nickname,sex:this.sex=='男'?'1':'0',phone:this.phone,phone_code:this.phone_code}
             });
         },
         getvip(){
