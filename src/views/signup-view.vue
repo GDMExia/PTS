@@ -12,7 +12,7 @@
         </div>
         <div class="persons">
             <div class="sign f15">
-                <x-number title="报名人数" width="44px" v-model="formItem.perNum" :min="1" @on-change="change"></x-number>
+                <x-number title="报名人数" width="44px" v-model="formItem.perNum" :min="1" @on-change="useAccount"></x-number>
             </div>
             <div class="sign f15">
                 <x-input title="联系人" placeholder="请输入" v-model="userInfo.nickname" placeholder-align="right"></x-input>
@@ -35,8 +35,8 @@
                     <span>积分抵扣</span>
                     <span class="f12 color45">(每人可抵扣{{goodsInfo.discount_price}}）</span>
                 </div>
-                <img v-if="accountCheck" @click="noUseAccount()" style="width: 16px; height: 16px;" src="../../static/img/check out_s@2x.png" alt="">
-                <img v-if="!accountCheck" @click="useAccount()" style="width: 16px; height: 16px;" src="../../static/img/icon/icon_danxuan@2x.png" alt="">
+                <img v-if="accountCheck" @click="usediscount()" style="width: 16px; height: 16px;" src="../../static/img/check out_s@2x.png" alt="">
+                <img v-if="!accountCheck" @click="usediscount()" style="width: 16px; height: 16px;" src="../../static/img/icon/icon_danxuan@2x.png" alt="">
             </div>
         </div>
         <div class="tips f0">
@@ -83,43 +83,31 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['signUp']),
-    change() {
-        const perNum = this.formItem.perNum
-        this.amount = perNum * this.goodsInfo.goods_price
-        const account_price = this.goodsInfo.discount_price * perNum 
-        this.discount_price = ''
-        if(!this.accountCheck) {
-            this.payAmount = this.amount
-        } else {
-            if(account_price <= this.userInfo.account_price) {
-                this.payAmount = this.amount - account_price
-                this.discount_price = account_price
-            } else {
-                this.accountCheck = false
-                this.toastShow('当前积分不足')
-                this.payAmount = this.amount
-            }
-        }
-    },
-    noUseAccount() {
-        this.accountCheck = false
-        this.payAmount = this.amount
-        this.discount_price = ''
+    ...mapActions(['signUp', 'paymentAmount']),
+    usediscount() {
+        this.accountCheck = !this.accountCheck
+        this.useAccount()
     },
     useAccount() {
-        this.payAmount = this.amount
-        const perNum = this.formItem.perNum
-        const account_price = this.goodsInfo.discount_price * perNum 
-        this.discount_price = ''
-        if(account_price <= this.userInfo.account_price) {
-            this.accountCheck = true
-            this.discount_price = account_price
-            this.payAmount = this.amount - account_price
-        } else {
-            this.accountCheck = false
-            this.toastShow('当前积分不足')
+        let params = {
+            token: this.GetQueryString('token'),
+            goods_id: this.goodsInfo.goods_id,
+            goods_number: this.formItem.perNum,
         }
+        this.paymentAmount(params).then(res=>{
+            if(res.StatusInfo.success) {
+               if(this.accountCheck) {
+                    this.payAmount = res.orderPrice
+                    this.amount = res.totalPrice
+                } else {
+                    this.payAmount = res.totalPrice
+                    this.amount = res.totalPrice
+                } 
+            } else {
+                this.toastShow(res.StatusInfo.ErrorDetailCode)
+            }
+            
+        })
     },
     // 立即报名
     handleSign() {
@@ -137,11 +125,11 @@ export default {
             goods_number: this.formItem.perNum,
             real_name: this.userInfo.nickname,
             phone: this.userInfo.phone,
-            discount_price: this.discount_price,
+            // discount_price: this.discount_price,
         }
         this.signUp(params).then(res=>{
             if(res.StatusInfo.success) {
-                
+                this.$router.push({path:'/owners/orderdetail',query:{order_no:res.order_no}})
             } else {
                 this.toastShow(res.StatusInfo.ErrorDetailCode)
             }

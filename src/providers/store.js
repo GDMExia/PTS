@@ -243,6 +243,18 @@ const actions = {
       return new Promise(resolve=>{resolve(res.data)})
     })
   },
+  // 报名实际支付
+  paymentAmount({commit}, playload) {
+    let params = qs.stringify(playload)
+    return Axios.post(
+      `/User/getOrderPrice?${params}`
+    ).then(res => {
+      // if (res.data.StatusInfo.success) {
+      //   commit(types.USER_SIGN, res.data)
+      // }
+      return new Promise(resolve=>{resolve(res.data)})
+    })
+  },
 }
 
 const mutations = {
