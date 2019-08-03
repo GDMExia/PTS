@@ -5,13 +5,13 @@
         <x-input placeholder="输入目的地/关键词" placeholder-align="left" v-model="value" @on-enter="handleSearch"></x-input>
       <!-- <input type="search" v-model="value" placeholder="输入目的地/关键词"> -->
     </div>
-      <div style="height: calc(100% - (92px + 83px));">
+      <div style=" height: 100%">
         <div style="display: flex;justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="activityList.length==0">
             <img style="width: 40px;padding: 55% 0; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
             <span> 暂无数据 </span>
         </div>
-        <scroller v-if="activityList.length" lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottom">
-          <div class="ofy_auto flx_1">
+        <scroller v-if="activityList.length" height="-137" lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottom">
+          <div class="ofy_auto flx_1" style="margin-top: -15px;">
             <div class="container" @click="$router.push(`/tours/tourDetail?id=${item.tourism_id}`)" v-for="(item, index) in activityList" :key="index">
               <img class="activity-img" :src="item.pic" alt="">
               <div class="activity-title">
@@ -29,25 +29,24 @@
               </div>
             </div>
           </div>
-          <load-more v-show="pageNum > totalPage" :show-loading="false" :tip="'暂无数据'" background-color="#fbf9fe"></load-more>
+          <!-- <load-more v-show="pageNum > totalPage" :show-loading="false" :tip="'暂无数据'" background-color="#fbf9fe"></load-more> -->
         </scroller>
       </div>
+      
       <div>
-      <div v-show="maskShow" class="modal_confirm_mask">
-        
-      </div>
-      <confirm v-model="show"
-        title="提醒"
-        confirm-text="升级VIP"
-        cancel-text="返回"
-        @on-cancel="onCancel"
-        @on-confirm="onConfirm">
-          <p style="text-align:left;">
-            开通VIP后转发文章可带自己的名片信息
-            可浏览更多旅游资讯
-            现在升级VIP，特惠价{{VIPprice}}元/年
-          </p>
-        </confirm>
+        <div v-show="maskShow" class="modal_confirm_mask"></div>
+        <confirm v-model="show"
+          title="提醒"
+          confirm-text="升级VIP"
+          cancel-text="返回"
+          @on-cancel="onCancel"
+          @on-confirm="onConfirm">
+            <p style="text-align:left;">
+              开通VIP后转发文章可带自己的名片信息
+              可浏览更多旅游资讯
+              现在升级VIP，特惠价{{VIPprice}}元/年
+            </p>
+          </confirm>
       </div>
     <tabbarComponent :tabIndex=1></tabbarComponent>
     <home-provider></home-provider>

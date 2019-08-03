@@ -20,6 +20,7 @@ const types = {
   ARTICLE_DETAIL: 'ARTICLE_DETAIL',
   USER_INFO: 'USER_INFO',
   USER_VIP: 'USER_VIP',
+  USER_SIGN: 'USER_SIGN',
 }
 
 const state = {
@@ -38,6 +39,7 @@ const state = {
   articleDetail: {},
   userInfo: {},
   userVIP: {},
+  userSign: {},
 }
 
 const getters = {
@@ -79,6 +81,9 @@ const getters = {
   },
   getUserVIP(state) {
     return state.userVIP
+  },
+  getUserSign(state) {
+    return state.userSign
   },
 }
 
@@ -226,7 +231,17 @@ const actions = {
     })
   },
   // 立即报名
-  
+  signUp({commit}, playload) {
+    let params = qs.stringify(playload)
+    return Axios.post(
+      `/User/createGoodsOrder?${params}`
+    ).then(res => {
+      if (res.data.StatusInfo.success) {
+        commit(types.USER_SIGN, res.data)
+      }
+      return new Promise(resolve=>{resolve(res.data)})
+    })
+  },
 }
 
 const mutations = {
@@ -268,6 +283,9 @@ const mutations = {
   },
   [types.USER_VIP](state, playload) {
     state.userVIP = playload
+  },
+  [types.USER_SIGN](state, playload) {
+    state.userSign = playload
   },
 }
 

@@ -1,41 +1,42 @@
 <template>
     <div style="height:100%;">
         <div class="activity-detail">
-            <img class="activity-image" src="http://iph.href.lu/120x120" alt="">
+            <img class="activity-image" :src="goodsInfo.cover" alt="">
             <div class="activity-right">
-                <p class="f16 title-text">马来西亚、吉隆坡城市遗址、洞穴与缆车马来西亚吉隆坡</p>
+                <p class="f16 title-text">{{goodsInfo.goods_name}}</p>
                 <p class="time">
                     <img src="../../static/img/icon_time@2x.png" alt="">
-                    参与日期：2019/05/10
+                    参与日期：{{goodsInfo.join_time}}
                 </p>
             </div>
         </div>
         <div class="persons">
             <div class="sign f15">
-                <x-number title="报名人数" width="44px" v-model="perNum" :min="1" @on-change="change"></x-number>
+                <x-number title="报名人数" width="44px" v-model="formItem.perNum" :min="1" @on-change="change"></x-number>
             </div>
             <div class="sign f15">
-                <x-input title="联系人" placeholder="请输入" placeholder-align="right"></x-input>
+                <x-input title="联系人" placeholder="请输入" v-model="userInfo.nickname" placeholder-align="right"></x-input>
             </div>
             <div class="sign f15" style="border: 0">
-                <x-input title="联系电话" name="mobile" placeholder="请输入" placeholder-align="right" keyboard="number" is-type="china-mobile"></x-input>
+                <x-input title="联系电话" name="mobile" v-model="userInfo.phone" placeholder="请输入" placeholder-align="right" keyboard="number" is-type="china-mobile"></x-input>
             </div>
         </div>
         <div class="persons" style="margin-top: 12px;">
             <div class="sign f16 center">
                 <span>应支付</span>
-                <span>￥500.00</span>
+                <span>￥{{amount}}</span>
             </div>
             <div class="sign f16 center">
                 <span>积分余额</span>
-                <span>428</span>
+                <span>{{userInfo.account_price}}</span>
             </div>
             <div class="sign f16 center" style="border: 0">
                 <div>
                     <span>积分抵扣</span>
-                    <span class="f12 color45">(每人可抵扣200）</span>
+                    <span class="f12 color45">(每人可抵扣{{goodsInfo.discount_price}}）</span>
                 </div>
-                <img style="width: 16px; height: 16px;" src="../../static/img/check out_s@2x.png" alt="">
+                <img v-if="accountCheck" @click="noUseAccount()" style="width: 16px; height: 16px;" src="../../static/img/check out_s@2x.png" alt="">
+                <img v-if="!accountCheck" @click="useAccount()" style="width: 16px; height: 16px;" src="../../static/img/icon/icon_danxuan@2x.png" alt="">
             </div>
         </div>
         <div class="tips f0">
@@ -45,9 +46,9 @@
         <div class="bottom">
             <div class="f0" style="height: 48px;line-height: 48px;">
                 <span class="f12 color49">实际支付：</span>
-                <span class="f20 colorred">¥ 300.00</span>
+                <span class="f20 colorred">¥ {{payAmount}}</span>
             </div>
-            <div class="pay-submit f15">
+            <div class="pay-submit f15" @click="handleSign">
                 支付
             </div>
         </div>
@@ -65,16 +66,87 @@ export default {
     XInput
   },
   computed: {
-    ...mapGetters(['getToken', 'activityDetail'])
+    ...mapGetters(['getToken', 'getActivityDetail', 'getUserInfo'])
   },
   name: "HomePage",
   data() {
     return {
-        perNum: 1
+        goodsInfo: {},
+        userInfo: {},
+        formItem: {
+            perNum: 1,
+        },
+        discount_price: '',
+        amount: 0,
+        payAmount: 0,
+        accountCheck: false
     };
   },
   methods: {
-    change() {},
+    ...mapActions(['signUp']),
+    change() {
+        const perNum = this.formItem.perNum
+        this.amount = perNum * this.goodsInfo.goods_price
+        const account_price = this.goodsInfo.discount_price * perNum 
+        this.discount_price = ''
+        if(!this.accountCheck) {
+            this.payAmount = this.amount
+        } else {
+            if(account_price <= this.userInfo.account_price) {
+                this.payAmount = this.amount - account_price
+                this.discount_price = account_price
+            } else {
+                this.accountCheck = false
+                this.toastShow('当前积分不足')
+                this.payAmount = this.amount
+            }
+        }
+    },
+    noUseAccount() {
+        this.accountCheck = false
+        this.payAmount = this.amount
+        this.discount_price = ''
+    },
+    useAccount() {
+        this.payAmount = this.amount
+        const perNum = this.formItem.perNum
+        const account_price = this.goodsInfo.discount_price * perNum 
+        this.discount_price = ''
+        if(account_price <= this.userInfo.account_price) {
+            this.accountCheck = true
+            this.discount_price = account_price
+            this.payAmount = this.amount - account_price
+        } else {
+            this.accountCheck = false
+            this.toastShow('当前积分不足')
+        }
+    },
+    // 立即报名
+    handleSign() {
+        if(!this.userInfo.nickname) {
+            this.toastShow('请输入联系人')
+            return
+        }
+        if(!this.userInfo.phone) {
+            this.toastShow('请输入联系电话')
+            return
+        }
+        let params = {
+            token: this.GetQueryString('token'),
+            goods_id: this.goodsInfo.goods_id,
+            goods_number: this.formItem.perNum,
+            real_name: this.userInfo.nickname,
+            phone: this.userInfo.phone,
+            discount_price: this.discount_price,
+        }
+        this.signUp(params).then(res=>{
+            if(res.StatusInfo.success) {
+                
+            } else {
+                this.toastShow(res.StatusInfo.ErrorDetailCode)
+            }
+        })
+    }
   },
   beforeDestroy() {
     
@@ -83,6 +155,9 @@ export default {
     
   },
   mounted() {
+    this.goodsInfo = this.getActivityDetail.goodsInfo
+    this.userInfo = this.getUserInfo.userInfo
+    this.payAmount = this.amount = this.goodsInfo.goods_price
   }
 };
 </script>

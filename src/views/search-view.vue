@@ -18,32 +18,39 @@
                 <img style="width: 40px; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
                 <span> 暂无数据 </span>
             </div>
-            <div class="container" @click="handleClick(item.tourism_id)" v-for="item in activityList" :key="item.id">
-                <img class="activity-img" :src="item.pic" alt="">
-                <div class="activity-title">
-                    <div class="name-price">
-                    <span class="title-text">{{item.goods_name}}</span>
-                    <div>
-                        <p class="price">¥ {{item.goods_price}}</p>
-                        <p class="num">抵{{item.discount_point}}积分</p>
+            <scroller v-if="activityList.length" lock-x height="-88"  @on-scroll-bottom="onScrollBottom" ref="scrollerBottom">
+                <div class="ofy_auto flx_1">
+                    <div class="container" @click="handleClick(item.tourism_id)" v-for="item in activityList" :key="item.id">
+                        <img class="activity-img" :src="item.pic" alt="">
+                        <div class="activity-title">
+                            <div class="name-price">
+                            <span class="title-text">{{item.goods_name}}</span>
+                            <div>
+                                <p class="price">¥ {{item.goods_price}}</p>
+                                <p class="num">抵{{item.discount_point}}积分</p>
+                            </div>
+                            </div>
+                            <p class="time">
+                            <img src="../../static/img/icon_time@2x.png" alt="">
+                            {{item.start_time}}~{{item.end_time}}
+                            </p>
+                        </div>
                     </div>
-                    </div>
-                    <p class="time">
-                    <img src="../../static/img/icon_time@2x.png" alt="">
-                    {{item.start_time}}~{{item.end_time}}
-                    </p>
                 </div>
-            </div>
+                <!-- <load-more v-show="pageNum > totalPage" :show-loading="false" :tip="'暂无数据'" background-color="#fbf9fe"></load-more> -->
+            </scroller>
         </div>
     </div>
 </template>
 <script>
-import { Tab, TabItem, XInput } from 'vux'
+import { Tab, TabItem, XInput,Scroller,LoadMore, } from 'vux'
 import {mapActions,mapGetters} from 'vuex'
 export default {
     components: {
         Tab,
         TabItem,
+        Scroller,
+        LoadMore,
         XInput
     },
     data() {
@@ -85,6 +92,13 @@ export default {
                     this.toastShow(res.StatusInfo.ErrorDetailCode)
                 }
             })
+        },
+        onScrollBottom () {
+            if (this.onFetching) return;
+            this.onFetching = true;
+            this.pageNum += 1;
+            if (this.pageNum > this.totalPage) return;
+            this.handleQuery();
         },
         handleClick(id) {
             if(this.type == 0) {

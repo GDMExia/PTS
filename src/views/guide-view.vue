@@ -1,9 +1,9 @@
 <template>
   <div style="height:100%;">
-    <!-- <div style="display: flex;justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="guide_list.length==0">
+    <div style="display: flex;justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="guide_list.length==0">
       <img style="width: 40px; margin: 65% 0px; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
       <span> 暂无数据 </span>
-    </div> -->
+    </div>
     <!-- <scroller v-if="guide_list.length" lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottom"> -->
       <group class="guide">
         <cell v-for="item in guide_list" :key="item.news_id" :title="item.title" :link="`/homes/shareDetail?id=${item.news_id}`"></cell>

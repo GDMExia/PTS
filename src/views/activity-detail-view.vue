@@ -36,9 +36,11 @@
         {{item.goods_name}}
       </div>
     </div>
-    <div class="bottom"> 
-      <div class="button submit f15" @click="$router.push('/activities/signup')">立即报名</div>
-      <!-- <div class="button disabled f15">报名已结束</div> -->
+    <div class="bottom">
+      <div class="button disabled f15" v-if="detail.goods_status==2">报名已结束</div>
+      <div class="button disabled f15" v-else-if="detail.registration_number==0">该活动已报满</div>
+      <div class="button disabled f15" v-else-if="detail.pid==1&&userInfo.is_member==0">成为VIP即可报名</div>
+      <div class="button submit f15" v-else @click="$router.push('/activities/signup')">立即报名</div>
     </div>
     <div class="fixed-image" @click="$router.push('/home')"></div>
   </div>
@@ -57,11 +59,12 @@ export default {
     return {
       storeList: [],
       detail: {},
-      id: 0
+      id: 0,
+      userInfo: {}
     };
   },
   methods: {
-    ...mapActions(['activityDetails']),
+    ...mapActions(['activityDetails','userDetail',]),
     handleDetail() {
       const params = {
         goods_id: this.id
@@ -74,7 +77,19 @@ export default {
           this.toastShow(res.StatusInfo.ErrorDetailCode)
         }
       })
-    }
+    },
+    handleUser() {
+      let params = {
+        token: this.GetQueryString('token'),
+      }
+      this.userDetail(params).then(res=>{
+        if(res.StatusInfo.success) {
+          this.userInfo = res.userInfo
+        } else {
+          this.toastShow(res.StatusInfo.ErrorDetailCode)
+        }
+      })
+    },
   },
   computed: {
     
@@ -88,6 +103,7 @@ export default {
   mounted() {
     this.id = this.$route.query.id
     this.handleDetail()
+    this.handleUser()
   }
 };
 </script>
@@ -175,6 +191,7 @@ p img {
 }
 .tour-content {
   margin-top: 136px;
+  padding-left: 4%;
   width: 100%;
 }
 .tour-content img {

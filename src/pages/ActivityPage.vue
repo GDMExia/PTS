@@ -11,12 +11,13 @@
         </flexbox-item>
       </flexbox>
     </div>
-      <div style="display: flex; height: calc(100% - 203px);justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="activityListData.length==0">
+    <div>
+      <div style="display: flex; ;padding:50% 0;justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="activityListData.length==0">
         <img style="width: 40px; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
         <span> 暂无数据 </span>
       </div>
-      <scroller v-if="activityListData.length" lock-x @on-scroll-bottom="onScrollBottom" height="-107" ref="scrollerBottom">
-        <div class="ofy_auto flx_1" style="padding-bottom: 83px;">
+      <scroller v-if="activityListData.length" lock-x @on-scroll-bottom="onScrollBottom" :height="type==1?'-192':'152'" ref="scrollerBottom">
+        <div class="ofy_auto flx_1" style="margin-top: -15px;">
           <div v-for="item in activityListData" :key="item.goods_id" class="main-content" @click="$router.push(`/activities/activityDetail?id=${item.goods_id}`)">
             <div class="image">
               <img :src="item.cover" alt="">
@@ -40,8 +41,9 @@
             </div>
           </div>
         </div>
-        <load-more v-show="pageNum > totalPage" :show-loading="false" :tip="'暂无数据'" background-color="#fbf9fe"></load-more>
+        <!-- <load-more v-show="pageNum > totalPage" :show-loading="false" :tip="'暂无数据'" background-color="#fbf9fe"></load-more> -->
       </scroller>
+    </div>
     <tabbarComponent :tabIndex=2></tabbarComponent>
     <home-provider></home-provider>
     
@@ -139,9 +141,9 @@ export default {
     
   },
   mounted() {
-    this.$nextTick(() => {
-      this.$refs.scrollerBottom.reset({top: 0})
-    })
+    // this.$nextTick(() => {
+    //   this.$refs.scrollerBottom.reset({top: 0})
+    // })
     this.$bus.emit("onTabBarEvent", {});
     this.handleActivityType()
   }

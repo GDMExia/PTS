@@ -181,6 +181,9 @@ a:active {
 .weui-tabbar {
   background-color: #fff!important;
 }
-/* .weui-cell:before {
+.tour-search .weui-cell:before {
   border: none!important;
-} */
+}
+.placeholder {
+  height: 83px;
+}
