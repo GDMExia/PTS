@@ -38,7 +38,7 @@
     </div>
     <div class="bottom">
       <div class="button disabled f15" v-if="detail.registration_time < date || detail.goods_status==2">报名已结束</div>
-      <div class="button disabled f15" v-else-if="detail.registration_number==0">该活动已报满</div>
+      <div class="button disabled f15" v-else-if="detail.registration_number==detail.join_number">该活动已报满</div>
       <div class="button disabled f15" v-else-if="detail.pid==1&&userInfo.is_member==0">成为VIP即可报名</div>
       <div class="button submit f15" v-else @click="$router.push('/activities/signup')">立即报名</div>
     </div>
