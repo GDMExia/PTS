@@ -35,7 +35,7 @@ Vue.mixin(mixin)
 Vue.use(ToastPlugin)
 // 全局路由守卫
 router.beforeEach((to, from, next) => {
-    next()
+  next()
 });
 
 // const router = new VueRouter({

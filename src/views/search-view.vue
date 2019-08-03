@@ -1,5 +1,20 @@
 <template>
     <div class="main">
+        <div>
+        <confirm 
+            v-model="show"
+            title="有验证码才可查看哦"
+            confirm-text="确定"
+            cancel-text="返回"
+            @on-cancel="onCancel"
+            @on-confirm="onConfirm"
+            :show-input="true"
+            :placeholder="'请输入验证码'"
+            :content="'有验证码才可查看哦'"
+            :close-on-confirm="false"
+        >
+        </confirm>
+        </div>
         <div class="top">
             <div class="search">
                 <x-input placeholder="搜索文章关键词" style="width: 95%;" placeholder-align="center" v-model="search"  @on-enter="handleQuery()"></x-input>
@@ -14,7 +29,7 @@
             </div>
         </div>
         <div>
-            <div style="display: flex;padding:68% 0;justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="activityList.length==0">
+            <div style="display: flex;padding:68% 0;justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="(type==0&&activityList.length==0)||(type==1&&articleList.length==0)">
                 <img style="width: 40px; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
                 <span> 暂无数据 </span>
             </div>
@@ -39,6 +54,24 @@
                 </div>
                 <!-- <load-more v-show="pageNum > totalPage" :show-loading="false" :tip="'暂无数据'" background-color="#fbf9fe"></load-more> -->
             </scroller>
+            <scroller v-if="articleList.length" height="-78" lock-x @on-scroll-bottom="onScrollBottomSchool" :use-pullup="true">
+                <div class="menu">
+                    <div class="detail" @click="item.is_code!=1?goToArticleDetail({article_id:item.article_id}):confirmToArticleDetail({article_id:item.article_id,cid:item.cid})" v-for="(item,index) of articleList" :key="index">
+                    <div class="image"><img :src="item.cover" alt=""></div>
+                    <div class="body">
+                        <div class="title">{{item.title}}</div>
+                        <div class="more">{{item.cate_name}}</div>
+                        <div class="clock">
+                        <img src="../../static/img/icon_time@2x.png" alt="">
+                        </div>
+                        <div class="time">{{item.create_time}}</div>
+                    </div>
+                    </div>
+                </div>
+            </scroller>
+
+
+
         </div>
     </div>
 </template>
@@ -63,7 +96,15 @@ export default {
             search: '',
             type: 0,
             pageNum: 1,
-            totalPage: 0
+            totalPage: 0,
+            articleList:[],
+            page:1,
+            pageSize:10,
+            show:false,
+            pid:'',
+            cid:'',
+            article_id:'',
+            code_name:''
         }
     },
     computed: {
@@ -72,9 +113,15 @@ export default {
     methods: {
         ...mapActions(['tourList']),
         handleQuery(val) {
-            this.type = val || this.type
+            this.type = val
+            console.log(this.type)
+            this.page=1
             if(this.type == 0) {
+                this.articleList=[]
                 this.handleTour()
+            }else{
+                this.activityList=[]
+                this.getSchoolArticleList()
             }
         },
         handleTour() {
@@ -104,11 +151,70 @@ export default {
             if(this.type == 0) {
                 this.$router.push(`/tours/tourDetail?id=${item.tourism_id}`)
             }
-        }
+        },
+        getSchoolArticleList(){
+            this.$http.get(`/Index/getArticle?page=${this.page}&pageSize=${this.pageSize}&keyword=${this.search}`).then(res=>{
+                console.log(res)
+                if(res.data.StatusInfo.success){
+                // Object.assign(this.articleList,res.data.articleList)
+                this.articleList=this.articleList.concat(res.data.articleList)
+                this.totalPage=res.data.PageInfo.TotalPages
+                }
+                this.loadDataDone = true; // 请求成功 控制空数据显示
+                this.onFetching = false; // 防止重复请求 
+            })
+        },
+        onScrollBottomSchool () {
+            // console.log(123)
+            if (this.onFetching) return;
+            this.onFetching = true;
+            this.page += 1;
+            if (this.page > this.totalPage) return;
+            this.getSchoolArticleList();
+        },
+        goToArticleDetail(val){
+            this.$router.push({path:'/schools/detail',query:{article_id:val.article_id}})
+        },
+        confirmToArticleDetail(val){
+            this.show=true
+            this.cid=val.cid
+            this.article_id=val.article_id
+            // this.$router.push({path:'/schools/detail',query:{article_id:item.article_id,code_name:item.article_id}})
+        },
+        confirmcode(){
+            this.$http.get(`/Index/checkArticleCode?code_name=${this.code_name}&cid=${this.cid}`).then(res=>{
+                console.log(res)
+                if(res.data.StatusInfo.success){
+                this.$router.push({path:'/schools/detail',query:{article_id:this.article_id,code_name:this.code_name}})
+                }else{
+                this.$vux.toast.text(`${res.data.StatusInfo.ErrorDetailCode}`, 'top')
+                }
+            })
+        },
+        onCancel(){
+            this.cid=''
+            this.article_id=''
+        },
+        // 输入验证码后确认
+        onConfirm(val) {
+            console.log(val)
+            if(val){
+                this.code_name=val
+                this.confirmcode()
+            }else{
+                this.$vux.toast.text('请填写验证码', 'top')
+            }
+            // this.$router.push({path:'/schools/detail',query:{article_id:item.article_id,code_name:val}})
+            // this.$router.push('/owners/getvip')
+        },
     },
     mounted() {
-        this.type = this.$route.query.type
-        this.search = this.$route.query.search
+        console.log(this.$route.query.type)
+        this.$nextTick(()=>{
+            this.type = this.$route.query.type
+            this.search = this.$route.query.search
+        })
+
         this.handleQuery()
     },
 }
@@ -188,6 +294,16 @@ p img {
   display: inline-block;
   vertical-align: middle;
 }
+.menu{width:100%;padding-top:23px;background-color: #F8F8F8;padding-bottom: 70px}
+.detail{min-height:257px;width: 95%;margin-left:2.5%;border-radius: 20px;background-color: #fff;margin-top:10px}
+.detail .image{background-color: aqua;width:100%;height:177px;border-radius: 20px 20px 0 0 }
+.detail .image img{width:100%;height:100%}
+.detail .body{background-color: #fff;position: relative;border-radius:0 0 20px 20px }
+.detail .body .title{max-width: 88%;color: #323643;font-size: 16px;margin-left:6%;margin-top:12px}
+.detail .body .more{color:#666666;font-size: 13px;margin-left:6%;margin-top:10px;padding-bottom: 15px}
+.detail .body .clock{width:12px;height: 12px;position: absolute;right:26.5%;bottom:17px}
+.detail .body .clock img{width:12px;height: 12px}
+.detail .body .time{position: absolute;bottom:15px;right: 6%;color:#999999;font-size: 12px}
 </style>
 
 

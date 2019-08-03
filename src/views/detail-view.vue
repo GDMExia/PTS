@@ -1,41 +1,47 @@
 <template>
   <div style="height:100%;">
     <home-provider></home-provider>
+    <div>
+      <confirm 
+        v-model="show"
+        title="有验证码才可查看哦"
+        confirm-text="确定"
+        cancel-text="返回"
+        @on-cancel="onCancel"
+        @on-confirm="onConfirm"
+        :show-input="true"
+        :placeholder="'请输入验证码'"
+        :content="'有验证码才可查看哦'"
+      >
+      </confirm>
+    </div>
     <div class="main">
         <div class="title">
-            <div class="name">马来西亚、吉隆坡城市遗址、洞穴与缆车马来西亚吉隆坡</div>
+            <div class="name">{{goodsInfo.title}}</div>
             <div class="publisher">
                 <div class="image"><img src="../../static/img/icon/icon_wode_s@2x.png" alt=""></div>
                 <div class="publishername">发布者：PTS俱乐部</div>
             </div>
-            <div class="origin">
+            <!-- <div class="origin">
               <p class="originfrom">分享来自</p>
-              <img src="" alt="">
+              <img :src="goodsInfo.cover" alt="">
               <p class="originname">我的名字叫雪梨</p>
-            </div>
+            </div> -->
         </div>
-        <div class="video">
-          <div></div>
+        <div class="video" v-for="(item,index) of videoList" :key="index">
+          <video :src="item.file_path" style="width:100%;height:100%" controls="controls"></video>
         </div>
         <div class="menu">
-          <div class="content">
-          人们不再醉心于一般的社交活动，而品酒作为一项高雅而奢华的社交活动，便悄然兴起于城市的角落。有些些社会上层人士，即使并不太懂洋酒，但是作为身份和品位的象征，也越来越多地参与到这一活动中来，流连于各式各样的品酒会之间，因此说品酒活动在中国承担着越来越重要的社交功能。 红酒品鉴这个听起来又酷又高雅的词，是否专属于富人呢？工薪阶层是否也可以搭上品鉴、收藏葡萄酒的时尚快车？ 在如今的社会，没有什么是不可能的。
-          </div>
+          <div class="content">{{goodsInfo.content}}</div>
         </div>
         <div class="otherlink">
           <p class="title">相关文章</p>
           <div class="linklist">
-            <div class="link">
+            <div class="link" v-for="(item,index) of goodsCateTree" @click="item.is_code!=1?goToArticleDetail({article_id:item.article_id}):confirmToArticleDetail({article_id:item.article_id,cid:item.cid})">
               <div class="image">
-                <img src="" alt="">
+                <img :src="item.cover" alt="">
               </div>
-              <div class="linkname">品酒会活动策划方案</div>
-            </div>
-            <div class="link">
-              <div class="image">
-                <img src="" alt="">
-              </div>
-              <div class="linkname">品酒会活动策划方案</div>
+              <div class="linkname">{{item.title}}</div>
             </div>
           </div>
         </div>
@@ -47,22 +53,76 @@
 </template>
 
 <script>
-import {  } from 'vux'
+import { Confirm } from 'vux'
 export default {
   components: {
-
+    Confirm
   },
   name: "HomePage",
   data() {
     return {
-      
+      article_id:this.$router.currentRoute.query.article_id,
+      code_name:this.$router.currentRoute.query.code_name||'',
+      goodsInfo:'',
+      goodsCateTree:[],
+      videoList:[],
+      gocode_name:'',
+      cid:'',
+      show:false,
+      goarticle_id:''
     };
   },
   methods: {
-    click(){
-      console.log(111)
+    getdetail(){
+      this.$http.get(`/Index/getArticleView?article_id=${this.article_id}&code_name=${this.code_name}`).then(res=>{
+      console.log(res)
+      if(res.data.StatusInfo.ReturnCode==200){
+          this.$nextTick(()=>{
+            this.goodsInfo=res.data.goodsInfo
+            this.goodsCateTree=res.data.goodsCateTree
+            this.videoList=res.data.videoList
+          })
+      }
+      })
     },
-    handler(){}
+    goToArticleDetail(val){
+      this.$router.push({path:'/schools/detail',query:{article_id:val.article_id}})
+    },
+    confirmToArticleDetail(val){
+      this.show=true
+      this.cid=val.cid
+      this.goarticle_id=val.article_id
+      // this.$router.push({path:'/schools/detail',query:{article_id:item.article_id,code_name:item.article_id}})
+    },
+    confirmcode(){
+      this.$http.get(`/Index/checkArticleCode?code_name=${this.gocode_name}&cid=${this.cid}`).then(res=>{
+        console.log(res)
+        if(res.data.StatusInfo.success){
+          // this.$router.push({path:'/schools/detail',query:{article_id:this.goarticle_id,code_name:this.gocode_name}})
+          this.article_id=this.goarticle_id,
+          this.code_name=this.gocode_name
+          this.getdetail()
+        }else{
+          this.$vux.toast.text(`${res.data.StatusInfo.ErrorDetailCode}`, 'top')
+        }
+      })
+    },
+    onCancel(){
+      this.cid=''
+      this.article_id=''
+    },
+    // 输入验证码后确认
+    onConfirm(val) {
+      console.log(val)
+      if(val){
+        this.gocode_name=val
+        this.confirmcode()
+      }else{
+        this.$vux.toast.text('请填写验证码', 'top')
+      }
+      // this.$router.push({path:'/schools/detail',query:{article_id:item.article_id,code_name:val}})
+      // this.$router.push('/owners/getvip')
+    },
   },
   computed: {
     
@@ -71,7 +131,7 @@ export default {
     
   },
   created() {
-    
+    this.getdetail()
   },
   mounted() {
     this.$bus.emit("onTabBarEvent", {});

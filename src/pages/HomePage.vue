@@ -155,7 +155,7 @@ export default {
     
   },
   created() {
-    
+    if(!this.$store.state.token){this.$router.push('/owners/login')}
   },
   mounted() {
     this.$bus.emit("onTabBarEvent", {});

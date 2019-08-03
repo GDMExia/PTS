@@ -56,6 +56,7 @@ export default {
         })
     },
     setinfo(){
+        if(this.nickname&&this.sex&&/^1[3456789]\d{9}$/.test(this.phone)&&this.phone_code){
         this.$http({
         method: 'post',
         url: `/User/updateUserInfo?token=${this.$store.state.token}`,
@@ -64,8 +65,15 @@ export default {
         },
         params: {token:this.$store.state.token,nickname:this.nickname,sex:this.sex=='男'?'1':'0',phone:this.phone,phone_code:this.phone_code}
         }).then(res=>{
-            this.$router.push('/owner')
+            if(res.data.StatusInfo.success){
+                this.$router.push('/owner')
+            }else{
+                this.$vux.toast.text(res.data.ErrorDetailCode, 'top')
+            }
         });
+        }else{
+            this.$vux.toast.text('请输入所有必填项', 'top')
+        }
     },
     getcode(){
             console.log(111)
@@ -82,11 +90,13 @@ export default {
                         clearInterval(this.interval)
                         this.clickable=true
                         this.codeshow='重新获取'
+                        this.$vux.toast.text(res.data.StatusInfo.ErrorDetailCode, 'top')
                     }
                 })
             }
             }else{
                 this.$vux.toast.text('请输入正确手机号', 'top')
+                // this.$vux.toast.text(res.data.ErrorDetailCode, 'top')
             }
         }
     },
