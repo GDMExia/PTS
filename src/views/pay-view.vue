@@ -2,18 +2,18 @@
     <div class="main">
         <p>请选择充值金额</p>
         <div class="selectmode">
-            <div class="button" :class="btn==0?'selected':''" @click="change(0)">
-                <p class="price">100元</p>
-                <p class="detail">得300积分</p>
+            <div class="button" :class="btn==item.package_id?'selected':''" @click="change(item.package_id)" v-for="(item,index) of vipList" :key="index">
+                <p class="price">{{item.package_name}}</p>
+                <p class="detail">得{{item.package_integral}}积分</p>
             </div>
-            <div class="button" :class="btn==1?'selected':''" @click="change(1)">
+            <!-- <div class="button" :class="btn==1?'selected':''" @click="change(1)">
                 <p class="price">300元</p>
                 <p class="detail">得800积分</p>
             </div>
             <div class="button" :class="btn==2?'selected':''" @click="change(2)">
                 <p class="price">500元</p>
                 <p class="detail">得1500积分</p>
-            </div>
+            </div> -->
             <div class="placehold"></div>
         </div>
         <div class="more">
@@ -26,7 +26,7 @@
             </ul>
         </div>
         <div class="handle">
-            <div class="button">立即支付</div>
+            <div class="button" @click="pay">立即支付</div>
         </div>
     </div>
 </template>
@@ -35,13 +35,43 @@
 export default {
     data(){
         return {
-            btn:0
+            btn:1,
+            vipList:[]
         }
     },
     methods:{
         change(val){
             this.btn=val
-        }
+        },
+        getPaylist(){
+            this.$http.get(`/Index/getOrderPackage`).then(res=>{
+                console.log(res)
+                if(res.data.StatusInfo.ReturnCode==200){
+                    this.vipList=res.data.packageList
+                }
+            })
+        },
+        pay(){
+            this.$http({
+            method: 'post',
+            url: `/User/createPackageOrder?token=${this.$store.state.token}`,
+            header: {
+                'Content-Type':'multipart/form-data'  
+            },
+            params: {token:this.$store.state.token,package_id:this.btn}
+            }).then(res=>{
+                console.log(res)
+                if(res.data.StatusInfo.ReturnCode==200){
+                    this.$vux.toast.text('充值成功', 'top')
+                    this.$router.push('/owner')
+                }else{
+                    this.$vux.toast.text('充值失败', 'top')
+                }
+            })
+        },
+    },
+    created(){
+        this.getPaylist()
     }
 }
 </script>

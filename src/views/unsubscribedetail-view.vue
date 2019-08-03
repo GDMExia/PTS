@@ -2,15 +2,15 @@
     <div style="width:100%;backgroundColor:#F8F8F8">
         <div class="personinfo">
             <group style="marginTop:12px">
-                <XInput title="姓名" v-model="name" required text-align="right"></XInput>
-                <XInput title="手机号" is-type="china-mobile" v-model="phone" required text-align="right" placeholder="请输入手机号" placeholder-align="right"></XInput>
+                <XInput title="姓名" v-model="name" disabled text-align="right"></XInput>
+                <XInput title="手机号" v-model="phone" disabled text-align="right"></XInput>
             </group>
                 <p>退订理由</p>
             <group margin-top:>
-                <x-textarea title="" v-model="value" placeholder="请输入内容"></x-textarea>
+                <x-textarea title="" disabled v-model="back_note"></x-textarea>
             </group>
             <group>
-                <XInput title="提交时间" is-type="china-mobile" v-model="time" required text-align="right" placeholder="请输入手机号" placeholder-align="right"></XInput>
+                <XInput title="提交时间" v-model="cancel_time" disabled text-align="right"></XInput>
             </group>
         </div>
     </div>
@@ -24,6 +24,31 @@ export default {
         Group,
         XInput,
         XTextarea
+    },
+    data(){
+        return{
+            order_no:this.$router.currentRoute.query.order_no,
+            back_note:'',
+            cancel_time:'',
+            phone:'',
+            name:''
+        }
+    },
+    methods:{
+        getUnsubscribeDetail(){
+            this.$http.get(`/User/cancelOrderView?token=${this.$store.state.token}&order_no=${this.order_no}`).then(res=>{
+                console.log(res)
+                if(res.data.StatusInfo.ReturnCode==200){
+                    this.back_note=res.data.orderInfo.back_note
+                    this.cancel_time=res.data.orderInfo.cancel_time
+                    this.phone=res.data.orderInfo.phone
+                    this.name=res.data.orderInfo.goods_number
+                }
+            })
+        }
+    },
+    created(){
+        this.getUnsubscribeDetail()
     }
 }
 </script>

@@ -208,7 +208,7 @@ export default new Router({
         },
         {
         path: 'unsubscribedetail',
-        name: '我要退订',
+        name: '我的退订',
         component: UnsubscribedetailView
         },
         {
