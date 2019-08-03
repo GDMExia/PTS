@@ -24,7 +24,7 @@
           </FlexboxItem>
         </Flexbox>
         <Flexbox v-if="is_member==1" style="marginTop:12px">
-          <FlexboxItem v-if="is_member==1"><div class="header_btn header_btn1" @click="$router.push('/owners/getvip')">续费VIP</div></FlexboxItem>
+          <FlexboxItem v-if="is_member==1"><div class="header_btn header_btn1" @click="getvip">续费VIP</div></FlexboxItem>
           <FlexboxItem><div class="header_btn header_btn2" @click="$router.push('/owners/advice')">每日打卡</div></FlexboxItem>
           <!-- <FlexboxItem><div class="header_btn" @click="$router.push('/owners/advice')">成为vip</div></FlexboxItem> -->
         </Flexbox>
@@ -45,7 +45,7 @@
 <script>
 import TabbarComponent from "@/components/TabbarComponent.vue";
 import { Flexbox, FlexboxItem , Group , CellBox } from 'vux'
-import { mapActions } from "vuex";
+import { mapActions , mapGetters } from "vuex";
 export default {
   components: {
     TabbarComponent,
@@ -67,13 +67,13 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['getUserInfo']),
+    ...mapActions(['userDetail']),
     getDate(){
       let date=new Date()
       this.date=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()
     },
     getvip(){
-      this.$http.get('http://pts.suoqoo.com/home.php/User/createMember?token=c1599f283f6bce195a98a3f3d9c3f10865891753').then(res=>{
+      this.$http.get(`/User/createMember?token=${this.$store.state.token}`).then(res=>{
         console.log(res)
         if(res.data.StatusInfo.success){
           this.getinfo()
@@ -83,8 +83,8 @@ export default {
       })
     },
     getinfo(){
-      this.$http.get('http://pts.suoqoo.com/home.php/User/getUserInfo?token=c1599f283f6bce195a98a3f3d9c3f10865891753').then(res=>{
-      this.getUserInfo({token: 'c1599f283f6bce195a98a3f3d9c3f10865891753'}).then(res=>{})
+      this.$http.get(`/User/getUserInfo?token=${this.$store.state.token}`).then(res=>{
+      // this.userDetail({token: 'c1599f283f6bce195a98a3f3d9c3f10865891753'}).then(res=>{})
       console.log(res)
       if(res.data.StatusInfo.ReturnCode==200){
         this.$nextTick(()=>{
@@ -96,7 +96,7 @@ export default {
           this.is_member=res.data.userInfo.is_member
         })
       }
-      console.log(this.$store.state.isMember)
+      // console.log(this.$store.state.isMember)
     })
     }
   },
@@ -107,11 +107,7 @@ export default {
     
   },
   created() {
-    // this.$http.get('http://pts.suoqoo.com/home.php/WechatLogin/accountLogin').then(res=>{console.log(res)})
-    console.log(this.$store.state.token)
-    // this.$http.get('http://pts.suoqoo.com/home.php/User/getUserInfo?token='+this.$store.state.token).then(res=>{http://pts.suoqoo.com/home.php/User/createMember
     this.getinfo()
-    
   },
   mounted() {
     this.$bus.emit("onTabBarEvent", {});

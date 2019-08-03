@@ -10,33 +10,24 @@
             <div class="paybutton" @click="$router.push('/owners/pay')"></div>
         </div>
         <div class="change">
-            <div class="useintegral" :class="btn==0?'select':''" @click="change(0)">消费积分记录</div>
-            <div class="getintegral" :class="btn==1?'select':''" @click="change(1)">获取积分记录</div>
+            <div class="useintegral" :class="btn==1?'select':''" @click="change(1)">消费积分记录</div>
+            <div class="getintegral" :class="btn==2?'select':''" @click="change(2)">获取积分记录</div>
         </div>
-        <div class="usedetail" v-if="btn==0">
-            <div class="detail">
-                <div class="name">抵扣活动《xxxxxxxxxxxxxxx….》</div>
-                <div class="time">2019-05-15 10:42</div>
-                <div class="changenum">-200</div>
-            </div>
-            <div class="detail">
-                <div class="name">抵扣活动《xxxxxxxxxxxxxxx….》</div>
-                <div class="time">2019-05-15 10:42</div>
-                <div class="changenum">-200</div>
+        <div class="usedetail" v-if="btn==1&&paymentList.length>0">
+            <div class="detail" v-for="(item,index) of paymentList" :key="index">
+                <div class="name">{{item.note}}</div>
+                <div class="time">{{item.create_time}}</div>
+                <div class="changenum">-{{item.order_price}}</div>
             </div>
         </div>
-        <div class="getdetail" v-if="btn==1">
-            <div class="detail">
-                <div class="name">抵扣活动《xxxxxxxxxxxxxxx….》</div>
-                <div class="time">2019-05-15 10:42</div>
-                <div class="changenum">-200</div>
-            </div>
-            <div class="detail">
-                <div class="name">抵扣活动《xxxxxxxxxxxxxxx….》</div>
-                <div class="time">2019-05-15 10:42</div>
-                <div class="changenum">-200</div>
+        <div class="getdetail" v-if="btn==2&&paymentList.length>0">
+            <div class="detail" v-for="(item,index) of paymentList" :key="index">
+                <div class="name">{{item.note}}</div>
+                <div class="time">{{item.create_time}}</div>
+                <div class="changenum">+{{item.order_price}}</div>
             </div>
         </div>
+        <div style="width:100%;text-align:center;margin-top:20px;color:#999" v-else>暂无数据</div>
     </div>
 </template>
 
@@ -44,13 +35,28 @@
 export default {
     data(){
         return{
-            btn:0
+            btn:1,
+            paymentList:[]
         }
     },
     methods:{
         change(val){
             this.btn=val
+            this.paymentList=[]
+            this.getDetaillist()
+        },
+        getDetaillist(){
+            this.$http.get(`/User/getPaymentLog?token=${this.$store.state.token}&payment_type=${this.btn}&pageSize=1000&page=1`).then(res=>{
+                console.log(res)
+                if(res.data.StatusInfo.ReturnCode==200){
+                    this.paymentList=res.data.paymentList
+                }
+            })
         }
+    },
+    created(){
+        this.getDetaillist()
+        
     }
 }
 </script>

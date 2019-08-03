@@ -2,25 +2,25 @@
     <div style="width:100%;backgroundColor:#F8F8F8">
         <div class="productinfo">
             <div class="image">
-                <img src="" alt="">
+                <img :src="goods_pic" alt="">
             </div>
-            <div class="name">马来西亚、吉隆坡城市遗址、洞穴与缆车马来西亚吉隆坡</div>
+            <div class="name">{{goods_name}}</div>
             <div class="time">
-                <img src="../../static/img/icon_time@2x.png" alt=""><p>参与时间：2019/05/10</p>
+                <img src="../../static/img/icon_time@2x.png" alt=""><p>参与时间：{{create_time}}</p>
             </div>
         </div>
         <div class="personinfo">
             <group>
-                <XInput title="报名人数" v-model="num" disabled text-align="right"></XInput>
-                <XInput title="联系人" v-model="member" disabled text-align="right" placeholder="请输入年龄" placeholder-align="right"></XInput>
-                <XInput title="手机号" is-type="china-mobile" v-model="phone" disabled text-align="right" placeholder="请输入手机号" placeholder-align="right"></XInput>
+                <XInput title="报名人数" v-model="goods_number" disabled text-align="right"></XInput>
+                <XInput title="联系人" v-model="real_name" disabled text-align="right" placeholder="请输入年龄" placeholder-align="right"></XInput>
+                <XInput title="手机号" v-model="phone" disabled text-align="right" placeholder="请输入手机号" placeholder-align="right"></XInput>
             </group>
         </div>
         <div class="priceinfo">
             <group>
-                <XInput title="应支付" v-model="nickname" disabled text-align="right"></XInput>
-                <XInput title="积分抵扣" v-model="old" disabled text-align="right" placeholder="请输入年龄" placeholder-align="right"></XInput>
-                <XInput title="实际支付" is-type="china-mobile" v-model="phone" disabled text-align="right" placeholder="请输入手机号" placeholder-align="right"></XInput>
+                <XInput title="应支付" v-model="total_price" disabled text-align="right"></XInput>
+                <XInput title="积分抵扣" v-model="deduction_price" disabled text-align="right" placeholder="请输入年龄" placeholder-align="right"></XInput>
+                <XInput title="实际支付" v-model="order_price" disabled text-align="right" placeholder="请输入手机号" placeholder-align="right"></XInput>
             </group>
         </div>
         <div class="moreinfo">
@@ -28,7 +28,7 @@
         </div>
         <div class="placeholder"></div>
         <div class="handle">
-            <div class="button" @click="$router.push('/owners/unsubscribe')">退订</div>
+            <div class="button" @click="$router.push({path:'/owners/unsubscribe',query:{order_no:order_no}})">退订</div>
         </div>
     </div>
 </template>
@@ -40,6 +40,44 @@ export default {
     components:{
         Group,
         XInput
+    },
+    data(){
+        return {
+            order_no:this.$router.currentRoute.query.order_no,
+            goods_name:'',
+            real_name:'',
+            phone:'',
+            goods_number:'',
+            goods_pic:'',
+            create_time:'',
+            order_price:'',
+            deduction_price:'',
+            total_price:''
+        }
+    },
+    methods:{
+        getDetail(){
+            this.$http.get(`/User/orderView?token=${this.$store.state.token}&order_no=${this.order_no}`).then(res=>{
+                console.log(res)
+                if(res.data.StatusInfo.ReturnCode==200){
+                    this.goods_name=res.data.orderInfo.goods_name
+                    this.real_name=res.data.orderInfo.real_name
+                    this.phone=res.data.orderInfo.phone
+                    this.goods_number=res.data.orderInfo.goods_number
+                    this.goods_pic=res.data.orderInfo.goods_pic
+                    this.create_time=res.data.orderInfo.create_time
+                    this.order_price=res.data.orderInfo.order_price
+                    this.deduction_price=res.data.orderInfo.deduction_price
+                    this.total_price=res.data.orderInfo.total_price
+                }
+            })
+        }
+    },
+    created(){
+        this.getDetail()
+    },
+    mounted(){
+        console.log(this.$router.currentRoute)
     }
 }
 </script>

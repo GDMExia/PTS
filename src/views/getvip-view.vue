@@ -57,7 +57,7 @@ export default {
     },
     methods:{
         getvipinfo(){
-            this.$http.get('http://pts.suoqoo.com/home.php/User/previewMember?token=c1599f283f6bce195a98a3f3d9c3f10865891753').then(res=>{
+            this.$http.get(`/User/previewMember?token=${this.$store.state.token}`).then(res=>{
             console.log(res)
             if(res.data.StatusInfo.ReturnCode==200){
                 this.$nextTick(()=>{
@@ -71,7 +71,7 @@ export default {
         vip(){
             return this.$http({
             method: 'post',
-            url: 'http://pts.suoqoo.com/home.php/User/createMember?token=c1599f283f6bce195a98a3f3d9c3f10865891753',
+            url: `/User/createMember?token=${this.$store.state.token}`,
             header: {
                 'Content-Type':'multipart/form-data'  
             },
@@ -101,7 +101,7 @@ export default {
                 this.interval=setInterval(()=>{
                     this.codeshow--;
                 },1000)
-                this.$http.post(`http://pts.suoqoo.com/home.php/Sms/pushPhoneCode?phone=${this.phone}`).then(res=>{
+                this.$http.post(`/Sms/pushPhoneCode?phone=${this.phone}`).then(res=>{
                     console.log(res)
                     if(res.data.StatusInfo.ReturnCode!=200){
                         clearInterval(this.interval)
