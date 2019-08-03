@@ -73,7 +73,7 @@ export default {
             method: 'post',
             url: 'http://pts.suoqoo.com/home.php/User/createMember?token=c1599f283f6bce195a98a3f3d9c3f10865891753',
             header: {
-                'Content-Type':'multipart/form-data          '  
+                'Content-Type':'multipart/form-data'  
             },
             params: {nickname:this.nickname,sex:this.sex=='男'?'1':'0',phone:this.phone,phone_code:this.phone_code}
             });
