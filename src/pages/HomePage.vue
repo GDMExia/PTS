@@ -91,11 +91,12 @@ export default {
   data() {
     return {
       banner_list: [],
-      recomend_list: []
+      recomend_list: [],
+      userInfo: {}
     };
   },
   methods: {
-    ...mapActions(['bannerList', 'recomendList']),
+    ...mapActions(['bannerList', 'recomendList', 'userDetail']),
     handleBanner() {
       this.bannerList().then(res=>{
         if(res.StatusInfo.success) {
@@ -113,6 +114,11 @@ export default {
             item.img = item.bannerCover
             return item
           })
+          if(this.userInfo.is_member==0) {
+            this.banner_list = this.banner_list.filter(item=>{
+              return item.jump_type != 3
+            })
+          }
           console.log(this.banner_list)
         } else {
           this.toastShow(res.StatusInfo.ErrorDetailCode)
@@ -127,7 +133,20 @@ export default {
           this.toastShow(res.StatusInfo.ErrorDetailCode)
         }
       })
-    }
+    },
+    handleUser() {
+      let params = {
+        token: this.GetQueryString('token'),
+      }
+      this.userDetail(params).then(res=>{
+        this.handleBanner()
+        if(res.StatusInfo.success) {
+          this.userInfo = res.userInfo
+        } else {
+          this.toastShow(res.StatusInfo.ErrorDetailCode)
+        }
+      })
+    },
   },
   computed: {
     
@@ -140,7 +159,7 @@ export default {
   },
   mounted() {
     this.$bus.emit("onTabBarEvent", {});
-    this.handleBanner()
+    this.handleUser()
     this.handleRecomend()
   }
 };
