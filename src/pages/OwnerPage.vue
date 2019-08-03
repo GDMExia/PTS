@@ -45,6 +45,7 @@
 <script>
 import TabbarComponent from "@/components/TabbarComponent.vue";
 import { Flexbox, FlexboxItem , Group , CellBox } from 'vux'
+import { mapActions } from "vuex";
 export default {
   components: {
     TabbarComponent,
@@ -66,6 +67,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['getUserInfo']),
     getDate(){
       let date=new Date()
       this.date=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()
@@ -82,6 +84,7 @@ export default {
     },
     getinfo(){
       this.$http.get('http://pts.suoqoo.com/home.php/User/getUserInfo?token=c1599f283f6bce195a98a3f3d9c3f10865891753').then(res=>{
+      this.getUserInfo({token: 'c1599f283f6bce195a98a3f3d9c3f10865891753'}).then(res=>{})
       console.log(res)
       if(res.data.StatusInfo.ReturnCode==200){
         this.$nextTick(()=>{
@@ -93,6 +96,7 @@ export default {
           this.is_member=res.data.userInfo.is_member
         })
       }
+      console.log(this.$store.state.isMember)
     })
     }
   },

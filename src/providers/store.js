@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import Axios from 'axios'
 import qs from 'qs'
+// import { stat } from 'fs';
 
 
 Vue.use(Vuex)

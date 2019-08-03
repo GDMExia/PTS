@@ -5,8 +5,8 @@
                 <img src="../../static/img/icon/icon_vip_small@2x.png" alt="">
             </div>
             <div class="vipname">VIP会员</div>
-            <div class="expiretime"><p>到期日</p> <p style="color:#06D5DE;">2020/05/10</p></div>
-            <div class="price">168元/年</div>
+            <div class="expiretime"><p>到期日</p> <p style="color:#06D5DE;">{{overTime}}</p></div>
+            <div class="price">{{vipPrice}}元/年</div>
         </div>
         <div class="form">
         <group>
@@ -14,7 +14,7 @@
             <Selector title="性别" v-model="sex" :options="sexlist" direction="rtl"></Selector>
             <XInput title="年龄" v-model="old" text-align="right" placeholder="请输入年龄" placeholder-align="right"></XInput>
             <XInput title="手机号" is-type="china-mobile" v-model="phone" text-align="right" placeholder="请输入手机号" placeholder-align="right"></XInput>
-            <XInput title="验证码" v-model="code" text-align="right" placeholder="请输入验证码" placeholder-align="right"><div slot="right" style="color:#06D5DE;borderLeft:1px solid #F0F0F0">获取验证码</div></XInput>
+            <XInput title="验证码" v-model="phone_code" text-align="right" placeholder="请输入验证码" placeholder-align="right"><div slot="right" style="color:#06D5DE;borderLeft:1px solid #F0F0F0" @click="getcode">{{codeshow}}</div></XInput>
         </group>
         </div>
         <div class="handle">
@@ -25,6 +25,7 @@
 
 <script>
 import { Group , Selector , XInput } from 'vux'
+import { setInterval, clearInterval } from 'timers';
 
 export default {
     components:{
@@ -34,12 +35,18 @@ export default {
     },
     data(){
         return{
-            sexlist:[{value:'女',label:'女'},{value:'男',label:'男'}],
+            sexlist:['女','男'],
             nickname:'',
-            sex:'1',
+            sex:'',
             old:'',
             phone:'',
-            code:''
+            phone_code:'',
+            codeshow:'获取验证码',
+            recommended_uid:'',
+            clickable:true,
+            interval:'',
+            overTime:'',
+            vipPrice:''
         }
     },
     created() {
@@ -47,37 +54,84 @@ export default {
     console.log(this.$store.state.token)
     // this.$http.get('http://pts.suoqoo.com/home.php/User/getUserInfo?token='+this.$store.state.token).then(res=>{
         this.getvipinfo()
-  },
-  methods:{
-      getvipinfo(){
-        this.$http.get('http://pts.suoqoo.com/home.php/User/previewMember?token=c1599f283f6bce195a98a3f3d9c3f10865891753').then(res=>{
-        console.log(res)
-        if(res.data.StatusInfo.ReturnCode==200){
-            this.$nextTick(()=>{
-            this.nickname=res.data.nickname
-            this.sex=res.data.sex
-            this.overTime=res.data.overTime
-            this.vipPrice=res.data.vipPrice
-            })
-        }
-        })
-      },
-      getvip(){
-      this.$http.get('http://pts.suoqoo.com/home.php/User/createMember?token=c1599f283f6bce195a98a3f3d9c3f10865891753').then(res=>{
-        console.log(res)
-        if(res.data.StatusInfo.success){
-          this.getinfo()
-        }else{
-          this.$router.push('/owners/getvip')
-        }
-      })
     },
-  }
+    methods:{
+        getvipinfo(){
+            this.$http.get('http://pts.suoqoo.com/home.php/User/previewMember?token=c1599f283f6bce195a98a3f3d9c3f10865891753').then(res=>{
+            console.log(res)
+            if(res.data.StatusInfo.ReturnCode==200){
+                this.$nextTick(()=>{
+                this.nickname=res.data.nickname
+                this.overTime=res.data.overTime
+                this.vipPrice=res.data.vipPrice
+                })
+            }
+            })
+        },
+        vip(){
+            return this.$http({
+            method: 'post',
+            url: 'http://pts.suoqoo.com/home.php/User/createMember?token=c1599f283f6bce195a98a3f3d9c3f10865891753',
+            header: {
+                'Content-Type':'multipart/form-data'  
+            },
+            params: {nickname:this.nickname,sex:this.sex=='男'?'1':'0',phone:this.phone,phone_code:this.phone_code}
+            });
+        },
+        getvip(){
+            console.log(this.nickname,this.sex,/^1[3456789]\d{9}$/.test(this.phone),this.phone_code)
+            if(this.nickname&&this.sex&&/^1[3456789]\d{9}$/.test(this.phone)&&this.phone_code){
+            // this.$http.post('http://pts.suoqoo.com/home.php/User/createMember?token=c1599f283f6bce195a98a3f3d9c3f10865891753',{nickname:this.nickname,sex:this.sex=='男'?'1':'0',phone:this.phone,phone_code:this.phone_code}).then(res=>{
+            this.vip().then(res=>{
+                console.log(res)
+                if(res.data.StatusInfo.success){
+                    this.$router.push('/owner')
+                }
+            })
+            }else{
+                this.$vux.toast.text('请填写所有信息', 'top')
+            }
+        },
+        getcode(){
+            console.log(111)
+            if(/^1[3456789]\d{9}$/.test(this.phone)){
+            if(this.clickable){
+                this.clickable=false
+                this.codeshow=60
+                this.interval=setInterval(()=>{
+                    this.codeshow--;
+                },1000)
+                this.$http.post(`http://pts.suoqoo.com/home.php/Sms/pushPhoneCode?phone=${this.phone}`).then(res=>{
+                    console.log(res)
+                    if(res.data.StatusInfo.ReturnCode!=200){
+                        clearInterval(this.interval)
+                        this.clickable=true
+                        this.codeshow='重新获取'
+                    }
+                })
+            }
+            }else{
+                this.$vux.toast.text('请输入正确手机号', 'top')
+            }
+        }
+    },
+    watch:{
+        codeshow:{
+            handler:function(val){
+                console.log(val)
+                if(val<=0){
+                    clearInterval(this.interval)
+                    this.clickable=true
+                    this.codeshow='重新获取'
+                }
+            }
+        }
+    }
 }
 </script>
 
 <style scoped>
-.main{width: 100%;padding-top: 10px;background-color: #F8F8F8;}
+.main{width: 100%;padding-top: 10px;background-color: #F8F8F8;touch-action: none;}
 .vipinfo{width: 92%;margin-left: 4%;height:80px;background-color: #fff;padding-top: 15px;box-sizing: border-box;position: relative;}
 .vipinfo .vipimg{width:50px;height: 50px;margin-left: 6%;}
 .vipinfo .vipimg img{width:50px;height: 50px}
