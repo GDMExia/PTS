@@ -6,8 +6,8 @@
       <!-- <input type="search" v-model="value" placeholder="输入目的地/关键词"> -->
     </div>
       <div style=" height: 100%">
-        <div style="display: flex;justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="activityList.length==0">
-            <img style="width: 40px;padding: 55% 0; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
+        <div style="display: flex;padding: 55% 0;justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="activityList.length==0">
+            <img style="width: 40px; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
             <span> 暂无数据 </span>
         </div>
         <scroller v-if="activityList.length" height="-137" lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottom">

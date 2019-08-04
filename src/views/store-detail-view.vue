@@ -1,33 +1,33 @@
 <template>
   <div class="main">
     <div class="store-detail">
-      <img class="store-img" src="http://iph.href.lu/355x160" alt="">
+      <img class="store-img" :src="storeItem.pic" alt="">
       <div class="store-detail-content">
-        <p class="f16 store-name">玛雅水景工作室</p>
+        <p class="f16 store-name">{{storeItem.merchants_name}}</p>
         <p class="store-address f13">
           <img src="../../static/img/ic_dz02@2x.png" alt="">
-          上海市长宁路1018号 龙之梦购物中心6F
+          {{storeItem.address}}
         </p>
         <div class="name-price">
           <p class="store-address f13" style="padding-top: 13px;">
             <img src="../../static/img/mobile@2x.png" alt="">
-            021-8899302
+            {{storeItem.phone}}
           </p>
-          <img class="mobile" src="../../static/img/btn_lxsj@2x.png" alt="">
+          <a :href="`tel:${storeItem.phone}`" class="mobile"></a>
         </div>
       </div>
     </div>
     <div class="content-detail">
-      <img src="../../static/img/img@2x.png" alt="">
+      <img v-for="(item, index) in picList" :key="index" :src="item.photo" alt="">
     </div>
     <div class="div-title f16">
       <p style="color: #222222;font-weight: 600;padding-top: 11px;padding-left: 20px;">店铺活动</p>
       <div v-for="item in storeList" :key="item.id" class="store-activity">
-        <img class="store-activity-img" :src="item.img" alt="">
+        <img class="store-activity-img" :src="item.cover" alt="">
         <div class="store-right f16">
-          {{item.name}}
-          <img v-if="item.status" src="../../static/img/ing@2x.png" alt="">
-          <img v-if="!item.status" src="../../static/img/yjs@2x.png" alt="">
+          {{item.goods_name}}
+          <img v-if="item.goods_status==1" src="../../static/img/ing@2x.png" alt="">
+          <img v-if="item.goods_status==2" src="../../static/img/yjs@2x.png" alt="">
         </div>
       </div>
     </div>
@@ -45,15 +45,31 @@ export default {
   name: "HomePage",
   data() {
     return {
-      storeList: [
-        {id: 1, img:'http://iph.href.lu/90x90', name: '今天拼爹拼妈的时代，我们到底怎么帮孩子', status: true,address: '上海市长宁路1018号 龙之梦购物中心6F',shopowner: 'Shy', created: '2019/07/24'},
-        {id: 2, img:'http://iph.href.lu/90x90', name: '今天拼爹拼妈的时代，我们到底怎么帮孩子',status: false, address: '上海市长宁路1018号 龙之梦购物中心6F',shopowner: 'Shy', created: '2019/07/24'},
-        {id: 3, img:'http://iph.href.lu/90x90', name: '今天拼爹拼妈的时代，我们到底怎么帮孩子',status: false, address: '上海市长宁路1018号 龙之梦购物中心6F',shopowner: 'Shy', created: '2019/07/24'},
-      ]
+      storeList: [],
+      storeItem: {},
+      id: 0,
+      picList: []
     };
   },
   methods: {
-    // ...mapActions(),
+    ...mapActions(['storeDetails']),
+    handleQuery() {
+      const params = {
+        merchants_id: this.id
+      }
+      this.storeDetails(params).then(res=>{
+        // if(res.StatusInfo.success) {
+          this.storeItem = res.merchantsInfo
+          this.picList = res.photoList.map(item=>{
+            item.img = item.photo
+            return item
+          })
+          this.storeList = res.activityList.slice(-5)
+        // } else {
+        //   this.toastShow(res.StatusInfo.ErrorDetailCode)
+        // }
+      })
+    }
   },
   computed: {
     
@@ -65,7 +81,8 @@ export default {
     
   },
   mounted() {
-    this.$bus.emit("onTabBarEvent", {});
+    this.id = this.$route.query.id
+    this.handleQuery()
   }
 };
 </script>
@@ -104,6 +121,8 @@ export default {
 .mobile {
   width: 99px;
   height: 44px;
+  background: url('../../static/img/btn_lxsj@2x.png') center no-repeat;
+  background-size: 99px 44px;
 }
 p img {
   width: 12px;

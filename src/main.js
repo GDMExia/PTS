@@ -35,7 +35,16 @@ Vue.mixin(mixin)
 Vue.use(ToastPlugin)
 // 全局路由守卫
 router.beforeEach((to, from, next) => {
-  next()
+  const token = store.state.token
+  if(token === '') {
+    location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.0.104:8080/#/${to.fullPath}`
+    var reg = new RegExp("(^|&)token=([^&]*)(&|$)");
+    const search = location.search.substr(1).match(reg)
+    store.commit('setToken', unescape(search[2]))
+  } else {
+    next()
+  }
+  
 });
 
 // const router = new VueRouter({

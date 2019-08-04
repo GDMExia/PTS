@@ -14,56 +14,21 @@
         <span class="local-life-more" @click="$router.push('/homes/store')">MORE</span>
       </div>
       <div class="local-life-body">
-        <div class="local-life-menu">
-          <div class="local-lift-item local-lift-item1">
-
+        <!-- <div class="local-life-menu"> -->
+          <div class="local-lift-item local-lift-item1" @click="$router.push(`/homes/store?group_id=${item.group_id}`)" v-for="(item, index) in local_list" :key="index" >
+            <img :src="item.group_pic" alt="">
           </div>
-          <div class="local-lift-item local-lift-item2">
-
-          </div>
-          <div class="local-lift-item local-lift-item3">
-
-          </div>
-        </div>
-        <div class="local-life-menu">
-          <div class="local-lift-item local-lift-item4">
-
-          </div>
-          <div class="local-lift-item local-lift-item5">
-
-          </div>
-          <div class="local-lift-item local-lift-item6">
-
-          </div>
-        </div>
+        <!-- </div> -->
       </div>
-      <div class="local-life">
+      <div class="local-life" v-show="recomend_list.length>0">
         <span class="local-life-text">精品推荐</span>
       </div>
-      <div class="getmore">
-        <div class="moreitem">
+      <div class="getmore" v-show="recomend_list.length>0">
+        <div class="moreitem" v-for="(item, index) in recomend_list" :key="index">
           <div class="image">
-            <img src="" alt="">
+            <img :src="item.banner" alt="">
           </div>
-          <p>品酒,会让你更123123123</p>
-        </div>
-        <div class="moreitem">
-          <div class="image">
-            <img src="" alt="">
-          </div>
-          <p>品酒,会让你更123123123</p>
-        </div>
-        <div class="moreitem">
-          <div class="image">
-            <img src="" alt="">
-          </div>
-          <p>品酒,会让你更123123123</p>
-        </div>
-        <div class="moreitem">
-          <div class="image">
-            <img src="" alt="">
-          </div>
-          <p>品酒,会让你更123123123</p>
+          <p>{{item.goods_name}}</p>
         </div>
       </div>
       <div class="placeholder"></div>
@@ -92,22 +57,27 @@ export default {
     return {
       banner_list: [],
       recomend_list: [],
-      userInfo: {}
+      local_list: [],
+      userInfo: {
+        is_member: 0
+      }
     };
   },
   methods: {
-    ...mapActions(['bannerList', 'recomendList', 'userDetail','accountLogin']),
+    ...mapActions(['bannerList', 'recomendList', 'userDetail','accountLogin', 'localLife']),
     handleBanner() {
       this.bannerList().then(res=>{
         if(res.StatusInfo.success) {
           this.banner_list = res.Banner.map(item=>{
-            // 1活动页面;2外链页面;3签到页面
+            // 1活动页面;2外链页面;3签到页面;4旅游
             if(item.jump_type == '1') {
               item.url = `/activities/activityDetail?id=${item.link_url}`
             } else if (item.jump_type == '2') {
               item.url = `${item.link_url}`
             } else if (item.jump_type == '3') {
               item.url = `/owners/sign`
+            } else if (item.jump_type == '4') {
+              item.url = `/tours/tourDetail?id=${item.link_url}`
             } else {
               item.url = "javascript;"
             }
@@ -134,22 +104,35 @@ export default {
         }
       })
     },
-    handleUser() {
-      let params = {
-        token: this.GetQueryString('token'),
-      }
-      this.userDetail(params).then(res=>{
-        this.handleBanner()
+    handleLocal() {
+      this.localLife().then(res=>{
         if(res.StatusInfo.success) {
-          this.userInfo = res.userInfo
+          this.local_list = res.cateTree
         } else {
           this.toastShow(res.StatusInfo.ErrorDetailCode)
         }
       })
     },
+    handleUser() {
+      let params = {
+        token: this.GetQueryString('token'),
+      }
+      if(params.token) {
+        this.userDetail(params).then(res=>{
+          this.handleBanner()
+          if(res.StatusInfo.success) {
+            this.userInfo = res.userInfo
+          } else {
+            this.toastShow(res.StatusInfo.ErrorDetailCode)
+          }
+        })
+      } else {
+        this.handleBanner()
+      }
+    },
     handleToken(){
       this.accountLogin(this.GetQueryString('token'))
-    }
+    },
   },
   computed: {
     
@@ -163,9 +146,10 @@ export default {
   mounted() {
     this.$bus.emit("onTabBarEvent", {});
     this.handleUser()
+    this.handleLocal()
     this.handleRecomend()
     this.handleToken()
-    console.log(this.$store.state.token)
+    // console.log(this.$store.state.token)
   }
 };
 </script>
@@ -230,7 +214,11 @@ export default {
     color:#333;
     display: inline-block;
   }
-  .local-lift-item1{background: url('../../static/img/icon/block1@2x.png') center no-repeat;background-size: 116px 74px;}
+  .local-lift-item img {
+    width: 100%;
+    height: 100%;
+  }
+  .local-lift-item1{background-size: 116px 74px;}
   .local-lift-item2{background: url('../../static/img/icon/block1@2x(1).png') center no-repeat;background-size: 116px 74px;}
   .local-lift-item3{background: url('../../static/img/icon/block1@2x(2).png') center no-repeat;background-size: 116px 74px;}
   .local-lift-item4{background: url('../../static/img/icon/block1@2x(3).png') center no-repeat;background-size: 116px 74px;}

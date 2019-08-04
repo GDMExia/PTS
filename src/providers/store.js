@@ -12,6 +12,7 @@ const types = {
   TOUR_LIST: 'TOUR_LIST',
   BNNER_LIST: 'BANNER_LIST',
   RECOMEND_LIST: 'RECOMEND_LIST',
+  LOCAL_LIST: 'LOCAL_LIST',
   ACTIVITY_TYPE: 'ACTIVITY_TYPE',
   ACTIVITY_LIST: 'ACTIVITY_LIST',
   ACTIVITY_DETAILS: 'ACTIVITY_DETAILS',
@@ -22,6 +23,8 @@ const types = {
   USER_INFO: 'USER_INFO',
   USER_VIP: 'USER_VIP',
   USER_SIGN: 'USER_SIGN',
+  STORE_LIST: 'STORE_LIST',
+  STORE_DETAILS: 'STORE_DETAILS',
 }
 
 const state = {
@@ -31,6 +34,7 @@ const state = {
   virtualNumber:'3453167517',
   bannerList: [],
   recomendList: [],
+  localList: [],
   activityType: [],
   activityList: [],
   activityDetail: {},
@@ -41,6 +45,8 @@ const state = {
   userInfo: {},
   userVIP: {},
   userSign: {},
+  storeList: [],
+  storeDetail: [],
 }
 
 const getters = {
@@ -55,6 +61,9 @@ const getters = {
   },
   getRecomend(state) {
     return state.recomendList
+  },
+  getLocal(state) {
+    return state.localList
   },
   getActivityType(state) {
     return state.activityType
@@ -86,9 +95,26 @@ const getters = {
   getUserSign(state) {
     return state.userSign
   },
+  getStoreList(state) {
+    return state.storeList
+  },
+  getStoreDetail(state) {
+    return state.storeDetail
+  },
 }
 
 const actions = {
+  // 登录授权
+  auth2({ commit, state }, playload) {
+    return Axios.get(
+      `/WechatLogin/accountLogin?callback_url=${playload}`,
+    ).then(res => {
+      if (res.data.StatusInfo.success) {
+        // commit('setToken', res.data)
+      }
+      return new Promise(resolve=>{resolve(res.data)})
+    })
+  },
   // 旅游列表
   tourList({ commit, state }, playload) {
     console.log(playload)
@@ -110,6 +136,17 @@ const actions = {
     ).then(res => {
       if (res.data.StatusInfo.success) {
         commit(types.BNNER_LIST, res.data)
+      }
+      return new Promise(resolve=>{resolve(res.data)})
+    })
+  },
+  // 本地生活
+  localLife({ commit, state }, playload) {
+    return Axios.get(
+      `/Index/getMerchantsCategoryGroup`,
+    ).then(res => {
+      if (res.data.StatusInfo.success) {
+        commit(types.LOCAL_LIST, res.data)
       }
       return new Promise(resolve=>{resolve(res.data)})
     })
@@ -256,6 +293,30 @@ const actions = {
       return new Promise(resolve=>{resolve(res.data)})
     })
   },
+  // 商家列表
+  storeLists({commit}, playload) {
+    let params = qs.stringify(playload)
+    return Axios.get(
+      `/Merchants/index?${params}`
+    ).then(res => {
+      if (res.data.StatusInfo.success) {
+        commit(types.STORE_LIST, res.data)
+      }
+      return new Promise(resolve=>{resolve(res.data)})
+    })
+  },
+  // 商家详情
+  storeDetails({commit}, playload) {
+    let params = qs.stringify(playload)
+    return Axios.get(
+      `/Merchants/view?${params}`
+    ).then(res => {
+      if (res.data.StatusInfo.success) {
+        commit(types.STORE_DETAIL, res.data)
+      }
+      return new Promise(resolve=>{resolve(res.data)})
+    })
+  },
   accountLogin({commit}, playload) {
       if (playload) {
         commit('setToken',playload)
@@ -276,6 +337,9 @@ const mutations = {
   },
   [types.RECOMEND_LIST](state, playload) {
     state.recomendList = playload
+  },
+  [types.LOCAL_LIST](state, playload) {
+    state.localList = playload
   },
   [types.ACTIVITY_TYPE](state, playload) {
     state.activityType = playload
@@ -306,6 +370,12 @@ const mutations = {
   },
   [types.USER_SIGN](state, playload) {
     state.userSign = playload
+  },
+  [types.STORE_LIST](state, playload) {
+    state.storeList = playload
+  },
+  [types.STORE_DETAIL](state, playload) {
+    state.storeDetail = playload
   },
 }
 
