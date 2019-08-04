@@ -24,7 +24,7 @@ const types = {
   USER_VIP: 'USER_VIP',
   USER_SIGN: 'USER_SIGN',
   STORE_LIST: 'STORE_LIST',
-  STORE_DETAILS: 'STORE_DETAILS',
+  STORE_DETAIL: 'STORE_DETAIL',
 }
 
 const state = {

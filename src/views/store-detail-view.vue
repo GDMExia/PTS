@@ -58,16 +58,16 @@ export default {
         merchants_id: this.id
       }
       this.storeDetails(params).then(res=>{
-        // if(res.StatusInfo.success) {
+        if(res.StatusInfo.success) {
           this.storeItem = res.merchantsInfo
           this.picList = res.photoList.map(item=>{
             item.img = item.photo
             return item
           })
           this.storeList = res.activityList.slice(-5)
-        // } else {
-        //   this.toastShow(res.StatusInfo.ErrorDetailCode)
-        // }
+        } else {
+          this.toastShow(res.StatusInfo.ErrorDetailCode)
+        }
       })
     }
   },
