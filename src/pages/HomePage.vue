@@ -50,7 +50,7 @@ export default {
     Swiper,
   },
   computed: {
-    // ...mapGetters([])
+    ...mapGetters(['getToken'])
   },
   name: "HomePage",
   data() {
@@ -115,7 +115,7 @@ export default {
     },
     handleUser() {
       let params = {
-        token: this.GetQueryString('token'),
+        token: this.getToken,
       }
       if(params.token) {
         this.userDetail(params).then(res=>{

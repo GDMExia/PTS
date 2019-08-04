@@ -53,7 +53,7 @@ export default {
   components: {
   },
   computed: {
-    // ...mapGetters([])
+    ...mapGetters(['getToken'])
   },
   name: "HomePage",
   data() {
@@ -82,7 +82,7 @@ export default {
     },
     handleUser() {
       let params = {
-        token: this.GetQueryString('token'),
+        token: this.getToken,
       }
       this.userDetail(params).then(res=>{
         if(res.StatusInfo.success) {

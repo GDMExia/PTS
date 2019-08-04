@@ -115,13 +115,7 @@ export default {
     methods: {
         ...mapActions(['tourList']),
         handleQuery(val) {
-            if(val==0||val==1){
-                this.type = val
-            }else{
-                this.type=this.type
-            }
-
-            console.log(this.type)
+            this.type = val || this.type
             this.page=1
             this.articleList=[]
             this.activityList=[]
@@ -137,7 +131,7 @@ export default {
             const params = {
                 page: this.pageNum,
                 pageSize: 5,
-                token: this.GetQueryString('token'),
+                token: this.getToken,
                 keywords: this.search
             }
             this.tourList(params).then(res=>{

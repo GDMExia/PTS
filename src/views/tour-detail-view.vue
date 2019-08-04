@@ -75,8 +75,8 @@ export default {
     ...mapActions(['tourDetails', 'changeUser']),
     handleDetail() {
       const params = {
-        token: this.GetQueryString('token'),
-        // token: this.getToken,
+        // token: this.GetQueryString('token'),
+        token: this.getToken,
         tourism_id: this.id
       }
       this.tourDetails(params).then(res=>{
@@ -94,7 +94,7 @@ export default {
     },
     handlechangeUser() {
       const params = {
-        token: this.GetQueryString('token')
+        token: this.getToken
       }
       this.changeUser(params).then(res=>{
         // if(res.StatusInfo.success) {
