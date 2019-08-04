@@ -9,7 +9,7 @@
             <img src="../../static/img/icon_time@2x.png" alt="">
             参与日期：{{detail.join_time}}
           </p>
-          <p class="time mt12" @click="$router.push('/homes/storeDetail')">
+          <p class="time mt12" @click="$router.push(`/homes/storeDetail?id=${detail.merchants_id}`)">
             <img src="../../static/img/icon_fabuzhe@2x.png" alt="">
             发布者：{{detail.create_name}}
             <img class="arrow" src="../../static/img/icon/ic_arrow03@2x.png" alt="">

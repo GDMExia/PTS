@@ -67,6 +67,10 @@ export default {
         if(res.StatusInfo.success) {
           this.storeList = res.merchantsList?this.storeList.concat(res.merchantsList):[]
           this.category = res.merchantsCateTree
+          this.imageList = res.Banner.map(item=>{
+            item.img = item.bannerCover
+            return item
+          })
           this.totalPage = res.PageInfo.TotalPages
           this.merchants_cid = res.merchants_cid
         } else {

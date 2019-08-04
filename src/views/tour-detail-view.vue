@@ -97,12 +97,12 @@ export default {
         token: this.getToken
       }
       this.changeUser(params).then(res=>{
-        // if(res.StatusInfo.success) {
+        if(res.StatusInfo.success) {
           this.tourItem.create_name = res.userInfo.nickname
           this.changeShow = false
-        // } else {
-        //   this.toastShow(res.StatusInfo.ErrorDetailCode)
-        // }
+        } else {
+          this.toastShow(res.StatusInfo.ErrorDetailCode)
+        }
       })
     }
   },
