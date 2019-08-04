@@ -2,10 +2,10 @@
     <div class="main">
         <div class="info">
             <div class="expiretime">
-                <p style="color:#999999">会员到期日</p> <p style="color:#333333">2020/10/10</p>
+                <p style="color:#999999">会员到期日</p> <p style="color:#333333">{{over_time}}</p>
             </div>
             <div class="integral">
-                <p style="color:#999999">当前积分</p><img src="../../static/img/icon/icon_tishi@2x.png" alt=""> <p style="color:#333333">89,019</p>
+                <p style="color:#999999">当前积分</p><img src="../../static/img/icon/icon_tishi@2x.png" alt=""> <p style="color:#333333">{{account_price}}</p>
             </div>
             <div class="paybutton" @click="$router.push('/owners/pay')"></div>
         </div>
@@ -36,7 +36,9 @@ export default {
     data(){
         return{
             btn:1,
-            paymentList:[]
+            paymentList:[],
+            over_time:'',
+            account_price:''
         }
     },
     methods:{
@@ -52,11 +54,24 @@ export default {
                     this.paymentList=res.data.paymentList
                 }
             })
+        },
+        getinfo(){
+        this.$http.get(`/User/getUserInfo?token=${this.$store.state.token}`).then(res=>{
+        // this.userDetail({token: 'c1599f283f6bce195a98a3f3d9c3f10865891753'}).then(res=>{})
+        console.log(res)
+        if(res.data.StatusInfo.ReturnCode==200){
+            this.$nextTick(()=>{
+            this.over_time=res.data.userInfo.over_time
+            this.account_price=res.data.userInfo.account_price
+            })
         }
+        // console.log(this.$store.state.isMember)
+        })
+    }
     },
     created(){
         this.getDetaillist()
-        
+        this.getinfo()
     }
 }
 </script>

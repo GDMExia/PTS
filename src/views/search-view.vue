@@ -1,5 +1,5 @@
 <template>
-    <div class="main">
+    <div class="main" style="touch-action: none;">
         <div>
         <confirm 
             v-model="show"
@@ -29,13 +29,13 @@
             </div>
         </div>
         <div>
-            <div style="display: flex;padding:68% 0;justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="(type==0&&activityList.length==0)||(type==1&&articleList.length==0)">
+            <div style="display: flex;padding:68% 0;justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="type==0&&activityList.length==0">
                 <img style="width: 40px; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
                 <span> 暂无数据 </span>
             </div>
-            <scroller v-if="activityList.length" lock-x height="-88"  @on-scroll-bottom="onScrollBottom" ref="scrollerBottom">
+            <scroller v-else-if="activityList.length" lock-x height="-88"  @on-scroll-bottom="onScrollBottom" ref="scrollerBottom">
                 <div class="ofy_auto flx_1">
-                    <div class="container" @click="handleClick(item.tourism_id)" v-for="item in activityList" :key="item.id">
+                    <div class="container" @click="handleClick(item.tourism_id)" v-for="item in activityList" :key="item">
                         <img class="activity-img" :src="item.pic" alt="">
                         <div class="activity-title">
                             <div class="name-price">
@@ -54,7 +54,11 @@
                 </div>
                 <!-- <load-more v-show="pageNum > totalPage" :show-loading="false" :tip="'暂无数据'" background-color="#fbf9fe"></load-more> -->
             </scroller>
-            <scroller v-if="articleList.length" height="-78" lock-x @on-scroll-bottom="onScrollBottomSchool" :use-pullup="true">
+            <div style="display: flex;padding:68% 0;justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="type==1&&articleList.length==0">
+                <img style="width: 40px; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
+                <span> 暂无数据 </span>
+            </div>
+            <scroller v-else-if="articleList.length&&type==1" height="-78" lock-x @on-scroll-bottom="onScrollBottomSchool" :use-pullup="true">
                 <div class="menu">
                     <div class="detail" @click="item.is_code!=1?goToArticleDetail({article_id:item.article_id}):confirmToArticleDetail({article_id:item.article_id,cid:item.cid})" v-for="(item,index) of articleList" :key="index">
                     <div class="image"><img :src="item.cover" alt=""></div>
@@ -69,14 +73,11 @@
                     </div>
                 </div>
             </scroller>
-
-
-
         </div>
     </div>
 </template>
 <script>
-import { Tab, TabItem, XInput,Scroller,LoadMore, } from 'vux'
+import { Tab, TabItem, XInput,Scroller,LoadMore,Confirm } from 'vux'
 import {mapActions,mapGetters} from 'vuex'
 export default {
     components: {
@@ -84,7 +85,8 @@ export default {
         TabItem,
         Scroller,
         LoadMore,
-        XInput
+        XInput,
+        Confirm
     },
     data() {
         return {
@@ -113,9 +115,16 @@ export default {
     methods: {
         ...mapActions(['tourList']),
         handleQuery(val) {
-            this.type = val
+            if(val==0||val==1){
+                this.type = val
+            }else{
+                this.type=this.type
+            }
+
             console.log(this.type)
             this.page=1
+            this.articleList=[]
+            this.activityList=[]
             if(this.type == 0) {
                 this.articleList=[]
                 this.handleTour()
@@ -148,9 +157,8 @@ export default {
             this.handleQuery();
         },
         handleClick(id) {
-            if(this.type == 0) {
-                this.$router.push(`/tours/tourDetail?id=${item.tourism_id}`)
-            }
+            console.log(id)
+            this.$router.push(`/tours/tourDetail?id=${id}`)
         },
         getSchoolArticleList(){
             this.$http.get(`/Index/getArticle?page=${this.page}&pageSize=${this.pageSize}&keyword=${this.search}`).then(res=>{
@@ -176,6 +184,7 @@ export default {
             this.$router.push({path:'/schools/detail',query:{article_id:val.article_id}})
         },
         confirmToArticleDetail(val){
+            console.log(111)
             this.show=true
             this.cid=val.cid
             this.article_id=val.article_id

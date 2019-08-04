@@ -36,7 +36,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="(item,index) of array">
-                        <td v-for="(item1,index1) of item" :class="today==`${year+'/'+month+'/'+item1}`?'today':''" style="cursor:pointer;textAlign:center">{{item1}}</td>
+                        <td v-for="(item1,index1) of item" :class="today==`${year+'-'+month+'-'+item1}`?'today':signList.indexOf((year+'-'+month+'-'+item1))!=-1?'signed':(year+'-'+month+'-'+item1)<today&&item1?'unsigned':''" style="cursor:pointer;textAlign:center">{{item1}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -67,6 +67,9 @@
                     <li>连续成功打卡20天，可得到额外积分奖励；</li>
                 </ul>
             </div>
+        </div>
+        <div class="handle">
+            <div class="button" @click="sign">我要打卡</div>
         </div>
     </div>
 </template>
@@ -105,6 +108,7 @@ export default {
             this.setDayarray()
         },
         cutmonth(){
+            this.month=parseInt(this.month)
             if(this.month>1)
             {
                 this.month--
@@ -112,16 +116,23 @@ export default {
                 this.month=12;this.year--
             }
             this.getDays(this.year,this.month);
+            if(this.month<10){
+                this.month='0'+this.month
+            }
             this.setDate();
             this.setDayarray()
         },
         addmonth(){
+            this.month=parseInt(this.month)
             if(this.month<12){
                 this.month++
             }else{
                 this.month=1;this.year++
             }
             this.getDays(this.year,this.month);
+            if(this.month<10){
+                this.month='0'+this.month
+            }
             this.setDate();
             this.setDayarray()
         },
@@ -135,12 +146,15 @@ export default {
             let date=new Date();
             this.year=date.getFullYear()
             this.month=date.getMonth()+1
+            if(this.month<10){
+                this.month='0'+this.month
+            }
             this.day=date.getDate()
             if(this.day<10){
-                this.today=this.year+'/'+this.month+'/0'+this.day
-            }else{
-                this.today=this.year+'/'+this.month+'/'+this.day
+                this.day='0'+this.day
             }
+            this.today=this.year+'-'+this.month+'-'+this.day
+            console.log(this.today)
         },
         setDate(){
             let date=new Date(this.year,this.month-1,1)
@@ -205,9 +219,26 @@ export default {
             this.$http.get(`/User/getSignDate?token=${this.$store.state.token}`).then(res=>{
                 console.log(res)
                 if(res.data.StatusInfo.ReturnCode==200){
-                    this.signList=res.data.signList
+                    this.signList=res.data.signList.map(el=>{return el.signin_date})
                     this.siginTotalCount=res.data.siginTotalCount
                     this.siginContinuousCount=res.data.siginContinuousCount
+                }
+            })
+        },
+        sign(){
+            this.$http({
+                method: 'post',
+                url: `/User/createSign?token=${this.$store.state.token}`,
+                header: {
+                    'Content-Type':'multipart/form-data'  
+                },
+                params: {token:this.$store.state.token}
+            }).then(res=>{
+                console.log(res)
+                if(res.data.StatusInfo.success){
+                    this.$vux.toast.text('签到成功', 'top')
+                }else{
+                    this.$vux.toast.text(res.data.StatusInfo.ErrorDetailCode, 'top')
                 }
             })
         }
@@ -258,4 +289,7 @@ table td{margin:0 4%;display: inline-block;flex:1;text-align: center;padding-top
 
 .button div{display: inline-block;margin-right: 20px}
 .select{border-radius: 50%;background-color: rgba(0,0,0, 0.1);color:red}
+
+.handle{height:83px;width:100%;background-color: #fff;position: fixed;bottom:0;box-sizing: border-box;padding-top: 10px}
+.handle .button{width:84%;margin-left:8%;height:40px;line-height: 40px;border-radius: 20px;background-color: #06D5DE;text-align: center;color: #fff;font-size: 15px}
 </style>
