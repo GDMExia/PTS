@@ -107,7 +107,7 @@ export default {
             } else if (item.jump_type == '2') {
               item.url = `${item.link_url}`
             } else if (item.jump_type == '3') {
-              item.url = `${item.link_url}`
+              item.url = ``
             } else {
               item.url = "javascript;"
             }
