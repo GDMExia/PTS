@@ -103,11 +103,11 @@ export default {
           this.banner_list = res.Banner.map(item=>{
             // 1活动页面;2外链页面;3签到页面
             if(item.jump_type == '1') {
-              item.url = `${item.link_url}`
+              item.url = `/activities/activityDetail?id=${item.link_url}`
             } else if (item.jump_type == '2') {
               item.url = `${item.link_url}`
             } else if (item.jump_type == '3') {
-              item.url = ``
+              item.url = `/owners/sign`
             } else {
               item.url = "javascript;"
             }
