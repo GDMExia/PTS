@@ -22,12 +22,13 @@ const types = {
   USER_INFO: 'USER_INFO',
   USER_VIP: 'USER_VIP',
   USER_SIGN: 'USER_SIGN',
+  TOKEN: 'TOKEN'
 }
 
 const state = {
   tourList: [],
-  // token: '',
-  token:'c1599f283f6bce195a98a3f3d9c3f10865891753',
+  token: '',
+  // token:'c1599f283f6bce195a98a3f3d9c3f10865891753',
   virtualNumber:'3453167517',
   bannerList: [],
   recomendList: [],
@@ -96,8 +97,9 @@ const actions = {
     return Axios.get(
       `/User/getGoodsTourism?${params}`,
     ).then(res => {
+      console.log(res)
       if (res.data.StatusInfo.success) {
-        commit(types.TOUR_LIST, res.data)
+        // commit('setToken', res.data)
       }
       return new Promise(resolve=>{resolve(res.data)})
     })
@@ -252,6 +254,17 @@ const actions = {
       // if (res.data.StatusInfo.success) {
       //   commit(types.USER_SIGN, res.data)
       // }
+      return new Promise(resolve=>{resolve(res.data)})
+    })
+  },
+  accountLogin({commit}, playload) {
+    return Axios.post(
+      `/WechatLogin/accountLogin?callback_url=${playload}`
+    ).then(res => {
+      console.log(res)
+      if (res.data.StatusInfo.success) {
+        commit(types.TOKEN, res.data)
+      }
       return new Promise(resolve=>{resolve(res.data)})
     })
   },

@@ -25,7 +25,7 @@
         </Flexbox>
         <Flexbox v-if="is_member==1" style="marginTop:12px">
           <FlexboxItem v-if="is_member==1"><div class="header_btn header_btn1" @click="getvip">续费VIP</div></FlexboxItem>
-          <FlexboxItem><div class="header_btn header_btn2" @click="$router.push('/owners/advice')">每日打卡</div></FlexboxItem>
+          <FlexboxItem><div class="header_btn header_btn2" @click="$router.push('/owners/sign')">每日打卡</div></FlexboxItem>
           <!-- <FlexboxItem><div class="header_btn" @click="$router.push('/owners/advice')">成为vip</div></FlexboxItem> -->
         </Flexbox>
         <div class="getvip" v-else @click="getvip">成为VIP</div>
@@ -45,7 +45,7 @@
 <script>
 import TabbarComponent from "@/components/TabbarComponent.vue";
 import { Flexbox, FlexboxItem , Group , CellBox } from 'vux'
-import { mapActions , mapGetters } from "vuex";
+import { mapActions } from "vuex";
 export default {
   components: {
     TabbarComponent,

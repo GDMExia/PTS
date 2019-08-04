@@ -13,7 +13,7 @@
             <div class="useintegral" :class="btn==1?'select':''" @click="change(1)">消费积分记录</div>
             <div class="getintegral" :class="btn==2?'select':''" @click="change(2)">获取积分记录</div>
         </div>
-        <div class="usedetail" v-if="btn==1&&paymentList.length>0">
+        <div class="usedetail" v-if="btn==1&&paymentList">
             <div class="detail" v-for="(item,index) of paymentList" :key="index">
                 <div class="name">{{item.note}}</div>
                 <div class="time">{{item.create_time}}</div>

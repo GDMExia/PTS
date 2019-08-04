@@ -25,6 +25,8 @@ import UnsubscribeView from '@/views/unsubscribe-view'
 import UnsubscribedetailView from '@/views/unsubscribedetail-view'
 import AdvicelView from '@/views/advice-view'
 import MyAdvicelView from '@/views/myadvice-view'
+import SignView from '@/views/sign-view'
+import LoginView from '@/views/login-view'
 
 
 import TourDetailView from '@/views/tour-detail-view'
@@ -220,6 +222,16 @@ export default new Router({
         path: 'myadvice',
         name: '我的评价',
         component: MyAdvicelView
+        },
+        {
+          path: 'sign',
+          name: '打卡',
+          component: SignView
+        },
+        {
+          path: 'login',
+          name: '登录',
+          component: LoginView
         }
       ]
     },
