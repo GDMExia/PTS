@@ -96,7 +96,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['bannerList', 'recomendList', 'userDetail']),
+    ...mapActions(['bannerList', 'recomendList', 'userDetail','accountLogin']),
     handleBanner() {
       this.bannerList().then(res=>{
         if(res.StatusInfo.success) {
@@ -147,6 +147,9 @@ export default {
         }
       })
     },
+    handleToken(){
+      this.accountLogin(this.GetQueryString('token'))
+    }
   },
   computed: {
     
@@ -155,12 +158,14 @@ export default {
     
   },
   created() {
-    if(!this.$store.state.token){this.$router.push('/owners/login')}
+    // if(!this.$store.state.token){this.$router.push('/owners/login')}
   },
   mounted() {
     this.$bus.emit("onTabBarEvent", {});
     this.handleUser()
     this.handleRecomend()
+    this.handleToken()
+    console.log(this.$store.state.token)
   }
 };
 </script>
