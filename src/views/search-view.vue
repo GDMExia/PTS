@@ -35,7 +35,7 @@
             </div>
             <scroller v-else-if="activityList.length" lock-x height="-88"  @on-scroll-bottom="onScrollBottom" ref="scrollerBottom">
                 <div class="ofy_auto flx_1">
-                    <div class="container" @click="handleClick(item.tourism_id)" v-for="item in activityList" :key="item.id">
+                    <div class="container" @click="handleClick(item.tourism_id)" v-for="item in activityList" :key="item">
                         <img class="activity-img" :src="item.pic" alt="">
                         <div class="activity-title">
                             <div class="name-price">
@@ -115,7 +115,12 @@ export default {
     methods: {
         ...mapActions(['tourList']),
         handleQuery(val) {
-            this.type = val
+            if(val==0||val==1){
+                this.type = val
+            }else{
+                this.type=this.type
+            }
+
             console.log(this.type)
             this.page=1
             this.articleList=[]
@@ -152,9 +157,8 @@ export default {
             this.handleQuery();
         },
         handleClick(id) {
-            if(this.type == 0) {
-                this.$router.push(`/tours/tourDetail?id=${item.tourism_id}`)
-            }
+            console.log(id)
+            this.$router.push(`/tours/tourDetail?id=${id}`)
         },
         getSchoolArticleList(){
             this.$http.get(`/Index/getArticle?page=${this.page}&pageSize=${this.pageSize}&keyword=${this.search}`).then(res=>{
