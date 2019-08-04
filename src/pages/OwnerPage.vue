@@ -95,6 +95,10 @@ export default {
           this.header_pic=res.data.userInfo.header_pic
           this.is_member=res.data.userInfo.is_member
         })
+      }else{
+        if(res.data.StatusInfo.ReturnCode==603){
+          this.$store.commit('setToken','')
+        }
       }
       // console.log(this.$store.state.isMember)
     })
