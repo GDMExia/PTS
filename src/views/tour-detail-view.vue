@@ -19,7 +19,7 @@
           </p>
         </div>
         <div style="text-align: right;">
-          <p class="price">¥ {{tourItem.goods_price}}</p>
+          <p class="price">$ {{tourItem.goods_price}}</p>
           <p class="num">最高可抵扣{{tourItem.discount_point}}积分</p>
         </div>
       </div>
@@ -113,12 +113,10 @@ export default {
     
   },
   created() {
-    
+    this.handleDetail()
   },
   mounted() {
     this.id = this.$route.query.id
-    this.$bus.emit("onTabBarEvent", {});
-    this.handleDetail()
   }
 };
 </script>

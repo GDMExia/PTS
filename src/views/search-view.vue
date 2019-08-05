@@ -216,13 +216,16 @@ export default {
             // this.$router.push('/owners/getvip')
         },
     },
-    mounted() {
-        console.log(this.$route.query.type)
+    created() {
         this.$nextTick(()=>{
             this.type = this.$route.query.type
             this.search = this.$route.query.search
             this.handleQuery()
         })
+    },
+    mounted() {
+        console.log(this.$route.query.type)
+        
     },
 }
 </script>

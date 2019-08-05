@@ -178,15 +178,15 @@ export default {
     
   },
   created() {
-    
+    this.handleUser()
+    this.handleVIP()
   },
   mounted() {
     // this.$nextTick(() => {
     //   this.$refs.scrollerBottom.reset({top: 0})
     // })
     this.$bus.emit("onTabBarEvent", {});
-    this.handleUser()
-    this.handleVIP()
+    
   }
 };
 </script>

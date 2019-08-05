@@ -117,6 +117,7 @@ export default {
       let params = {
         token: this.$store.state.token,
       }
+      console.log(params.token, '232323')
       if(params.token!='') {
         this.userDetail(params).then(res=>{
           this.handleBanner()
@@ -124,9 +125,9 @@ export default {
             this.userInfo = res.userInfo
           } else {
             this.toastShow(res.StatusInfo.ErrorDetailCode)
-            // if(res.StatusInfo.ReturnCode==603){
-            //   this.$store.commit('setToken','')
-            // }
+            if(res.StatusInfo.ReturnCode==603){
+              this.$store.commit('setToken','')
+            }
           }
         })
       } else {
@@ -144,14 +145,13 @@ export default {
     
   },
   created() {
-    // if(!this.$store.state.token){this.$router.push('/owners/login')}
-  },
-  mounted() {
-    this.$bus.emit("onTabBarEvent", {});
     this.handleUser()
     this.handleLocal()
     this.handleRecomend()
     this.handleToken()
+  },
+  mounted() {
+    this.$bus.emit("onTabBarEvent", {});
     // console.log(this.$store.state.token)
   }
 };

@@ -38,12 +38,13 @@ router.beforeEach((to, from, next) => {
   const token = store.state.token
   const refuse = store.state.refuse
   if(token === ''  && !refuse) {
-    location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.144:8082/#${to.fullPath}`
+    // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.144:8082/#${to.fullPath}`
     // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://pts.suoqoo.com/nh5/#${to.fullPath}`
-    // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.238:8081/#${to.fullPath}`
+    location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.238:8081/#${to.fullPath}`
     var reg = new RegExp("(^|&)token=([^&]*)(&|$)");
     console.log(location.search)
     const search = location.search.substr(1).match(reg)
+    console.log(search[2], '3334444')
     if(search){
       store.commit('setToken', unescape(search[2]))
     }else{

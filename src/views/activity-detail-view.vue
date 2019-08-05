@@ -100,12 +100,11 @@ export default {
     
   },
   created() {
-    
+    this.handleDetail()
+    this.handleUser()
   },
   mounted() {
     this.id = this.$route.query.id
-    this.handleDetail()
-    this.handleUser()
   }
 };
 </script>

@@ -334,6 +334,7 @@ const mutations = {
     state.tourList = playload
   },
   setToken(state, playload) {
+    console.log(playload, '1111111')
     state.token = playload
   },
   setRefuse(state, playload) {

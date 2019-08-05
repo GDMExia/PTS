@@ -90,7 +90,7 @@ export default {
     },
     useAccount() {
         let params = {
-            token: this.GetQueryString('token'),
+            token: this.$store.state.token,
             goods_id: this.goodsInfo.goods_id,
             goods_number: this.formItem.perNum,
         }
@@ -120,7 +120,7 @@ export default {
             return
         }
         let params = {
-            token: this.GetQueryString('token'),
+            token: this.$store.state.token,
             goods_id: this.goodsInfo.goods_id,
             goods_number: this.formItem.perNum,
             real_name: this.userInfo.nickname,
