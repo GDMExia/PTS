@@ -4,7 +4,7 @@ import createPersistedState from 'vuex-persistedstate'
 import Axios from 'axios'
 import qs from 'qs'
 // import { stat } from 'fs';
-
+const rootPath = process.env.NODE_ENV === 'production'?process.env.API_ROOT:''
 
 Vue.use(Vuex)
 
@@ -111,7 +111,7 @@ const actions = {
   // 登录授权
   auth2({ commit, state }, playload) {
     return Axios.get(
-      `/WechatLogin/accountLogin?callback_url=${playload}`,
+      `${rootPath}/WechatLogin/accountLogin?callback_url=${playload}`,
     ).then(res => {
       if (res.data.StatusInfo.success) {
         // commit('setToken', res.data)
@@ -124,7 +124,7 @@ const actions = {
     console.log(playload)
     let params =  qs.stringify(playload)
     return Axios.get(
-      `/User/getGoodsTourism?${params}`,
+      `${rootPath}/User/getGoodsTourism?${params}`,
     ).then(res => {
       console.log(res)
       if (res.data.StatusInfo.success) {
@@ -136,7 +136,7 @@ const actions = {
   // 首页banner
   bannerList({ commit, state }, playload) {
     return Axios.get(
-      `/Banner/index`,
+      `${rootPath}/Banner/index`,
     ).then(res => {
       if (res.data.StatusInfo.success) {
         commit(types.BNNER_LIST, res.data)
@@ -147,7 +147,7 @@ const actions = {
   // 本地生活
   localLife({ commit, state }, playload) {
     return Axios.get(
-      `/Index/getMerchantsCategoryGroup`,
+      `${rootPath}/Index/getMerchantsCategoryGroup`,
     ).then(res => {
       if (res.data.StatusInfo.success) {
         commit(types.LOCAL_LIST, res.data)
@@ -158,7 +158,7 @@ const actions = {
   // 精选推荐
   recomendList({ commit, state }, playload) {
     return Axios.get(
-      `/Index/goodsRecommended`,
+      `${rootPath}/Index/goodsRecommended`,
     ).then(res => {
       if (res.data.StatusInfo.success) {
         commit(types.RECOMEND_LIST, res.data)
@@ -169,7 +169,7 @@ const actions = {
   // 活动分类
   activityType({ commit, state }, playload) {
     return Axios.get(
-      `/Index/getCateTree`,
+      `${rootPath}/Index/getCateTree`,
     ).then(res => {
       if (res.data.StatusInfo.success) {
         commit(types.ACTIVITY_TYPE, res.data)
@@ -181,7 +181,7 @@ const actions = {
   activityList({ commit, state }, playload) {
     let params =  qs.stringify(playload)
     return Axios.get(
-      `/Index/getGoods?${params}`,
+      `${rootPath}/Index/getGoods?${params}`,
     ).then(res => {
       if (res.data.StatusInfo.success) {
         commit(types.ACTIVITY_LIST, res.data)
@@ -193,7 +193,7 @@ const actions = {
   activityDetails({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
-      `/Index/goodsView?${params}`, 
+      `${rootPath}/Index/goodsView?${params}`, 
     ).then(res => {
       if (res.data.StatusInfo.success) {
         commit(types.ACTIVITY_DETAILS, res.data)
@@ -205,7 +205,7 @@ const actions = {
   tourDetails({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
-      `/User/goodsTourismView?${params}`
+      `${rootPath}/User/goodsTourismView?${params}`
     ).then(res => {
       if (res.data.StatusInfo.success) {
         commit(types.TOUR_DETAILS, res.data)
@@ -217,7 +217,7 @@ const actions = {
   changeUser({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
-      `/User/changeNickName?${params}`
+      `${rootPath}/User/changeNickName?${params}`
     ).then(res => {
       if (res.data.StatusInfo.success) {
         commit(types.CHANGE_USER, res.data)
@@ -229,7 +229,7 @@ const actions = {
   articleList({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
-      `/Index/getNews?${params}`
+      `${rootPath}/Index/getNews?${params}`
     ).then(res => {
       if (res.data.StatusInfo.success) {
         commit(types.ARTICLE_LIST, res.data)
@@ -241,7 +241,7 @@ const actions = {
   articleDetail({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
-      `/Index/getNewsView?${params}`
+      `${rootPath}/Index/getNewsView?${params}`
     ).then(res => {
       if (res.data.StatusInfo.success) {
         commit(types.ARTICLE_DETAIL, res.data)
@@ -253,7 +253,7 @@ const actions = {
   userDetail({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
-      `/User/getUserInfo?${params}`
+      `${rootPath}/User/getUserInfo?${params}`
     ).then(res => {
       if (res.data.StatusInfo.success) {
         commit(types.USER_INFO, res.data)
@@ -265,7 +265,7 @@ const actions = {
   getVIP({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
-      `/User/previewMember?${params}`
+      `${rootPath}/User/previewMember?${params}`
     ).then(res => {
       if (res.data.StatusInfo.success) {
         commit(types.USER_VIP, res.data)
@@ -277,7 +277,7 @@ const actions = {
   signUp({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.post(
-      `/User/createGoodsOrder?${params}`
+      `${rootPath}/User/createGoodsOrder?${params}`
     ).then(res => {
       if (res.data.StatusInfo.success) {
         commit(types.USER_SIGN, res.data)
@@ -289,7 +289,7 @@ const actions = {
   paymentAmount({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.post(
-      `/User/getOrderPrice?${params}`
+      `${rootPath}/User/getOrderPrice?${params}`
     ).then(res => {
       // if (res.data.StatusInfo.success) {
       //   commit(types.USER_SIGN, res.data)
@@ -301,7 +301,7 @@ const actions = {
   storeLists({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
-      `/Merchants/index?${params}`
+      `${rootPath}/Merchants/index?${params}`
     ).then(res => {
       if (res.data.StatusInfo.success) {
         commit(types.STORE_LIST, res.data)
@@ -313,7 +313,7 @@ const actions = {
   storeDetails({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
-      `/Merchants/view?${params}`
+      `${rootPath}/Merchants/view?${params}`
     ).then(res => {
       if (res.data.StatusInfo.success) {
         commit(types.STORE_DETAIL, res.data)
