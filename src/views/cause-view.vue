@@ -76,7 +76,7 @@ export default {
       this.page=1
     },
     getSchoolList(){
-      this.$http.get(`/Index/getArticleTree?pid=${this.pid}`).then(res=>{
+      this.$http.get(`${this.rootPath}/Index/getArticleTree?pid=${this.pid}`).then(res=>{
         console.log(res)
         if(res.data.StatusInfo.success){
           this.cateTree=res.data.cateTree
@@ -92,7 +92,7 @@ export default {
       this.getMoreSchoolArticleList();
     },
     getMoreSchoolArticleList(){
-      this.$http.get(`/Index/getArticle?page=${this.page}&pageSize=${this.pageSize}&pid=${this.pid}&cid=${this.cid}`).then(res=>{
+      this.$http.get(`${this.rootPath}/Index/getArticle?page=${this.page}&pageSize=${this.pageSize}&pid=${this.pid}&cid=${this.cid}`).then(res=>{
         console.log(res)
         if(res.data.StatusInfo.success){
           this.articleList=this.articleList.concat(res.data.articleList)
@@ -101,7 +101,7 @@ export default {
       })
     },
     getSchoolArticleList(){
-      this.$http.get(`/Index/getArticle?page=${this.page}&pageSize=${this.pageSize}&pid=${this.pid}&cid=${this.cid}`).then(res=>{
+      this.$http.get(`${this.rootPath}/Index/getArticle?page=${this.page}&pageSize=${this.pageSize}&pid=${this.pid}&cid=${this.cid}`).then(res=>{
         console.log(res)
         if(res.data.StatusInfo.success){
           this.articleList=res.data.articleList
@@ -119,7 +119,7 @@ export default {
       // this.$router.push({path:'/schools/detail',query:{article_id:item.article_id,code_name:item.article_id}})
     },
     confirmcode(){
-      this.$http.get(`/Index/checkArticleCode?code_name=${this.code_name}&cid=${this.cid}`).then(res=>{
+      this.$http.get(`${this.rootPath}/Index/checkArticleCode?code_name=${this.code_name}&cid=${this.cid}`).then(res=>{
         console.log(res)
         if(res.data.StatusInfo.success){
           if(this.article_id!=''){

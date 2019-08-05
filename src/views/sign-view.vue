@@ -216,7 +216,7 @@ export default {
             this.array=newarray
         },
         getSignlist(){
-            this.$http.get(`/User/getSignDate?token=${this.$store.state.token}`).then(res=>{
+            this.$http.get(`${this.rootPath}/User/getSignDate?token=${this.$store.state.token}`).then(res=>{
                 console.log(res)
                 if(res.data.StatusInfo.ReturnCode==200){
                     this.signList=res.data.signList.map(el=>{return el.signin_date})
@@ -228,7 +228,7 @@ export default {
         sign(){
             this.$http({
                 method: 'post',
-                url: `/User/createSign?token=${this.$store.state.token}`,
+                url: `${this.rootPath}/User/createSign?token=${this.$store.state.token}`,
                 header: {
                     'Content-Type':'multipart/form-data'  
                 },

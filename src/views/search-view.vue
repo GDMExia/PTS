@@ -160,7 +160,7 @@ export default {
             this.$router.push(`/tours/tourDetail?id=${id}`)
         },
         getSchoolArticleList(){
-            this.$http.get(`/Index/getArticle?page=${this.page}&pageSize=${this.pageSize}&keywords=${this.search}`).then(res=>{
+            this.$http.get(`${this.rootPath}/Index/getArticle?page=${this.page}&pageSize=${this.pageSize}&keywords=${this.search}`).then(res=>{
                 console.log(res)
                 if(res.data.StatusInfo.success){
                 // Object.assign(this.articleList,res.data.articleList)
@@ -190,7 +190,7 @@ export default {
             // this.$router.push({path:'/schools/detail',query:{article_id:item.article_id,code_name:item.article_id}})
         },
         confirmcode(){
-            this.$http.get(`/Index/checkArticleCode?code_name=${this.code_name}&cid=${this.cid}`).then(res=>{
+            this.$http.get(`${this.rootPath}/Index/checkArticleCode?code_name=${this.code_name}&cid=${this.cid}`).then(res=>{
                 console.log(res)
                 if(res.data.StatusInfo.success){
                 this.$router.push({path:'/schools/detail',query:{article_id:this.article_id,code_name:this.code_name}})

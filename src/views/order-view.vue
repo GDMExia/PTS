@@ -25,7 +25,7 @@ export default {
     },
     methods:{
         getOrderlist(){
-            this.$http.get(`/User/getOrder?token=${this.$store.state.token}&pageSize=1000&page=1`).then(res=>{
+            this.$http.get(`${this.rootPath}/User/getOrder?token=${this.$store.state.token}&pageSize=1000&page=1`).then(res=>{
                 console.log(res)
                 if(res.data.StatusInfo.ReturnCode==200){
                     this.orderList=res.data.orderList

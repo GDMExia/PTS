@@ -36,7 +36,7 @@ export default {
     },
     methods:{
         getUnsubscribeDetail(){
-            this.$http.get(`/User/cancelOrderView?token=${this.$store.state.token}&order_no=${this.order_no}`).then(res=>{
+            this.$http.get(`${this.rootPath}/User/cancelOrderView?token=${this.$store.state.token}&order_no=${this.order_no}`).then(res=>{
                 console.log(res)
                 if(res.data.StatusInfo.ReturnCode==200){
                     this.back_note=res.data.orderInfo.back_note

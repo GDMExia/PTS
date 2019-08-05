@@ -48,7 +48,7 @@ export default {
             this.getDetaillist()
         },
         getDetaillist(){
-            this.$http.get(`/User/getPaymentLog?token=${this.$store.state.token}&payment_type=${this.btn}&pageSize=1000&page=1`).then(res=>{
+            this.$http.get(`${this.rootPath}/User/getPaymentLog?token=${this.$store.state.token}&payment_type=${this.btn}&pageSize=1000&page=1`).then(res=>{
                 console.log(res)
                 if(res.data.StatusInfo.ReturnCode==200){
                     this.paymentList=res.data.paymentList
@@ -56,7 +56,7 @@ export default {
             })
         },
         getinfo(){
-        this.$http.get(`/User/getUserInfo?token=${this.$store.state.token}`).then(res=>{
+        this.$http.get(`${this.rootPath}/User/getUserInfo?token=${this.$store.state.token}`).then(res=>{
         // this.userDetail({token: 'c1599f283f6bce195a98a3f3d9c3f10865891753'}).then(res=>{})
         console.log(res)
         if(res.data.StatusInfo.ReturnCode==200){

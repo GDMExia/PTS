@@ -1,4 +1,9 @@
 const mixin = {
+    data() {
+        return {
+            rootPath: process.env.NODE_ENV === 'production'?process.env.API_ROOT:''
+        }
+    },
     methods: {
         // toast显示函数
         toastShow: function(text, fn) {

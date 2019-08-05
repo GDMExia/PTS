@@ -44,7 +44,7 @@ export default {
             this.btn=val
         },
         getPaylist(){
-            this.$http.get(`/Index/getOrderPackage`).then(res=>{
+            this.$http.get(`${this.rootPath}/Index/getOrderPackage`).then(res=>{
                 console.log(res)
                 if(res.data.StatusInfo.ReturnCode==200){
                     this.vipList=res.data.packageList
@@ -54,7 +54,7 @@ export default {
         pay(){
             this.$http({
             method: 'post',
-            url: `/User/createPackageOrder?token=${this.$store.state.token}`,
+            url: `${this.rootPath}/User/createPackageOrder?token=${this.$store.state.token}`,
             header: {
                 'Content-Type':'multipart/form-data'  
             },

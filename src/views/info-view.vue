@@ -41,7 +41,7 @@ export default {
     methods:{
     ...mapActions(['userDetail']),
     getinfo(){
-        this.$http.get(`/User/getUserInfo?token=${this.$store.state.token}`).then(res=>{
+        this.$http.get(`${this.rootPath}/User/getUserInfo?token=${this.$store.state.token}`).then(res=>{
         // this.userDetail({token: 'c1599f283f6bce195a98a3f3d9c3f10865891753'}).then(res=>{})
         console.log(res)
         if(res.data.StatusInfo.ReturnCode==200){
@@ -59,7 +59,7 @@ export default {
         if(this.nickname&&this.sex&&/^1[3456789]\d{9}$/.test(this.phone)&&this.phone_code){
         this.$http({
         method: 'post',
-        url: `/User/updateUserInfo?token=${this.$store.state.token}`,
+        url: `${this.rootPath}/User/updateUserInfo?token=${this.$store.state.token}`,
         header: {
             'Content-Type':'multipart/form-data'  
         },
@@ -84,7 +84,7 @@ export default {
                 this.interval=setInterval(()=>{
                     this.codeshow--;
                 },1000)
-                this.$http.post(`/Sms/pushPhoneCode?phone=${this.phone}`).then(res=>{
+                this.$http.post(`${this.rootPath}/Sms/pushPhoneCode?phone=${this.phone}`).then(res=>{
                     console.log(res)
                     if(res.data.StatusInfo.ReturnCode!=200){
                         clearInterval(this.interval)

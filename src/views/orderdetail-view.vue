@@ -57,7 +57,7 @@ export default {
     },
     methods:{
         getDetail(){
-            this.$http.get(`/User/orderView?token=${this.$store.state.token}&order_no=${this.order_no}`).then(res=>{
+            this.$http.get(`${this.rootPath}/User/orderView?token=${this.$store.state.token}&order_no=${this.order_no}`).then(res=>{
                 console.log(res)
                 if(res.data.StatusInfo.ReturnCode==200){
                     this.goods_name=res.data.orderInfo.goods_name

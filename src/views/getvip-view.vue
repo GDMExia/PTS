@@ -56,7 +56,7 @@ export default {
     },
     methods:{
         getvipinfo(){
-            this.$http.get(`/User/previewMember?token=${this.$store.state.token}`).then(res=>{
+            this.$http.get(`${this.rootPath}/User/previewMember?token=${this.$store.state.token}`).then(res=>{
             console.log(res)
             if(res.data.StatusInfo.ReturnCode==200){
                 this.$nextTick(()=>{
@@ -70,7 +70,7 @@ export default {
         vip(){
             return this.$http({
             method: 'post',
-            url: `/User/createMember?token=${this.$store.state.token}`,
+            url: `${this.rootPath}/User/createMember?token=${this.$store.state.token}`,
             header: {
                 'Content-Type':'multipart/form-data'  
             },
@@ -100,7 +100,7 @@ export default {
                 this.interval=setInterval(()=>{
                     this.codeshow--;
                 },1000)
-                this.$http.post(`/Sms/pushPhoneCode?phone=${this.phone}`).then(res=>{
+                this.$http.post(`${this.rootPath}/Sms/pushPhoneCode?phone=${this.phone}`).then(res=>{
                     console.log(res)
                     if(res.data.StatusInfo.ReturnCode!=200){
                         clearInterval(this.interval)

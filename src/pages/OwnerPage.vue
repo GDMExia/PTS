@@ -73,7 +73,7 @@ export default {
       this.date=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()
     },
     getvip(){
-      this.$http.get(`/User/createMember?token=${this.$store.state.token}`).then(res=>{
+      this.$http.get(`${this.rootPath}/User/createMember?token=${this.$store.state.token}`).then(res=>{
         console.log(res)
         if(res.data.StatusInfo.success){
           this.getinfo()
@@ -83,7 +83,7 @@ export default {
       })
     },
     getinfo(){
-      this.$http.get(`/User/getUserInfo?token=${this.$store.state.token}`).then(res=>{
+      this.$http.get(`${this.rootPath}/User/getUserInfo?token=${this.$store.state.token}`).then(res=>{
       // this.userDetail({token: 'c1599f283f6bce195a98a3f3d9c3f10865891753'}).then(res=>{})
       console.log(res)
       if(res.data.StatusInfo.ReturnCode==200){

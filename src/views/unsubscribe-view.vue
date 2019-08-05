@@ -38,7 +38,7 @@ export default {
             if(this.name&&/^1[3456789]\d{9}$/.test(this.phone)&&this.back_note){
             this.$http({
             method: 'post',
-            url: `/User/cancelOrder?token=${this.$store.state.token}`,
+            url: `${this.rootPath}/User/cancelOrder?token=${this.$store.state.token}`,
             header: {
                 'Content-Type':'multipart/form-data'  
             },

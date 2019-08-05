@@ -98,7 +98,7 @@ export default {
       this.getotherArticleList()
     },
     getSchoolList(){
-      this.$http.get(`/Index/getArticleTree`).then(res=>{
+      this.$http.get(`${this.rootPath}/Index/getArticleTree`).then(res=>{
         console.log(res)
         if(res.data.StatusInfo.success){
           this.cateTree=res.data.cateTree
@@ -106,7 +106,7 @@ export default {
       })
     },
     getotherArticleList(){
-      this.$http.get(`/Index/getArticle?page=${this.page}&pageSize=${this.pageSize}&order_sort=${this.btn}`).then(res=>{
+      this.$http.get(`${this.rootPath}/Index/getArticle?page=${this.page}&pageSize=${this.pageSize}&order_sort=${this.btn}`).then(res=>{
         console.log(res)
         if(res.data.StatusInfo.success){
           // Object.assign(this.articleList,res.data.articleList)
@@ -118,7 +118,7 @@ export default {
       })
     },
     getSchoolArticleList(){
-      this.$http.get(`/Index/getArticle?page=${this.page}&pageSize=${this.pageSize}&order_sort=${this.btn}`).then(res=>{
+      this.$http.get(`${this.rootPath}/Index/getArticle?page=${this.page}&pageSize=${this.pageSize}&order_sort=${this.btn}`).then(res=>{
         console.log(res)
         if(res.data.StatusInfo.success){
           // Object.assign(this.articleList,res.data.articleList)
@@ -147,7 +147,7 @@ export default {
       this.getSchoolArticleList();
     },
     confirmcode(){
-      this.$http.get(`/Index/checkArticleCode?code_name=${this.code_name}&cid=${this.cid}`).then(res=>{
+      this.$http.get(`${this.rootPath}/Index/checkArticleCode?code_name=${this.code_name}&cid=${this.cid}`).then(res=>{
         console.log(res)
         if(res.data.StatusInfo.success){
           this.$router.push({path:'/schools/detail',query:{article_id:this.article_id,code_name:this.code_name}})
