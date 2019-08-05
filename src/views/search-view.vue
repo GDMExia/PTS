@@ -115,7 +115,12 @@ export default {
     methods: {
         ...mapActions(['tourList']),
         handleQuery(val) {
-            this.type = val || this.type
+            console.log(val)
+            if(val!=0&&val!=1){
+                this.type=this.type
+            }else{
+                this.type = val
+            }
             this.page=1
             this.articleList=[]
             this.activityList=[]
@@ -155,7 +160,7 @@ export default {
             this.$router.push(`/tours/tourDetail?id=${id}`)
         },
         getSchoolArticleList(){
-            this.$http.get(`/Index/getArticle?page=${this.page}&pageSize=${this.pageSize}&keyword=${this.search}`).then(res=>{
+            this.$http.get(`/Index/getArticle?page=${this.page}&pageSize=${this.pageSize}&keywords=${this.search}`).then(res=>{
                 console.log(res)
                 if(res.data.StatusInfo.success){
                 // Object.assign(this.articleList,res.data.articleList)
@@ -216,9 +221,8 @@ export default {
         this.$nextTick(()=>{
             this.type = this.$route.query.type
             this.search = this.$route.query.search
+            this.handleQuery()
         })
-
-        this.handleQuery()
     },
 }
 </script>
