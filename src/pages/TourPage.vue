@@ -106,6 +106,9 @@ export default {
           this.totalPage = res.PageInfo.TotalPages
         } else {
           this.toastShow(res.StatusInfo.ErrorDetailCode)
+          if(res.StatusInfo.ReturnCode==603){
+            this.$store.commit('setToken','')
+          }
         }
         this.loadDataDone = true; // 请求成功 控制空数据显示
         this.onFetching = false; // 防止重复请求 
@@ -136,6 +139,9 @@ export default {
           this.VIPprice = res.vipPrice 
         } else {
           this.toastShow(res.StatusInfo.ErrorDetailCode)
+          if(res.StatusInfo.ReturnCode==603){
+            this.$store.commit('setToken','')
+          }
         }
       })
     },
@@ -154,6 +160,9 @@ export default {
           }
         } else {
           this.toastShow(res.StatusInfo.ErrorDetailCode)
+          if(res.StatusInfo.ReturnCode==603){
+            this.$store.commit('setToken','')
+          }
         }
       })
     },

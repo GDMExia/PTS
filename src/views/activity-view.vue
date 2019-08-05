@@ -5,8 +5,8 @@
       <span> 暂无数据 </span>
     </div>
     <scroller style="height: 100%;" v-if="activityList.length" height="-15" lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottomView">
-      <div style="margin-top: -15px;">
-        <div class="container" v-for="item in activityList" :key="item.news_id" @click="$router.push(`/homes/shareDetail?id=${item.news_id}`)">`
+      <div style="">
+        <div class="container" v-for="item in activityList" :key="item.news_id" @click="$router.push(`/homes/shareDetail?id=${item.news_id}`)">
           <img class="activity-img" :src="item.pic" alt="">
           <div class="activity-title">
             <p class="title-text">{{item.title}}</p>

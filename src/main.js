@@ -37,16 +37,13 @@ Vue.use(ToastPlugin)
 router.beforeEach((to, from, next) => {
   const token = store.state.token
   const refuse = store.state.refuse
-  console.log(to,token,refuse)
   if(token === ''  && !refuse) {
     // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.144:8080/#${to.fullPath}`
     location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://pts.suoqoo.com/nh5/#${to.fullPath}`
-    // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.0.104:8080/#${to.fullPath}`
+    // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.238:8081/#${to.fullPath}`
     var reg = new RegExp("(^|&)token=([^&]*)(&|$)");
-    // var regcode = new RegExp("(^|&)code=([^&]*)(&|$)");
     console.log(location.search)
     const search = location.search.substr(1).match(reg)
-    // const code = location.search.substr(1).match(regcode)
     if(search){
       store.commit('setToken', unescape(search[2]))
     }else{

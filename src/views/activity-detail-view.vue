@@ -82,7 +82,7 @@ export default {
     },
     handleUser() {
       let params = {
-        token: this.getToken,
+        token: this.$store.state.token,
       }
       this.userDetail(params).then(res=>{
         if(res.StatusInfo.success) {

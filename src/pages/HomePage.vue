@@ -115,15 +115,18 @@ export default {
     },
     handleUser() {
       let params = {
-        token: this.getToken,
+        token: this.$store.state.token,
       }
-      if(params.token) {
+      if(params.token!='') {
         this.userDetail(params).then(res=>{
           this.handleBanner()
           if(res.StatusInfo.success) {
             this.userInfo = res.userInfo
           } else {
             this.toastShow(res.StatusInfo.ErrorDetailCode)
+            if(res.StatusInfo.ReturnCode==603){
+              this.$store.commit('setToken','')
+            }
           }
         })
       } else {
@@ -208,7 +211,7 @@ export default {
   .local-life-menu{width:100%;display: flex;align-content: center;margin-bottom: 24px}
   .local-lift-item{
     flex:1;
-    width:116px;
+    width:32.7%;
     height:74px;
     font-size: 14px;
     color:#333;
@@ -218,7 +221,7 @@ export default {
     width: 100%;
     height: 100%;
   }
-  .local-lift-item1{background-size: 116px 74px;}
+  .local-lift-item1{background-size: 32.7% 74px;}
   .local-lift-item2{background: url('../../static/img/icon/block1@2x(1).png') center no-repeat;background-size: 116px 74px;}
   .local-lift-item3{background: url('../../static/img/icon/block1@2x(2).png') center no-repeat;background-size: 116px 74px;}
   .local-lift-item4{background: url('../../static/img/icon/block1@2x(3).png') center no-repeat;background-size: 116px 74px;}
