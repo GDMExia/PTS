@@ -31,6 +31,7 @@ const state = {
   tourList: [],
   token: '',
   // token:'341e9fd6cad5ee74880359aac8b9eac8577c18bb',
+  refuse:false,
   virtualNumber:'3453167517',
   bannerList: [],
   recomendList: [],
@@ -101,6 +102,9 @@ const getters = {
   getStoreDetail(state) {
     return state.storeDetail
   },
+  getRefuse(state) {
+    return state.refuse
+  }
 }
 
 const actions = {
@@ -331,6 +335,9 @@ const mutations = {
   },
   setToken(state, playload) {
     state.token = playload
+  },
+  setRefuse(state, playload) {
+    state.refuse = playload
   },
   [types.BNNER_LIST](state, playload) {
     state.bannerList = playload
