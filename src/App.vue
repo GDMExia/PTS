@@ -1,22 +1,27 @@
 <template>
   <div id="app">
-    <router-view v-wechat-title="$route.name"></router-view>
+    <router-view/>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'app',
-  methods: {
-  },
-  mounted() {
-  }
+  name: 'App'
 }
 </script>
 
-<style src="./styles/resets.css">
-
-body {
-  background-color: #fbf9fe;
+<style lang="less">
+.size{
+  width: 100%;
+  height: 100%;
+}
+html,body{
+  .size;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+#app {
+  .size;
 }
 </style>

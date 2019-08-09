@@ -1,79 +1,48 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import FastClick from 'fastclick'
-import VueRouter from 'vue-router'
-
-import Axios from 'axios'
-import VueAxios from 'vue-axios'
-import VueBus from 'vue-bus'
-import Vconsole from 'vconsole'
-// import $ from 'jquery'
-
 import App from './App'
-import router from './router/index.js'
+import router from './router'
+import store from './store'
+import iView from 'iview'
+import i18n from '@/locale'
+import config from '@/config'
+import importDirective from '@/directive'
+import installPlugin from '@/plugin'
+import VueJsonp from 'vue-jsonp'
+import './index.less'
+import '@/assets/icons/iconfont.css'
+// 实际打包时应该不引入mock
+/* eslint-disable */
+if (process.env.NODE_ENV !== 'production') require('@/mock')
 
-import Providers from './providers/providers.js'
-import store from './providers/store.js'
-import mixin from './mixin'
-import global from './providers/global'
+Vue.use(iView, {
+  i18n: (key, value) => i18n.t(key, value)
+})
 
-import { ToastPlugin } from 'vux'
-
-Vue.prototype.GLOBAL = global
-
-Vue.use(VueRouter)
-Vue.use(VueAxios, Axios)
-Vue.use(VueBus)
-
-Vue.use(Providers)
-
-Vue.use(require('vue-wechat-title'))
-
-Vue.mixin(mixin)
-
-Vue.use(ToastPlugin)
-// 全局路由守卫
-router.beforeEach((to, from, next) => {
-  const token = store.state.token
-  const refuse = store.state.refuse
-  if(token === ''  && !refuse) {
-    // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.144:8082/#${to.fullPath}`
-    // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://pts.suoqoo.com/nh5/#${to.fullPath}`
-    location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.238:8081/#${to.fullPath}`
-    var reg = new RegExp("(^|&)token=([^&]*)(&|$)");
-    console.log(location.search)
-    const search = location.search.substr(1).match(reg)
-    console.log(search[2], '3334444')
-    if(search){
-      store.commit('setToken', unescape(search[2]))
-    }else{
-      store.commit('setRefuse', true)
-      router.push(`${to.fullPath}`)
-    }
-  } else {
-    if(token===""){
-      store.commit('setRefuse', false)
-    }
-    next()
-  }
-  
-});
-
-// const router = new VueRouter({
-//   routes
-// })
-
-const vConsole = new Vconsole()
-console.log(vConsole)
-
-FastClick.attach(document.body)
-
+Vue.use(VueJsonp)
+/**
+ * @description 注册admin内置插件
+ */
+installPlugin(Vue)
+/**
+ * @description 生产环境关掉提示
+ */
 Vue.config.productionTip = false
+/**
+ * @description 全局注册应用配置
+ */
+Vue.prototype.$config = config
+/**
+ * 注册指令
+ */
+importDirective(Vue)
 
 /* eslint-disable no-new */
 new Vue({
+  el: '#app',
   router,
+  i18n,
   store,
   render: h => h(App)
-}).$mount('#app-box')
+})
