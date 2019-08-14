@@ -1,0 +1,139 @@
+<template>
+    <div>
+        <div style="width:100%;text-align:center;color:#06D5DE;font-size:16px;margin-top:24px;margin-bottom:20px">请如实完善以下信息</div> 
+        
+        <span style="color:#666666;font-size:14px">请上传店铺实景图片（最多9张）</span>
+        
+        <group style="margin-bottom:20px">
+        <div style="width: 80px;height: 80px; position: relative;cursor:pointer;display:inline-block">
+            <div style="position:absolute;left:0;top:0;width:80px;height:80px">
+                <x-icon type="ios-plus-empty" size="80"></x-icon>
+            </div>
+            <div style="position:absolute;left:0;top:0;width:80px;height:80px">
+                <input type="file" id="upload" @change="uploadshop_picture" style="width:80px;height:80px;opacity:0;" multiple :disabled="shop_picture.length>=9"/>
+            </div>
+            <!-- <div v-for="(item.index) of document_pic">{{item}}</div> -->
+        </div>
+        <!-- <p style="position:absolute;right:0;top:15px;display:inline-block;width:60%;height:80px;color:#999999;font-size:14px">请上传营业执照及食品安全认证、有机食品认证、品牌授权书等行业相关证书或证件的图片</p> -->
+        </group>
+        <span style="color:#666666;font-size:14px">请上传产品图片，可含价目表、菜单等（最多20种）</span>
+        
+        <group v-for="(item,index) of goods_pic" :key="index">
+        <div style="width: 80px;height: 80px; position: relative;cursor:pointer;display:inline-block">
+            <div style="position:absolute;left:0;top:0;width:80px;height:80px">
+                <x-icon type="ios-plus-empty" size="80"></x-icon>
+            </div>
+            <div style="position:absolute;left:0;top:0;width:80px;height:80px">
+                <input type="file" id="upload" @change="uploadgoods_pic" style="width:80px;height:80px;opacity:0;" multiple :disabled="goods_pic.length>=20"/>
+            </div>
+            <!-- <div v-for="(item.index) of document_pic">{{item}}</div> -->
+        </div>
+        <p style="position:absolute;right:0;top:15px;display:inline-block;width:60%;height:80px;color:#999999;font-size:14px">请上传第{{}}种产品图片</p>
+        </group>
+        <group style="margin-bottom:20px">
+            <XTextarea title="" v-model="goods_content" required text-align="right" placeholder="请完善第1种产品信息，包含产品名称、价格、产品描述等"></XTextarea>
+        </group>
+        <div class="button" @click="submit"></div>
+    </div>
+</template>
+
+<script>
+import { Group , XInput , XTextarea , Checklist , DatetimeRange } from 'vux'
+
+import { mapActions } from 'vuex'
+export default {
+    components:{
+        Group,
+        XInput,
+        XTextarea,
+        Checklist,
+        DatetimeRange
+    },
+    data(){
+        return{
+            shop_picture:[],
+            goods_pic:[],
+            shop_picture1:[],
+            goods_pic1:[],
+            goods_content:'',
+            data:JSON.parse(this.$route.query.data)
+        }
+    },
+    methods:{
+        uploadgoods_pic(event){ 
+            console.log(event.target.files)
+            // let data=new FormData()
+            // data.append('file_image',event.target.files)
+            let length=event.target.files.length
+            for(let i=0;i<length;i++){
+            this.upload(event.target.files[i]).then(res=>{
+                console.log(res)
+                if(res.data.StatusInfo.success){
+                    this.goods_pic.push(res.data.fileId)
+                    this.goods_pic1.push(event.target.files[i])
+                }
+            })
+            }
+        },
+        uploadshop_picture(event){ 
+            console.log(event.target.files.length)
+            let length=event.target.files.length
+            for(let i=0;i<length;i++){
+            this.upload(event.target.files[i]).then(res=>{
+                console.log(res)
+                if(res.data.StatusInfo.success){
+                    this.shop_picture.push(res.data.fileId)
+                    this.shop_picture1.push(event.target.files[i])
+                }
+            })
+            }
+        },
+        upload(file){
+            console.log(file)
+            let data=new FormData()
+            data.append('file_image',file)
+            return this.$http({
+            method: 'post',
+            url: `${this.rootPath}/File/uploadsImage`,
+            header: {
+                'Content-Type':'multipart/form-data'  
+            },
+            data: data
+            })
+        },
+        submit(){
+            let data=Object.assign(this.data,{goods_pic:this.goods_pic,shop_picture:this.shop_picture,goods_content:this.goods_content})
+            let dat=new FormData()
+            for(let key in data){
+                dat.append(key,data[key])
+            }
+            this.$http({
+            method: 'post',
+            url: `${this.rootPath}/Merchants/createForm`,
+            header: {
+                'Content-Type':'multipart/form-data'  
+            },
+            data: dat
+            }).then(res=>{
+                console.log(res)
+            })
+        }
+    },
+    mounted(){
+        console.log(this.$route.query.data)
+        console.log(this.data)
+    },
+    watch:{
+        
+    }
+}
+</script>
+
+<style>
+.background{background: url('../../static/img/icon/background@2x.png') no-repeat center;width:100%;height:276px}
+.button{background: url('../../static/img/icon/submit@2x.png') no-repeat center;width:40%;margin-left:30%;height:50px;margin-top:124px}
+.add{background: url('../../static/img/icon/next@2x.png') no-repeat center;}
+.vux-x-icon {
+  fill: #E5E5E5;
+}
+</style>
