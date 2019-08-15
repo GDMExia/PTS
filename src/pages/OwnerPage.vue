@@ -97,7 +97,7 @@ export default {
         })
       }else{
         if(res.data.StatusInfo.ReturnCode==603){
-          this.$store.commit('setToken','')
+          // this.$store.commit('setToken','')
         }
       }
       // console.log(this.$store.state.isMember)

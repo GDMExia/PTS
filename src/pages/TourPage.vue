@@ -107,7 +107,7 @@ export default {
         } else {
           this.toastShow(res.StatusInfo.ErrorDetailCode)
           if(res.StatusInfo.ReturnCode==603){
-            this.$store.commit('setToken','')
+            // this.$store.commit('setToken','')
           }
         }
         this.loadDataDone = true; // 请求成功 控制空数据显示
@@ -140,7 +140,7 @@ export default {
         } else {
           this.toastShow(res.StatusInfo.ErrorDetailCode)
           if(res.StatusInfo.ReturnCode==603){
-            this.$store.commit('setToken','')
+            // this.$store.commit('setToken','')
           }
         }
       })
@@ -161,7 +161,7 @@ export default {
         } else {
           this.toastShow(res.StatusInfo.ErrorDetailCode)
           if(res.StatusInfo.ReturnCode==603){
-            this.$store.commit('setToken','')
+            // this.$store.commit('setToken','')
           }
         }
       })
