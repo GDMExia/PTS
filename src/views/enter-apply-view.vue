@@ -151,7 +151,6 @@ export default {
                         clearInterval(this.interval)
                         this.clickable=true
                         this.codeshow='重新获取'
-                    }else{
                         this.$vux.toast.text('请输入正确手机号', 'top')
                     }
                 })
@@ -176,6 +175,7 @@ export default {
                     payment:this.payment,
                     merchants_content:this.merchants_content,
                     operator_content:this.operator_content,
+                    phone_code:this.phone_code
                 }
                 console.log(data)
                 this.$router.push({path:'/merchantapplysecond',query:{data:JSON.stringify(data)}})

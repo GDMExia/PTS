@@ -14,25 +14,28 @@
             </div>
             <!-- <div v-for="(item.index) of document_pic">{{item}}</div> -->
         </div>
+        <div v-for="(item,index) of shop_picture1" :key="index">{{item.name}}</div>
         <!-- <p style="position:absolute;right:0;top:15px;display:inline-block;width:60%;height:80px;color:#999999;font-size:14px">请上传营业执照及食品安全认证、有机食品认证、品牌授权书等行业相关证书或证件的图片</p> -->
         </group>
         <span style="color:#666666;font-size:14px">请上传产品图片，可含价目表、菜单等（最多20种）</span>
-        
-        <group v-for="(item,index) of goods_pic" :key="index">
-        <div style="width: 80px;height: 80px; position: relative;cursor:pointer;display:inline-block">
-            <div style="position:absolute;left:0;top:0;width:80px;height:80px">
-                <x-icon type="ios-plus-empty" size="80"></x-icon>
+        <div v-for="(item,index) of goods_list" :key="index">
+            <group>
+            <div style="width: 80px;height: 80px; position: relative;cursor:pointer;display:inline-block">
+                <div style="position:absolute;left:0;top:0;width:80px;height:80px">
+                    <x-icon type="ios-plus-empty" size="80" v-if="goods_list1[index]!=''"></x-icon>
+                    <img :src="goods_list1[index]" alt=""  style="position:absolute;left:0;top:0;width:80px;height:80px">
+                </div>
+                <div style="position:absolute;left:0;top:0;width:80px;height:80px">
+                    <input type="file" id="upload" @change="uploadgoods_list" style="width:80px;height:80px;opacity:0;" multiple :disabled="goods_list.length>=20"/>
+                </div>
+                <!-- <div v-for="(item.index) of document_pic">{{item}}</div> -->
             </div>
-            <div style="position:absolute;left:0;top:0;width:80px;height:80px">
-                <input type="file" id="upload" @change="uploadgoods_pic" style="width:80px;height:80px;opacity:0;" multiple :disabled="goods_pic.length>=20"/>
-            </div>
-            <!-- <div v-for="(item.index) of document_pic">{{item}}</div> -->
+            <p style="position:absolute;right:0;top:15px;display:inline-block;width:60%;height:80px;color:#999999;font-size:14px">请上传第{{index+1}}种产品图片</p>
+            </group>
+            <group style="margin-bottom:20px">
+                <XTextarea title="" v-model="item.content" required text-align="right" :placeholder="`请完善第${index+1}种产品信息，包含产品名称、价格、产品描述等`"></XTextarea>
+            </group>
         </div>
-        <p style="position:absolute;right:0;top:15px;display:inline-block;width:60%;height:80px;color:#999999;font-size:14px">请上传第{{}}种产品图片</p>
-        </group>
-        <group style="margin-bottom:20px">
-            <XTextarea title="" v-model="goods_content" required text-align="right" placeholder="请完善第1种产品信息，包含产品名称、价格、产品描述等"></XTextarea>
-        </group>
         <div class="button" @click="submit"></div>
     </div>
 </template>
@@ -52,15 +55,15 @@ export default {
     data(){
         return{
             shop_picture:[],
-            goods_pic:[],
+            goods_list:[{file_id:'',content:''}],
             shop_picture1:[],
-            goods_pic1:[],
-            goods_content:'',
-            data:JSON.parse(this.$route.query.data)
+            goods_list1:[],
+            data:JSON.parse(this.$route.query.data),
+            paylist:[{name:'现金',value:1},{name:'银行卡',value:2},{name:'微信支付',value:3},{name:'支付宝',value:4}]
         }
     },
     methods:{
-        uploadgoods_pic(event){ 
+        uploadgoods_list(event){ 
             console.log(event.target.files)
             // let data=new FormData()
             // data.append('file_image',event.target.files)
@@ -69,9 +72,11 @@ export default {
             this.upload(event.target.files[i]).then(res=>{
                 console.log(res)
                 if(res.data.StatusInfo.success){
-                    this.goods_pic.push(res.data.fileId)
-                    this.goods_pic1.push(event.target.files[i])
+                    this.goods_list[i].file_id=res.data.fileId
+                    this.goods_list1.push(res.data.fileUrl)
+                    this.goods_list.push({file_id:'',content:''})
                 }
+                console.log(this.goods_list1)
             })
             }
         },
@@ -102,7 +107,23 @@ export default {
             })
         },
         submit(){
-            let data=Object.assign(this.data,{goods_pic:this.goods_pic,shop_picture:this.shop_picture,goods_content:this.goods_content})
+            let data=Object.assign(this.data,{goods_list:this.goods_list,shop_picture:this.shop_picture})
+            console.log(data)
+            // data.document_pic=JSON.stringify(data.document_pic)
+            // data.goods_list.pop()
+            data.goods_list=JSON.stringify(data.goods_list)
+            let array=[]
+            data.payment.forEach(el=>{
+                this.paylist.forEach(em=>{
+                    if(el==em.name){
+                        array.push(em.value)
+                    }
+                })
+            })
+            data.payment=array
+            // data.photo=JSON.stringify(data.photo)
+            // data.shop_picture=JSON.stringify(data.shop_picture)
+            console.log(data)
             let dat=new FormData()
             for(let key in data){
                 dat.append(key,data[key])
@@ -116,6 +137,12 @@ export default {
             data: dat
             }).then(res=>{
                 console.log(res)
+                if(res.data.StatusInfo.success){
+                    this.$router.push({path:'/merchant'})
+                    this.$vux.toast.text('申请成功', 'top')
+                }else{
+                    this.$vux.toast.text(res.data.StatusInfo.ErrorDetailCode, 'top')
+                }
             })
         }
     },
