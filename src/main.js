@@ -37,7 +37,10 @@ Vue.use(ToastPlugin)
 router.beforeEach((to, from, next) => {
   const token = store.state.token
   const refuse = store.state.refuse
-  if(token === ''  && !refuse) {
+  console.log(to.fullPath)
+  if(to.fullPath.indexOf('merchant')>=0){
+    next()
+  }else if(token === ''  && !refuse) {
     // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.144:8080/#${to.fullPath}`
     location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://pts.suoqoo.com/nh5/#${to.fullPath}`
     // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.238:8081/#${to.fullPath}`

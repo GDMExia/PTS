@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="background-color:#F5F5F7">
         <div style="width:100%;text-align:center;color:#06D5DE;font-size:16px;margin-top:24px;margin-bottom:20px">请如实完善以下信息</div> 
         
         <span style="color:#666666;font-size:14px">请上传店铺实景图片（最多9张）</span>
@@ -23,17 +23,19 @@
             <div style="width: 80px;height: 80px; position: relative;cursor:pointer;display:inline-block">
                 <div style="position:absolute;left:0;top:0;width:80px;height:80px">
                     <x-icon type="ios-plus-empty" size="80" v-if="goods_list1[index]!=''"></x-icon>
-                    <img :src="goods_list1[index]" alt=""  style="position:absolute;left:0;top:0;width:80px;height:80px">
+                    <!-- <img :src="goods_list1[index]" alt=""  style="position:absolute;left:0;top:0;width:80px;height:80px"> -->
                 </div>
                 <div style="position:absolute;left:0;top:0;width:80px;height:80px">
                     <input type="file" id="upload" @change="uploadgoods_list" style="width:80px;height:80px;opacity:0;" multiple :disabled="goods_list.length>=20"/>
                 </div>
+                
                 <!-- <div v-for="(item.index) of document_pic">{{item}}</div> -->
             </div>
+            <div>{{goods_list1[index]}}</div>
             <p style="position:absolute;right:0;top:15px;display:inline-block;width:60%;height:80px;color:#999999;font-size:14px">请上传第{{index+1}}种产品图片</p>
             </group>
             <group style="margin-bottom:20px">
-                <XTextarea title="" v-model="item.content" required text-align="right" :placeholder="`请完善第${index+1}种产品信息，包含产品名称、价格、产品描述等`"></XTextarea>
+                <XTextarea title="" style="font-size:14px" v-model="item.content" required text-align="right" :placeholder="`请完善第${index+1}种产品信息，包含产品名称、价格、产品描述等`"></XTextarea>
             </group>
         </div>
         <div class="button" @click="submit"></div>
@@ -73,7 +75,7 @@ export default {
                 console.log(res)
                 if(res.data.StatusInfo.success){
                     this.goods_list[i].file_id=res.data.fileId
-                    this.goods_list1.push(res.data.fileUrl)
+                    this.goods_list1.push(event.target.files[i].name)
                     this.goods_list.push({file_id:'',content:''})
                 }
                 console.log(this.goods_list1)
@@ -139,7 +141,7 @@ export default {
                 console.log(res)
                 if(res.data.StatusInfo.success){
                     this.$router.push({path:'/merchant'})
-                    this.$vux.toast.text('申请成功', 'top')
+                    this.$vux.toast.text('提交成功，审核结果将在线下沟通', 'top')
                 }else{
                     this.$vux.toast.text(res.data.StatusInfo.ErrorDetailCode, 'top')
                 }
@@ -156,7 +158,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .background{background: url('../../static/img/icon/background@2x.png') no-repeat center;width:100%;height:276px}
 .button{background: url('../../static/img/icon/submit@2x.png') no-repeat center;width:40%;margin-left:30%;height:50px;margin-top:124px}
 .add{background: url('../../static/img/icon/next@2x.png') no-repeat center;}

@@ -1,19 +1,20 @@
 <template>
-    <div>
+    <div style="background-color:#F5F5F7">
         <div style="width:100%;text-align:center;color:#06D5DE;font-size:16px;margin-top:24px">请如实完善以下信息</div> 
         <group style="marginTop:12px">
             <XInput :title='`<span style="color:#666666;font-size:14px">商户名称</span>`' v-model="merchants_name" required text-align="right"></XInput>
             <XInput :title='`<span style="color:#666666;font-size:14px">推介人姓名</span>`' v-model="recommended_real_name" text-align="right"></XInput>
             <XInput :title='`<span style="color:#666666;font-size:14px">推介人手机号码</span>`' is-type="china-mobile" v-model="recommended_phone" text-align="right"></XInput>
             <XInput :title='`<span style="color:#666666;font-size:14px">商户申请人姓名</span>`' v-model="merchant_applicant" required text-align="right"></XInput>
-            <XInput :title='`<span style="color:#666666;font-size:14px">商户申请人手机号码</span>`' is-type="china-mobile" v-model="merchant_applicant_phone" required text-align="right"></XInput>
-            <XInput :title='`<span style="color:#666666;font-size:14px">验证码</span>`' v-model="phone_code" text-align="right" required placeholder="请输入验证码" placeholder-align="right" :show-clear="false"><div slot="right" style="color:#06D5DE;borderLeft:1px solid #F0F0F0" @click="getcode">{{codeshow}}</div></XInput>
+            <XInput :title='`<span style="color:#666666;font-size:14px;white-space: nowrap">商户申请人手机号码</span>`' is-type="china-mobile" v-model="merchant_applicant_phone" required text-align="right"></XInput>
+            <XInput :title='click1?`<span style="color:#666666;font-size:14px;white-space: nowrap">请在此输入短信验证码</span>`:""' v-model="phone_code" text-align="right" required placeholder="" placeholder-align="right" :show-clear="false"><div slot="right" style="color:#06D5DE;borderLeft:1px solid #F0F0F0" @click="getcode">{{codeshow}}</div></XInput>
         </group>
         <group style="marginTop:12px;margin-bottom:20px">
             <XInput :title='`<span style="color:#666666;font-size:14px">商户地址</span>`' v-model="address" required text-align="right" placeholder="省-市-区-门牌号码"></XInput>
             <XInput :title='`<span style="color:#666666;font-size:14px">服务热线</span>`' v-model="hotline_phone" text-align="right"></XInput>
             <XInput :title='`<span style="color:#666666;font-size:14px">营业时间段</span>`' v-model="hours_time" text-align="right"></XInput>
-            <Checklist title='支付方式（可多选）' v-model="payment" :options="options"></Checklist>
+            <XInput :title='`<span style="color:#666666;font-size:14px"></span>`' v-model="ttt" text-align="right" disabled></XInput>
+            <Checklist title='支付方式（可多选）' v-model="payment" :options="options" style="font-size:14px"></Checklist>
         </group>
         <span style="color:#666666;font-size:14px;">商户简介（限100字）</span>
         <group style="margin-bottom:20px">
@@ -37,7 +38,7 @@
         <span style="color:#666666;font-size:14px">创始人或实际经营人简介（限200字）</span>
         
         <group style="margin-bottom:20px">
-            <XTextarea title="" v-model="operator_content" required text-align="right" placeholder="相关从业经历、个人荣誉、经营理念等"></XTextarea>
+            <XTextarea title="" v-model="operator_content" required text-align="right" placeholder="相关从业经历、个人荣誉、经营理念等" style="font-size:14px"></XTextarea>
         </group>
         <span style="color:#666666;font-size:14px">请上传个人形象照及个人相关证书图片（最多5张）</span>
         
@@ -76,6 +77,8 @@ export default {
             phone_code:'',
             codeshow:'获取验证码',
             clickable:true,
+            click1:true,
+            ttt:'',
             interval:'',
             document_pic:[],
             photo:[],
@@ -140,6 +143,7 @@ export default {
             console.log(111)
             if(/^1[3456789]\d{9}$/.test(this.merchant_applicant_phone)){
             if(this.clickable){
+                this.click1=false
                 this.clickable=false
                 this.codeshow=30
                 this.interval=setInterval(()=>{
@@ -202,10 +206,10 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .background{background: url('../../static/img/icon/background@2x.png') no-repeat center;width:100%;height:276px}
 .button{background: url('../../static/img/icon/next@2x.png') no-repeat center;width:40%;margin-left:30%;height:50px;margin-top:44px}
-.add{background: url('../../static/img/icon/next@2x.png') no-repeat center;}
+/* .add{background: url('../../static/img/icon/next@2x.png') no-repeat center;} */
 .vux-x-icon {
   fill: #E5E5E5;
 }
