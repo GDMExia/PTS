@@ -37,6 +37,7 @@ Vue.use(ToastPlugin)
 router.beforeEach((to, from, next) => {
   const token = store.state.token
   const refuse = store.state.refuse
+<<<<<<< HEAD
   console.log(to.fullPath)
   if(to.fullPath.indexOf('merchant')>=0){
     next()
@@ -44,6 +45,12 @@ router.beforeEach((to, from, next) => {
     // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.144:8080/#${to.fullPath}`
     location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://pts.suoqoo.com/nh5/#${to.fullPath}`
     // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.238:8081/#${to.fullPath}`
+=======
+  if(token === ''  && !refuse) {
+    // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.144:8082/#${to.fullPath}`
+    // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://pts.suoqoo.com/nh5/#${to.fullPath}`
+    location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.0.103:8081/#${to.fullPath}`
+>>>>>>> 434652e2295136e1919c353846902bac446ce443
     var reg = new RegExp("(^|&)token=([^&]*)(&|$)");
     console.log(location.search)
     const search = location.search.substr(1).match(reg)

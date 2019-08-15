@@ -72,7 +72,7 @@ export default new Router({
         },
         {
           path: 'shareDetail',
-          name: '活动分享',
+          name: '详情',
           component: ActivityShareView
         },
         {

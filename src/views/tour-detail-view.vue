@@ -39,7 +39,7 @@
       <span class="local-life-text">相关套餐</span>
       <span class="local-life-more">MORE</span>
     </div>
-    <div v-for="item in storeList" :key="item.tourism_id" class="store">
+    <div v-for="item in storeList" :key="item.tourism_id" @click="backTop(item.tourism_id)" class="store">
       <div class="store-img" :style="{backgroundImage: 'url(' + item.pic + ')'}">
       <!-- <div class="store-img" :style="'background-image: '+item.pic"> -->
         <!-- <img :src="item.pic" alt=""> -->
@@ -65,7 +65,8 @@ export default {
       tourItem: {},
       picList: [],
       id: 0,
-      changeShow: true
+      changeShow: true,
+      scrollTop: 0
     };
   },
   computed: {
@@ -77,7 +78,7 @@ export default {
       const params = {
         // token: this.GetQueryString('token'),
         token: this.getToken,
-        tourism_id: this.id
+        tourism_id: this.$route.query.id
       }
       this.tourDetails(params).then(res=>{
         if(res.StatusInfo.success) {
@@ -90,7 +91,7 @@ export default {
         } else {
           this.toastShow(res.StatusInfo.ErrorDetailCode)
           if(res.StatusInfo.ReturnCode==603){
-            this.$store.commit('setToken','')
+            // this.$store.commit('setToken','')
           }
         }
       })
@@ -107,6 +108,26 @@ export default {
           this.toastShow(res.StatusInfo.ErrorDetailCode)
         }
       })
+    },
+    // 点击图片回到顶部方法，加计时器是为了过渡顺滑
+    backTop (id) {
+      this.$router.push(`/tours/tourDetail?id=${id}`)
+      this.handleDetail()
+      const that = this
+      let timer = setInterval(() => {
+        let ispeed = Math.floor(-that.scrollTop / 5)
+        document.documentElement.scrollTop = document.body.scrollTop = that.scrollTop + ispeed
+        if (that.scrollTop === 0) {
+          clearInterval(timer)
+        }
+      }, 16)
+    },
+ 
+    // 为了计算距离顶部的高度，当高度大于60显示回顶部图标，小于60则隐藏
+    scrollToTop () {
+      const that = this
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+      that.scrollTop = scrollTop
     }
   },
   beforeDestroy() {
@@ -117,7 +138,11 @@ export default {
   },
   mounted() {
     this.id = this.$route.query.id
-  }
+    window.addEventListener('scroll', this.scrollToTop)
+  },
+  destroyed () {
+    window.removeEventListener('scroll', this.scrollToTop)
+  },
 };
 </script>
 
