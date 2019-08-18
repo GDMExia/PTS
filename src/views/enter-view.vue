@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style scoped>
-.background{background: url('../../static/img/icon/background@2x.png') no-repeat center;width:100%;height:276px;padding-top: 80px}
+.background{background: url('../../static/img/icon/background@2x.png') no-repeat center;width:100%;height:276px;padding-top: 80px;background-size:100% 100% }
 .background div{color: #fff;text-align: center}
-.button{background: url('../../static/img/icon/next@2x.png') no-repeat center;width:40%;margin-left:30%;height:50px;margin-top:124px}
+.button{background: url('../../static/img/icon/next@2x.png') no-repeat center;width:46%;margin-left:27%;height:70px;margin-top:124px}
 </style>

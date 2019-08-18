@@ -14,7 +14,7 @@
             </div>
             <!-- <div v-for="(item.index) of document_pic">{{item}}</div> -->
         </div>
-        <div v-for="(item,index) of shop_picture1" :key="index">{{item.name}}</div>
+        <div v-for="(item,index) of shop_picture1" :key="index">{{item.name}}<InlineLoading v-if="loadingshop_picture"></InlineLoading></div>
         <!-- <p style="position:absolute;right:0;top:15px;display:inline-block;width:60%;height:80px;color:#999999;font-size:14px">请上传营业执照及食品安全认证、有机食品认证、品牌授权书等行业相关证书或证件的图片</p> -->
         </group>
         <span style="color:#666666;font-size:14px">请上传产品图片，可含价目表、菜单等（最多20种）</span>
@@ -31,7 +31,7 @@
                 
                 <!-- <div v-for="(item.index) of document_pic">{{item}}</div> -->
             </div>
-            <div>{{goods_list1[index]}}</div>
+            <div>{{goods_list1[index]}}<InlineLoading v-if="loadinggoods_list"></InlineLoading></div>
             <p style="position:absolute;right:0;top:15px;display:inline-block;width:60%;height:80px;color:#999999;font-size:14px">请上传第{{index+1}}种产品图片</p>
             </group>
             <group style="margin-bottom:20px">
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { Group , XInput , XTextarea , Checklist , DatetimeRange } from 'vux'
+import { Group , XInput , XTextarea , Checklist , DatetimeRange , InlineLoading } from 'vux'
 
 import { mapActions } from 'vuex'
 export default {
@@ -52,7 +52,8 @@ export default {
         XInput,
         XTextarea,
         Checklist,
-        DatetimeRange
+        DatetimeRange,
+        InlineLoading
     },
     data(){
         return{
@@ -61,11 +62,14 @@ export default {
             shop_picture1:[],
             goods_list1:[],
             data:JSON.parse(this.$route.query.data),
-            paylist:[{name:'现金',value:1},{name:'银行卡',value:2},{name:'微信支付',value:3},{name:'支付宝',value:4}]
+            paylist:[{name:'现金',value:1},{name:'银行卡',value:2},{name:'微信支付',value:3},{name:'支付宝',value:4}],
+            loadingshop_picture:'',
+            loadinggoods_list:'',
         }
     },
     methods:{
-        uploadgoods_list(event){ 
+        uploadgoods_list(event){
+            this.loadinggoods_list=true
             console.log(event.target.files)
             // let data=new FormData()
             // data.append('file_image',event.target.files)
@@ -78,11 +82,15 @@ export default {
                     this.goods_list1.push(event.target.files[i].name)
                     this.goods_list.push({file_id:'',content:''})
                 }
+                if(i==length-1){
+                    this.loadinggoods_list=false
+                }
                 console.log(this.goods_list1)
             })
             }
         },
-        uploadshop_picture(event){ 
+        uploadshop_picture(event){
+            this.loadingshop_picture=true
             console.log(event.target.files.length)
             let length=event.target.files.length
             for(let i=0;i<length;i++){
@@ -91,6 +99,9 @@ export default {
                 if(res.data.StatusInfo.success){
                     this.shop_picture.push(res.data.fileId)
                     this.shop_picture1.push(event.target.files[i])
+                }
+                if(i==length-1){
+                    this.loadingshop_picture=false
                 }
             })
             }
@@ -160,7 +171,7 @@ export default {
 
 <style scoped>
 .background{background: url('../../static/img/icon/background@2x.png') no-repeat center;width:100%;height:276px}
-.button{background: url('../../static/img/icon/submit@2x.png') no-repeat center;width:40%;margin-left:30%;height:50px;margin-top:124px}
+.button{background: url('../../static/img/icon/submit@2x.png') no-repeat center;width:46%;margin-left:27%;height:70px;margin-top:124px}
 .add{background: url('../../static/img/icon/next@2x.png') no-repeat center;}
 .vux-x-icon {
   fill: #E5E5E5;
