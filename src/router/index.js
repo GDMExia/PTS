@@ -28,7 +28,9 @@ import MyAdvicelView from '@/views/myadvice-view'
 import SignView from '@/views/sign-view'
 import EnterView from '@/views/enter-view'
 import EnterapplyView from '@/views/enter-apply-view'
-import EnterapplySecondView from '@/views/enter-apply-secondview'
+import EnteragreementView from '@/views/enter-agreement-view'
+import AgreementSignView from '@/views/agreement-sign'
+
 import TourDetailView from '@/views/tour-detail-view'
 import ActivityDetailView from '@/views/activity-detail-view'
 import StoreDetailView from '@/views/store-detail-view'
@@ -241,9 +243,14 @@ export default new Router({
       component: EnterapplyView
     },
     {
-      path: '/merchantapplysecond',
-      name: '入驻申请信息',
-      component: EnterapplySecondView
+      path: '/merchantagreement',
+      name: '登录',
+      component: EnteragreementView
+    },
+    {
+      path: '/merchantagreementsign',
+      name: '"嘻格格"商家入驻服务协议',
+      component: AgreementSignView
     }
   ]
 })
