@@ -145,7 +145,7 @@ export default {
     
   },
   created() {
-    this.handleUser()
+    // this.handleUser()
     this.handleLocal()
     this.handleRecomend()
     this.handleToken()
