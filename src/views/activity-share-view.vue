@@ -29,7 +29,7 @@ export default {
     ...mapActions(['articleDetail']),
     handleDetail() {
       const params = {
-        news_id: this.id
+        news_id: this.$route.query.id
       }
       this.articleDetail(params).then(res=>{
         if(res.StatusInfo.success) {
