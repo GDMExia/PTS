@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="content-detail" v-html="storeItem.content">
-      <!-- <img v-for="(item, index) in picList" :key="index" :src="item.photo" alt=""> -->
+    <!-- < img v-for="(item, index) in picList" :key="index" :src="item.photo" alt=""> -->
     </div>
     <div class="div-title f16">
       <p style="color: #222222;font-weight: 600;padding-top: 11px;padding-left: 20px;">店铺活动</p>

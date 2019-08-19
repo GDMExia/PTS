@@ -91,7 +91,7 @@ export default {
         } else {
           this.toastShow(res.StatusInfo.ErrorDetailCode)
           if(res.StatusInfo.ReturnCode==603){
-            // this.$store.commit('setToken','')
+            this.$store.commit('setToken','')
           }
         }
       })

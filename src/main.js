@@ -41,19 +41,20 @@ router.beforeEach((to, from, next) => {
   if(to.fullPath.indexOf('merchant')>=0){
     next()
   }else if(token === ''  && !refuse) {
-    // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.144:8080/#${to.fullPath}`
-    location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://pts.suoqoo.com/nh5/#${to.fullPath}`
-    // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.238:8081/#${to.fullPath}`
     var reg = new RegExp("(^|&)token=([^&]*)(&|$)");
     console.log(location.search)
     const search = location.search.substr(1).match(reg)
-    console.log(search[2], '3334444')
+    // console.log(search[2], '3334444')
     if(search){
-      store.commit('setToken', unescape(search[2]))
+      // store.commit('setToken', unescape(search[2]))
+      store.commit('setToken', search[2])
     }else{
       store.commit('setRefuse', true)
       router.push(`${to.fullPath}`)
     }
+    // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.144:8080/#${to.fullPath}`
+    location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://pts.suoqoo.com/nh5/#${to.fullPath}`
+    // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.238:8081/#${to.fullPath}`
   } else {
     if(token===""){
       store.commit('setRefuse', false)
