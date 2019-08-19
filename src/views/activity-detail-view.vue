@@ -69,7 +69,7 @@ export default {
     ...mapActions(['activityDetails','userDetail',]),
     handleDetail() {
       const params = {
-        goods_id: this.id
+        goods_id: this.$route.query.id
       }
       this.activityDetails(params).then(res=>{
         if(res.StatusInfo.success) {

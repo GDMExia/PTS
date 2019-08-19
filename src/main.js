@@ -7,7 +7,7 @@ import VueRouter from 'vue-router'
 import Axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueBus from 'vue-bus'
-import Vconsole from 'vconsole'
+// import Vconsole from 'vconsole'
 // import $ from 'jquery'
 
 import App from './App'
@@ -37,10 +37,13 @@ Vue.use(ToastPlugin)
 router.beforeEach((to, from, next) => {
   const token = store.state.token
   const refuse = store.state.refuse
-  if(token === ''  && !refuse) {
-    // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.144:8082/#${to.fullPath}`
+  console.log(to.fullPath)
+  if(to.fullPath.indexOf('merchant')>=0){
+    next()
+  }else if(token === ''  && !refuse) {
+    // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.144:8080/#${to.fullPath}`
     location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://pts.suoqoo.com/nh5/#${to.fullPath}`
-    // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.238:8082/#${to.fullPath}`
+    // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.238:8081/#${to.fullPath}`
     var reg = new RegExp("(^|&)token=([^&]*)(&|$)");
     console.log(location.search)
     const search = location.search.substr(1).match(reg)
@@ -64,8 +67,8 @@ router.beforeEach((to, from, next) => {
 //   routes
 // })
 
-const vConsole = new Vconsole()
-console.log(vConsole)
+// const vConsole = new Vconsole()
+// console.log(vConsole)
 
 FastClick.attach(document.body)
 

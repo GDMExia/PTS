@@ -55,7 +55,7 @@ export default {
     ...mapActions(['storeDetails']),
     handleQuery() {
       const params = {
-        merchants_id: this.id
+        merchants_id: this.$route.query.id
       }
       this.storeDetails(params).then(res=>{
         if(res.StatusInfo.success) {

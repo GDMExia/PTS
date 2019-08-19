@@ -152,6 +152,7 @@ export default {
   },
   mounted() {
     this.$bus.emit("onTabBarEvent", {});
+    this.$store.commit('setRefuse',true)
     // console.log(this.$store.state.token)
   }
 };

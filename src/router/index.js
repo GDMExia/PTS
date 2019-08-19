@@ -26,9 +26,9 @@ import UnsubscribedetailView from '@/views/unsubscribedetail-view'
 import AdvicelView from '@/views/advice-view'
 import MyAdvicelView from '@/views/myadvice-view'
 import SignView from '@/views/sign-view'
-import LoginView from '@/views/login-view'
-
-
+import EnterView from '@/views/enter-view'
+import EnterapplyView from '@/views/enter-apply-view'
+import EnterapplySecondView from '@/views/enter-apply-secondview'
 import TourDetailView from '@/views/tour-detail-view'
 import ActivityDetailView from '@/views/activity-detail-view'
 import StoreDetailView from '@/views/store-detail-view'
@@ -227,13 +227,23 @@ export default new Router({
           path: 'sign',
           name: '打卡',
           component: SignView
-        },
-        {
-          path: 'login',
-          name: '登录',
-          component: LoginView
         }
       ]
     },
+    {
+      path: '/merchant',
+      name: '入驻商家信息',
+      component: EnterView
+    },
+    {
+      path: '/merchantapply',
+      name: '入驻申请信息',
+      component: EnterapplyView
+    },
+    {
+      path: '/merchantapplysecond',
+      name: '入驻申请信息',
+      component: EnterapplySecondView
+    }
   ]
 })
