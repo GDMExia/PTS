@@ -14,7 +14,7 @@
             <div style="width:24px;height:50px;display:inline-block;margin-left:4%" >
                 <img src="../../static/img/icon/pcode@2x.png" style="width:24px;height:24px;display:inline-block;margin-left:4%;margin-top:13px" alt="">
             </div>
-            <input type="text" v-model="phone_code" placeholder="请输入店主或联系人手机号码" style="width:24px;height:24px;background-color:#fff;height:50px;width:50%;display:inline-block;margin-top:-13px"/>
+            <input type="text" v-model="phone_code" placeholder="请输入验证码" style="width:24px;height:24px;background-color:#fff;height:50px;width:50%;display:inline-block;margin-top:-13px"/>
             <div style="float:right;color:#06D5DE;font-size:14px;margin-top:15px;width:30%" @click="getcode">{{codeshow}}</div>
         </div>
         <div class="button" @click="submit"></div>
