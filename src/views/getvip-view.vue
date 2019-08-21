@@ -83,8 +83,10 @@ export default {
             // this.$http.post('http://pts.suoqoo.com/home.php/User/createMember?token=c1599f283f6bce195a98a3f3d9c3f10865891753',{nickname:this.nickname,sex:this.sex=='男'?'1':'0',phone:this.phone,phone_code:this.phone_code}).then(res=>{
             this.vip().then(res=>{
                 console.log(res)
+                let orderNo=res.data.order_no
                 if(res.data.StatusInfo.success){
-                    this.$router.push('/owner')
+                    // this.$router.push('/owner')
+                    location.href=this.rootPath+'/Pay/orderPay?order_no='+orderNo
                 }
             })
             }else{

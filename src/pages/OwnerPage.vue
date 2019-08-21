@@ -76,8 +76,13 @@ export default {
     getvip(){
       this.$http.get(`${this.rootPath}/User/createMember?token=${this.$store.state.token}`).then(res=>{
         console.log(res)
+        let orderNo=res.data.order_no
         if(res.data.StatusInfo.success){
-          this.getinfo()
+          // this.$http.get(`${this.rootPath}/Pay/orderPay?order_no=${orderNo}`).then(res=>{
+          //   console.log(res)
+          // })
+          location.href=this.rootPath+'/Pay/orderPay?order_no='+orderNo
+          // this.getinfo()
         }else{
           this.$router.push('/owners/getvip')
         }

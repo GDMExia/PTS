@@ -7,7 +7,7 @@ import VueRouter from 'vue-router'
 import Axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueBus from 'vue-bus'
-// import Vconsole from 'vconsole'
+import Vconsole from 'vconsole'
 // import $ from 'jquery'
 
 import App from './App'
@@ -17,15 +17,14 @@ import Providers from './providers/providers.js'
 import store from './providers/store.js'
 import mixin from './mixin'
 import global from './providers/global'
-
-import { ToastPlugin } from 'vux'
+import { ToastPlugin , WechatPlugin } from 'vux'
 
 Vue.prototype.GLOBAL = global
 
 Vue.use(VueRouter)
 Vue.use(VueAxios, Axios)
 Vue.use(VueBus)
-
+Vue.use(WechatPlugin)
 Vue.use(Providers)
 
 Vue.use(require('vue-wechat-title'))
@@ -52,7 +51,7 @@ router.beforeEach((to, from, next) => {
       store.commit('setRefuse', true)
       router.push(`${to.fullPath}`)
     }
-    // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.144:8080/#${to.fullPath}`
+    // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.144:8081/#${to.fullPath}`
     location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://pts.suoqoo.com/nh5/#${to.fullPath}`
     // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.238:8081/#${to.fullPath}`
   } else {
@@ -68,8 +67,8 @@ router.beforeEach((to, from, next) => {
 //   routes
 // })
 
-// const vConsole = new Vconsole()
-// console.log(vConsole)
+const vConsole = new Vconsole()
+console.log(vConsole)
 
 FastClick.attach(document.body)
 
