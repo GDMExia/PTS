@@ -62,8 +62,13 @@ export default {
             }).then(res=>{
                 console.log(res)
                 if(res.data.StatusInfo.ReturnCode==200){
-                    this.$vux.toast.text('充值成功', 'top')
-                    this.$router.push('/owner')
+                    // this.$vux.toast.text('充值成功', 'top')
+                    // this.$router.push('/owner')
+                    let orderNo=res.data.order_no
+                    if(res.data.StatusInfo.success){
+                        // this.$router.push('/owner')
+                        location.href=this.rootPath+'/Pay/orderPay?order_no='+orderNo
+                    }
                 }else{
                     this.$vux.toast.text('充值失败', 'top')
                 }

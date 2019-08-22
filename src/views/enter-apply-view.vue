@@ -3,6 +3,8 @@
         <div style="width:100%;text-align:center;color:#06D5DE;font-size:16px;margin-top:24px">请如实完善以下信息</div> 
         <group style="marginTop:12px">
             <XInput :title='`<span style="color:#666666;font-size:14px">商户名称</span>`' v-model="merchants_name" required text-align="right"></XInput>
+            <XInput :title='`<span style="color:#666666;font-size:14px">公司名称</span>`' v-model="company" required text-align="right"></XInput>
+            <XInput :title='`<span style="color:#666666;font-size:14px">法人代表</span>`' v-model="legal_person" text-align="right"></XInput>
             <XInput :title='`<span style="color:#666666;font-size:14px">推介人姓名</span>`' v-model="recommended_real_name" text-align="right"></XInput>
             <XInput :title='`<span style="color:#666666;font-size:14px">推介人手机号码</span>`' is-type="china-mobile" v-model="recommended_phone" text-align="right"></XInput>
             <XInput :title='`<span style="color:#666666;font-size:14px">商户申请人姓名</span>`' v-model="merchant_applicant" required text-align="right"></XInput>
@@ -148,6 +150,8 @@ export default {
             paylist:[{name:'现金',value:1},{name:'银行卡',value:2},{name:'微信支付',value:3},{name:'支付宝',value:4}],
             loadingshop_picture:'',
             loadinggoods_list:'',
+            legal_person:'',
+            company:''
         }
     },
     methods:{
@@ -266,7 +270,7 @@ export default {
             }
         },
         submit(){
-            if(this.merchants_name&&this.merchant_applicant&&/^1[3456789]\d{9}$/.test(this.merchant_applicant_phone)&&this.address&&this.document_pic&&this.phone_code&&this.photo&&this.recommended_real_name&&/^1[3456789]\d{9}$/.test(this.recommended_phone)&&this.hotline_phone&&this.hours_time&&this.payment&&this.merchants_content&&this.operator_content&&this.goods_list[0].file_id&&this.shop_picture){
+            if(this.merchants_name&&this.merchant_applicant&&/^1[3456789]\d{9}$/.test(this.merchant_applicant_phone)&&this.address&&this.document_pic&&this.phone_code&&this.photo&&this.recommended_real_name&&/^1[3456789]\d{9}$/.test(this.recommended_phone)&&this.hotline_phone&&this.hours_time&&this.payment&&this.merchants_content&&this.operator_content&&this.goods_list[0].file_id&&this.shop_picture&&this.company&&this.legal_person){
                 let data={
                     document_pic:this.document_pic,
                     photo:this.photo,
@@ -283,7 +287,9 @@ export default {
                     operator_content:this.operator_content,
                     phone_code:this.phone_code,
                     goods_list:this.goods_list,
-                    shop_picture:this.shop_picture
+                    shop_picture:this.shop_picture,
+                    legal_person:this.legal_person,
+                    company:this.company
                 }
                 console.log(data)
                 // data.document_pic=JSON.stringify(data.document_pic)
@@ -325,30 +331,30 @@ export default {
                 this.$vux.toast.text('请填写所有信息', 'top')
             }
         },
-        confirm(){
-            if(this.merchants_name&&this.merchant_applicant&&/^1[3456789]\d{9}$/.test(this.merchant_applicant_phone)&&this.address&&this.document_pic&&this.phone_code){
-                let data={
-                    document_pic:this.document_pic,
-                    photo:this.photo,
-                    merchants_name:this.merchants_name,
-                    recommended_real_name:this.recommended_real_name,
-                    recommended_phone:this.recommended_phone,
-                    merchant_applicant:this.merchant_applicant,
-                    merchant_applicant_phone:this.merchant_applicant_phone,
-                    address:this.address,
-                    hotline_phone:this.hotline_phone,
-                    hours_time:this.hours_time,
-                    payment:this.payment,
-                    merchants_content:this.merchants_content,
-                    operator_content:this.operator_content,
-                    phone_code:this.phone_code
-                }
-                console.log(data)
-                this.$router.push({path:'/merchantapplysecond',query:{data:JSON.stringify(data)}})
-            }else{
-                this.$vux.toast.text('请填写必填项', 'top')
-            }
-        },
+        // confirm(){
+        //     if(this.merchants_name&&this.merchant_applicant&&/^1[3456789]\d{9}$/.test(this.merchant_applicant_phone)&&this.address&&this.document_pic&&this.phone_code){
+        //         let data={
+        //             document_pic:this.document_pic,
+        //             photo:this.photo,
+        //             merchants_name:this.merchants_name,
+        //             recommended_real_name:this.recommended_real_name,
+        //             recommended_phone:this.recommended_phone,
+        //             merchant_applicant:this.merchant_applicant,
+        //             merchant_applicant_phone:this.merchant_applicant_phone,
+        //             address:this.address,
+        //             hotline_phone:this.hotline_phone,
+        //             hours_time:this.hours_time,
+        //             payment:this.payment,
+        //             merchants_content:this.merchants_content,
+        //             operator_content:this.operator_content,
+        //             phone_code:this.phone_code
+        //         }
+        //         console.log(data)
+        //         this.$router.push({path:'/merchantapplysecond',query:{data:JSON.stringify(data)}})
+        //     }else{
+        //         this.$vux.toast.text('请填写必填项', 'top')
+        //     }
+        // },
     },
     mounted(){
         
