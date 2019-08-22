@@ -63,7 +63,7 @@ export default {
         header: {
             'Content-Type':'multipart/form-data'  
         },
-        params: {token:this.$store.state.token,nickname:this.nickname,sex:this.sex=='男'?'1':'0',phone:this.phone,phone_code:this.phone_code}
+        params: {token:this.$store.state.token,nickname:this.nickname,sex:this.sex=='男'?'1':'0',phone:this.phone,phone_code:this.phone_code,age:this.age}
         }).then(res=>{
             if(res.data.StatusInfo.success){
                 this.$router.push('/owner')
