@@ -1,18 +1,21 @@
 <template>
     <div style="background-color:#F5F5F7">
+        <div class="step"></div>
         <div style="width:100%;text-align:center;color:#06D5DE;font-size:16px;margin-top:24px">请如实完善以下信息</div> 
         <group style="marginTop:12px">
-            <XInput :title='`<span style="color:#666666;font-size:14px">商户名称</span>`' v-model="merchants_name" required text-align="right"></XInput>
-            <XInput :title='`<span style="color:#666666;font-size:14px">公司名称</span>`' v-model="company" required text-align="right"></XInput>
-            <XInput :title='`<span style="color:#666666;font-size:14px">法人代表</span>`' v-model="legal_person" text-align="right"></XInput>
+            <XInput :title='`<span style="color:#666666;font-size:14px">商户名称</span>`' v-model="merchants_name" text-align="right"></XInput>
+            <XInput :title='`<span style="color:#666666;font-size:14px">公司名称</span>`' v-model="company" text-align="right"></XInput>
+            <XInput :title='`<span style="color:#666666;font-size:14px">法人代表姓名</span>`' v-model="legal_person" text-align="right"></XInput>
             <XInput :title='`<span style="color:#666666;font-size:14px">推介人姓名</span>`' v-model="recommended_real_name" text-align="right"></XInput>
             <XInput :title='`<span style="color:#666666;font-size:14px">推介人手机号码</span>`' is-type="china-mobile" v-model="recommended_phone" text-align="right"></XInput>
-            <XInput :title='`<span style="color:#666666;font-size:14px">商户申请人姓名</span>`' v-model="merchant_applicant" required text-align="right"></XInput>
-            <XInput :title='`<span style="color:#666666;font-size:14px;white-space: nowrap">商户申请人手机号码</span>`' is-type="china-mobile" v-model="merchant_applicant_phone" required text-align="right"></XInput>
-            <XInput :title='click1?`<span style="color:#666666;font-size:14px;white-space: nowrap">请在此输入短信验证码</span>`:""' v-model="phone_code" text-align="left" required placeholder="" placeholder-align="right" :show-clear="false"><div slot="right" style="color:#06D5DE;borderLeft:1px solid #F0F0F0" @click="getcode">{{codeshow}}</div></XInput>
+            <XInput :title='`<span style="color:#666666;font-size:14px;white-space: nowrap">店主或商户申请人姓名</span>`' v-model="merchant_applicant" text-align="right"></XInput>
+            <XInput :title='`<span style="color:#666666;font-size:14px;white-space: nowrap">店主或商户申请人微信号</span>`' v-model="merchant_applicant" text-align="right"></XInput>
+            <XInput :title='`<span style="color:#666666;font-size:14px;white-space: nowrap">提供平台最低折扣</span>`' v-model="merchant_applicant" text-align="right" placeholder="纯数字 如65折填6.5"></XInput>
+            <!-- <XInput :title='`<span style="color:#666666;font-size:14px;white-space: nowrap">商户申请人手机号码</span>`' is-type="china-mobile" v-model="merchant_applicant_phone" text-align="right"></XInput> -->
+            <!-- <XInput :title='click1?`<span style="color:#666666;font-size:14px;white-space: nowrap">请在此输入短信验证码</span>`:""' v-model="phone_code" text-align="left" placeholder="" placeholder-align="right" :show-clear="false"><div slot="right" style="color:#06D5DE;borderLeft:1px solid #F0F0F0" @click="getcode">{{codeshow}}</div></XInput> -->
         </group>
         <group style="marginTop:12px;margin-bottom:20px">
-            <XInput :title='`<span style="color:#666666;font-size:14px">商户地址</span>`' v-model="address" required text-align="right" placeholder="省-市-区-门牌号码"></XInput>
+            <XInput :title='`<span style="color:#666666;font-size:14px">商户地址</span>`' v-model="address"  text-align="right" placeholder="省-市-区-门牌号码"></XInput>
             <XInput :title='`<span style="color:#666666;font-size:14px">服务热线</span>`' v-model="hotline_phone" text-align="right"></XInput>
             <XInput :title='`<span style="color:#666666;font-size:14px">营业时间段</span>`' v-model="hours_time" text-align="right"></XInput>
             <XInput :title='`<span style="color:#666666;font-size:14px"></span>`' v-model="ttt" text-align="right" disabled></XInput>
@@ -20,7 +23,7 @@
         </group>
         <span style="color:#666666;font-size:14px;margin-left:2%">商户简介（限100字）</span>
         <group style="margin-bottom:20px">
-            <XTextarea title="" v-model="merchants_content" required text-align="right"></XTextarea>
+            <XTextarea title="" v-model="merchants_content" text-align="right"></XTextarea>
         </group>
         
         <span style="color:#666666;font-size:14px;margin-left:2%">请上传资质文件图片（最多5张）</span>
@@ -42,7 +45,7 @@
         <span style="color:#666666;font-size:14px;margin-left:2%">创始人或实际经营人简介（限200字）</span>
         
         <group style="margin-bottom:20px">
-            <XTextarea title="" v-model="operator_content" required text-align="right" placeholder="相关从业经历、个人荣誉、经营理念等" style="font-size:14px"></XTextarea>
+            <XTextarea title="" v-model="operator_content" text-align="right" placeholder="相关从业经历、个人荣誉、经营理念等" style="font-size:14px"></XTextarea>
         </group>
         <span style="color:#666666;font-size:14px">请上传个人形象照及个人相关证书图片（最多5张）</span>
         
@@ -97,7 +100,7 @@
             <p style="position:absolute;right:0;top:15px;display:inline-block;width:60%;height:80px;color:#999999;font-size:14px">请上传第{{index+1}}种产品图片</p>
             </group>
             <group style="margin-bottom:20px">
-                <XTextarea title="" style="font-size:14px" v-model="item.content" required text-align="right" :placeholder="`请完善第${index+1}种产品信息，包含产品名称、价格、产品描述等`"></XTextarea>
+                <XTextarea title="" style="font-size:14px" v-model="item.content" text-align="right" :placeholder="`请完善第${index+1}种产品信息，包含产品名称、价格、产品描述等`"></XTextarea>
             </group>
         </div>
         <div class="button" @click="submit"></div>
@@ -375,6 +378,8 @@ export default {
 </script>
 
 <style scoped>
+.step{width:100%;height: 56px;background: url("../../static/img/icon/step1@2x.png") no-repeat center;background-size: 100% 100%}
+
 .background{background: url('../../static/img/icon/background@2x.png') no-repeat center;width:100%;height:276px}
 .button{background: url('../../static/img/icon/submit@2x.png') no-repeat center;width:46%;margin-left:27%;height:70px;margin-top:44px}
 /* .add{background: url('../../static/img/icon/next@2x.png') no-repeat center;} */

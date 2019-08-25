@@ -14,6 +14,7 @@
         :placeholder="'请输入验证码'"
         :content="'有验证码才可查看哦'"
         :close-on-confirm="false"
+        @on-blur="fixScroll"
       >
       </confirm>
     </div>
@@ -88,6 +89,9 @@ export default {
   methods: {
     click(){
       console.log(111)
+    },
+    fixScroll() {
+      window.scrollTo(0, 0);
     },
     search(){
       this.$router.push(`/tours/search?type=1&search=${this.value}`)

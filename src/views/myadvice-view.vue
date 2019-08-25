@@ -58,7 +58,7 @@
         </group>
         </div>
         <group>
-            <XInput title="是否愿意" v-model="name" required text-align="right"></XInput>
+            <XInput title="是否愿意" v-model="name" text-align="right"></XInput>
         </group>
         <!-- <div class="other">
             <p>是否愿意再次参加</p>

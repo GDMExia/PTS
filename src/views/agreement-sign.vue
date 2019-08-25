@@ -1,8 +1,8 @@
 <template>
     <div style="background-color:#fff;padding-top:20px;width:100%">
         <div style="font-size:16px;color:#000;font-weight:bold;margin-left:4%">
-            <p>甲方： {{data.company}}</p><br>
-            <p>法定代表人：{{data.legal_person}}</p><br><br>
+            <!-- <p>甲方： {{data.company}}</p><br> -->
+            <!-- <p>法定代表人：{{data.legal_person}}</p><br><br> -->
             <p>乙方：上海晟荣企业咨询有限公司</p><br>
             <p>法定代表人：丁蕴珏</p><br>
         </div>
@@ -148,6 +148,7 @@
             <img src="../../static/img/icon/sel@2x.png" alt="" style="width:24px;height:24px;display:inline-block" v-if="btn==1"><img src="../../static/img/icon/unsel@2x.png" alt="" style="width:24px;height:24px;display:inline-block" v-else><p style="display:inline-block;vertical-align:top;margin-left:6%">我同意。。。。。。。。。</p>
         </div> -->
         <div class="button" @click="submit"></div>
+        <div style="height:37px"></div>
         </div>
     </div>
 </template>
@@ -210,7 +211,7 @@ export default {
 <style scoped>
 .background{background: url('../../static/img/icon/background@2x.png') no-repeat center;width:100%;height:276px;padding-top: 54px;background-size:100% 100% }
 .background div{color: #fff;text-align: center}
-.button{background: url('../../static/img/icon/submit2@2x.png') no-repeat center;width:46%;margin-left:27%;height:70px;margin-top:124px;background-color:#fff;}
+.button{background: url('../../static/img/icon/sign.png') no-repeat center;background-size:100% 100%;width:46%;margin-left:27%;height:70px;margin-top:37px;background-color:#fff;}
 .vux-x-icon {
   fill: #E5E5E5;
 }

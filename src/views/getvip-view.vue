@@ -14,7 +14,7 @@
             <Selector title="性别" v-model="sex" :options="sexlist" direction="rtl"></Selector>
             <XInput title="年龄" v-model="age" text-align="right" placeholder="请输入年龄" placeholder-align="right"></XInput>
             <XInput title="手机号" is-type="china-mobile" v-model="phone" text-align="right" placeholder="请输入手机号" placeholder-align="right"></XInput>
-            <XInput title="验证码" v-model="phone_code" text-align="right" placeholder="请输入验证码" placeholder-align="right" :show-clear="false"><div slot="right" style="color:#06D5DE;borderLeft:1px solid #F0F0F0" @click="getcode">{{codeshow}}</div></XInput>
+            <XInput title="验证码" v-model="phone_code" text-align="right" placeholder="请输入验证码" placeholder-align="right" :show-clear="false" @on-blur="fixScroll"><div slot="right" style="color:#06D5DE;borderLeft:1px solid #F0F0F0" @click="getcode">{{codeshow}}</div></XInput>
         </group>
         </div>
         <div class="handle">
@@ -66,6 +66,9 @@ export default {
                 })
             }
             })
+        },
+        fixScroll(){
+            window.scrollTo(0,0)
         },
         vip(){
             return this.$http({

@@ -30,6 +30,10 @@ import EnterView from '@/views/enter-view'
 import EnterapplyView from '@/views/enter-apply-view'
 import EnteragreementView from '@/views/enter-agreement-view'
 import AgreementSignView from '@/views/agreement-sign'
+import checkingView from '@/views/checking'
+import checkedView from '@/views/checked'
+import payInView from '@/views/payinview'
+import signedView from '@/views/signed'
 
 import TourDetailView from '@/views/tour-detail-view'
 import ActivityDetailView from '@/views/activity-detail-view'
@@ -49,12 +53,12 @@ export default new Router({
     },
     {
       path: '/home',
-      name: '嘻格格 · 本地生活小众点评',
+      name: '崇尚小众之美 开启格调人生',
       component: HomePage
     },
     {
       path: '/homes',
-      name: '嘻格格 · 本地生活小众点评',
+      name: '崇尚小众之美 开启格调人生',
       component: HomesPage,
       children: [
         {
@@ -234,23 +238,51 @@ export default new Router({
     },
     {
       path: '/merchant',
-      name: '入驻商家信息',
+      name: '嘻格格商户入驻流程平台',
       component: EnterView
+      // del
     },
     {
       path: '/merchantapply',
-      name: '入驻申请信息',
+      name: '嘻格格商户入驻流程平台',
       component: EnterapplyView
+      // 申请
     },
     {
       path: '/merchantagreement',
-      name: '登录',
+      name: '嘻格格商户入驻流程平台',
       component: EnteragreementView
+      // 登录
     },
     {
       path: '/merchantagreementsign',
-      name: '"嘻格格"商家入驻服务协议',
+      name: '嘻格格商户入驻流程平台',
       component: AgreementSignView
-    }
+      // 签约
+    },
+    {
+      path: '/merchantchecking',
+      name: '嘻格格商户入驻流程平台',
+      component: checkingView
+      // 审核中
+    },
+    {
+      path: '/merchantchecked',
+      name: '嘻格格商户入驻流程平台',
+      component: checkedView
+      // 审核通过
+    },
+    {
+      path: '/merchantpayin',
+      name: '嘻格格商户入驻流程平台',
+      component: payInView
+      // 支付会费及设计费
+    },
+    {
+      path: '/merchantsigned',
+      name: '嘻格格商户入驻流程平台',
+      component: signedView
+      // 签约通过
+    },
   ]
 })
