@@ -49,12 +49,12 @@ export default new Router({
     },
     {
       path: '/home',
-      name: '首页',
+      name: '嘻格格 · 本地生活小众点评',
       component: HomePage
     },
     {
       path: '/homes',
-      name: '首页',
+      name: '嘻格格 · 本地生活小众点评',
       component: HomesPage,
       children: [
         {
