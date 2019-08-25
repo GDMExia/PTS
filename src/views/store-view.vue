@@ -4,7 +4,7 @@
       <div @click="handleQuery(item.merchants_cid)" :class="[(item.merchants_cid == merchants_cid)?'active':'' ,'store-type-item']" v-for="item in category" :key="item.merchants_cid">{{item.cate_name}}</div>
     </div>
     <div class="images-slide">
-      <swiper loop auto :list="imageList" dots-position="center"></swiper>
+      <swiper loop auto :list="imageList" @swiper-indicator-active-color="'#76F7FC'" height="120px"  dots-position="center"></swiper>
     </div>
     <div style="display: flex;padding: 55% 0;justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="storeList.length==0">
       <img style="width: 40px; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
@@ -99,6 +99,7 @@ export default {
   },
   mounted() {
     this.handleQuery()
+    window.scrollTo(0,0)
   }
 };
 </script>
@@ -118,6 +119,7 @@ export default {
   margin: 10px;
   width: 94%;
   overflow-x: auto;
+  display: none;
 }
 .store-type-item {
   color: #06D5DE;

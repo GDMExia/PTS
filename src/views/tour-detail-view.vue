@@ -35,7 +35,7 @@
     <div class="tour-content" v-html="tourItem.content">
       <!-- <img src="../../static/img/img@2x.png" alt=""> -->
     </div>
-    <div class="local-life name-price" @click="$router.push('/tour')">
+    <div v-show="storeList.length > 0" class="local-life name-price" @click="$router.push('/tour')">
       <span class="local-life-text">相关套餐</span>
       <span class="local-life-more">MORE</span>
     </div>

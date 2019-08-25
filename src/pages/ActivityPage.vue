@@ -146,6 +146,7 @@ export default {
     // })
     this.$bus.emit("onTabBarEvent", {});
     this.handleActivityType()
+    window.scrollTo(0,0)
   }
 };
 </script>

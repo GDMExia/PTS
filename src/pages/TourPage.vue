@@ -178,8 +178,8 @@ export default {
     
   },
   created() {
-    this.handleUser()
     this.handleVIP()
+    this.handleUser()
   },
   mounted() {
     // this.$nextTick(() => {
