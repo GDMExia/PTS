@@ -4,12 +4,12 @@
       <img class="store-img" :src="storeItem.pic" alt="">
       <div class="store-detail-content">
         <p class="f16 store-name">{{storeItem.merchants_name}}</p>
-        <p class="store-address f13">
+        <p class="store-address f14">
           <img src="../../static/img/ic_dz02@2x.png" alt="">
           {{storeItem.address}}
         </p>
         <div class="name-price">
-          <p class="store-address f13" style="padding-top: 13px;">
+          <p class="store-address f14" style="padding-top: 13px;">
             <img src="../../static/img/mobile@2x.png" alt="">
             {{storeItem.phone}}
           </p>
@@ -20,7 +20,7 @@
     <div class="content-detail" v-html="storeItem.content">
     <!-- < img v-for="(item, index) in picList" :key="index" :src="item.photo" alt=""> -->
     </div>
-    <div class="div-title f16">
+    <div v-show="storeList.length > 0" class="div-title f16">
       <p style="color: #222222;font-weight: 600;padding-top: 11px;padding-left: 20px;">店铺活动</p>
       <div v-for="item in storeList" :key="item.id" class="store-activity">
         <img class="store-activity-img" :src="item.cover" alt="">
@@ -109,13 +109,16 @@ export default {
 .f13 {
   font-size: 13px;
 }
+.f14 {
+  font-size: 14px;
+}
 .store-name {
   padding: 16px 0 25px 5px;
   font-weight: 600;
   color: #000000;
 }
 .store-address {
-  padding: 0px 0 15px 5px;
+  /* padding: 0px 0 15px 5px; */
   color: #666666;
 }
 .mobile {

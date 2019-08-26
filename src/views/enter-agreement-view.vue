@@ -76,7 +76,22 @@ export default {
                     console.log(res)
                     if(res.data.StatusInfo.success){
                         this.$vux.toast.text('登录成功', 'top')
-                        this.$router.push({path:'/merchantagreementsign',query:{data:JSON.stringify(res.data.userInfo)}})
+                        if(res.data.StatusInfo.ReturnCode==801){
+                            this.$router.push({path:'/merchantapply'},query:{phone:this.phone})
+                        }
+                        if(res.data.StatusInfo.ReturnCode==802){
+                            this.$router.push({path:'/merchantchecking'})
+                        }
+                        if(res.data.StatusInfo.ReturnCode==803){
+                            this.$vux.toast.text('您的审核未通过，请稍后重试', 'top')                            
+                        }
+                        if(res.data.StatusInfo.ReturnCode==804){
+                            this.$router.push({path:'/merchantchecked'})
+                        }
+                        if(res.data.StatusInfo.ReturnCode==805){
+                            this.$router.push({path:'/merchantsigned'})
+                        }
+                        // this.$router.push({path:'/merchantagreementsign',query:{data:JSON.stringify(res.data.userInfo)}})
                     }else{
                         this.$vux.toast.text(res.data.StatusInfo.ErrorDetailCode, 'top')
                     }

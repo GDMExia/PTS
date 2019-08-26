@@ -53,12 +53,12 @@ export default new Router({
     },
     {
       path: '/home',
-      name: '崇尚小众之美 开启格调人生',
+      name: '嘻格格·本地生活',
       component: HomePage
     },
     {
       path: '/homes',
-      name: '崇尚小众之美 开启格调人生',
+      name: '嘻格格·本地生活',
       component: HomesPage,
       children: [
         {
@@ -243,22 +243,16 @@ export default new Router({
       // del
     },
     {
-      path: '/merchantapply',
-      name: '嘻格格商户入驻流程平台',
-      component: EnterapplyView
-      // 申请
-    },
-    {
       path: '/merchantagreement',
       name: '嘻格格商户入驻流程平台',
       component: EnteragreementView
       // 登录
     },
     {
-      path: '/merchantagreementsign',
+      path: '/merchantapply',
       name: '嘻格格商户入驻流程平台',
-      component: AgreementSignView
-      // 签约
+      component: EnterapplyView
+      // 申请
     },
     {
       path: '/merchantchecking',
@@ -271,6 +265,12 @@ export default new Router({
       name: '嘻格格商户入驻流程平台',
       component: checkedView
       // 审核通过
+    },
+    {
+      path: '/merchantagreementsign',
+      name: '嘻格格商户入驻流程平台',
+      component: AgreementSignView
+      // 签约
     },
     {
       path: '/merchantpayin',

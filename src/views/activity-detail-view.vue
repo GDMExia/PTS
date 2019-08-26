@@ -26,7 +26,7 @@
     <div class="tour-content" v-html="detail.content">
       <!-- <img style="width: 100%" src="../../static/img/img@2x.png" alt=""> -->
     </div>
-    <div class="local-life name-price" @click="$router.push('/activity')">
+    <div v-show="storeList.length > 0" class="local-life name-price" @click="$router.push('/activity')">
       <span class="local-life-text">相关活动</span>
       <span class="local-life-more">MORE</span>
     </div>

@@ -86,7 +86,7 @@ export default {
           })
           if(this.userInfo.is_member==0) {
             this.banner_list = this.banner_list.filter(item=>{
-              return item.jump_type != 3
+              return item.jump_type != '3'&&item.jump_type != '4'
             })
           }
           console.log(this.banner_list)
@@ -114,19 +114,21 @@ export default {
       })
     },
     handleUser() {
+      const token = this.$store.state.token
       let params = {
-        token: this.$store.state.token,
+        token: token
       }
-      console.log(params.token, '232323')
-      if(params.token!='') {
-        this.userDetail(params).then(res=>{
-          this.handleBanner()
+      let that = this
+      if(token!='') {
+        that.userDetail(params).then(res=>{
           if(res.StatusInfo.success) {
-            this.userInfo = res.userInfo
+            that.userInfo = res.userInfo
+            that.handleBanner()
           } else {
-            this.toastShow(res.StatusInfo.ErrorDetailCode)
+            that.toastShow(res.StatusInfo.ErrorDetailCode)
             if(res.StatusInfo.ReturnCode==603){
-              // this.$store.commit('setToken','')
+              that.handleBanner()
+              this.$store.commit('setToken','')
             }
           }
         })
@@ -180,7 +182,7 @@ export default {
     padding-left: 11px;
     padding-right: 11px;
     padding-top: 29px;
-    padding-bottom: 83px;
+    /* padding-bottom: 83px; */
   }
   .contain-activity {
     display: flex;
