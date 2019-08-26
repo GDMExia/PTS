@@ -19,12 +19,12 @@ export default {
     },
     data(){
         return{
-           
+           m_number:this.$route.query.m_number,
         }
     },
     methods:{
         next(){
-            this.$router.push('/merchantpayin')
+            this.$router.push({path:'/merchantpayin',query:{m_number:this.m_number}})
         }
     },
     mounted(){

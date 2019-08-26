@@ -37,9 +37,10 @@ router.beforeEach((to, from, next) => {
   const token = store.state.token
   const refuse = store.state.refuse
   console.log(to.fullPath)
-  if(to.fullPath.indexOf('merchant')>=0){
-    next()
-  }else if(token === ''  && !refuse) {
+  // if(to.fullPath.indexOf('merchant')>=0){
+  //   next()
+  // }else 
+  if(token === ''  && !refuse) {
     var reg = new RegExp("(^|&)token=([^&]*)(&|$)");
     console.log(location.search)
     const search = location.search.substr(1).match(reg)
@@ -51,8 +52,8 @@ router.beforeEach((to, from, next) => {
       store.commit('setRefuse', true)
       router.push(`${to.fullPath}`)
     }
-    location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.114.61:8080/#${to.fullPath}`
-    // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://pts.suoqoo.com/nh5/#${to.fullPath}`
+    // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.144:8080/#${to.fullPath}`
+    location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://pts.suoqoo.com/nh5/#${to.fullPath}`
     // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.238:8081/#${to.fullPath}`
   } else {
     if(token===""){

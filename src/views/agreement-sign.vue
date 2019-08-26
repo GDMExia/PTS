@@ -1,8 +1,8 @@
 <template>
     <div style="background-color:#fff;padding-top:20px;width:100%">
         <div style="font-size:16px;color:#000;font-weight:bold;margin-left:4%">
-            <!-- <p>甲方： {{data.company}}</p><br> -->
-            <!-- <p>法定代表人：{{data.legal_person}}</p><br><br> -->
+            <p>甲方： {{data.company}}</p><br>
+            <p>法定代表人：{{data.legal_person}}</p><br><br>
             <p>乙方：上海晟荣企业咨询有限公司</p><br>
             <p>法定代表人：丁蕴珏</p><br>
         </div>
@@ -161,18 +161,20 @@ export default {
     },
     data(){
         return{
-           data:JSON.parse(this.$route.query.data),
-           btn:1
+        //    data:JSON.parse(this.$route.query.data),
+        //    btn:1
+            m_number:this.$route.query.m_number,
+            data:{}
         }
     },
     methods:{
-        select(){
-            if(this.btn==1){
-                this.btn=0
-            }else{
-                this.btn=1
-            }
-        },
+        // select(){
+        //     if(this.btn==1){
+        //         this.btn=0
+        //     }else{
+        //         this.btn=1
+        //     }
+        // },
         submit(){
             // this.$http.post(`${this.rootPath}/Merchants/createSigning?m_number=${this.data.m_number}&is_signing=1`).
             let data=new FormData()
@@ -189,13 +191,26 @@ export default {
                 console.log(res)
                 if(res.data.StatusInfo.success){
                     this.$vux.toast.text('签约成功', 'top')
-                    this.$router.push('/merchantagreement')
+                    this.$router.push('/merchantsigned')
                 }else{
                     this.$vux.toast.text('签约失败，请重试', 'top')
                 }
             })
             // this.$vux.toast.text('签约成功', 'top')
             // this.$router.push('/merchantagreement')
+        },
+        getinfo(){
+            this.$http.get(`${this.rootPath}/Merchants/getSinginInfo?m_number=${this.m_number}`).then(res=>{
+            console.log(res)
+            this.data=res.data.merchantsInfo
+            // if(res.data.StatusInfo.ReturnCode==200){
+            //     this.$nextTick(()=>{
+            //         this.goodsInfo=res.data.goodsInfo
+            //         this.goodsCateTree=res.data.goodsCateTree
+            //         this.videoList=res.data.videoList
+            //     })
+            // }
+            })
         }
     },
     mounted(){
