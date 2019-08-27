@@ -216,6 +216,7 @@ export default {
     mounted(){
         console.log(this.$route.query.data)
         console.log(this.data)
+        this.getinfo()
     },
     watch:{
         

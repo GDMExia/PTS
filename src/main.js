@@ -37,24 +37,38 @@ router.beforeEach((to, from, next) => {
   const token = store.state.token
   const refuse = store.state.refuse
   console.log(to.fullPath)
-  // if(to.fullPath.indexOf('merchant')>=0){
-  //   next()
-  // }else 
-  if(token === ''  && !refuse) {
-    var reg = new RegExp("(^|&)token=([^&]*)(&|$)");
-    console.log(location.search)
-    const search = location.search.substr(1).match(reg)
-    // console.log(search[2], '3334444')
+  var reg = new RegExp("(^|&)token=([^&]*)(&|$)");
+  const search = location.search.substr(1).match(reg)
+  console.log(search, '3334444')
+  
+  // if(to.fullPath)
+  if(to.fullPath.indexOf('merchant')>=0&&token !== ''){
+    next()
+  }else if(to.fullPath.indexOf('merchant')>=0&& token === ''){
+    if(search){
+      store.commit('setToken', search[2])
+      next()
+    }else{
+      location.href = `http://pts.suoqoo.com/home.php/WechatLogin/merchantsAccountLogin`
+    }
+  }else if(token === '' && !refuse) {
     if(search){
       // store.commit('setToken', unescape(search[2]))
       store.commit('setToken', search[2])
+      next()
+      // router.push(`${to.fullPath}`)
     }else{
       store.commit('setRefuse', true)
-      router.push(`${to.fullPath}`)
+      next()
+      // router.push(`${to.fullPath}`)
     }
-    // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.144:8080/#${to.fullPath}`
-    location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://pts.suoqoo.com/nh5/#${to.fullPath}`
-    // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.238:8081/#${to.fullPath}`
+        // setTimeout(() => {
+          // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.144:8080/#${to.fullPath}`
+        location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://pts.suoqoo.com/nh5/#${to.fullPath}`
+        // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.238:8081/#${to.fullPath}`
+        // }, 1000);
+    console.log(`http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.144:8080/#${to.fullPath}`)
+    
   } else {
     if(token===""){
       store.commit('setRefuse', false)
