@@ -125,10 +125,12 @@ export default {
             that.userInfo = res.userInfo
             that.handleBanner()
           } else {
-            that.toastShow(res.StatusInfo.ErrorDetailCode)
             if(res.StatusInfo.ReturnCode==603){
               that.handleBanner()
               this.$store.commit('setToken','')
+              this.$router.go(0)
+            }else{
+              that.toastShow(res.StatusInfo.ErrorDetailCode)
             }
           }
         })

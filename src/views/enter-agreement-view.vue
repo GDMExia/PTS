@@ -97,10 +97,12 @@ export default {
                         }
                         // this.$router.push({path:'/merchantagreementsign',query:{data:JSON.stringify(res.data.userInfo)}})
                     }else{
-                        this.$vux.toast.text(res.data.StatusInfo.ErrorDetailCode, 'top')
                         if(res.data.StatusInfo.ReturnCode==603){
                             this.$store.commit('setToken','')
-                            this.$router.push('/merchantagreement')
+                            this.$router.go(0)
+                            // this.$router.push({path:'/merchantagreement'})
+                        }else{
+                            this.$vux.toast.text(res.data.StatusInfo.ErrorDetailCode, 'top')
                         }
                     }
                 })

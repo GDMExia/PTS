@@ -105,9 +105,11 @@ export default {
           this.activityList = res.newsList?this.activityList.concat(res.newsList):[]
           this.totalPage = res.PageInfo.TotalPages
         } else {
-          this.toastShow(res.StatusInfo.ErrorDetailCode)
           if(res.StatusInfo.ReturnCode==603){
             this.$store.commit('setToken','')
+            this.$router.go(0)
+          }else{
+            this.toastShow(res.StatusInfo.ErrorDetailCode)
           }
         }
         this.loadDataDone = true; // 请求成功 控制空数据显示
@@ -138,9 +140,11 @@ export default {
         if(res.StatusInfo.success) {
           this.VIPprice = res.vipPrice 
         } else {
-          this.toastShow(res.StatusInfo.ErrorDetailCode)
           if(res.StatusInfo.ReturnCode==603){
             this.$store.commit('setToken','')
+            this.$router.go(0)
+          }else{
+            this.toastShow(res.StatusInfo.ErrorDetailCode)
           }
         }
       })
@@ -159,9 +163,11 @@ export default {
             this.handleTourList()
           }
         } else {
-          this.toastShow(res.StatusInfo.ErrorDetailCode)
           if(res.StatusInfo.ReturnCode==603){
             this.$store.commit('setToken','')
+            this.$router.go(0)
+          }else{
+            this.toastShow(res.StatusInfo.ErrorDetailCode)
           }
         }
       })
