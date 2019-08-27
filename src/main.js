@@ -7,7 +7,7 @@ import VueRouter from 'vue-router'
 import Axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueBus from 'vue-bus'
-import Vconsole from 'vconsole'
+// import Vconsole from 'vconsole'
 // import $ from 'jquery'
 
 import App from './App'
@@ -35,7 +35,7 @@ Vue.use(ToastPlugin)
 // 全局路由守卫
 router.beforeEach((to, from, next) => {
   const token = store.state.token
-  const refuse = store.state.refuse
+  // const refuse = store.state.refuse
   console.log(to.fullPath)
   var reg = new RegExp("(^|&)token=([^&]*)(&|$)");
   const search = location.search.substr(1).match(reg)
@@ -51,28 +51,28 @@ router.beforeEach((to, from, next) => {
     }else{
       location.href = `http://pts.suoqoo.com/home.php/WechatLogin/merchantsAccountLogin`
     }
-  }else if(token === '' && !refuse) {
+  }else if(token === '') {
     if(search){
       // store.commit('setToken', unescape(search[2]))
       store.commit('setToken', search[2])
       next()
       // router.push(`${to.fullPath}`)
     }else{
-      store.commit('setRefuse', true)
-      next()
+      location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://pts.suoqoo.com/nh5/#${to.fullPath}`
+      // store.commit('setRefuse', true)
+      // next()
       // router.push(`${to.fullPath}`)
     }
         // setTimeout(() => {
           // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.144:8080/#${to.fullPath}`
-        location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://pts.suoqoo.com/nh5/#${to.fullPath}`
         // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.238:8081/#${to.fullPath}`
         // }, 1000);
     console.log(`http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.144:8080/#${to.fullPath}`)
     
   } else {
-    if(token===""){
-      store.commit('setRefuse', false)
-    }
+    // if(token===""){
+    //   store.commit('setRefuse', false)
+    // }
     next()
   }
   
@@ -82,8 +82,8 @@ router.beforeEach((to, from, next) => {
 //   routes
 // })
 
-const vConsole = new Vconsole()
-console.log(vConsole)
+// const vConsole = new Vconsole()
+// console.log(vConsole)
 
 FastClick.attach(document.body)
 
