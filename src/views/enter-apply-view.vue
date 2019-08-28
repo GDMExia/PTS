@@ -224,12 +224,12 @@ export default {
             }
         },
         Toint(){
-            if(parseInt(this.discount)){
-            if(this.discount>=10||this.discount<=0){
+            if(!parseInt(this.discount)){
                 this.discount=''
-            }
             }else{
-                this.discount=''
+                if(this.discount>=10||this.discount<=0){
+                    this.discount=''
+                }
             }
         },
         uploadshop_picture(event){
