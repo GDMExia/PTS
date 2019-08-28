@@ -10,7 +10,7 @@
             <XInput :title='`<span style="color:#666666;font-size:14px">推介人手机号码</span>`' is-type="china-mobile" v-model="recommended_phone" text-align="right"></XInput>
             <XInput :title='`<span style="color:#666666;font-size:14px;white-space: nowrap">店主或商户申请人姓名</span>`' v-model="merchant_applicant" text-align="right"></XInput>
             <XInput :title='`<span style="color:#666666;font-size:14px;white-space: nowrap">店主或商户申请人微信号</span>`' v-model="merchant_applicant_wechat" text-align="right"></XInput>
-            <XInput :title='`<span style="color:#666666;font-size:14px;white-space: nowrap">提供平台最低折扣</span>`' v-model="discount" text-align="right" placeholder="纯数字 如65折填6.5"></XInput>
+            <XInput :title='`<span style="color:#666666;font-size:14px;white-space: nowrap">提供平台最低折扣</span>`' v-model="discount" text-align="right" placeholder="纯数字 如65折填6.5" @on-change="Toint"></XInput>
             <!-- <XInput :title='`<span style="color:#666666;font-size:14px;white-space: nowrap">商户申请人手机号码</span>`' is-type="china-mobile" v-model="merchant_applicant_phone" text-align="right"></XInput> -->
             <!-- <XInput :title='click1?`<span style="color:#666666;font-size:14px;white-space: nowrap">请在此输入短信验证码</span>`:""' v-model="phone_code" text-align="left" placeholder="" placeholder-align="right" :show-clear="false"><div slot="right" style="color:#06D5DE;borderLeft:1px solid #F0F0F0" @click="getcode">{{codeshow}}</div></XInput> -->
         </group>
@@ -221,6 +221,11 @@ export default {
                 }
                 console.log(this.goods_list1)
             })
+            }
+        },
+        Toint(){
+            if(this.discount>=10||this.discount<=0){
+                this.discount=''
             }
         },
         uploadshop_picture(event){
