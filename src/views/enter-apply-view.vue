@@ -224,7 +224,11 @@ export default {
             }
         },
         Toint(){
+            if(parseInt(this.discount)){
             if(this.discount>=10||this.discount<=0){
+                this.discount=''
+            }
+            }else{
                 this.discount=''
             }
         },
