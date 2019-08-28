@@ -100,7 +100,7 @@
             <p style="position:absolute;right:0;top:15px;display:inline-block;width:60%;height:80px;color:#999999;font-size:14px">请上传第{{index+1}}种产品图片</p>
             </group>
             <group style="margin-bottom:20px">
-                <XTextarea title="" style="font-size:14px" v-model="item.content" text-align="right" :placeholder="`请完善第${index+1}种产品信息，包含产品名称、价格、产品描述等`"></XTextarea>
+                <XTextarea title="" style="font-size:14px" v-model="item.content" text-align="right" :placeholder="`请完善第${index+1}种产品信息，包含产品名称、价格、产品描述等`" @on-blur="fixScroll"></XTextarea>
             </group>
         </div>
         <div class="button" @click="submit"></div>
@@ -181,6 +181,9 @@ export default {
                 }
             })
             }
+        },
+        fixScroll() {
+            window.scrollTo(0, 0);
         },
         uploadphoto(event){ 
             this.loadingphoto=true

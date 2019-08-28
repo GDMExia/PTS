@@ -68,10 +68,10 @@ export default {
                 let data=new FormData()
                 data.append('phone',this.phone)
                 data.append('phone_code',this.phone_code)
-                data.append('token',this.$store.state.token)
+                // data.append('token',this.$store.state.token)
                 this.$http({
                 method: 'post',
-                url: `${this.rootPath}/Merchants/login`,
+                url: `${this.rootPath}/Merchants/payCodeLogin`,
                 header: {
                     'Content-Type':'multipart/form-data'  
                 },
@@ -79,29 +79,11 @@ export default {
                 }).then(res=>{
                     console.log(res)
                     if(res.data.StatusInfo.success){
-                        this.$vux.toast.text('登录成功', 'top')
-                        if(res.data.StatusInfo.ReturnCode==801){
-                            this.$router.push({path:'/merchantapply',query:{phone:this.phone}})
-                        }
-                        if(res.data.StatusInfo.ReturnCode==802){
-                            this.$router.push({path:'/merchantchecking'})
-                        }
-                        if(res.data.StatusInfo.ReturnCode==803){
-                            this.$vux.toast.text('您的审核未通过，请稍后重试', 'top')
-                        }
-                        if(res.data.StatusInfo.ReturnCode==806){
-                            this.$router.push({path:'/merchantchecked',query:{m_number:res.data.m_number}})
-                        }
-                        if(res.data.StatusInfo.ReturnCode==807){
-                            this.$router.push({path:'/merchantbeforeagreementsign',query:{m_number:res.data.m_number}})
-                        }
-                        if(res.data.StatusInfo.ReturnCode==805){
-                            this.$router.push({path:'/merchantsigned'})
-                        }
+                        location.href=`${this.rootPath}/Pay/orderPaymentCode?order_no=${res.data.order_no}`
                         // this.$router.push({path:'/merchantagreementsign',query:{data:JSON.stringify(res.data.userInfo)}})
                     }else{
                         if(res.data.StatusInfo.ReturnCode==603){
-                            this.$store.commit('setToken','')
+                            // this.$store.commit('setToken','')
                             this.$router.go(0)
                             // this.$router.push({path:'/merchantagreement'})
                         }else{
