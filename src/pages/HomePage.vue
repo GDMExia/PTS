@@ -11,11 +11,11 @@
       </div>
       <div class="local-life">
         <span class="local-life-text">本地生活</span>
-        <span class="local-life-more" @click="$router.push('/homes/store')">MORE</span>
+        <span class="local-life-more" @click="$router.push(`/homes/store`)">MORE</span>
       </div>
       <div class="local-life-body">
         <!-- <div class="local-life-menu"> -->
-          <div class="local-lift-item local-lift-item1" @click="$router.push(`/homes/store?group_id=${item.group_id}`)" v-for="(item, index) in local_list" :key="index" >
+          <div class="local-lift-item local-lift-item1" @click="$router.push(`/homes/store?group_id=${item.group_id}&cate_id=${item.cate_id}`)" v-for="(item, index) in local_list" :key="index" >
             <img :src="item.group_pic" alt="">
           </div>
         <!-- </div> -->
