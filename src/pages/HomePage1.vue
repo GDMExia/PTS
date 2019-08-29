@@ -1,53 +1,38 @@
 <template>
   <div style="height:100%;">
     <div class="banner">
-      <swiper loop auto :list="banner_list" dots-position="center" @swiper-indicator-active-color="'#76F7FC'" height="160px" :dotsClass="'dotsbottom'"></swiper>
-      <!-- <img src="../../static/img/radian@2x.png" alt=""> -->
+      <swiper loop auto :list="banner_list" dots-position="center" @swiper-indicator-active-color="'#76F7FC'" height="212px" dots-class="dotsbottom"></swiper>
+      <img src="../../static/img/radian@2x.png" alt="">
     </div>
-    <!-- <div class="container"> -->
+    <div class="container">
       <div class="contain-activity">
-        <div>
-          <img src="../../static/img/home_ic_xstj@2x.png" alt="">
-          <p>心水推荐</p>
-        </div>
-        <div @click="$router.push('/homes/activity')">
-          <img src="../../static/img/home_ic_hdfx@2x.png" alt="">
-          <p>活动分享</p>
-        </div>
-        <div @click="$router.push('/homes/guide')">
-          <img src="../../static/img/home_ic_syzn@2x.png" alt="">
-          <p>使用指南</p>
-        </div>
+        <img slot="icon" @click="$router.push('/homes/activity')" src="../../static/img/home_activity_share@2x.png">
+        <img slot="icon" @click="$router.push('/homes/guide')" src="../../static/img/home_guide@2x.png">
       </div>
-      <div class="items-box" style="margin-top: 14px;padding: 0 2.67%;">
-        <div class="local-life m5">
-          <span class="local-life-text">本地生活</span>
-          <!-- <span class="local-life-more" @click="$router.push(`/homes/store`)">MORE</span> -->
-          <img class="local-life-more" src="../../static/img/bt_ic_more@2x.png" @click="$router.push(`/homes/store`)" alt="">
-        </div>
-        <div class="local-life-body">
-          <!-- <div class="local-life-menu"> -->
-            <div class="local-lift-item" @click="$router.push(`/homes/store?group_id=${item.group_id}&cate_id=${item.cate_id}`)" v-for="(item, index) in local_list" :key="index" >
-              <img :src="item.group_pic" alt="">
-            </div>
-          <!-- </div> -->
-        </div>
+      <div class="local-life">
+        <span class="local-life-text">本地生活</span>
+        <span class="local-life-more" @click="$router.push(`/homes/store`)">MORE</span>
       </div>
-      <div class="items-box" style="margin-top: 10px; padding: 5.1% 4% 3.2% 4%;">
-        <div class="local-life" v-show="recomend_list.length>0">
-          <span class="local-life-text">精品推荐</span>
-        </div>
-        <div class="getmore" v-show="recomend_list.length>0">
-          <div class="moreitem" v-for="(item, index) in recomend_list" :key="index">
-            <div class="image">
-              <img :src="item.banner" alt="">
-            </div>
-            <p>{{item.goods_name}}</p>
+      <div class="local-life-body">
+        <!-- <div class="local-life-menu"> -->
+          <div class="local-lift-item local-lift-item1" @click="$router.push(`/homes/store?group_id=${item.group_id}&cate_id=${item.cate_id}`)" v-for="(item, index) in local_list" :key="index" >
+            <img :src="item.group_pic" alt="">
           </div>
+        <!-- </div> -->
+      </div>
+      <div class="local-life" v-show="recomend_list.length>0">
+        <span class="local-life-text">精品推荐</span>
+      </div>
+      <div class="getmore" v-show="recomend_list.length>0">
+        <div class="moreitem" v-for="(item, index) in recomend_list" :key="index">
+          <div class="image">
+            <img :src="item.banner" alt="">
+          </div>
+          <p>{{item.goods_name}}</p>
         </div>
       </div>
       <div class="placeholder"></div>
-    <!-- </div> -->
+    </div>
     <tabbarComponent :tabIndex=0></tabbarComponent>
     <home-provider></home-provider>
     
@@ -182,93 +167,60 @@ export default {
   .banner {
     width: 100%;
     /* height: 2.12rem; */
-    height:199px;
+    height:227px;
     position: relative;
-    background: url('../../static/img/home_bg@2x.png') center no-repeat;
-    background-size: 100% 199px;
+    background-color:#81D8D0;
   }
   .banner img {
     width: 100%;
     position: absolute;
     bottom:14px
   }
-  .vux-slider{
-    height:160px!important;    
-    padding-top: 10px;
-    left: 2.7%;
-    overflow: visible;
-    position: static;
-    width: 94.6%;
-    margin-left: 2.7%;}
-  .dotsbottom.vux-indicator.vux-indicator-center {
-    top: 168px;
-  }
-  .dotsbottom{top:168px!important;z-index:1000}
+  .vux-slider{height:227px!important}
+  .dotsbottom{top:170px!important;z-index:1000}
   .container {
     background-color:#81D8D0;
     width:100%;
-    /* padding-left: 11px;
+    padding-left: 11px;
     padding-right: 11px;
-    padding-top: 29px; */
+    padding-top: 29px;
     /* padding-bottom: 83px; */
   }
   .contain-activity {
     display: flex;
     justify-content: space-around;
-    width: 94.6%;
-    background: #fff;
-    height: 87px;
-    border-radius: 10px;
-    margin-left: 2.7%;
-    align-items: center;
   }
   .contain-activity img {
-    width: 50px;
-    height: 50px;
-  }
-  .contain-activity p {
-    color: #303030;
-    font-size: 12px;
+    width: 170px;
+    height: 89px
   }
   .local-life {
-    display: flex;
-    text-align: center;
-    justify-content: space-between;
-    align-items: center;
+    margin-top: 41px;
     clear: both;
     overflow: hidden
-  }
-  .m5 {
-    margin: 5px;
   }
   .local-life-text {
     color: #333333;
     font-size: 16px;
     font-weight: 600;
-  }
-  .items-box {
-    width: 100%;
-    background: #fff;
+    float: left;
   }
   .local-life-more {
-    width: 78px;
-    height: 46px;
+    color: #ffffff;
+    font-size: 12px;
+    float: right;
   }
   .local-life-body{
-    display: flex;
-    width: 100%;
-    flex-flow: row wrap;
-    justify-content: space-around;
+    margin-top:14px
   }
   .local-life-menu{width:100%;display: flex;align-content: center;margin-bottom: 24px}
   .local-lift-item{
-    /* flex:1; */
-    width:32.4%;
-    height:81px;
+    flex:1;
+    width:32.7%;
+    height:74px;
     font-size: 14px;
     color:#333;
     display: inline-block;
-    /* margin-right: 1.4%; */
   }
   .local-lift-item img {
     width: 100%;
@@ -281,7 +233,7 @@ export default {
   .local-lift-item5{background: url('../../static/img/icon/block1@2x(4).png') center no-repeat;background-size: 116px 74px;}
   .local-lift-item6{background: url('../../static/img/icon/block1@2x(5).png') center no-repeat;background-size: 116px 74px;}
 
-  .getmore{height:200px;overflow-x: scroll;overflow-y: hidden;display: flex;margin-top: 18px;}
+  .getmore{height:200px;overflow-x: scroll;overflow-y: hidden;display: flex;margin-top: 16px;}
   .getmore .moreitem{height:200px;width:130px;margin-right:20px;display: inline-block;flex:1}
   .getmore .moreitem .image{width:130px;height:160px;border-radius: 10px;background-color: #fff;}
   .getmore .moreitem .image img{width:130px;height:160px;border-radius: 10px;}
