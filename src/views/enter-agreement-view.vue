@@ -102,7 +102,7 @@ export default {
                     }else{
                         if(res.data.StatusInfo.ReturnCode==603){
                             this.$store.commit('setToken','')
-                            this.$router.go(0)
+                            location.href = `http://pts.suoqoo.com/home.php/WechatLogin/merchantsAccountLogin`
                             // this.$router.push({path:'/merchantagreement'})
                         }else{
                             this.$vux.toast.text(res.data.StatusInfo.ErrorDetailCode, 'top')
