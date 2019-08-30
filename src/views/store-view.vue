@@ -57,11 +57,19 @@ export default {
     ...mapActions(['storeLists']),
     handleQuery(id) {
       const group_id = this.$route.query.group_id
+      const cate_id = this.$route.query.cate_id
       let params = {
         page: this.pageNum,
         pageSize: 5,
-        group_id: group_id?group_id:'',
-        merchants_cid: id || this.merchants_cid
+        // group_id: group_id?group_id:'',
+        // merchants_cid: id || this.merchants_cid,
+        // cate_id: cate_id?cate_id:''
+      }
+      if(cate_id) {
+        params.cate_id = cate_id
+      }
+      if(group_id) {
+        params.group_id = group_id
       }
       this.storeLists(params).then(res=>{
         if(res.StatusInfo.success) {
