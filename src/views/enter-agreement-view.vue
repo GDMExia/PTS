@@ -65,6 +65,7 @@ export default {
         },
         submit(){
             if(this.phone&&this.phone_code){
+                // let token=this.GetQueryString('token')
                 let data=new FormData()
                 data.append('phone',this.phone)
                 data.append('phone_code',this.phone_code)
