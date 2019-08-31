@@ -32,7 +32,7 @@
           <video :src="item.file_path" style="width:100%;height:100%" controls="controls"></video>
         </div>
         <div class="menu">
-          <div class="content">{{goodsInfo.content}}</div>
+          <div class="content" v-html="goodsInfo.content"></div>
         </div>
         <div class="otherlink">
           <p class="title">相关文章</p>
