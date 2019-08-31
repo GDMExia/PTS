@@ -41,9 +41,11 @@ router.beforeEach((to, from, next) => {
   const search = location.search.substr(1).match(reg)
   console.log(search, '3334444')
 
-  if(to.fullPath.indexOf('merchantpayt')>=0&&token!==''){
+  if(to.fullPath.indexOf('merchantpaytw')>=0){
     next();
-  }else if(to.fullPath.indexOf('merchantpayt')>=0&&token===''){
+  }else if(to.fullPath.indexOf('merchantpayth')>=0&&token!==''){
+    next();
+  }else if(to.fullPath.indexOf('merchantpayth')>=0&&token===''){
     if(search){
       store.commit('setToken', search[2])
       next()
