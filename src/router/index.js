@@ -56,7 +56,7 @@ export default new Router({
     },
     {
       path: '/home',
-      name: '嘻格格·本地生活',
+      name: '嘻格格·在地生活',
       component: HomePage
     },
     {
