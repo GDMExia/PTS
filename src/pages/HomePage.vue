@@ -19,7 +19,7 @@
           <p>使用指南</p>
         </div>
       </div>
-      <div class="items-box" style="margin-top: 14px;padding: 0 2.67%;">
+      <div class="items-box" style="margin-top: 14px;padding: 0 2.67%;padding-bottom: 18px;">
         <div class="local-life m5">
           <span class="local-life-text">本地生活</span>
           <!-- <span class="local-life-more" @click="$router.push(`/homes/store`)">MORE</span> -->
@@ -93,6 +93,8 @@ export default {
               item.url = `/owners/sign`
             } else if (item.jump_type == '4') {
               item.url = `/tours/tourDetail?id=${item.link_url}`
+            } else if (item.jump_type == '5') {
+              item.url = `/homes/storeDetail?id=${item.link_url}`
             } else {
               item.url = "javascript;"
             }
@@ -259,6 +261,7 @@ export default {
     width: 100%;
     flex-flow: row wrap;
     justify-content: space-around;
+    height: 170px;
   }
   .local-life-menu{width:100%;display: flex;align-content: center;margin-bottom: 24px}
   .local-lift-item{

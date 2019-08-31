@@ -19,7 +19,7 @@
           </p>
         </div>
         <div style="text-align: right;">
-          <p class="price">$ {{tourItem.goods_price}}</p>
+          <p class="price">{{tourItem.goods_price}}</p>
           <p class="num">最高可抵扣{{tourItem.discount_point}}积分</p>
         </div>
       </div>
@@ -40,10 +40,11 @@
       <span class="local-life-more">MORE</span>
     </div>
     <div v-for="item in storeList" :key="item.tourism_id" @click="backTop(item.tourism_id)" class="store">
-      <div class="store-img" :style="{backgroundImage: 'url(' + item.pic + ')'}">
-      <!-- <div class="store-img" :style="'background-image: '+item.pic"> -->
-        <!-- <img :src="item.pic" alt=""> -->
-      </div>
+      <!-- <div class="store-img" :style="{backgroundImage: 'url(' + item.pic + ')'}"> -->
+        <img class="store-activity-img" :src="item.pic" alt="">
+      <!-- <div class="store-img">
+        <img :src="item.pic" alt="">
+      </div> -->
       <div class="store-right f16">
         {{item.goods_name}}
       </div>
@@ -195,8 +196,8 @@ export default {
   font-size: 22px;
 }
 .name-price .num {
-  color: #989898;
-  font-size: 10px;
+  color: #454545;
+  font-size: 12px;
   margin-top: 2px;
 }
 .title-text {
@@ -290,14 +291,18 @@ p img {
   display: flex;
 }
 .store-img {
+  margin: 10px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  height: 90px;
+  padding: 15px 10px;
+  display: flex;
+  box-shadow: 0 -2px 14px rgba(0,0,0,0.06)
+}
+.store-activity-img {
   width: 90px;
   height: 90px;
-  background-position: center center;    
-  background-size: 100% 100%;               
-  background-repeat: no-repeat;
-}
-.store-img img {
-  width: 100%;
+  border-radius: 11px;
 }
 .store-right {
   margin-left: 10px;

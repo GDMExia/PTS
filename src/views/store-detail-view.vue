@@ -6,12 +6,12 @@
         <p class="f16 store-name">{{storeItem.merchants_name}}</p>
         <p class="store-address f14">
           <img src="../../static/img/ic_dz02@2x.png" alt="">
-          {{storeItem.address}}
+          <span class="store-address-item"> {{storeItem.address}}</span>
         </p>
         <div class="name-price">
-          <p class="store-address f14" style="padding-top: 13px;">
+          <p class="store-address f14" style="">
             <img src="../../static/img/mobile@2x.png" alt="">
-            {{storeItem.phone}}
+            <span class="store-address-item">{{storeItem.phone}}</span>
           </p>
           <a :href="`tel:${storeItem.phone}`" class="mobile"></a>
         </div>
@@ -120,6 +120,18 @@ export default {
 .store-address {
   /* padding: 0px 0 15px 5px; */
   color: #666666;
+  display: flex;
+  align-items: center;
+  height: 50px; 
+}
+.store-address-item {
+  width: 90%;
+  text-overflow: -o-ellipsis-lastline; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  display: -webkit-box; 
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 .mobile {
   width: 99px;

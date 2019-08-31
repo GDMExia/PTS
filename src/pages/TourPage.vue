@@ -10,9 +10,9 @@
             <img style="width: 40px; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
             <span> 暂无数据 </span>
         </div>
-        <scroller v-if="activityList.length" height="-137" lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottom">
+        <scroller v-if="activityList.length" height="" lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottom">
           <div class="ofy_auto flx_1" style="margin-top: -15px;">
-            <div class="container" @click="$router.push(`/tours/tourDetail?id=${item.tourism_id}`)" v-for="(item, index) in activityList" :key="index">
+            <div class="container" @click="handleDetail(item.tourism_id)" v-for="(item, index) in activityList" :key="index">
               <img class="activity-img" :src="item.pic" alt="">
               <div class="activity-title">
                 <div class="name-price">
@@ -116,6 +116,13 @@ export default {
         this.onFetching = false; // 防止重复请求 
       })
     },
+    handleDetail(id) {
+      if(this.userInfo.is_member == 0 || this.userInfo.over_time < moment().format("YYYY-MM-DD")) {
+        this.show = true
+      } else {
+        this.$router.push(`/tours/tourDetail?id=${id}`)
+      }
+    },
     onScrollBottom () {
       if (this.onFetching) return;
       this.onFetching = true;
@@ -125,7 +132,7 @@ export default {
     },
     // 不是VIP点击取消
     onCancel() {
-      this.maskShow = true
+      this.maskShow = false
     },
     // 不是VIP点击升级VIP
     onConfirm() {
@@ -159,9 +166,7 @@ export default {
           this.userInfo = res.userInfo
           if(res.userInfo.is_member == 0 || res.userInfo.over_time < moment().format("YYYY-MM-DD")) {
             this.show = true
-          } else {
-            this.handleTourList()
-          }
+          } 
         } else {
           if(res.StatusInfo.ReturnCode==603){
             this.$store.commit('setToken','')
@@ -184,6 +189,7 @@ export default {
     
   },
   created() {
+    this.handleTourList()
     this.handleVIP()
     this.handleUser()
   },
@@ -247,8 +253,8 @@ export default {
   font-size: 22px;
 }
 .name-price .num {
-  color: #989898;
-  font-size: 10px;
+  color: #454545;
+  font-size: 12px;
 }
 .title-text {
   color: #323643;

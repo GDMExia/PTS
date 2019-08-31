@@ -18,8 +18,8 @@
             <p class="store-name">{{item.merchants_name}}
             <img class="activity-enable" v-show="item.is_goods" src="../../static/img/ic_hdbq@2x.png" alt="">
             </p>
-            <p class="store-address mt12"><img src="../../static/img/ic_dz02@2x.png" alt="">{{item.address}}</p>
-            <p class="store-address mt10"><img src="../../static/img/ic_owner@2x.png" alt="">{{item.contact}}</p>
+            <p class="store-address mt12"><img src="../../static/img/ic_dz02@2x.png" alt=""><span>{{item.address}}</span></p>
+            <p class="store-address mt10"><img src="../../static/img/ic_owner@2x.png" alt=""><span>{{item.contact}}</span></p>
           </div>
         </div>
       </div>
@@ -76,6 +76,20 @@ export default {
           this.storeList = res.merchantsList?this.storeList.concat(res.merchantsList):[]
           this.category = res.merchantsCateTree
           this.imageList = res.Banner.map(item=>{
+            // 1活动页面;2外链页面;3签到页面;4旅游;5商家
+            if(item.jump_type == '1') {
+              item.url = `/activities/activityDetail?id=${item.link_url}`
+            } else if (item.jump_type == '2') {
+              item.url = `${item.link_url}`
+            } else if (item.jump_type == '3') {
+              item.url = `/owners/sign`
+            } else if (item.jump_type == '4') {
+              item.url = `/tours/tourDetail?id=${item.link_url}`
+            } else if (item.jump_type == '5') {
+              item.url = `/homes/storeDetail?id=${item.link_url}`
+            } else {
+              item.url = "javascript;"
+            }
             item.img = item.bannerCover
             return item
           })
@@ -166,6 +180,12 @@ export default {
   color: #666666;
   font-size: 11px;
   display: flex;
+}
+.store-address span{
+  width: 215px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 p img {
   width: 12px;

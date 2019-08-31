@@ -31,10 +31,10 @@
                 </p>
                 <p class="time mt12">
                   <img src="../../static/img/icon_time@2x.png" alt="">
-                  截止报名时间：{{item.registration_time}}
+                  截止时间：{{item.registration_time}}
                 </p>
               </div>
-              <div>
+              <div style="text-align: right;">
                 <p class="price">{{item.goods_price}}</p>
                 <p class="num">抵{{item.discount_price}}积分</p>
               </div>
