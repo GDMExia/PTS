@@ -68,7 +68,7 @@ export default {
                 let data=new FormData()
                 data.append('phone',this.phone)
                 data.append('phone_code',this.phone_code)
-                // data.append('token',this.$store.state.token)
+                data.append('token',this.$store.state.token)
                 this.$http({
                 method: 'post',
                 url: `${this.rootPath}/Merchants/payCodeLogin`,
@@ -82,8 +82,8 @@ export default {
                         location.href=`${this.rootPath}/Pay/orderBindPay?order_no=${res.data.order_no}`
                     }else{
                         if(res.data.StatusInfo.ReturnCode==603){
-                            // this.$store.commit('setToken','')
-                            this.$router.go(0)
+                            this.$store.commit('setToken','')
+                            location.href = `http://pts.suoqoo.com/home.php/WechatLogin/merchantsAccountPayLogin`
                             // this.$router.push({path:'/merchantagreement'})
                         }else{
                             this.$vux.toast.text(res.data.StatusInfo.ErrorDetailCode, 'top')
