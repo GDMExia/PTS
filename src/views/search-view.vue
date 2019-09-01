@@ -1,5 +1,6 @@
 <template>
-    <div class="main" style="touch-action: none;">
+    <div class="main">
+         <!-- style="touch-action: none;" -->
         <div>
         <confirm 
             v-model="show"
