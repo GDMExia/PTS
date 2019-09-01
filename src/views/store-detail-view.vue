@@ -8,6 +8,7 @@
           <img src="../../static/img/ic_dz02@2x.png" alt="">
           <span class="store-address-item"> {{storeItem.address}}</span>
         </p>
+        <div class="line"></div>
         <div class="name-price">
           <p class="store-address f14" style="">
             <img src="../../static/img/mobile@2x.png" alt="">
@@ -132,6 +133,9 @@ export default {
   display: -webkit-box; 
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+.line {
+  border-top: 1px solid #E6E6E6;
 }
 .mobile {
   width: 99px;

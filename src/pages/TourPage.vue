@@ -198,6 +198,7 @@ export default {
     //   this.$refs.scrollerBottom.reset({top: 0})
     // })
     this.$bus.emit("onTabBarEvent", {});
+    window.scrollTo(0,0)
     
   }
 };

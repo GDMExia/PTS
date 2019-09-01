@@ -9,7 +9,7 @@
             <img src="../../static/img/icon_time@2x.png" alt="">
             参与日期：{{detail.join_time}}
           </p>
-          <p class="time mt12" @click="$router.push(`/homes/storeDetail?id=${detail.merchants_id}`)">
+          <p class="time mt12" @click="handleStore">
             <img src="../../static/img/icon_fabuzhe@2x.png" alt="">
             发布者：{{detail.create_name}}
             <img class="arrow" src="../../static/img/icon/ic_arrow03@2x.png" alt="">
@@ -30,7 +30,7 @@
       <span class="local-life-text">相关活动</span>
       <span class="local-life-more">MORE</span>
     </div>
-    <div v-for="item in storeList" :key="item.id" class="store">
+    <div v-for="item in storeList" :key="item.goods_id"  @click="backTop(item.goods_id)" class="store">
       <img class="store-img" :src="item.cover" alt="">
       <div class="store-right f16">
         {{item.goods_name}}
@@ -80,6 +80,11 @@ export default {
         }
       })
     },
+    handleStore(merchants_id) {
+      if(this.detail.pid==1) {
+        this.$router.push(`/homes/storeDetail?id=${this.detail.merchants_id}`)
+      } 
+    },
     handleUser() {
       let params = {
         token: this.$store.state.token,
@@ -92,6 +97,26 @@ export default {
         }
       })
     },
+    // 点击图片回到顶部方法，加计时器是为了过渡顺滑
+    backTop (id) {
+      this.$router.push(`/activities/activityDetail?id=${id}`)
+      this.handleDetail()
+      const that = this
+      let timer = setInterval(() => {
+        let ispeed = Math.floor(-that.scrollTop / 5)
+        document.documentElement.scrollTop = document.body.scrollTop = that.scrollTop + ispeed
+        if (that.scrollTop === 0) {
+          clearInterval(timer)
+        }
+      }, 16)
+    },
+ 
+    // 为了计算距离顶部的高度，当高度大于60显示回顶部图标，小于60则隐藏
+    scrollToTop () {
+      const that = this
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+      that.scrollTop = scrollTop
+    }
   },
   computed: {
     
@@ -105,7 +130,11 @@ export default {
   },
   mounted() {
     this.id = this.$route.query.id
-  }
+    window.addEventListener('scroll', this.scrollToTop)
+  },
+  destroyed () {
+    window.removeEventListener('scroll', this.scrollToTop)
+  },
 };
 </script>
 

@@ -33,12 +33,12 @@
           <!-- </div> -->
         </div>
       </div>
-      <div class="items-box" style="margin-top: 10px; padding: 5.1% 4% 3.2% 4%;">
+      <div class="items-box" style="margin-top: 10px; padding: 5.1% 3.2% 0;">
         <div class="local-life" v-show="recomend_list.length>0">
           <span class="local-life-text">精品推荐</span>
         </div>
         <div class="getmore" v-show="recomend_list.length>0">
-          <div class="moreitem" v-for="(item, index) in recomend_list" :key="index">
+          <div class="moreitem" v-for="(item, index) in recomend_list" :key="index" @click="$router.push(`/activities/activityDetail?id=${item.goods_id}`)">
             <div class="image">
               <img :src="item.banner" alt="">
             </div>
@@ -284,18 +284,41 @@ export default {
   .local-lift-item5{background: url('../../static/img/icon/block1@2x(4).png') center no-repeat;background-size: 116px 74px;}
   .local-lift-item6{background: url('../../static/img/icon/block1@2x(5).png') center no-repeat;background-size: 116px 74px;}
 
-  .getmore{height:200px;overflow-x: scroll;overflow-y: hidden;display: flex;margin-top: 18px;}
-  .getmore .moreitem{height:200px;width:130px;margin-right:20px;display: inline-block;flex:1}
-  .getmore .moreitem .image{width:130px;height:160px;border-radius: 10px;background-color: #fff;}
-  .getmore .moreitem .image img{width:130px;height:160px;border-radius: 10px;}
+  .getmore{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 18px;
+    justify-content: space-between;
+  }
+  .getmore .moreitem{
+    /* height: 170px; */
+    width: 170px;
+    /* margin-right: 20px; */
+    display: inline-block;
+    /* -webkit-box-flex: 1; */
+    /* flex: 1 1 0%; */
+  }
+  .getmore .moreitem .image{
+    width:100%;
+    height:100;
+    border-radius: 10px;
+    background-color: #fff;
+  }
+  .getmore .moreitem .image img{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+  }
   .getmore .moreitem p{
-    width:120px;
+    width: 170px;
     white-space: nowrap;
     font-size: 15px;
-    color:#666;
+    color: #303030;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-top: 17px;
+    margin-top: 8px;
+    margin-bottom: 12px;
   }
 
   .placeholder{height:70px}
