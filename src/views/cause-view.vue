@@ -16,7 +16,7 @@
       </confirm>
     </div>
     <div class="main">
-      <div style="marginTop:15px;overflow-x:scroll;height:40px;width:100%">
+      <div style="marginTop:15px;overflow-x:scroll;height:40px;width:100%" class="top" @touchstart="touchstart" @touchend="touchend" @touchmove="touchmove" ref="top">
         <div style="height:40px;width:600px">
           <div class="header_btn" :class="cid==item.cid?'selected':''" v-for="(item,index) of cateTree" :key="index"><p @click="item.is_code!=1?getmore(item.cid):getcode(item.cid)">{{item.cate_name}}</p></div>
         </div>
@@ -69,6 +69,8 @@ export default {
       show:false,
       article_id:'',
       onFetching: false, // 请求控制
+      start:0,
+      end:0
     };
   },
   methods: {
@@ -144,6 +146,30 @@ export default {
           this.show=false
         }
       })
+    },
+    touchstart(e){
+      // console.log(e.changedTouches[0].pageX)
+      this.start=e.changedTouches[0].pageX
+    },
+    touchmove(e){
+      console.log(e.changedTouches[0].pageX-this.start)
+      // console.log(this.$refs.top.scrollLeft)
+      
+      if(this.start>e.changedTouches[0].pageX){
+      this.$refs.top.scrollTo(this.start-e.changedTouches[0].pageX,0)
+      }else{
+        // if(this.$refs.top.scrollLeft!=0){
+          this.$refs.top.scrollTo(this.end-(e.changedTouches[0].pageX-this.start),0)
+        // }
+      }
+    },
+    touchend(e){
+      this.end=this.start-e.changedTouches[0].pageX
+      // console.log(e.changedTouches[0].pageX)
+      // console.log(e)
+      // console.log(e.changedTouches[0].pageX-this.start)
+      // this.$el.scrollLeft=e.changedTouches[0].pageY-this.start
+      // this.$refs.top.scrollTo(this.start-e.changedTouches[0].pageX,0)
     },
     onCancel(){
       this.cid=''
