@@ -236,8 +236,8 @@ export default {
   font-size: 22px;
 }
 .name-price .num {
-  color: #989898;
-  font-size: 10px;
+  color: #454545;
+  font-size: 12px;
   margin-top: 2px;
 }
 .f16 {

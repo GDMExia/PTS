@@ -162,7 +162,7 @@ export default {
 .homebutton img{width:44px;height:44px;}
 
 .menu{width:100%;margin-top:10px;background-color: #fff;padding-top:23px;padding-bottom: 17px}
-.menu .content{width:89%;margin-left: 5.5%;font-size: 15px;color:#494949}
+.menu .content{width:89%;margin: 0 5.5%;font-size: 15px;color:#494949}
 
 .otherlink{width:100%;background-color:#F9F9F9;margin-top:19px;}
 .otherlink .title{font-size: 16px;color:#222222;font-weight: bold;width:64px;height:22px;line-height: 22px;margin-left:5%;background-color:#F9F9F9;display: inline-block}

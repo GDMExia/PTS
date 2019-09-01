@@ -221,7 +221,7 @@ p img {
 }
 .tour-content {
   margin-top: 136px;
-  padding-left: 4%;
+  padding: 0 4%;
   width: 100%;
 }
 .tour-content img {
