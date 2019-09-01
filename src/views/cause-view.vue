@@ -18,7 +18,7 @@
     <div class="main">
       <div style="marginTop:15px;overflow:hidden;overflow-x:scroll;height:40px">
         <div style="overflow-y:hidden;overflow-x:scroll;height:40px;position:relative;width:600px">
-          <div class="header_btn" :class="cid==item.cid?'selected':''" style="float:left" v-for="(item,index) of cateTree" :key="index"><p @click="getmore(item.cid)">{{item.cate_name}}</p></div>
+          <div class="header_btn" :class="cid==item.cid?'selected':''" style="float:left" v-for="(item,index) of cateTree" :key="index"><p @click="item.is_code!=1?getmore(item.cid):getcode(item.cid)">{{item.cate_name}}</p></div>
         </div>
       </div>
       <!-- <Flexbox>
@@ -77,6 +77,11 @@ export default {
       this.cid=val
       this.page=1
       this.getSchoolArticleList()
+    },
+    getcode(){
+      this.show=true
+      this.cid=val
+      this.page=1
     },
     getSchoolList(){
       this.$http.get(`${this.rootPath}/Index/getArticleTree?pid=${this.pid}`).then(res=>{
