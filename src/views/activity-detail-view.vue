@@ -15,8 +15,8 @@
             <img class="arrow" src="../../static/img/icon/ic_arrow03@2x.png" alt="">
           </p>
         </div>
-        <div>
-          <p class="price">¥ {{detail.goods_price}}</p>
+        <div style="text-align: right;">
+          <p class="price">{{detail.goods_price}}</p>
           <p class="num">最高可抵扣{{detail.discount_price}}积分</p>
         </div>
       </div>
@@ -185,8 +185,8 @@ export default {
   font-size: 22px;
 }
 .name-price .num {
-  color: #989898;
-  font-size: 10px;
+  color: #454545;
+  font-size: 12px;
   margin-top: 2px;
 }
 .title-text {

@@ -17,8 +17,8 @@
               <div class="activity-title">
                 <div class="name-price">
                   <span class="title-text">{{item.goods_name}}</span>
-                  <div>
-                    <p class="price">¥ {{item.goods_price}}</p>
+                  <div style="text-align: right;">
+                    <p class="price">{{item.goods_price}}</p>
                     <p class="num">抵{{item.discount_point}}积分</p>
                   </div>
                 </div>
@@ -261,7 +261,7 @@ export default {
   color: #323643;
   font-size: 16px;
   font-weight: 600;
-  width: 56%;
+  width: 72%;
   text-overflow: -o-ellipsis-lastline; 
   overflow: hidden; 
   text-overflow: ellipsis; 

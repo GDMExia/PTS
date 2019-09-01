@@ -185,7 +185,7 @@ export default {
   box-shadow:0px 6px 9px rgba(56, 221, 229, 0.3);
 }
 .header_btn{
-  max-width:80px;
+  max-width:100px;
   height:40px;
   background-size: 80px 40px;
   text-align: center;

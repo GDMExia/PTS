@@ -40,8 +40,8 @@
                         <div class="activity-title">
                             <div class="name-price">
                             <span class="title-text">{{item.goods_name}}</span>
-                            <div>
-                                <p class="price">¥ {{item.goods_price}}</p>
+                            <div style="text-align: right;">
+                                <p class="price">{{item.goods_price}}</p>
                                 <p class="num">抵{{item.discount_point}}积分</p>
                             </div>
                             </div>

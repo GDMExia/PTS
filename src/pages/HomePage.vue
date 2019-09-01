@@ -43,6 +43,8 @@
               <img :src="item.banner" alt="">
             </div>
             <p>{{item.goods_name}}</p>
+            <img class="activity-type" v-if="item.pid==2" src="../../static/img/ic_guanfang@2x.png" alt="">
+            <img class="activity-type" v-if="item.pid==1" src="../../static/img/ic_shangjia@2x.png" alt="">
           </div>
         </div>
       </div>
@@ -293,32 +295,51 @@ export default {
   }
   .getmore .moreitem{
     /* height: 170px; */
-    width: 170px;
+    width: 48.4%;
     /* margin-right: 20px; */
     display: inline-block;
     /* -webkit-box-flex: 1; */
     /* flex: 1 1 0%; */
+    /* width: 50%; */
+    overflow: hidden;
+    position: relative;
   }
   .getmore .moreitem .image{
     width:100%;
     height:100;
     border-radius: 10px;
     background-color: #fff;
+    position: relative;
+    padding-top: 100%;
+  }
+  .activity-type {
+    width: 36px;
+    height: 36px;
+    position: absolute;
+    top: 9px;
+    right: 9px;
   }
   .getmore .moreitem .image img{
+    position: absolute;
+    left: 0;
+    top: 0;
     width: 100%;
-    height: 100%;
+    height: auto;
     border-radius: 10px;
   }
   .getmore .moreitem p{
     width: 170px;
-    white-space: nowrap;
-    font-size: 15px;
+    /* white-space: nowrap; */
+    font-size: 14px;
     color: #303030;
-    overflow: hidden;
-    text-overflow: ellipsis;
     margin-top: 8px;
     margin-bottom: 12px;
+    text-overflow: -o-ellipsis-lastline; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    display: -webkit-box; 
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
 
   .placeholder{height:70px}
