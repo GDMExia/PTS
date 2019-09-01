@@ -22,10 +22,10 @@
             </div>
         </div>
         <div class="persons" style="margin-top: 12px;">
-            <div class="sign f16 center">
+            <!-- <div class="sign f16 center">
                 <span>应支付</span>
                 <span>￥{{amount}}</span>
-            </div>
+            </div> -->
             <div class="sign f16 center">
                 <span>积分余额</span>
                 <span>{{userInfo.account_price}}</span>
@@ -35,8 +35,8 @@
                     <span>积分抵扣</span>
                     <span class="f12 color45">(每人可抵扣{{goodsInfo.discount_price}}）</span>
                 </div>
-                <img v-if="accountCheck" @click="usediscount()" style="width: 16px; height: 16px;" src="../../static/img/check out_s@2x.png" alt="">
-                <img v-if="!accountCheck" @click="usediscount()" style="width: 16px; height: 16px;" src="../../static/img/icon/icon_danxuan@2x.png" alt="">
+                <img v-if="accountCheck" style="width: 16px; height: 16px;" src="../../static/img/check out_s@2x.png" alt="">
+                <!-- <img v-if="!accountCheck" @click="usediscount()" style="width: 16px; height: 16px;" src="../../static/img/icon/icon_danxuan@2x.png" alt=""> -->
             </div>
         </div>
         <div class="tips f0">
@@ -45,7 +45,7 @@
         </div>
         <div class="bottom">
             <div class="f0" style="height: 48px;line-height: 48px;">
-                <span class="f12 color49">实际支付：</span>
+                <span class="f12 color49">线下须支付</span>
                 <span class="f20 colorred">¥ {{payAmount}}</span>
             </div>
             <div class="pay-submit f15" @click="handleSign">
@@ -79,7 +79,7 @@ export default {
         discount_price: '',
         amount: 0,
         payAmount: 0,
-        accountCheck: false
+        accountCheck: true
     };
   },
   methods: {
@@ -145,7 +145,8 @@ export default {
   mounted() {
     this.goodsInfo = this.getActivityDetail.goodsInfo
     this.userInfo = this.getUserInfo.userInfo
-    this.payAmount = this.amount = this.goodsInfo.goods_price
+    this.useAccount()
+    // this.payAmount = this.amount = this.goodsInfo.goods_price
   }
 };
 </script>

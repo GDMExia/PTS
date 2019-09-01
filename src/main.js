@@ -68,7 +68,7 @@ router.beforeEach((to, from, next) => {
       next()
       // router.push(`${to.fullPath}`)
     }else{
-      // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.9.106:8080/#${to.fullPath}`
+      // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.9.106:8083/#${to.fullPath}`
       location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://pts.suoqoo.com/nh5/#${to.fullPath}`
       // store.commit('setRefuse', true)
       // next()
