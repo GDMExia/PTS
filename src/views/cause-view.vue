@@ -78,7 +78,7 @@ export default {
       this.page=1
       this.getSchoolArticleList()
     },
-    getcode(){
+    getcode(val){
       this.show=true
       this.cid=val
       this.page=1
