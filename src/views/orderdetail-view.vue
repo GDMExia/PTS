@@ -18,7 +18,7 @@
         </div>
         <div class="priceinfo">
             <group>
-                <XInput title="线下需支付" v-model="total_price" disabled text-align="right"></XInput>
+                <XInput title="线下须支付" v-model="total_price" disabled text-align="right"></XInput>
                 <XInput title="积分抵扣" v-model="deduction_price" disabled text-align="right" placeholder="请输入年龄" placeholder-align="right"></XInput>
                 <XInput title="实际支付" v-model="order_price" disabled text-align="right" placeholder="请输入手机号" placeholder-align="right"></XInput>
             </group>

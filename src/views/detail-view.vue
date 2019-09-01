@@ -20,7 +20,7 @@
             <div class="name">{{goodsInfo.title}}</div>
             <div class="publisher">
                 <div class="image"><img src="../../static/img/icon/icon_wode_s@2x.png" alt=""></div>
-                <div class="publishername">发布者：PTS俱乐部</div>
+                <div class="publishername">发布者：{{goodsInfo.create_name}}</div>
             </div>
             <!-- <div class="origin">
               <p class="originfrom">分享来自</p>
@@ -166,7 +166,7 @@ export default {
 .homebutton img{width:44px;height:44px;}
 
 .menu{width:100%;margin-top:10px;background-color: #fff;padding-top:23px;padding-bottom: 17px}
-.menu .content{width:89%;margin: 0 5.5%;font-size: 15px;color:#494949}
+.menu .content{width:89%;margin: 0 5.5%;font-size: 15px;color:#494949;white-space: wrap;overflow: hidden;}
 
 .otherlink{width:100%;background-color:#F9F9F9;margin-top:19px;}
 .otherlink .title{font-size: 16px;color:#222222;font-weight: bold;width:64px;height:22px;line-height: 22px;margin-left:5%;background-color:#F9F9F9;display: inline-block}
