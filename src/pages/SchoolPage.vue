@@ -21,7 +21,7 @@
     <div class="main" style="background-color:#fff;padding-top:19px">
       <Flexbox>
         <FlexboxItem class="header_btn" v-for="(item,index) of cateTree" :key="index"><div @click="$router.push({path:'/schools/cause',query:{pid:item.cid}})"><p>{{item.cate_name}}</p></div></FlexboxItem>
-        <FlexboxItem class="header_btn"><div @click="$router.push({path:'/activity'})"><p>套餐查询</p></div></FlexboxItem>
+        <FlexboxItem class="header_btn"><div @click="$router.push({path:'/tour'})"><p>套餐查询</p></div></FlexboxItem>
       </Flexbox>
       <div class="searchbar">
         <input type="search" placeholder="搜索文章关键词" v-model="value" @search="search"/>

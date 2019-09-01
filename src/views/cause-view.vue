@@ -17,7 +17,7 @@
     </div>
     <div class="main">
       <div style="marginTop:15px;overflow:hidden;overflow-x:scroll;height:40px">
-        <div style="overflow-y:hidden;overflow-x:scroll;height:40px;position:relative;width:200%">
+        <div style="overflow-y:hidden;overflow-x:scroll;height:40px;position:relative;width:600px">
           <div class="header_btn" :class="cid==item.cid?'selected':''" style="float:left" v-for="(item,index) of cateTree" :key="index"><p @click="getmore(item.cid)">{{item.cate_name}}</p></div>
         </div>
       </div>
