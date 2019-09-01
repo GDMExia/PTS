@@ -37,7 +37,7 @@
         <div class="otherlink">
           <p class="title">相关文章</p>
           <div class="linklist">
-            <div class="link" v-for="(item,index) of goodsCateTree" @click="item.is_code!=1?goToArticleDetail({article_id:item.article_id}):confirmToArticleDetail({article_id:item.article_id,cid:item.cid})">
+            <div class="link" v-for="(item,index) of goodsCateTree" @click="item.is_code!=1?goToArticleDetail(item.article_id):confirmToArticleDetail({article_id:item.article_id,cid:item.cid})">
               <div class="image">
                 <img :src="item.cover" alt="">
               </div>
@@ -87,7 +87,9 @@ export default {
       })
     },
     goToArticleDetail(val){
-      this.$router.push({path:'/schools/detail',query:{article_id:val.article_id}})
+      this.article_id=val
+      this.getdetail()
+      // this.$router.push({path:'/schools/detail',query:{article_id:val}})
     },
     confirmToArticleDetail(val){
       this.show=true
