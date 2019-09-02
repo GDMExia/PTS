@@ -1,5 +1,5 @@
 <template>
-  <div style="height:100%;">
+  <div>
     <home-provider></home-provider>
     <div>
       <confirm 
@@ -20,7 +20,7 @@
             <div class="name">{{goodsInfo.title}}</div>
             <div class="publisher">
                 <div class="image"><img src="../../static/img/icon/icon_wode_s@2x.png" alt=""></div>
-                <div class="publishername">发布者：PTS俱乐部</div>
+                <div class="publishername">发布者：{{goodsInfo.create_name}}</div>
             </div>
             <!-- <div class="origin">
               <p class="originfrom">分享来自</p>
@@ -37,7 +37,7 @@
         <div class="otherlink">
           <p class="title">相关文章</p>
           <div class="linklist">
-            <div class="link" v-for="(item,index) of goodsCateTree" @click="item.is_code!=1?goToArticleDetail({article_id:item.article_id}):confirmToArticleDetail({article_id:item.article_id,cid:item.cid})">
+            <div class="link" v-for="(item,index) of goodsCateTree" @click="item.is_code!=1?goToArticleDetail(item.article_id):confirmToArticleDetail({article_id:item.article_id,cid:item.cid})">
               <div class="image">
                 <img :src="item.cover" alt="">
               </div>
@@ -74,6 +74,7 @@ export default {
   },
   methods: {
     getdetail(){
+      window.scrollTo(0,0)
       this.$http.get(`${this.rootPath}/Index/getArticleView?article_id=${this.article_id}&code_name=${this.code_name}`).then(res=>{
       console.log(res)
       if(res.data.StatusInfo.ReturnCode==200){
@@ -86,7 +87,9 @@ export default {
       })
     },
     goToArticleDetail(val){
-      this.$router.push({path:'/schools/detail',query:{article_id:val.article_id}})
+      this.article_id=val
+      this.getdetail()
+      // this.$router.push({path:'/schools/detail',query:{article_id:val}})
     },
     confirmToArticleDetail(val){
       this.show=true
@@ -135,13 +138,14 @@ export default {
   },
   mounted() {
     this.$bus.emit("onTabBarEvent", {});
+    window.scrollTo(0,0)
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-*{padding:0;margin:0;touch-action: none;}
+/* *{padding:0;margin:0;touch-action: none;} */
 .main{position: relative;background-color: #F9F9F9}
 .title{width:100%;height:117px;background-color: #fff;padding-top: 11px;box-sizing: border-box}
 .title .name{font-size: 16px;color:#222222;width:92%;margin-left:4%;}
@@ -162,7 +166,7 @@ export default {
 .homebutton img{width:44px;height:44px;}
 
 .menu{width:100%;margin-top:10px;background-color: #fff;padding-top:23px;padding-bottom: 17px}
-.menu .content{width:89%;margin: 0 5.5%;font-size: 15px;color:#494949}
+.menu .content{width:89%;margin: 0 5.5%;font-size: 15px;color:#494949;white-space: wrap;overflow: hidden;}
 
 .otherlink{width:100%;background-color:#F9F9F9;margin-top:19px;}
 .otherlink .title{font-size: 16px;color:#222222;font-weight: bold;width:64px;height:22px;line-height: 22px;margin-left:5%;background-color:#F9F9F9;display: inline-block}
@@ -171,5 +175,5 @@ export default {
 .otherlink .linklist .link div{display: inline-block}
 .otherlink .linklist .link .image{width:90px;height: 90px;margin-left: 10px;margin-top:15px;background-color: #06D5DE;border-radius: 10px }
 .otherlink .linklist .link .image img{width:90px;height: 90px;}
-.otherlink .linklist .link .linkname{color:#323643;font-size: 16px;vertical-align: top;margin-top:49px;height:22px;line-height: 22px}
+.otherlink .linklist .link .linkname{color:#323643;font-size: 16px;vertical-align: top;margin-top:20px;vertical-align:top;height:22px;line-height: 22px;width:60%}
 </style>

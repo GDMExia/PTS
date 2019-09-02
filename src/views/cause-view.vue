@@ -16,13 +16,15 @@
       </confirm>
     </div>
     <div class="main">
-      <Flexbox style="marginTop:12px">
-        <FlexboxItem class="header_btn" v-for="(item,index) of cateTree" :key="index" v-if="index<3"><p @click="getmore(item.cid)">{{item.cate_name}}</p></FlexboxItem>
-      </Flexbox>
-      <Flexbox>
+      <div style="marginTop:15px;overflow-x:scroll;height:40px;width:100%" class="top" @touchstart="touchstart" @touchend="touchend" @touchmove="touchmove" ref="top">
+        <div style="height:40px;width:600px">
+          <div class="header_btn" :class="cid==item.cid?'selected':''" v-for="(item,index) of cateTree" :key="index"><p @click="item.is_code!=1?getmore(item.cid):getcode(item.cid)">{{item.cate_name}}</p></div>
+        </div>
+      </div>
+      <!-- <Flexbox>
         <FlexboxItem class="header_btn" v-for="(item,index) of cateTree" :key="index" v-if="index>2"><p @click="getmore(item.cid)">{{item.cate_name}}</p></FlexboxItem>
-      </Flexbox>
-      <scroller v-if="articleList" height="-130" lock-x @on-scroll-bottom="onScrollBottom" :use-pullup="true" style="marginTop:20px">
+      </Flexbox> -->
+      <scroller v-if="articleList" height="-80" lock-x @on-scroll-bottom="onScrollBottom" :use-pullup="true" style="marginTop:20px">
       <div class="menu" style="margin-bottom:30px">
         <div class="detail" @click="item.is_code!=1?goToArticleDetail({article_id:item.article_id}):confirmToArticleDetail({article_id:item.article_id,cid:item.cid})" v-for="(item,index) of articleList" :key="index">
           <div class="image"><img :src="item.cover" alt=""></div>
@@ -67,10 +69,18 @@ export default {
       show:false,
       article_id:'',
       onFetching: false, // 请求控制
+      start:0,
+      end:0
     };
   },
   methods: {
     getmore(val){
+      // this.show=true
+      this.cid=val
+      this.page=1
+      this.getSchoolArticleList()
+    },
+    getcode(val){
       this.show=true
       this.cid=val
       this.page=1
@@ -137,6 +147,30 @@ export default {
         }
       })
     },
+    touchstart(e){
+      // console.log(e.changedTouches[0].pageX)
+      this.start=e.changedTouches[0].pageX
+    },
+    touchmove(e){
+      console.log(e.changedTouches[0].pageX-this.start)
+      // console.log(this.$refs.top.scrollLeft)
+      
+      if(this.start>e.changedTouches[0].pageX){
+      this.$refs.top.scrollTo(this.end+this.start-e.changedTouches[0].pageX,0)
+      }else{
+        // if(this.$refs.top.scrollLeft!=0){
+          this.$refs.top.scrollTo(this.end-(e.changedTouches[0].pageX-this.start),0)
+        // }
+      }
+    },
+    touchend(e){
+      this.end=this.start-e.changedTouches[0].pageX
+      // console.log(e.changedTouches[0].pageX)
+      // console.log(e)
+      // console.log(e.changedTouches[0].pageX-this.start)
+      // this.$el.scrollLeft=e.changedTouches[0].pageY-this.start
+      // this.$refs.top.scrollTo(this.start-e.changedTouches[0].pageX,0)
+    },
     onCancel(){
       this.cid=''
       this.article_id=''
@@ -175,8 +209,9 @@ export default {
 <style scoped>
 *{padding:0;margin:0;touch-action: none;}
 .main{position: relative;background-color: #F8F8F8}
-.header_btn{width:105px;height:50px;background:#F8F8F8 url('../../static/img/icon/xueyuan_btn_small@2x.png')center no-repeat;background-size: 105px 50px;text-align: center;color:#fff;padding-top: 10px;font-size: 15px}
-.menu{width:100%;padding-top:23px;background-color: #F8F8F8;padding-bottom: 70px}
+.header_btn{display:inline-block;width:90px;height:40px;margin-left:8px;background-color:#fff;border-radius:30px;text-align: center;color:#06D5DE;padding-top: 10px;font-size: 15px;}
+.selected{color:#fff;background-color: #06D5DE;}
+.menu{width:100%;padding-top:15px;background-color: #F8F8F8;padding-bottom: 100px}
 .detail{min-height:257px;width: 95%;margin-left:2.5%;border-radius: 20px;background-color: #fff;margin-top:10px}
 .detail .image{background-color: aqua;width:100%;height:177px;border-radius: 20px 20px 0 0 }
 .detail .image img{width:100%;height:100%}

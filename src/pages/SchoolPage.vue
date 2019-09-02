@@ -18,9 +18,10 @@
       >
       </confirm>
     </div>
-    <div class="main">
-      <Flexbox style="marginTop:12px">
-        <FlexboxItem class="header_btn" v-for="(item,index) of cateTree" :key="index"><p @click="$router.push({path:'/schools/cause',query:{pid:item.cid}})">{{item.cate_name}}</p></FlexboxItem>
+    <div class="main" style="background-color:#fff;padding-top:19px">
+      <Flexbox>
+        <FlexboxItem class="header_btn" v-for="(item,index) of cateTree" :key="index"><div @click="$router.push({path:'/schools/cause',query:{pid:item.cid}})"><p>{{item.cate_name}}</p></div></FlexboxItem>
+        <FlexboxItem class="header_btn"><div @click="$router.push({path:'/tour'})"><p>套餐查询</p></div></FlexboxItem>
       </Flexbox>
       <div class="searchbar">
         <input type="search" placeholder="搜索文章关键词" v-model="value" @search="search"/>
@@ -197,7 +198,11 @@ export default {
 <style scoped>
 *{padding:0;margin:0;touch-action: none;}
 .main{position: relative;background-color: #F8F8F8}
-.header_btn{width:105px;height:50px;background:#F8F8F8 url('../../static/img/icon/xueyuan_btn_small@2x.png')center no-repeat;background-size: 105px 50px;text-align: center;color:#fff;padding-top: 10px;font-size: 15px}
+.header_btn{display:flex}
+.header_btn div{flex:1}
+.header_btn:first-child div{width:52px;height:87px;background:#FFF url('../../static/img/icon/ic_rmwz@2x.png') top no-repeat;background-size: 52px 52px;text-align: center;color:#fff;padding-top: 56px;font-size: 12px;color:#303030;}
+.header_btn:nth-child(2) div{width:52px;height:87px;background:#FFF url('../../static/img/icon/ic_ysd@2x.png') top no-repeat;background-size: 52px 52px;text-align: center;color:#fff;padding-top: 56px;font-size: 12px;color:#303030}
+.header_btn:last-child div{width:52px;height:87px;background:#FFF url('../../static/img/icon/ic_tccx@2x.png') top no-repeat;background-size: 52px 52px;text-align: center;color:#fff;padding-top: 56px;font-size: 12px;color:#303030}
 .searchbar{height:91px;width:100%;background-color: #fff;position: relative;padding-top: 59px}
 .searchbar input{position: absolute;top:12px;display: inline-block;width:92%;height: 32px;border-radius: 20px;background-color: #F3F3F3;text-align:center;margin-left:4%;}
 .menu{width:100%;padding-top:23px;background-color: #F8F8F8;padding-bottom: 70px}
