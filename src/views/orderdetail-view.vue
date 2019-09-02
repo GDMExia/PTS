@@ -28,7 +28,7 @@
         </div>
         <div class="placeholder"></div>
         <div class="handle">
-            <div class="button" :class="orderstatus!='1'?'unsubscribe':''" @click="orderstatus==1?$router.push({path:'/owners/unsubscribe',query:{order_no:order_no}}):''">{{item.order_status==1?'退订':item.order_status==2?'评价':item.order_status==3?'退订情况':item.order_status==4?'退订情况':''}}</div>
+            <div class="button" :class="orderstatus!='1'?'unsubscribe':''" @click="orderstatus==1?$router.push({path:'/owners/unsubscribe',query:{order_no:order_no}}):''">{{orderstatus==1?'退订':orderstatus==2?'评价':orderstatus==3?'退订情况':orderstatus==4?'退订情况':''}}</div>
         </div>
     </div>
 </template>
