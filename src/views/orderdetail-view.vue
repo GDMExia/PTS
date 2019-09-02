@@ -28,7 +28,7 @@
         </div>
         <div class="placeholder"></div>
         <div class="handle">
-            <div class="button" @click="$router.push({path:'/owners/unsubscribe',query:{order_no:order_no}})">退订</div>
+            <div class="button" :class="orderstatus!='1'?'unsubscribe':''" @click="orderstatus==1?$router.push({path:'/owners/unsubscribe',query:{order_no:order_no}}):''">{{item.order_status==1?'退订':item.order_status==2?'评价':item.order_status==3?'退订情况':item.order_status==4?'退订情况':''}}</div>
         </div>
     </div>
 </template>
@@ -52,7 +52,8 @@ export default {
             create_time:'',
             order_price:'',
             deduction_price:'',
-            total_price:''
+            total_price:'',
+            orderstatus:''
         }
     },
     methods:{
@@ -69,6 +70,7 @@ export default {
                     this.order_price=res.data.orderInfo.order_price
                     this.deduction_price=res.data.orderInfo.deduction_price
                     this.total_price=res.data.orderInfo.total_price
+                    this.orderstatus=res.data.orderInfo.order_status
                 }
             })
         }
@@ -95,5 +97,6 @@ export default {
 .moreinfo p{display: inline-block;font-size: 12px;color:#999;width:90%;vertical-align: bottom;float: right;}
 .handle{height:83px;width:100%;background-color: #fff;position: fixed;bottom:0;box-sizing: border-box;padding-top: 10px}
 .handle .button{width:84%;margin-left:8%;height:40px;line-height: 40px;border-radius: 20px;background-color: #06D5DE;text-align: center;color: #fff;font-size: 15px}
+.unsubscribe{background-color: #666!important;}
 .placeholder{height:83px}
 </style>
