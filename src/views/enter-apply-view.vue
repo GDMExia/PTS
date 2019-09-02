@@ -287,7 +287,7 @@ export default {
             }
         },
         submit(){
-            if(this.merchants_name&&this.merchant_applicant&&/^1[3456789]\d{9}$/.test(this.merchant_applicant_phone)&&this.address&&this.merchant_applicant_wechat&&this.discount&&this.document_pic&&this.photo&&this.recommended_real_name&&/^1[3456789]\d{9}$/.test(this.recommended_phone)&&this.hotline_phone&&this.hours_time&&this.payment&&this.merchants_content&&this.operator_content&&this.goods_list[0].file_id&&this.shop_picture&&this.company&&this.legal_person){
+            if(this.merchants_name&&this.merchant_applicant&&/^1[3456789]\d{9}$/.test(this.merchant_applicant_phone)&&this.address&&this.merchant_applicant_wechat&&this.discount&&this.discount!=''&&this.document_pic&&this.photo&&this.recommended_real_name&&/^1[3456789]\d{9}$/.test(this.recommended_phone)&&this.hotline_phone&&this.hours_time&&this.payment&&this.merchants_content&&this.operator_content&&this.goods_list[0].file_id&&this.shop_picture&&this.company&&this.legal_person){
                 let data={
                     document_pic:this.document_pic,
                     photo:this.photo,
