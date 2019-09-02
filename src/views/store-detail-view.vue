@@ -65,7 +65,7 @@ export default {
             item.img = item.photo
             return item
           })
-          this.storeList = res.activityList.slice(-5)
+          this.storeList = res.activityList
         } else {
           this.toastShow(res.StatusInfo.ErrorDetailCode)
         }

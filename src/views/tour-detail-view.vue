@@ -88,7 +88,7 @@ export default {
             item.img = item.file_path
             return item
           })
-          this.storeList = res.newsCateTree.slice(-5)
+          this.storeList = res.newsCateTree
         } else {
           if(res.StatusInfo.ReturnCode==603){
             this.$store.commit('setToken','')

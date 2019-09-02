@@ -44,7 +44,7 @@
             <span class="f12 color05DE">《PTS平台退订协议》</span>
         </div>
         <div class="bottom">
-            <div class="f0" style="height: 48px;line-height: 48px;">
+            <div class="f0" style="height: 48px;display: flex;align-items: center;">
                 <span class="f12 color49">线下须支付</span>
                 <span class="f20 colorred">¥ {{payAmount}}</span>
             </div>
@@ -177,6 +177,7 @@ export default {
 }
 .f20 {
     font-size: 20px;
+    margin-left: 6px;
 }
 .colorred {
     color: #FF0000;
@@ -252,7 +253,7 @@ p img {
     align-items: center;
 }
 .tips {
-    margin: 96px 36px 30px 36px;  
+    margin: 36px 36px 30px 36px;  
 }
 .f0 {
     font-size: 0;
@@ -275,5 +276,6 @@ p img {
     height: 40px;
     text-align: center;
     line-height: 40px;
+    margin-top: 6px;
 }
 </style>
