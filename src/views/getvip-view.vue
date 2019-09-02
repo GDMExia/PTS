@@ -53,6 +53,7 @@ export default {
     console.log(this.$store.state.token)
     // this.$http.get('http://pts.suoqoo.com/home.php/User/getUserInfo?token='+this.$store.state.token).then(res=>{
         this.getvipinfo()
+        this.getinfo()
     },
     methods:{
         getvipinfo(){
@@ -66,6 +67,25 @@ export default {
                 })
             }
             })
+        },
+        getinfo(){
+        this.$http.get(`${this.rootPath}/User/getUserInfo?token=${this.$store.state.token}`).then(res=>{
+        // this.userDetail({token: 'c1599f283f6bce195a98a3f3d9c3f10865891753'}).then(res=>{})
+        console.log(res)
+        if(res.data.StatusInfo.ReturnCode==200){
+            this.$nextTick(()=>{
+            this.nickname=res.data.userInfo.nickname
+            this.sex=res.data.userInfo.sex==1?'男':'女'
+            this.phone=res.data.userInfo.phone
+            this.age=res.data.userInfo.age
+            })
+        }else{
+            if(res.data.StatusInfo.ReturnCode==603){
+            this.$store.commit('setToken','')
+            }
+        }
+        // console.log(this.$store.state.isMember)
+        })
         },
         fixScroll(){
             window.scrollTo(0,0)
