@@ -1,4 +1,4 @@
-<template>
+<div>
     <div style="width:100%;backgroundColor:#F8F8F8">
         <div class="productinfo">
             <div class="image">
@@ -31,7 +31,7 @@
             <div class="button" :class="orderstatus!='1'?'unsubscribe':''" @click="orderstatus==1?$router.push({path:'/owners/unsubscribe',query:{order_no:order_no}}):''">{{orderstatus==1?'退订':orderstatus==2?'评价':orderstatus==3?'退订情况':orderstatus==4?'退订情况':''}}</div>
         </div>
     </div>
-</template>
+</div>
 
 <script>
 import { Group , XInput } from 'vux'
