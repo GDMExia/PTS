@@ -36,7 +36,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="(item,index) of array">
-                        <td v-for="(item1,index1) of item" :class="today==`${year+'-'+month+'-'+item1}`?'today':signList.indexOf((year+'-'+month+'-'+item1))!=-1?'signed':(year+'-'+month+'-'+item1)<today&&item1?'unsigned':''" style="cursor:pointer;textAlign:center">{{item1}}</td>
+                        <td v-for="(item1,index1) of item" :class="signList.indexOf((year+'-'+month+'-'+item1))!=-1?'signed':today==`${year+'-'+month+'-'+item1}`?'today':(year+'-'+month+'-'+item1)<today&&item1?'unsigned':''" style="cursor:pointer;textAlign:center">{{item1}}</td>
                     </tr>
                 </tbody>
             </table>
