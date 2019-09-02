@@ -225,10 +225,10 @@ export default {
         },
         Toint(){
             if(!parseInt(this.discount)){
-                this.discount=9.9
+                this.discount=''
             }else{
                 if(this.discount>=10||this.discount<=0){
-                    this.discount=9.9
+                    this.discount=''
                 }
             }
         },
