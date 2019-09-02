@@ -237,6 +237,7 @@ export default {
                 console.log(res)
                 if(res.data.StatusInfo.success){
                     this.$vux.toast.text('签到成功', 'top')
+                    this.getSignlist()
                 }else{
                     this.$vux.toast.text(res.data.StatusInfo.ErrorDetailCode, 'top')
                 }
