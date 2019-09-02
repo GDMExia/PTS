@@ -2,7 +2,7 @@
     <div style="width:100%;backgroundColor:#F8F8F8">
         <div class="personinfo">
             <group style="marginTop:12px">
-                <XInput title="姓名" v-model="name" disabled text-align="right"></XInput>
+                <XInput title="姓名" v-model="real_name" disabled text-align="right"></XInput>
                 <XInput title="手机号" v-model="phone" disabled text-align="right"></XInput>
             </group>
                 <p>退订理由</p>
@@ -31,7 +31,7 @@ export default {
             back_note:'',
             cancel_time:'',
             phone:'',
-            name:''
+            real_name:''
         }
     },
     methods:{
@@ -42,7 +42,7 @@ export default {
                     this.back_note=res.data.orderInfo.back_note
                     this.cancel_time=res.data.orderInfo.cancel_time
                     this.phone=res.data.orderInfo.phone
-                    this.name=res.data.orderInfo.goods_number
+                    this.real_name=res.data.orderInfo.real_name
                 }
             })
         }
