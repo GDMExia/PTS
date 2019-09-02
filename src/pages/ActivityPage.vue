@@ -81,9 +81,9 @@ export default {
   methods: {
     ...mapActions(['activityType', 'activityList']),
     changeTab() {
+      this.activityListData = []
       this.type = this.type==1?2:1
       this.pageNum = 1
-      this.activityListData = []
       this.handleQuery()
     },
     handleQuery() {
@@ -112,9 +112,9 @@ export default {
       this.handleQuery();
     },
     changeType(id) {
+      this.activityListData = []
       this.typeId = id
       this.pageNum = 1
-      this.activityListData = []
       this.handleQuery()
     },
     handleActivityType() {
