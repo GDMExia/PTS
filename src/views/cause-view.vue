@@ -156,7 +156,7 @@ export default {
       // console.log(this.$refs.top.scrollLeft)
       
       if(this.start>e.changedTouches[0].pageX){
-      this.$refs.top.scrollTo(this.start-e.changedTouches[0].pageX,0)
+      this.$refs.top.scrollTo(this.end+this.start-e.changedTouches[0].pageX,0)
       }else{
         // if(this.$refs.top.scrollLeft!=0){
           this.$refs.top.scrollTo(this.end-(e.changedTouches[0].pageX-this.start),0)
