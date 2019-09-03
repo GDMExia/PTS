@@ -12,7 +12,7 @@
         </div>
         <div class="persons">
             <div class="sign f15">
-                <x-number title="报名人数" width="44px" v-model="formItem.perNum" :min="1" @on-change="useAccount"></x-number>
+                <x-number title="报名人数" width="44px" v-model="formItem.perNum" :min="1" :max="maxNum" @on-change="useAccount"></x-number>
             </div>
             <div class="sign f15">
                 <x-input title="联系人" placeholder="请输入" v-model="userInfo.nickname" placeholder-align="right"></x-input>
@@ -44,7 +44,7 @@
             <span class="f12 color05DE">《PTS平台退订协议》</span>
         </div>
         <div class="bottom">
-            <div class="f0" style="height: 48px;line-height: 48px;">
+            <div class="f0" style="height: 48px;display: flex;align-items: center;">
                 <span class="f12 color49">线下须支付</span>
                 <span class="f20 colorred">¥ {{payAmount}}</span>
             </div>
@@ -79,7 +79,8 @@ export default {
         discount_price: '',
         amount: 0,
         payAmount: 0,
-        accountCheck: true
+        accountCheck: true,
+        maxNum: 1
     };
   },
   methods: {
@@ -145,6 +146,7 @@ export default {
   mounted() {
     this.goodsInfo = this.getActivityDetail.goodsInfo
     this.userInfo = this.getUserInfo.userInfo
+    this.maxNum = Math.floor(this.userInfo.account_price/this.goodsInfo.discount_price)
     this.useAccount()
     // this.payAmount = this.amount = this.goodsInfo.goods_price
   }
@@ -177,6 +179,7 @@ export default {
 }
 .f20 {
     font-size: 20px;
+    margin-left: 6px;
 }
 .colorred {
     color: #FF0000;
@@ -252,7 +255,7 @@ p img {
     align-items: center;
 }
 .tips {
-    margin: 96px 36px 30px 36px;  
+    margin: 36px 36px 30px 36px;  
 }
 .f0 {
     font-size: 0;
@@ -275,5 +278,6 @@ p img {
     height: 40px;
     text-align: center;
     line-height: 40px;
+    margin-top: 6px;
 }
 </style>

@@ -328,7 +328,7 @@ export default {
     border-radius: 10px;
   }
   .getmore .moreitem p{
-    width: 170px;
+    width: 100%;
     /* white-space: nowrap; */
     font-size: 14px;
     color: #303030;

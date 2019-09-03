@@ -83,4 +83,16 @@ export default {
 .guide .weui-cells {
     margin-top: 0!important;
 }
+.weui-cells .vux-cell-primary {
+  width: 88%!important;
+}
+.vux-cell-primary .vux-label {
+    display: inline-block;
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: nowrap!important;
+    width: 100%!important;
+    text-overflow: ellipsis!important;
+    overflow: hidden!important;
+}
 </style>

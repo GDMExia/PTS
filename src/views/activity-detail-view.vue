@@ -74,7 +74,7 @@ export default {
       this.activityDetails(params).then(res=>{
         if(res.StatusInfo.success) {
           this.detail = res.goodsInfo
-          this.storeList = res.goodsCateTree.slice(-5)
+          this.storeList = res.goodsCateTree
         } else {
           this.toastShow(res.StatusInfo.ErrorDetailCode)
         }
