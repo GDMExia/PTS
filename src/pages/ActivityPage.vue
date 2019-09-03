@@ -1,8 +1,8 @@
 <template>
   <div class="main">
     <div class="flex f15">
-      <div @click="changeTab" :class="[type==1?'active':'','flex-tab']">进行中</div>
-      <div @click="changeTab" :class="[type==2?'active':'','flex-tab']">历史</div>
+      <div @click="changeTab(1)" :class="[type==1?'active':'','flex-tab']">进行中</div>
+      <div @click="changeTab(2)" :class="[type==2?'active':'','flex-tab']">历史</div>
     </div>
     <div v-if="type==1">
       <flexbox style="margin: 0 11px 20px 4%;width: 92%;">
@@ -80,11 +80,13 @@ export default {
   },
   methods: {
     ...mapActions(['activityType', 'activityList']),
-    changeTab() {
-      this.activityListData = []
-      this.type = this.type==1?2:1
-      this.pageNum = 1
-      this.handleQuery()
+    changeTab(type) {
+      if(this.type!=type) {
+        this.activityListData = []
+        this.type = type
+        this.pageNum = 1
+        this.handleQuery()
+      }
     },
     handleQuery() {
       const params = {
@@ -112,10 +114,12 @@ export default {
       this.handleQuery();
     },
     changeType(id) {
-      this.activityListData = []
-      this.typeId = id
-      this.pageNum = 1
-      this.handleQuery()
+      if(this.typeId!=id) {
+        this.activityListData = []
+        this.typeId = id
+        this.pageNum = 1
+        this.handleQuery()
+      }
     },
     handleActivityType() {
       this.activityType().then(res=>{

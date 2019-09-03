@@ -12,7 +12,7 @@
         </div>
         <div class="persons">
             <div class="sign f15">
-                <x-number title="报名人数" width="44px" v-model="formItem.perNum" :min="1" @on-change="useAccount"></x-number>
+                <x-number title="报名人数" width="44px" v-model="formItem.perNum" :min="1" :max="maxNum" @on-change="useAccount"></x-number>
             </div>
             <div class="sign f15">
                 <x-input title="联系人" placeholder="请输入" v-model="userInfo.nickname" placeholder-align="right"></x-input>
@@ -79,7 +79,8 @@ export default {
         discount_price: '',
         amount: 0,
         payAmount: 0,
-        accountCheck: true
+        accountCheck: true,
+        maxNum: 1
     };
   },
   methods: {
@@ -145,6 +146,7 @@ export default {
   mounted() {
     this.goodsInfo = this.getActivityDetail.goodsInfo
     this.userInfo = this.getUserInfo.userInfo
+    this.maxNum = Math.floor(this.userInfo.account_price/this.goodsInfo.discount_price)
     this.useAccount()
     // this.payAmount = this.amount = this.goodsInfo.goods_price
   }
