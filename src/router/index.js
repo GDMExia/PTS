@@ -47,6 +47,7 @@ import ActivityShareView from '@/views/activity-share-view'
 import GuideDetailView from '@/views/guide-detail-view'
 import CouponView from '@/views/coupon-view'
 import CouponPayView from '@/views/coupon-pay-view'
+import OwnerShareView from '@/views/owner-share-view'
 
 Vue.use(Router)
 
@@ -208,6 +209,11 @@ export default new Router({
         path: 'mywallet',
         name: '我的钱包',
         component: WalletView
+        },
+        {
+          path: 'myshare',
+          name: '我的分享',
+          component: OwnerShareView
         },
         {
         path: 'pay',
