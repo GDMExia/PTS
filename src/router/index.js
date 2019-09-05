@@ -45,6 +45,8 @@ import PayView from '@/views/pay-view'
 import SearchView from '@/views/search-view'
 import ActivityShareView from '@/views/activity-share-view'
 import GuideDetailView from '@/views/guide-detail-view'
+import CouponView from '@/views/coupon-view'
+import CouponPayView from '@/views/coupon-pay-view'
 
 Vue.use(Router)
 
@@ -93,7 +95,17 @@ export default new Router({
           path: 'storeDetail',
           name: '商家详情',
           component: StoreDetailView
-        }
+        },
+        {
+          path: 'coupon',
+          name: '商家优惠',
+          component: CouponView
+        },
+        {
+          path: 'couponPay',
+          name: '购买优惠券',
+          component: CouponPayView
+        },
       ]
     },
     {

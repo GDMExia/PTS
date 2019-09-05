@@ -4,6 +4,16 @@
       <img class="store-img" :src="storeItem.pic" alt="">
       <div class="store-detail-content">
         <p class="f16 store-name">{{storeItem.merchants_name}}</p>
+        <div class="store-discount" @click="$router.push('/homes/coupon')">
+          <p class="store-address f14">
+            <img style="height: 17px;" src="../../static/img/ic_yhq@2x.png" alt="">
+            <span class="store-address-item">商家优惠</span>
+          </p>
+          <p class="store-address f14">
+            <span class="store-address-item">共2张，查看抢购</span>
+            <img style="margin-right: 0;width: 6px;height: 11px; margin-left: 12px;" src="../../static/img/ic_yhq_arrow@2x.png" alt="">
+          </p>
+        </div>
         <p class="store-address f14">
           <img src="../../static/img/ic_dz02@2x.png" alt="">
           <span class="store-address-item"> {{storeItem.address}}</span>
@@ -117,6 +127,14 @@ export default {
   padding: 16px 0 25px 5px;
   font-weight: 600;
   color: #000000;
+}
+.store-discount {
+  display: flex;
+  justify-content: space-between;
+  background: #FFF3DE;
+  margin: 0 -10px;
+  width: 375px;
+  padding: 0 15px;
 }
 .store-address {
   /* padding: 0px 0 15px 5px; */
