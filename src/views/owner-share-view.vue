@@ -1,69 +1,27 @@
 <template>
   <div class="main">
-    <div class="flex f15">
-      <div @click="changeTab(1)" :class="[type==1?'active':'','flex-tab']">进行中</div>
-      <div @click="changeTab(2)" :class="[type==2?'active':'','flex-tab']">历史</div>
-    </div>
-    <div v-if="type==1">
-      <flexbox style="margin: 0 11px 20px 4%;width: 92%;">
-        <flexbox-item v-for="(item, index) in typeList" :key="index" :class="[typeId==item.cid?'header-active':'','header_btn']">
-          <div @click="changeType(item.cid)">{{item.cate_name}}</div>
-        </flexbox-item>
-      </flexbox>
-    </div>
-    <div>
-      <div style="display: flex; ;padding:50% 0;justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="activityListData.length==0">
-        <img style="width: 40px; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
-        <span> 暂无数据 </span>
+    <div class="box" v-for="(item, index) in activityListData" :key="index">
+      <img class="box-img" :src="item.img" alt="">
+      <p class="f16 color-323 box-title">{{item.title}}</p>
+      <div class="box-bottom">
+        <span class="f10 color-98 scan-text">浏览量</span>
+        <span class="f15 color-f9 num">{{item.num}}</span>
+        <div class="f14 color-06d button view" @click="$router.push('/owners/shareList')">浏览用户</div>
+        <div class="f14 color-06d button detail">文章详情</div>
       </div>
-      <scroller v-if="activityListData.length" lock-x @on-scroll-bottom="onScrollBottom" :height="type==1?'-192':'152'" ref="scrollerBottom">
-        <div class="ofy_auto flx_1" style="margin-top: -15px;">
-          <div v-for="item in activityListData" :key="item.goods_id" class="main-content" @click="$router.push(`/activities/activityDetail?id=${item.goods_id}`)">
-            <div class="image">
-              <img :src="item.cover" alt="">
-            </div>
-            <img v-if="item.pid==2" class="activity-type" src="../../static/img/ic_guanfang@2x.png" alt="">
-            <img v-if="item.pid==1" class="activity-type" src="../../static/img/ic_shangjia@2x.png" alt="">
-            <div class="name-price">
-              <div class="content-left">
-                <p class="title f16 content-left">
-                  {{item.goods_name}}
-                </p>
-                <p class="time mt12">
-                  <img src="../../static/img/icon_time@2x.png" alt="">
-                  截止时间：{{item.registration_time}}
-                </p>
-              </div>
-              <div style="text-align: right;">
-                <p class="price">{{item.goods_price}}</p>
-                <p class="num">抵{{item.discount_price}}积分</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- <load-more v-show="pageNum > totalPage" :show-loading="false" :tip="'暂无数据'" background-color="#fbf9fe"></load-more> -->
-      </scroller>
     </div>
-    <tabbarComponent :tabIndex=2></tabbarComponent>
-    <home-provider></home-provider>
-    
   </div>
 </template>
 
 <script>
-import {listPullLoading} from 'list-pull-loading'
-import "list-pull-loading/dist/list-pull-loading.css"
-import TabbarComponent from "@/components/TabbarComponent.vue";
 import { Flexbox, FlexboxItem,Scroller,LoadMore, } from 'vux'
 import { mapGetters, mapActions } from "vuex";
 export default {
   components: {
-    TabbarComponent,
     Flexbox,
     FlexboxItem,
     Scroller,
-    LoadMore,
-    listPullLoading
+    LoadMore
   },
   name: "HomePage",
   data() {
@@ -71,7 +29,11 @@ export default {
       type: 1,
       typeId: '',
       typeList: [],
-      activityListData: [],
+      activityListData: [
+        {id: 1, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24',num: 2850},
+        {id: 2, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24',num: 2850},
+        {id: 3, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24',num: 2850},
+      ],
       pageNum: 1,
       totalPage: 0,
       onFetching: false, // 请求控制
@@ -79,32 +41,9 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['activityType', 'activityList']),
-    changeTab(type) {
-      if(this.type!=type) {
-        this.activityListData = []
-        this.type = type
-        this.pageNum = 1
-        this.handleQuery()
-      }
-    },
+    ...mapActions([]),
     handleQuery() {
-      const params = {
-        cid: this.typeId,
-        pageSize: 5,
-        page: this.pageNum,
-        goods_status: this.type
-      }
-      this.activityList(params).then(res=>{
-        if(res.StatusInfo.success) {
-          this.activityListData = res.goodsList?this.activityListData.concat(res.goodsList):[]
-          this.totalPage = res.PageInfo.TotalPages
-        } else {
-          this.toastShow(res.StatusInfo.ErrorDetailCode)
-        }
-        this.loadDataDone = true; // 请求成功 控制空数据显示
-        this.onFetching = false; // 防止重复请求 
-      })
+      
     },
     onScrollBottom () {
       if (this.onFetching) return;
@@ -112,27 +51,6 @@ export default {
       this.pageNum += 1;
       if (this.pageNum > this.totalPage) return;
       this.handleQuery();
-    },
-    changeType(id) {
-      if(this.typeId!=id) {
-        this.activityListData = []
-        this.typeId = id
-        this.pageNum = 1
-        this.handleQuery()
-      }
-    },
-    handleActivityType() {
-      this.activityType().then(res=>{
-        if(res.StatusInfo.success) {
-          this.typeList = res.cateTree
-          this.typeId = this.typeList[0].cid
-          this.handleQuery()
-        } else {
-          this.toastShow(res.StatusInfo.ErrorDetailCode)
-        }
-        this.loadDataDone = true; // 请求成功 控制空数据显示
-        this.onFetching = false; // 防止重复请求 
-      })
     },
   },
   computed: {
@@ -145,12 +63,6 @@ export default {
     
   },
   mounted() {
-    // this.$nextTick(() => {
-    //   this.$refs.scrollerBottom.reset({top: 0})
-    // })
-    this.$bus.emit("onTabBarEvent", {});
-    this.handleActivityType()
-    window.scrollTo(0,0)
   }
 };
 </script>
@@ -161,104 +73,77 @@ export default {
   height: 100%;
   position: relative;
 }
-.flex {
-  display: flex;
-  margin:  20px;
+.box {
+  width: 94.7%;
   background: #ffffff;
-  height: 40px;
-  color: #333333;
-  text-align: center;
-  border-radius: 30px;
+  margin: 12px auto 0 auto;
+  border-radius: 15px;
+}
+.box-img {
+  width: 100%;
+  height: 177px;
+  border-radius: 15px 15px 0 0;
+}
+.f16 {
+  font-size: 16px;
 }
 .f15 {
   font-size: 15px;
 }
-.flex-tab {
-  width: 46%;
-  flex: 1;
-  height: 100%;
-  line-height: 40px;
-  cursor: pointer;
-} 
-.active {
-  background:#38DDE5;
-  border-radius: 30px;
-  color: #ffffff;
-  -moz-box-shadow:0px 6px 9px rgba(56, 221, 229, 0.3); 
-  -webkit-box-shadow:0px 6px 9px rgba(56, 221, 229, 0.3); 
-  box-shadow:0px 6px 9px rgba(56, 221, 229, 0.3);
+.f14 {
+  font-size: 14px;
 }
-.header_btn{
-  max-width:100px;
-  height:40px;
-  background-size: 80px 40px;
-  text-align: center;
-  color:#38DDE5;
-  padding-top: 10px;
-  font-size: 15px;
-  background: #ffffff;
-  border-radius: 30px;
+.f10 {
+  font-size: 10px;
 }
-.header-active {
-  color: #ffffff;
-  background: #38DDE5;
-}
-.main-content {
-  min-height:257px;
-  width: 92%;
-  margin-left:4%;
-  border-radius: 20px;
-  background-color: #fff;
-  margin-top:10px;
-  position: relative;
-}
-.main-content .image img{
-  width:100%;
-  height:177px;
-  border-radius: 20px 20px 0 0 
-}
-.activity-type {
-  width: 36px;
-  height: 36px;
-  position: absolute;
-  top: 9px;
-  right: 9px;
-}
-.name-price {
-  display: flex;
-  justify-content: space-between;
-  padding: 14px 21px 11px 20px;
-}
-.name-price .content-left {
-  max-width: 227px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis
-}
-.name-price .price {
-  color: #DE1E06;
-  font-size: 22px;
-}
-.name-price .num {
-  color: #454545;
-  font-size: 12px;
-  margin-top: 2px;
-}
-.f16 {
-  font-size: 16px;
+.color-323 {
   color: #323643;
-  font-weight: 600;
 }
-.time {
-  color: #666666;
-  font-size: 12px;
+.color-98 {
+  color: #989898;
 }
-.mt12 {
-  margin-top: 12px;
+.color-f9 {
+  color: #FF9917;
 }
-p img {
-  width: 12px;
-  height: 12px;
-  display: inline-block;
+.color-06d {
+  color: #06D5DE
+}
+.box-title {
+  width: 86.8%;
+  margin: 14px 7.6% 9px 5.6%;
+  height: 44px;
+  overflow: hidden;
+  text-overflow: -o-ellipsis-lastline; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  display: -webkit-box; 
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.button {
+  border: 1px solid #06D5DE;
+  border-radius: 18px;
+  width: 25.35%;
+  height: 34px;
+  text-align: center;
+  line-height: 32px;
+} 
+.box-bottom {
+  display: flex;
+  /* padding: 0 3.7% 17px 5.6%; */
+  padding-bottom: 17px;
+  align-items: center;
+}
+.scan-text {
+  margin-left: 5.6%;
+}
+.num {
+  margin-left: 2.8%;
+}
+.view {
+  margin-left: 13.5%;
+}
+.detail {
+  margin-left: 4.5%;
 }
 </style>

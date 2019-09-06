@@ -48,6 +48,7 @@ import GuideDetailView from '@/views/guide-detail-view'
 import CouponView from '@/views/coupon-view'
 import CouponPayView from '@/views/coupon-pay-view'
 import OwnerShareView from '@/views/owner-share-view'
+import ShareListView from '@/views/share-list-view'
 
 Vue.use(Router)
 
@@ -214,6 +215,11 @@ export default new Router({
           path: 'myshare',
           name: '我的分享',
           component: OwnerShareView
+        },
+        {
+          path: 'shareList',
+          name: '查看浏览用户',
+          component: ShareListView
         },
         {
         path: 'pay',
