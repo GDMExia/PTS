@@ -2,19 +2,15 @@
   <div class="main">
     <div class="box" v-for="(item, index) in activityListData" :key="index">
         <p class="box-name f15 color-333">{{item.name}}</p>
-        <div class="box-phone">
-            <p>
-                <img src="../../static/img/ic_iphone@2x.png" alt="">
-                <span class="f12 color-666">手机号</span>
-            </p>
-            <p class="f12 color-333">{{item.phone}}</p>
+        <div class="box-phone" style="margin-top: 12px">
+            <img class="view-phone" src="../../static/img/ic_iphone@2x.png" alt="">
+            <span class="f12 color-666" style="margin-left: 2%;">手机号</span>
+            <p class="f12 color-333 phone-num">{{item.phone}}</p>
         </div>
-        <div class="box-phone">
-            <p>
-                <img src="../../static/img/ic_ll@2x.png" alt="">
-                <span class="f12 color-666">浏览次数</span>
-            </p>
-            <p class="f12 color-333">{{item.viewNum}}</p>
+        <div class="box-phone" style="margin-top: 5px">
+            <img class="view-eye" src="../../static/img/ic_ll@2x.png" alt="">
+            <span class="f12 color-666" style="margin-left: 1.45%;">浏览次数</span>
+            <p class="f12 color-333 view-num">{{item.viewNum}}次</p>
         </div>
     </div>
   </div>
@@ -81,6 +77,9 @@ export default {
     width: 92%;
     background: #ffffff;
     margin: 12px auto 0 auto;
+    padding-left: 5.8%;
+    padding-top: 12px;
+    padding-bottom: 13px;
 }
 .f15 {
     font-size: 15px;
@@ -96,9 +95,24 @@ export default {
 }
 .box-phone {
     display: flex;
+    height: 17px;
+    line-height: 17px;
+    align-items: center;
 }
-.box-phone img {
+.view-phone {
     width: 12px;
     height: 12px;
+    display: inline;
+}
+.view-eye {
+  width: 14px;
+  height: 9px;
+  display: inline;
+}
+.view-num {
+  margin-left: 5.5%;
+}
+.phone-num {
+  margin-left: 9%;
 }
 </style>
