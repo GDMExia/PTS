@@ -37,6 +37,9 @@ import signedView from '@/views/signed'
 import beforeAgreementSignView from '@/views/beforesignview'
 import merchantpay200 from '@/views/merchantpay200'
 import merchantpay368 from '@/views/merchantpay368'
+import merchantLogin from '@/views/merchant-login-view'
+import merchantHome from '@/views/merchant-home-view'
+
 
 import TourDetailView from '@/views/tour-detail-view'
 import ActivityDetailView from '@/views/activity-detail-view'
@@ -304,6 +307,18 @@ export default new Router({
       name: '嘻格格商户入驻流程平台',
       component: merchantpay368
       // 付368
+    },
+    {
+      path: '/merchantLogin',
+      name: '嘻格格商户登陆',
+      component: merchantLogin
+      // 商家登陆
+    },
+    {
+      path: '/merchantHome',
+      name: '嘻格格商户首页',
+      component: merchantHome
+      // 商家首页
     },
   ]
 })
