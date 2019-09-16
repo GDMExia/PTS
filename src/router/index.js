@@ -48,6 +48,11 @@ import PayView from '@/views/pay-view'
 import SearchView from '@/views/search-view'
 import ActivityShareView from '@/views/activity-share-view'
 import GuideDetailView from '@/views/guide-detail-view'
+import CouponView from '@/views/coupon-view'
+import CouponPayView from '@/views/coupon-pay-view'
+import OwnerShareView from '@/views/owner-share-view'
+import ShareListView from '@/views/share-list-view'
+import WheelView from '@/views/test-roulette'
 
 Vue.use(Router)
 
@@ -73,6 +78,11 @@ export default new Router({
           component: GuideView
         },
         {
+          path: 'wheel',
+          name: '大转盘',
+          component: WheelView
+        },
+        {
           path: 'guideDetail',
           name: '详情',
           component: GuideDetailView
@@ -96,7 +106,17 @@ export default new Router({
           path: 'storeDetail',
           name: '商家详情',
           component: StoreDetailView
-        }
+        },
+        {
+          path: 'coupon',
+          name: '商家优惠',
+          component: CouponView
+        },
+        {
+          path: 'couponPay',
+          name: '购买优惠券',
+          component: CouponPayView
+        },
       ]
     },
     {
@@ -199,6 +219,16 @@ export default new Router({
         path: 'mywallet',
         name: '我的钱包',
         component: WalletView
+        },
+        {
+          path: 'myshare',
+          name: '我的分享',
+          component: OwnerShareView
+        },
+        {
+          path: 'shareList',
+          name: '查看浏览用户',
+          component: ShareListView
         },
         {
         path: 'pay',
