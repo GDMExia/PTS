@@ -12,7 +12,8 @@
 <script>
 export default {
   props: {
-    offset: Number
+    offset: Number,
+    wheel: Boolean
   },
   data () {
     return {
@@ -24,30 +25,37 @@ export default {
     }
   },
   methods: {
-     rotate(plate){
+    rotate(plate){
       this.deg = 0
-	  this.total = 0
-	  this.stangle = 18 - (0.225 * this.offset) + 0.1
-	  for(let i=0;i<200;i++){
-		setTimeout(()=>{
-		  this.deg =  this.stangle * this.speed[parseInt(i/10)]
-		  this.total = this.total +  this.deg
-		  plate.style.transform=`rotate(${this.total}deg)`
-		  if(i==199){
-			this.total = 0
-			this.$emit('handlePlate')
-		  }
-		},i*50)           
-	  }
-
-     }
+      this.total = 0
+      this.stangle = 18 - (0.225 * this.offset) + 0.1
+      for(let i=0;i<200;i++){
+        setTimeout(()=>{
+          this.deg =  this.stangle * this.speed[parseInt(i/10)]
+          this.total = this.total +  this.deg
+          plate.style.transform=`rotate(${this.total}deg)`
+          if(i==199){
+            this.total = 0
+            this.$emit('handlePlate')
+          }
+        },i*50)           
+      }
+    },
+    turnWheel() {
+      this.$emit('turnWheel')
+      setTimeout(()=>{
+        if(this.wheel) {
+          const plate = document.querySelector('.plate')
+          this.rotate(plate)
+        }
+      }, 1000)
+    },
    },
     directives: {
       turn(el, binding, vnodel) {   
-        el.onclick= () => {
-          if(vnodel.context.total>0) return
-          const plate = document.querySelector('.plate')
-          vnodel.context.rotate(plate)    
+        el.onclick = () => {
+          vnodel.context.turnWheel()
+          if(vnodel.context.total>0) return  
         }
       }
     }
