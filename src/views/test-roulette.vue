@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <div class="turnplate-box">
-      <turnplate :offset="offset" @handlePlate = "handlePlate" /> 
+      <turnplate :offset="offset" :wheel="wheel" @turnWheel="turnWheel" @handlePlate = "handlePlate" /> 
     </div>
     <div class="prize-box">
       <div class="prize-container" v-for="(item, index) in prize" :key="index">
@@ -18,7 +18,8 @@
 
 <script>
 import Turnplate from '@/components/turnplate'
-
+import Axios from 'axios'
+import qs from 'qs'
 export default {
   name: 'roulette-pages',
   components: {
@@ -26,19 +27,48 @@ export default {
   },
   data () {
     return {
-      offset: 2,
       prize: [
         {id: 1, title: '一等奖', num: '价值1500元', content: '免费入住德尔塔酒店豪华客房一晚并含翌日 双人早餐+真味馆中餐厅双人点心任点任食。'},
         {id: 2, title: '二等奖', num: '价值600元', content: '德尔塔酒店-莲全日制餐厅双人自助晚餐'},
         {id: 3, title: '三等奖', num: '价值300元', content: '品牌保温杯'},
         {id: 4, title: '四等奖', num: '价值100元', content: '旅行收纳包13件套'},
         {id: 5, title: '五等奖', num: '价值40元', content: '精美书签一套'},
-      ]
+      ],
+      offset:-1, 
+      prizeText: '',
+      wheel: true,
+      onemore: 0,
+      prizes: ['谢谢参与','三等奖','四等奖','谢谢参与','五等奖','一等奖','谢谢参与','二等奖']
     }
   },
   methods: {
-    handlePlate () {
-      alert('损2分')
+    turnWheel() {
+      this.getLuck()
+    },
+    handlePlate() {
+      this.toastShow(this.prizeText!='谢谢参与'?`恭喜您中了${this.prizeText}`:this.prizeText)
+      if(this.onemore>0) {
+        this.toastShow('您还可以再抽一次')
+      }
+    },
+    getLuck () {
+      const params = qs.stringify({
+        token: 'dc5e13d93a6b40301e550576e17e9bbc2b23c12d',
+        level_id: 9
+      })
+      Axios.post(`http://bsapi.suoqoo.com/index/Activity/startLucky?${params}`).then(res=>{
+        if(res.data.Code==="100000") {
+          this.prizeText = res.data.Data.lucky_prize
+          // this.offset = 2
+          this.offset = this.prizes.indexOf(res.data.Data.lucky_prize)
+          this.onemore = res.data.Data.award_count
+        } else {
+          this.wheel = false
+          this.toastShow(res.data.Msg)
+        }
+      }).catch(err=>{
+        this.wheel = false
+      })
     }
   }
 }
