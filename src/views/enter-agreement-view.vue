@@ -1,7 +1,7 @@
 <template>
     <div style="background-color:#F5F5F7">
         <div class="background">
-            <div style="font-size:20px;">嘻格格商家入驻协议</div>
+            <div style="font-size:20px;">嘻格格商户入驻流程平台</div>
             <div style="font-size:16px;margin-top:14px">- v1.0 -</div>
         </div>
         <div style="background-color:#fff;height:50px;width:83%;margin-left:8.5%;border-radius:50px;margin-top:-16px;overflow: hidden">
@@ -74,7 +74,7 @@ export default {
                 method: 'post',
                 url: `${this.rootPath}/Merchants/login`,
                 header: {
-                    'Content-Type':'multipart/form-data'  
+                    'Content-Type':'multipart/form-data'
                 },
                 data: data
                 }).then(res=>{
