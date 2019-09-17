@@ -43,9 +43,10 @@ router.beforeEach((to, from, next) => {
   const search = location.search.substr(1).match(reg)
   console.log(search, '3334444')
 
-  if(to.fullPath.indexOf('merchant')>=0){
-    next();
-  }else if(to.fullPath.indexOf('merchantpaytw')>=0){
+  // if(to.fullPath.indexOf('merchant')>=0){
+  //   next();
+  // }else
+  if(to.fullPath.indexOf('merchantpaytw')>=0){
     next();
   }else if(to.fullPath.indexOf('merchantpayth')>=0&&token!==''){
     next();
@@ -72,7 +73,7 @@ router.beforeEach((to, from, next) => {
       next()
       // router.push(`${to.fullPath}`)
     }else{
-      // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.144:8080/#${to.fullPath}`
+      // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.148:8080/#${to.fullPath}`
       // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.9.106:8080/#${to.fullPath}`
       location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://pts.suoqoo.com/nh5/#${to.fullPath}`
       // store.commit('setRefuse', true)
