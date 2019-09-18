@@ -52,7 +52,7 @@ import CouponView from '@/views/coupon-view'
 import CouponPayView from '@/views/coupon-pay-view'
 import OwnerShareView from '@/views/owner-share-view'
 import ShareListView from '@/views/share-list-view'
-import WheelView from '@/views/test-roulette'
+import OwnerDiscountView from '@/views/discount-view'
 
 Vue.use(Router)
 
@@ -76,11 +76,6 @@ export default new Router({
           path: 'guide',
           name: '使用指南',
           component: GuideView
-        },
-        {
-          path: 'wheel',
-          name: '大转盘',
-          component: WheelView
         },
         {
           path: 'guideDetail',
@@ -224,6 +219,11 @@ export default new Router({
           path: 'myshare',
           name: '我的分享',
           component: OwnerShareView
+        },
+        {
+          path: 'mydiscount',
+          name: '我的优惠',
+          component: OwnerDiscountView
         },
         {
           path: 'shareList',
