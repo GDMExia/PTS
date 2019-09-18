@@ -1,16 +1,16 @@
 <template>
     <div style="background-color:#F5F5F7">
         <div class="step"></div>
-        <div style="width:100%;text-align:center;color:#06D5DE;font-size:16px;margin-top:24px">请如实完善以下信息</div> 
+        <div style="width:100%;text-align:center;color:#06D5DE;font-size:16px;margin-top:24px">请如实完善以下信息</div>
         <group style="marginTop:12px">
             <XInput :title='`<span style="color:#666666;font-size:14px">商户名称</span>`' v-model="merchants_name" text-align="right"></XInput>
-            <XInput :title='`<span style="color:#666666;font-size:14px">公司名称</span>`' v-model="company" text-align="right"></XInput>
-            <XInput :title='`<span style="color:#666666;font-size:14px">法人代表姓名</span>`' v-model="legal_person" text-align="right"></XInput>
+<!--            <XInput :title='`<span style="color:#666666;font-size:14px">公司名称</span>`' v-model="company" text-align="right"></XInput>-->
+<!--            <XInput :title='`<span style="color:#666666;font-size:14px">法人代表姓名</span>`' v-model="legal_person" text-align="right"></XInput>-->
             <XInput :title='`<span style="color:#666666;font-size:14px">推介人姓名</span>`' v-model="recommended_real_name" text-align="right"></XInput>
             <XInput :title='`<span style="color:#666666;font-size:14px">推介人手机号码</span>`' is-type="china-mobile" v-model="recommended_phone" text-align="right"></XInput>
             <XInput :title='`<span style="color:#666666;font-size:14px;white-space: nowrap">店主或商户申请人姓名</span>`' v-model="merchant_applicant" text-align="right"></XInput>
             <XInput :title='`<span style="color:#666666;font-size:14px;white-space: nowrap">店主或商户申请人微信号</span>`' v-model="merchant_applicant_wechat" text-align="right"></XInput>
-            <XInput :title='`<span style="color:#666666;font-size:14px;white-space: nowrap">提供平台最低折扣</span>`' v-model="discount" text-align="right" placeholder="纯数字 如65折填6.5" @on-change="Toint"></XInput>
+            <XInput :title='`<span style="color:#666666;font-size:14px;white-space: nowrap">提供嘻格格平台最低折扣</span>`' v-model="discount" text-align="right" placeholder="纯数字 如65折填6.5" @on-change="Toint"></XInput>
             <!-- <XInput :title='`<span style="color:#666666;font-size:14px;white-space: nowrap">商户申请人手机号码</span>`' is-type="china-mobile" v-model="merchant_applicant_phone" text-align="right"></XInput> -->
             <!-- <XInput :title='click1?`<span style="color:#666666;font-size:14px;white-space: nowrap">请在此输入短信验证码</span>`:""' v-model="phone_code" text-align="left" placeholder="" placeholder-align="right" :show-clear="false"><div slot="right" style="color:#06D5DE;borderLeft:1px solid #F0F0F0" @click="getcode">{{codeshow}}</div></XInput> -->
         </group>
@@ -21,13 +21,13 @@
             <XInput :title='`<span style="color:#666666;font-size:14px"></span>`' v-model="ttt" text-align="right" disabled></XInput>
             <Checklist title='支付方式（可多选）' v-model="payment" :options="options" style="font-size:14px"></Checklist>
         </group>
-        <span style="color:#666666;font-size:14px;margin-left:2%">商户简介（限100字）</span>
+        <span style="color:#666666;font-size:14px;margin-left:2%">商户类别</span>
         <group style="margin-bottom:20px">
-            <XTextarea title="" v-model="merchants_content" text-align="right"></XTextarea>
+            <XTextarea title="" v-model="merchants_content" text-align="right" placeholder="请描述本商户所涉及的类别，如泰式餐厅、设计师服装店、茶餐厅、法式美甲店等" style="font-size: 14px"></XTextarea>
         </group>
-        
+
         <span style="color:#666666;font-size:14px;margin-left:2%">请上传资质文件图片（最多5张）</span>
-        
+
         <group style="margin-bottom:20px">
         <div style="width: 80px;height: 80px; position: relative;cursor:pointer;display:inline-block">
             <div style="position:absolute;left:0;top:0;width:80px;height:80px">
@@ -36,37 +36,37 @@
             <div style="position:absolute;left:0;top:0;width:80px;height:80px">
                 <input type="file" id="upload" @change="uploaddocument_pic" style="width:80px;height:80px;opacity:0;" multiple :disabled="document_pic.length>=5"/>
             </div>
-            
+
         </div>
         <p style="position:absolute;right:0;top:15px;display:inline-block;width:60%;height:80px;color:#999999;font-size:14px">请上传营业执照及食品安全认证、有机食品认证、品牌授权书等行业相关证书或证件的图片</p>
         <InlineLoading v-if="loadingdocument_pic"></InlineLoading>
         <div v-for="(item,index) of document_pic1" :key="index">{{item.name}}</div>
         </group>
-        <span style="color:#666666;font-size:14px;margin-left:2%">创始人或实际经营人简介（限200字）</span>
-        
-        <group style="margin-bottom:20px">
-            <XTextarea title="" v-model="operator_content" text-align="right" placeholder="相关从业经历、个人荣誉、经营理念等" style="font-size:14px"></XTextarea>
-        </group>
-        <span style="color:#666666;font-size:14px">请上传个人形象照及个人相关证书图片（最多5张）</span>
-        
-        <group style="margin-bottom:20px">
-        <div style="width: 80px;height: 80px; position: relative;cursor:pointer;display:inline-block">
-            <div style="position:absolute;left:0;top:0;width:80px;height:80px">
-                <x-icon type="ios-plus-empty" size="80"></x-icon>
-            </div>
-            <div style="position:absolute;left:0;top:0;width:80px;height:80px">
-                <input type="file" id="upload" @change="uploadphoto" style="width:80px;height:80px;opacity:0;" multiple :disabled="photo.length>=5"/>
-            </div>
-            <!-- <div v-for="(item.index) of document_pic">{{item}}</div> -->
-        </div>
-        <p style="position:absolute;right:0;top:15px;display:inline-block;width:60%;height:80px;color:#999999;font-size:14px;margin-left:2%">请上传创始人或实际经营者的个人形象照及个人相关荣誉证书、资质证书、聘书等</p>   
-        <InlineLoading v-if="loadingphoto"></InlineLoading>
-        <div v-for="(item,index) of photo1" :key="index">{{item.name}}</div>
-        </group>
+<!--        <span style="color:#666666;font-size:14px;margin-left:2%">创始人或实际经营人简介（限200字）</span>-->
+
+<!--        <group style="margin-bottom:20px">-->
+<!--            <XTextarea title="" v-model="operator_content" text-align="right" placeholder="相关从业经历、个人荣誉、经营理念等" style="font-size:14px"></XTextarea>-->
+<!--        </group>-->
+<!--        <span style="color:#666666;font-size:14px">请上传个人形象照及个人相关证书图片（最多5张）</span>-->
+
+<!--        <group style="margin-bottom:20px">-->
+<!--        <div style="width: 80px;height: 80px; position: relative;cursor:pointer;display:inline-block">-->
+<!--            <div style="position:absolute;left:0;top:0;width:80px;height:80px">-->
+<!--                <x-icon type="ios-plus-empty" size="80"></x-icon>-->
+<!--            </div>-->
+<!--            <div style="position:absolute;left:0;top:0;width:80px;height:80px">-->
+<!--                <input type="file" id="upload" @change="uploadphoto" style="width:80px;height:80px;opacity:0;" multiple :disabled="photo.length>=5"/>-->
+<!--            </div>-->
+<!--            &lt;!&ndash; <div v-for="(item.index) of document_pic">{{item}}</div> &ndash;&gt;-->
+<!--        </div>-->
+<!--        <p style="position:absolute;right:0;top:15px;display:inline-block;width:60%;height:80px;color:#999999;font-size:14px;margin-left:2%">请上传创始人或实际经营者的个人形象照及个人相关荣誉证书、资质证书、聘书等</p>-->
+<!--        <InlineLoading v-if="loadingphoto"></InlineLoading>-->
+<!--        <div v-for="(item,index) of photo1" :key="index">{{item.name}}</div>-->
+<!--        </group>-->
         <!-- <div style="width:100%;text-align:center;color:#06D5DE;font-size:16px;margin-top:24px;margin-bottom:20px">请如实完善以下信息</div>  -->
-        
+
         <span style="color:#666666;font-size:14px;margin-left:2%">请上传店铺实景图片（最多9张）</span>
-        
+
         <group style="margin-bottom:20px">
         <div style="width: 80px;height: 80px; position: relative;cursor:pointer;display:inline-block">
             <div style="position:absolute;left:0;top:0;width:80px;height:80px">
@@ -92,7 +92,7 @@
                 <div style="position:absolute;left:0;top:0;width:80px;height:80px">
                     <input type="file" id="upload" @change="uploadgoods_list" style="width:80px;height:80px;opacity:0;" multiple :disabled="goods_list.length>=20"/>
                 </div>
-                
+
                 <!-- <div v-for="(item.index) of document_pic">{{item}}</div> -->
             </div>
             <InlineLoading v-if="loadinggoods_list"></InlineLoading>
@@ -160,7 +160,7 @@ export default {
         }
     },
     methods:{
-        uploaddocument_pic(event){ 
+        uploaddocument_pic(event){
             // this.$nextTick(()=>{
             //     this.loadingdocument_pic=true
             // })
@@ -185,7 +185,7 @@ export default {
         fixScroll() {
             window.scrollTo(0, 0);
         },
-        uploadphoto(event){ 
+        uploadphoto(event){
             this.loadingphoto=true
             console.log(event.target.files.length)
             let length=event.target.files.length
@@ -257,7 +257,7 @@ export default {
             method: 'post',
             url: `${this.rootPath}/File/uploadsImage`,
             header: {
-                'Content-Type':'multipart/form-data'  
+                'Content-Type':'multipart/form-data'
             },
             data: data
             })
@@ -287,10 +287,10 @@ export default {
             }
         },
         submit(){
-            if(this.merchants_name&&this.merchant_applicant&&/^1[3456789]\d{9}$/.test(this.merchant_applicant_phone)&&this.address&&this.merchant_applicant_wechat&&this.discount&&this.discount!=''&&this.document_pic&&this.photo&&this.recommended_real_name&&/^1[3456789]\d{9}$/.test(this.recommended_phone)&&this.hotline_phone&&this.hours_time&&this.payment&&this.merchants_content&&this.operator_content&&this.goods_list[0].file_id&&this.shop_picture&&this.company&&this.legal_person){
+            if(this.merchants_name&&this.merchant_applicant&&/^1[3456789]\d{9}$/.test(this.merchant_applicant_phone)&&this.address&&this.merchant_applicant_wechat&&this.discount&&this.discount!=''&&this.document_pic&&this.recommended_real_name&&/^1[3456789]\d{9}$/.test(this.recommended_phone)&&this.hotline_phone&&this.hours_time&&this.payment&&this.merchants_content&&this.goods_list[0].file_id&&this.shop_picture){
                 let data={
                     document_pic:this.document_pic,
-                    photo:this.photo,
+                    // photo:this.photo,
                     merchants_name:this.merchants_name,
                     recommended_real_name:this.recommended_real_name,
                     recommended_phone:this.recommended_phone,
@@ -303,12 +303,12 @@ export default {
                     hours_time:this.hours_time,
                     payment:this.payment,
                     merchants_content:this.merchants_content,
-                    operator_content:this.operator_content,
+                    // operator_content:this.operator_content,
                     // phone_code:this.phone_code,
                     goods_list:this.goods_list,
                     shop_picture:this.shop_picture,
-                    legal_person:this.legal_person,
-                    company:this.company
+                    // legal_person:this.legal_person,
+                    // company:this.company
                 }
                 console.log(data)
                 // data.document_pic=JSON.stringify(data.document_pic)
@@ -334,7 +334,7 @@ export default {
                 method: 'post',
                 url: `${this.rootPath}/Merchants/createForm`,
                 header: {
-                    'Content-Type':'multipart/form-data'  
+                    'Content-Type':'multipart/form-data'
                 },
                 data: dat
                 }).then(res=>{
@@ -376,7 +376,7 @@ export default {
         // },
     },
     mounted(){
-        
+
     },
     watch:{
         codeshow:{
