@@ -6,7 +6,7 @@
     </div>
     <!-- <div class="container"> -->
       <div class="contain-activity">
-        <div @click="$router.push('/homes/wheel')">
+        <div>
           <img src="../../static/img/home_ic_xstj@2x.png" alt="">
           <p>心水推荐</p>
         </div>
