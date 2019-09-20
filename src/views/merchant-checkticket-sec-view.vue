@@ -1,47 +1,40 @@
 <template>
     <div style="background-color:#F5F5F7;touch-action: none;">
-      <div style="background-color:#fff;height: 130px;width:95%;margin-left:2.5%;border-radius: 10px;padding-top:45px;box-sizing: border-box">
-        <div style="width:40px;height: 40px;margin-left:5%;display: inline-block;">
-          <img src="../../static/img/icon/sj_ic_user@2x.png" style="width:40px;height: 40px"/>
-        </div>
-        <div style="position: relative;display: inline-block;width: 79%;float:right;height:130px;margin-top:-45px">
-          <div style="position: absolute;top:27px;font-size: 18px;color:#333">林步凡</div>
-          <div style="position: absolute;top:62px;font-size: 12px;color:#333">13522667188</div>
-          <div style="position: absolute;top:83px;font-size: 12px;color:#333">天逸瑜伽工作室</div>
-          <div style="width:20%;height:30px;position: absolute;top:50px;right:11%;background-color:#F5F5F7;border-radius: 20px;text-align: center;"><p style="margin-top:5px;vertical-align:middle;font-size: 12px">退出</p></div>
-        </div>
+      <div style="background:#fff;width: 95%;height: 150px;margin-left: 2.5%;position: relative;margin-top:12px;border-radius: 10px">
+        <img src="../../static/img/icon/yp_ic@2x.png" style="width: 120px;height: 120px;position: absolute;left:3%;top:15px;background-color:red;border-radius: 10px"/>
+        <p style="position: absolute;width:55.5%;left:40%;top:15px;font-size: 16px;color: #323643;">马来西亚、吉隆坡城市遗址、洞穴与缆车马来西亚吉隆坡</p>
+        <p style="position: absolute;width:55.5%;left:40%;bottom:21px;font-size: 18px;color: #DE1E06;">¥2000</p>
+        <p style="position: absolute;width:55.5%;left:58%;bottom:23px;font-size: 14px;color: #FF6C00;">+500积分</p>
       </div>
-      <div style="background-color:#fff;height: 325px;width:95%;margin-left:2.5%;border-radius: 10px;margin-top:10px;padding-top:28px;box-sizing: border-box">
-        <div style="color:#666;font-size:16px;text-align: center;">{{date}}</div>
-        <div class="scan" @click="scan"></div>
+      <group style="marginTop:12px">
+        <XInput :title='`<span style="color:#666666;font-size:14px">会员名称</span>`' v-model="merchants_name" text-align="right" disabled></XInput>
+        <XInput :title='`<span style="color:#666666;font-size:14px">会员当前积分</span>`' v-model="merchants_name" text-align="right" disabled></XInput>
+      </group>
+      <group style="marginTop:12px">
+        <XInput :title='`<span style="color:#666666;font-size:14px">报名人数</span>`' v-model="merchants_name" text-align="right" disabled></XInput>
+        <XInput :title='`<span style="color:#666666;font-size:14px">实际人数</span>`' v-model="merchants_name" text-align="right" disabled></XInput>
+      </group>
+      <group style="marginTop:12px">
+        <XInput :title='`<span style="color:#666666;font-size:14px">本次消费</span>`' v-model="merchants_name" text-align="right" placeholder="请输入本次消费"></XInput>
+        <XInput :title='`<span style="color:#666666;font-size:14px">本次积分抵扣</span>`' v-model="merchants_name" text-align="right" placeholder="请输入本次积分抵扣"></XInput>
+        <XInput :title='`<span style="color:#666666;font-size:14px">本次实际支付</span>`' v-model="merchants_name" text-align="right"></XInput>
+      </group>
+
+      <div style="display: flex;width:100%;justify-content:space-around;margin-top:59px">
+        <div style="flex: 1;background-color:rgba(6, 213, 222, 0.5);color:#fff;text-align: center;width:40%;height:40px;border-radius: 20px;margin:10px 5%;padding-top:9px">确认并返回</div>
+        <div style="flex: 1;background-color:rgba(6, 213, 222, 0.5);color:#fff;text-align: center;width:40%;height:40px;border-radius: 20px;margin:10px 5%;padding-top:9px">确认并继续</div>
       </div>
-<!--        <div class="background">-->
-<!--            <div style="font-size:20px;">嘻格格商家版</div>-->
-<!--            <div style="font-size:16px;margin-top:14px">- 仅商家使用 -</div>-->
-<!--        </div>-->
-<!--        <div style="background-color:#fff;height:50px;width:83%;margin-left:8.5%;border-radius:50px;margin-top:-16px;overflow: hidden">-->
-<!--            <div style="width:24px;height:50px;display:inline-block;margin-left:4%" >-->
-<!--                <img src="../../static/img/icon/phone@2x.png" style="width:24px;height:24px;display:inline-block;margin-left:4%;margin-top:13px" alt="">-->
-<!--            </div>-->
-<!--            <input type="text" v-model="phone" placeholder="请输入店主或联系人手机号码" @blur="fixScroll" style="width:24px;height:24px;background-color:#fff;height:50px;width:83%;display:inline-block;margin-top:-13px"/>-->
-<!--        </div>-->
-<!--        <div style="background-color:#fff;height:50px;width:83%;margin-left:8.5%;border-radius:50px;margin-top:10px;overflow: hidden">-->
-<!--            <div style="width:24px;height:50px;display:inline-block;margin-left:4%" >-->
-<!--                <img src="../../static/img/icon/pcode@2x.png" style="width:24px;height:24px;display:inline-block;margin-left:4%;margin-top:13px" alt="">-->
-<!--            </div>-->
-<!--            <input type="text" v-model="phone_code" placeholder="请输入验证码" @blur="fixScroll" style="width:24px;height:24px;background-color:#fff;height:50px;width:50%;display:inline-block;margin-top:-13px"/>-->
-<!--            <div style="float:right;color:#06D5DE;font-size:14px;margin-top:15px;width:30%" @click="getcode">{{codeshow}}</div>-->
-<!--        </div>-->
-<!--        <div class="button" @click="submit"></div>-->
     </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-export default {
-    components:{
+import { Group , XInput } from 'vux'
 
-    },
+export default {
+  components:{
+    Group,
+    XInput
+  },
     data(){
         return{
             date:'',

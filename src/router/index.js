@@ -39,7 +39,8 @@ import merchantpay200 from '@/views/merchantpay200'
 import merchantpay368 from '@/views/merchantpay368'
 import merchantLogin from '@/views/merchant-login-view'
 import merchantHome from '@/views/merchant-home-view'
-
+import merchantCheck from '@/views/merchant-checkticket-view'
+import merchantCheckSec from '@/views/merchant-checkticket-sec-view'
 
 import TourDetailView from '@/views/tour-detail-view'
 import ActivityDetailView from '@/views/activity-detail-view'
@@ -348,6 +349,18 @@ export default new Router({
       path: '/merchantHome',
       name: '嘻格格商户首页',
       component: merchantHome
+      // 商家首页
+    },
+    {
+      path: '/merchantCheck',
+      name: '验票',
+      component: merchantCheck
+      // 商家首页
+    },
+    {
+      path: '/merchantCheckSec',
+      name: '验票',
+      component: merchantCheckSec
       // 商家首页
     },
   ]
