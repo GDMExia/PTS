@@ -35,7 +35,7 @@
       <CellBox :is-link="true" class="link" link=/owners/info><span>个人信息</span></CellBox>
       <CellBox :is-link="true" class="link" link=/owners/mywallet><span>我的钱包</span></CellBox>
       <CellBox :is-link="true" class="link" link=/owners/myorder><span>我的订单</span></CellBox>
-      <CellBox :is-link="true" class="link" link=/owners/myorder><span>我的优惠</span></CellBox>
+      <CellBox :is-link="true" class="link" link=/owners/mydiscount><span>我的优惠</span></CellBox>
       <CellBox :is-link="true" class="link" link=/owners/myshare><span>我的分享</span></CellBox>
       <CellBox :is-link="true" class="link" ><span>联系客服</span></CellBox>
       <!-- link=/merchant -->
