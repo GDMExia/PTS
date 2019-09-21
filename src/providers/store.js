@@ -25,6 +25,8 @@ const types = {
   USER_SIGN: 'USER_SIGN',
   STORE_LIST: 'STORE_LIST',
   STORE_DETAIL: 'STORE_DETAIL',
+  SHARE_LIST: 'SHARE_LIST',
+  SHARE_USER_LIST: 'SHARE_USER_LIST',
 }
 
 const state = {
@@ -48,6 +50,8 @@ const state = {
   userSign: {},
   storeList: [],
   storeDetail: [],
+  shareList: [],
+  shareUserList: [],
 }
 
 const getters = {
@@ -104,7 +108,13 @@ const getters = {
   },
   getRefuse(state) {
     return state.refuse
-  }
+  },
+  getShareList(state) {
+    return state.shareList
+  },
+  getShareUserList(state) {
+    return state.shareUserList
+  },
 }
 
 const actions = {
@@ -327,6 +337,30 @@ const actions = {
       }
       return playload
   },
+  // 我的分享
+  shareList({commit}, playload) {
+    let params = qs.stringify(playload)
+    return Axios.get(
+      `${rootPath}/User/getUserShare?${params}`
+    ).then(res => {
+      if (res.data.StatusInfo.success) {
+        commit(types.SHARE_LIST, res.data)
+      }
+      return new Promise(resolve=>{resolve(res.data)})
+    })
+  },
+  // 查看分享浏览用户
+  shareUserList({commit}, playload) {
+    let params = qs.stringify(playload)
+    return Axios.get(
+      `${rootPath}/User/getUserShareLog?${params}`
+    ).then(res => {
+      if (res.data.StatusInfo.success) {
+        commit(types.SHARE_USER_LIST, res.data)
+      }
+      return new Promise(resolve=>{resolve(res.data)})
+    })
+  }
 }
 
 const mutations = {
@@ -384,6 +418,12 @@ const mutations = {
   },
   [types.STORE_DETAIL](state, playload) {
     state.storeDetail = playload
+  },
+  [types.SHARE_LIST](state, playload) {
+    state.shareList = playload
+  },
+  [types.SHARE_USER_LIST](state, playload) {
+    state.shareUserList = playload
   },
 }
 

@@ -7,7 +7,8 @@
         <div class="store-discount">
           <p class="store-address f14">
             <img style="height: 17px;" src="../../static/img/ic_yhq@2x.png" alt="">
-            <span class="store-address-item">嘻格格会员在本店消费，可享至少20积分抵扣</span>
+            <marquee><font class="store-address-item" style="width: 100%;">嘻格格会员在本店消费，可享至少20积分抵扣</font></marquee>
+            <!-- <span class="store-address-item" style="width: 100%;">嘻格格会员在本店消费，可享至少20积分抵扣</span> -->
           </p>
           <!-- <p class="store-address f14">
             <span class="store-address-item">共2张，查看抢购</span>

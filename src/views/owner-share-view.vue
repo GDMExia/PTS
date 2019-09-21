@@ -1,15 +1,21 @@
 <template>
   <div class="main">
-    <div class="box" v-for="(item, index) in activityListData" :key="index">
-      <img class="box-img" :src="item.img" alt="">
-      <p class="f16 color-323 box-title">{{item.title}}</p>
-      <div class="box-bottom">
-        <span class="f10 color-98 scan-text">浏览量</span>
-        <span class="f15 color-f9 num">{{item.num}}</span>
-        <div class="f14 color-06d button view" @click="$router.push('/owners/shareList')">浏览用户</div>
-        <div class="f14 color-06d button detail">文章详情</div>
-      </div>
+    <div style="display: flex;justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="activityListData.length==0">
+      <img style="width: 40px; margin: 65% 0px; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
+      <span> 暂无数据 </span>
     </div>
+    <scroller style="height: 100%;" v-if="activityListData.length" lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottomView">
+      <div class="box" v-for="(item, index) in activityListData" :key="index">
+        <img class="box-img" :src="item.img" alt="">
+        <p class="f16 color-323 box-title">{{item.title}}</p>
+        <div class="box-bottom">
+          <span class="f10 color-98 scan-text">浏览量</span>
+          <span class="f15 color-f9 num">{{item.look_num}}</span>
+          <div class="f14 color-06d button view" @click="$router.push(`/owners/shareList?id=${item.article_id}`)">浏览用户</div>
+          <div class="f14 color-06d button detail" @click="$router.push(item.linkUrl)">文章详情</div>
+        </div>
+      </div>
+    </scroller>
   </div>
 </template>
 
@@ -30,9 +36,9 @@ export default {
       typeId: '',
       typeList: [],
       activityListData: [
-        {id: 1, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24',num: 2850},
-        {id: 2, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24',num: 2850},
-        {id: 3, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24',num: 2850},
+        // {id: 1, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24',num: 2850},
+        // {id: 2, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24',num: 2850},
+        // {id: 3, img:'http://iph.href.lu/355x177', title: '马来西亚、吉隆坡城市遗址、 洞穴与缆车马来西亚', created: '2019/07/24',num: 2850},
       ],
       pageNum: 1,
       totalPage: 0,
@@ -41,9 +47,29 @@ export default {
     };
   },
   methods: {
-    ...mapActions([]),
+    ...mapActions(['shareList']),
     handleQuery() {
-      
+      const params = {
+        page: this.pageNum,
+        pageSize: 5,
+        token: this.$store.state.token
+      }
+      this.shareList(params).then(res=>{
+        if(res.StatusInfo.success) {
+          this.activityListData = res.articleList?this.activityListData.concat(res.articleList.map(item=>{
+            item.linkUrl = item.article_cid ==1 ? `/tours/tourDetail?id=${item.article_id}`:
+            item.article_cid == 2 ? `/schools/detail?article_id=${item.article_id}`:
+            item.article_cid == 3 ? `/activities/activityDetail?id==${item.article_id}`:
+            `/homes/shareDetail?id=${item.article_id}`
+            return item
+          })):[]
+          this.totalPage = res.PageInfo.TotalPages
+        } else {
+          this.toastShow(res.StatusInfo.ErrorDetailCode)
+        }
+        this.loadDataDone = true; // 请求成功 控制空数据显示
+        this.onFetching = false; // 防止重复请求 
+      })
     },
     onScrollBottom () {
       if (this.onFetching) return;
@@ -60,7 +86,7 @@ export default {
     
   },
   created() {
-    
+    this.handleQuery()
   },
   mounted() {
   }

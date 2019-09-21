@@ -1,7 +1,12 @@
 <template>
   <div class="main">
-    <div class="box" v-for="(item, index) in activityListData" :key="index">
-        <p class="box-name f15 color-333">{{item.name}}</p>
+    <div style="display: flex;justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="activityListData.length==0">
+      <img style="width: 40px; margin: 65% 0px; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
+      <span> 暂无数据 </span>
+    </div>
+    <scroller style="height: 100%;" v-if="activityListData.length" lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottomView">
+      <div class="box" v-for="(item, index) in activityListData" :key="index">
+        <p class="box-name f15 color-333">{{item.real_name}}</p>
         <div class="box-phone" style="margin-top: 12px">
             <img class="view-phone" src="../../static/img/ic_iphone@2x.png" alt="">
             <span class="f12 color-666" style="margin-left: 2%;">手机号</span>
@@ -10,9 +15,10 @@
         <div class="box-phone" style="margin-top: 5px">
             <img class="view-eye" src="../../static/img/ic_ll@2x.png" alt="">
             <span class="f12 color-666" style="margin-left: 1.45%;">浏览次数</span>
-            <p class="f12 color-333 view-num">{{item.viewNum}}次</p>
+            <p class="f12 color-333 view-num">{{item.look_num}}次</p>
         </div>
-    </div>
+      </div>
+    </scroller>
   </div>
 </template>
 
@@ -30,9 +36,9 @@ export default {
   data() {
     return {
       activityListData: [
-          { name: '张三', phone: '13333333333', viewNum: 123 },
-          { name: '张三', phone: '13333333333', viewNum: 123 },
-          { name: '张三', phone: '13333333333', viewNum: 123 },
+          // { name: '张三', phone: '13333333333', viewNum: 123 },
+          // { name: '张三', phone: '13333333333', viewNum: 123 },
+          // { name: '张三', phone: '13333333333', viewNum: 123 },
       ],
       pageNum: 1,
       totalPage: 0,
@@ -41,9 +47,24 @@ export default {
     };
   },
   methods: {
-    ...mapActions([]),
+    ...mapActions(['shareUserList']),
     handleQuery() {
-      
+      const params = {
+        page: this.pageNum,
+        pageSize: 5,
+        token: this.$store.state.token,
+        article_id: this.$route.query.id
+      }
+      this.shareUserList(params).then(res=>{
+        if(res.StatusInfo.success) {
+          this.activityListData = res.articleList?this.activityListData.concat(res.articleList):[]
+          this.totalPage = res.PageInfo.TotalPages
+        } else {
+          this.toastShow(res.StatusInfo.ErrorDetailCode)
+        }
+        this.loadDataDone = true; // 请求成功 控制空数据显示
+        this.onFetching = false; // 防止重复请求 
+      })
     },
     onScrollBottom () {
       if (this.onFetching) return;
@@ -60,7 +81,7 @@ export default {
     
   },
   created() {
-    
+    this.handleQuery()
   },
   mounted() {
   }
