@@ -3,21 +3,21 @@
       <div style="background: url('../../static/img/icon/yp_bg@2x.png') no-repeat center;background-size: 100% 85px;width: 95%;height: 85px;margin-left: 2.5%;position: relative;margin-top:12px">
         <img src="../../static/img/icon/yp_bg@2x.png" style="width:100%;height: 85px"/>
         <img src="../../static/img/icon/yp_ic@2x.png" style="width: 56px;height: 56px;position: absolute;left:1.5%;top:15px"/>
-        <p style="position: absolute;left:18%;top:28px;font-size: 20px;color: #fff;">上海诚狐科技有限公司</p>
+        <p style="position: absolute;left:18%;top:28px;font-size: 20px;color: #fff;">{{merchants_name}}</p>
       </div>
       <group style="marginTop:12px">
-        <XInput :title='`<span style="color:#666666;font-size:14px">会员名称</span>`' v-model="merchants_name" text-align="right" disabled></XInput>
-        <XInput :title='`<span style="color:#666666;font-size:14px">会员当前积分</span>`' v-model="merchants_name" text-align="right" disabled></XInput>
+        <XInput :title='`<span style="color:#666666;font-size:14px">会员名称</span>`' v-model="nickname" text-align="right" disabled></XInput>
+        <XInput :title='`<span style="color:#666666;font-size:14px">会员当前积分</span>`' v-model="account_price" text-align="right" disabled></XInput>
       </group>
       <group style="marginTop:12px">
-        <XInput :title='`<span style="color:#666666;font-size:14px">本次消费</span>`' v-model="merchants_name" text-align="right" placeholder="请输入本次消费"></XInput>
-        <XInput :title='`<span style="color:#666666;font-size:14px">本次积分抵扣</span>`' v-model="merchants_name" text-align="right" placeholder="请输入本次积分抵扣"></XInput>
-        <XInput :title='`<span style="color:#666666;font-size:14px">本次实际支付</span>`' v-model="merchants_name" text-align="right"></XInput>
+        <XInput :title='`<span style="color:#666666;font-size:14px">本次消费</span>`' type="number" v-model="original_price" text-align="right" placeholder="请输入本次消费"  @blur="fixScroll"></XInput>
+        <XInput :title='`<span style="color:#666666;font-size:14px">本次积分抵扣</span>`' type="number" v-model="discount_price" text-align="right" :placeholder="`${original_price?`最多抵扣${parseFloat(this.original_price)-(parseFloat(this.original_price)*(this.discount/10))}积分`:'请输入本次积分抵扣'}`"  @blur="fixScroll"></XInput>
+        <XInput :title='`<span style="color:#666666;font-size:14px">本次实际支付</span>`' v-model="really_price" text-align="right" placeholder="待计算" style="color:#FF0000" @blur="fixScroll"></XInput>
       </group>
 
       <div style="display: flex;width:100%;justify-content:space-around;margin-top:83px">
-        <div style="flex: 1;background-color:rgba(6, 213, 222, 0.5);color:#fff;text-align: center;width:40%;height:40px;border-radius: 20px;margin:10px 5%;padding-top:9px">确认并返回</div>
-        <div style="flex: 1;background-color:rgba(6, 213, 222, 0.5);color:#fff;text-align: center;width:40%;height:40px;border-radius: 20px;margin:10px 5%;padding-top:9px">确认并继续</div>
+<!--        <div style="flex: 1;background-color:rgba(6, 213, 222, 0.5);color:#fff;text-align: center;width:40%;height:40px;border-radius: 20px;margin:10px 5%;padding-top:9px" @click="$router.go(-1)">确认并返回</div>-->
+        <div style="flex: 1;background-color:rgba(6, 213, 222, 0.5);color:#fff;text-align: center;width:40%;height:40px;border-radius: 20px;margin:10px 5%;padding-top:9px" :class="(really_price!=''&&really_price!='待计算')?'sure':''" @click="pay">确认</div>
       </div>
     </div>
 </template>
@@ -32,12 +32,15 @@ export default {
   },
     data(){
         return{
-            date:'',
-            phone:'',
-            phone_code:'',
-            codeshow:'获取验证码',
-            clickable:true,
-            interval:'',
+            uid: this.$route.query.uid,
+            token: this.$route.query.token,
+            nickname:'',
+            merchants_name:'',
+            account_price:'',
+            original_price:'',
+            discount_price:'',
+            really_price:'',
+            discount:''
         }
     },
     methods:{
@@ -90,38 +93,116 @@ export default {
                 })
             }
         },
-        getDate(){
-            let date=new Date();
-            let year=date.getFullYear();
-            let month=(date.getMonth()+1)<10?('0'+(date.getMonth()+1)):(date.getMonth()+1)
-            let day=date.getDate()<10?('0'+date.getDate()):date.getDate()
-            this.date=year+'/'+month+'/'+day
-            console.log(this.date)
-        },
-        scan(){
-            console.log(11111)
-            this.$wechat.scanQRCode({
-                needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
-                scanType: ["qrCode"], // 可以指定扫二维码还是一维码，默认二者都有
-                success: function (res) {
-                    var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+        getData(){
+            // /Merchants/getConsumptionInfo
+            this.$http.post(`${this.rootPath}/Merchants/getConsumptionInfo?token=${this.token}&uid=${this.uid}`).then(res=> {
+                console.log(res)
+                if(res.data.StatusInfo.success){
+                    this.merchants_name=res.data.merchantsInfo.merchants_name
+                    this.discount=res.data.merchantsInfo.discount
+                    this.account_price=res.data.userMemberInfo.account_price
+                    this.nickname=res.data.userMemberInfo.nickname
+                }else{
+                    this.$vux.toast.text(res.data.StatusInfo.ErrorDetailCode, 'top')
                 }
-            });
-        }
+            })
+        },
+        pay(){
+            console.log(11111111111)
+            if(this.original_price&&this.original_price) {
+                let data = new FormData()
+                data.append('token', this.token)
+                data.append('uid', this.uid)
+                data.append('discount_price', this.discount_price)
+                data.append('original_price', this.original_price)
+                this.$http({
+                    method: 'post',
+                    url: `${this.rootPath}/Merchants/createCancelConsumption`,
+                    header: {
+                        'Content-Type': 'multipart/form-data'
+                    },
+                    data: data
+                }).then(res => {
+                    console.log(res)
+                    if (res.data.StatusInfo.success) {
+                        this.$vux.toast.text('核销成功', 'top')
+                        this.$router.push({path: '/merchantHome', query: {token: this.token}})
+                    } else {
+                        this.$vux.toast.text(res.data.StatusInfo.ErrorDetailCode, 'top')
+                    }
+                })
+            }
+        },
+        // handleOriginalPrice(val){
+        //     console.log(console.log(val))
+        //     if(isNaN(parseFloat(val))){
+        //         this.original_price=0
+        //         this.discount_price=0
+        //         this.really_price='待计算'
+        //     }
+        //     if(!isNaN(parseFloat(val))){
+        //         this.original_price=parseFloat(val)
+        //         this.discount_price=0
+        //         this.really_price='待计算'
+        //     }else{
+        //         this.original_price=0
+        //         this.discount_price=0
+        //         this.really_price='待计算'
+        //     }
+        // },
+        // handleDiscountPrice(val){
+        //     if(!isNaN(parseFloat(this.original_price)>0)){
+        //         if(parseFloat(val)&&(parseFloat(this.original_price)*(1-(this.discount/10)))>=val&&val>0){
+        //             this.discount_price=parseFloat(val)
+        //             this.really_price=parseFloat(this.original_price)-parseFloat(this.discount_price)
+        //         }else{
+        //             this.discount_price=0
+        //             this.really_price='待计算'
+        //         }
+        //     }else{
+        //         this.discount_price=0
+        //         this.really_price='待计算'
+        //     }
+        // }
+        fixScroll() {
+            window.scrollTo(0, 0);
+        },
     },
     mounted(){
-        console.log(this.$route.query.data)
+        console.log(this.$route.query.uid)
+        console.log(this.$route.query.token)
         console.log(this.data)
-        this.getDate()
+        this.getData()
     },
     watch:{
-        codeshow:{
+        discount_price:{
             handler:function(val){
-                console.log(val)
-                if(val<=0){
-                    clearInterval(this.interval)
-                    this.clickable=true
-                    this.codeshow='重新获取'
+                if(parseFloat(this.original_price)>0){
+                    if(parseFloat(val)&&(parseFloat(this.original_price)-(parseFloat(this.original_price)*(this.discount/10)))>=val&&val>0&&val<=parseFloat(this.account_price)){
+                        this.discount_price=parseFloat(val)
+                        this.really_price=parseFloat(this.original_price)-parseFloat(this.discount_price)
+                    }else{
+                        this.discount_price=''
+                        this.really_price='待计算'
+                        this.$vux.toast.text('请输入正确的抵扣积分数量', 'middle')
+
+                    }
+                }else{
+                    this.discount_price=''
+                    this.really_price='待计算'
+                }
+            }
+        },
+        original_price:{
+            handler:function (val) {
+                if(parseFloat(val)){
+                    this.original_price=parseFloat(val)
+                    this.discount_price=''
+                    this.really_price='待计算'
+                }else{
+                    this.original_price=''
+                    this.discount_price=''
+                    this.really_price='待计算'
                 }
             }
         }
@@ -137,4 +218,7 @@ export default {
 .vux-x-icon {
   fill: #E5E5E5;
 }
+  .sure{
+    background-color: #06D5DE!important;
+  }
 </style>

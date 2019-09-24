@@ -6,13 +6,15 @@
         <div class="flexpic">
         <div class="pic">
           <img :src="header_pic" alt="">
-          <div class="vip">
-            <img v-if="is_member==1" src="../../static/img/icon/icon_vip_small@2x.png" alt="">
-          </div>
+        </div>
+        <div class="vip" v-if="is_member==1">
+          <img src="../../static/img/icon/vip@2x.png" alt="">
+          <p style="color:#1BDBE4;font-size: 12px;position: absolute;left:32%;top:4px">{{uid_number}}</p>
         </div>
         </div>
         <div class="name">{{nickname}}</div>
         <div class="phone">{{phone}}</div>
+        <div class="qrcode" v-if="is_member==1" @click="showcode"><img src="../../static/img/icon/qr@2x.png" alt=""></div>
         <Flexbox class="infobox" v-if="is_member==1">
           <FlexboxItem class="expiretime">
             <p class="num">{{over_time}}</p>
@@ -42,6 +44,13 @@
     </Group>
     </div>
     <div class="placeholder"></div>
+
+    <div class="Poptip" v-if="showPop">
+      <img src="../../static/img/icon/mycode@2x.png" alt="" style="width: 52.8%;height:28px;margin-left:23.6%">
+      <img :src="codeImgUrl" alt="" style="width:60%;height:128px;margin-top: 26px;margin-left: 20%">
+      <img src="../../static/img/icon/pop_del@2x.png" alt="" style="position: absolute;bottom:-50px;width:14%;height:30px;left: 43%" @click="hidecode">
+    </div>
+    <div class="mask" v-if="showPop"></div>
   </div>
 </template>
 
@@ -66,7 +75,10 @@ export default {
       over_time:'',
       phone:'',
       account_price:'',
-      date:''
+      date:'',
+      uid_number:'',
+      showPop:false,
+      codeImgUrl:''
     };
   },
   methods: {
@@ -102,6 +114,8 @@ export default {
           this.account_price=res.data.userInfo.account_price
           this.header_pic=res.data.userInfo.header_pic
           this.is_member=res.data.userInfo.is_member
+          this.uid_number=res.data.userInfo.uid_number
+          this.codeImgUrl=res.data.userInfo.codeImgUrl
         })
       }else{
         if(res.data.StatusInfo.ReturnCode==603){
@@ -110,13 +124,19 @@ export default {
       }
       // console.log(this.$store.state.isMember)
     })
+    },
+    showcode(){
+      this.showPop=true
+    },
+    hidecode(){
+      this.showPop=false
     }
   },
   computed: {
-    
+
   },
   beforeDestroy() {
-    
+
   },
   created() {
     this.getinfo()
@@ -133,10 +153,12 @@ export default {
 .personnalinfo{padding-top:28px;padding-bottom: 23px;max-height: 387px;background-color: #fff;position: relative;}
 .personnalinfo .flexpic{display: flex;justify-content: center}
 .personnalinfo .pic{width: 120px;height: 120px;background-color: aqua;border-radius: 50%;position: relative;align-content: center;overflow:hidden}
-.personnalinfo .pic .vip{width:26px;height: 26px;position: absolute;right:3px;bottom:0;border-radius: 50%;overflow:hidden}
-.personnalinfo .pic .vip img{width:26px;height: 26px;border-radius: 50%;}
+.personnalinfo .vip{width:24%;height: 26px;position: absolute;left:38%;top:124px;}
+.personnalinfo .vip img{width:100%;height: 26px;}
 .personnalinfo .name{color:#333333;font-size: 20px;font-weight: bold;width:100%;text-align: center;margin-top: 20px}
 .personnalinfo .phone{color:#494949;font-size: 18px;width: 100%;text-align: center;margin-top: 12px}
+.personnalinfo .qrcode{position: absolute;right:8%;top:60px;width: 48px;height: 48px}
+.personnalinfo .qrcode img{width: 48px;height: 48px}
 .personnalinfo .infobox{width:100%;margin-top: 33px}
 .personnalinfo .infobox .expiretime{border-right:solid 1px #DDD}
 /* .personnalinfo .infobox .integral{} */
@@ -151,4 +173,24 @@ export default {
 .mylink{width: 95%;margin-left: 2.5%;margin-top:35px}
 .mylink .link{height:52px}
 .placeholder{height:100px}
+
+.Poptip{
+  background-color: #fff;
+  width: 57.6%;
+  height: 223px;
+  border-radius: 10px;
+  z-index: 1001;
+  position: absolute;
+  left: 21.2%;
+  top: 208px;
+}
+  .mask{
+    width: 100%;
+    height:100%;
+    background-color: rgba(0,0,0,0.2);
+    z-index: 1000;
+    position: absolute;
+    top:0;
+    left:0;
+  }
 </style>

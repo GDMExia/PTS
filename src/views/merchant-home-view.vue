@@ -5,15 +5,15 @@
           <img src="../../static/img/icon/sj_ic_user@2x.png" style="width:40px;height: 40px"/>
         </div>
         <div style="position: relative;display: inline-block;width: 79%;float:right;height:130px;margin-top:-45px">
-          <div style="position: absolute;top:27px;font-size: 18px;color:#333">林步凡</div>
-          <div style="position: absolute;top:62px;font-size: 12px;color:#333">13522667188</div>
-          <div style="position: absolute;top:83px;font-size: 12px;color:#333">天逸瑜伽工作室</div>
+          <div style="position: absolute;top:27px;font-size: 18px;color:#333">{{real_name}}</div>
+          <div style="position: absolute;top:62px;font-size: 12px;color:#333">{{phone}}</div>
+          <div style="position: absolute;top:83px;font-size: 12px;color:#333">{{merchants_name}}</div>
           <div style="width:20%;height:30px;position: absolute;top:50px;right:11%;background-color:#F5F5F7;border-radius: 20px;text-align: center;"><p style="margin-top:5px;vertical-align:middle;font-size: 12px">退出</p></div>
         </div>
       </div>
       <div style="background-color:#fff;height: 325px;width:95%;margin-left:2.5%;border-radius: 10px;margin-top:10px;padding-top:28px;box-sizing: border-box">
         <div style="color:#666;font-size:16px;text-align: center;">{{date}}</div>
-        <div class="scan" @click="scan"></div>
+        <div class="scan" @click="qrcode"></div>
       </div>
 <!--        <div class="background">-->
 <!--            <div style="font-size:20px;">嘻格格商家版</div>-->
@@ -45,63 +45,13 @@ export default {
     data(){
         return{
             date:'',
+            token:this.$route.query.token,
+            real_name:'',
             phone:'',
-            phone_code:'',
-            codeshow:'获取验证码',
-            clickable:true,
-            interval:'',
+            merchants_name:''
         }
     },
     methods:{
-        submit(){
-            if(this.phone&&this.phone_code){
-                // let token=this.GetQueryString('token')
-                let data=new FormData()
-                data.append('phone',this.phone)
-                data.append('phone_code',this.phone_code)
-                data.append('token',this.$store.state.token)
-                this.$http({
-                    method: 'post',
-                    url: `${this.rootPath}/Merchants/login`,
-                    header: {
-                        'Content-Type':'multipart/form-data'
-                    },
-                    data: data
-                }).then(res=>{
-                    console.log(res)
-                    if(res.data.StatusInfo.success){
-                        this.$vux.toast.text('登录成功', 'top')
-                        if(res.data.StatusInfo.ReturnCode==801){
-                            this.$router.push({path:'/merchantapply',query:{phone:this.phone}})
-                        }
-                        if(res.data.StatusInfo.ReturnCode==802){
-                            this.$router.push({path:'/merchantchecking'})
-                        }
-                        if(res.data.StatusInfo.ReturnCode==803){
-                            this.$vux.toast.text('您的审核未通过，请稍后重试', 'top')
-                        }
-                        if(res.data.StatusInfo.ReturnCode==806){
-                            this.$router.push({path:'/merchantchecked',query:{m_number:res.data.m_number}})
-                        }
-                        if(res.data.StatusInfo.ReturnCode==807){
-                            this.$router.push({path:'/merchantbeforeagreementsign',query:{m_number:res.data.m_number}})
-                        }
-                        if(res.data.StatusInfo.ReturnCode==805){
-                            this.$router.push({path:'/merchantsigned'})
-                        }
-                        // this.$router.push({path:'/merchantagreementsign',query:{data:JSON.stringify(res.data.userInfo)}})
-                    }else{
-                        if(res.data.StatusInfo.ReturnCode==603){
-                            this.$store.commit('setToken','')
-                            location.href = `http://pts.suoqoo.com/home.php/WechatLogin/merchantsAccountLogin`
-                            // this.$router.push({path:'/merchantagreement'})
-                        }else{
-                            this.$vux.toast.text(res.data.StatusInfo.ErrorDetailCode, 'top')
-                        }
-                    }
-                })
-            }
-        },
         getDate(){
             let date=new Date();
             let year=date.getFullYear();
@@ -110,31 +60,85 @@ export default {
             this.date=year+'/'+month+'/'+day
             console.log(this.date)
         },
+        getData(){
+            console.log(this.phone)
+            this.$http.post(`${this.rootPath}/Merchants/getUserWorkInfo?token=${this.token}`).then(res=> {
+                console.log(res)
+                this.real_name=res.data.userInfo.real_name
+                this.phone=res.data.userInfo.phone
+                this.merchants_name=res.data.userInfo.merchants_name
+            })
+            // /Merchants/getUserWorkInfo
+        },
         scan(){
-            console.log(11111)
+            // /Merchants/scanCode
+            console.log(location.href)
+
+            let data=new FormData()
+            data.append('token',this.token)
+            data.append('scan_url',location.href)
+            // data.append('token',this.$store.state.token)
+            this.$http({
+                method: 'post',
+                url: `${this.rootPath}/Merchants/scanCode`,
+                header: {
+                    'Content-Type':'multipart/form-data'
+                },
+                data: data
+            }).then(res=>{
+                console.log(res)
+                const data={
+                    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                    appId: res.data.signPackage.appid, // 必填，公众号的唯一标识
+                    timestamp: res.data.signPackage.timestamp, // 必填，生成签名的时间戳
+                    nonceStr: res.data.signPackage.noncestr, // 必填，生成签名的随机串
+                    signature: res.data.signPackage.signature,// 必填，签名
+                    jsApiList:['scanQRCode']
+                }
+                this.$wechat.config(data)
+            })
+        },
+        qrcode(){
+            // this.$wechat.ready(()=>{
+            //     this.$wechat.checkJsApi({
+            //         jsApiList: ['scanQRCode'],
+            //         success: function (res) {
+            //             console.log(res)
+            //         }
+            //     });
+            //
+            //     this.$wechat.scanQRCode({
+            //         needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+            //         scanType: ["qrCode"], // 可以指定扫二维码还是一维码，默认二者都有
+            //         success: function (res) {
+            //             var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+            //         }
+            //     });
+            // })
+            var that=this
             this.$wechat.scanQRCode({
-                needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+                needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
                 scanType: ["qrCode"], // 可以指定扫二维码还是一维码，默认二者都有
                 success: function (res) {
-                    var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+                    console.log(res.resultStr.uid)
+                    // alert(res.resultStr)
+                    that.$vux.toast.text(res.resultStr, 'top')
+                    let uid = JSON.parse(res.resultStr).uid; // 当needResult 为 1 时，扫码返回的结果
+                    that.$router.push({path: '/merchantCheck', query: {uid: uid,token: that.token}})
                 }
             });
         }
     },
     mounted(){
-        console.log(this.$route.query.data)
-        console.log(this.data)
+        console.log(this.$route.query.token)
         this.getDate()
+        this.getData()
+        this.scan()
     },
     watch:{
-        codeshow:{
+        token:{
             handler:function(val){
                 console.log(val)
-                if(val<=0){
-                    clearInterval(this.interval)
-                    this.clickable=true
-                    this.codeshow='重新获取'
-                }
             }
         }
     }
