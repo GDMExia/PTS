@@ -360,7 +360,16 @@ const actions = {
       }
       return new Promise(resolve=>{resolve(res.data)})
     })
-  }
+  },
+  // 微信分享
+  wxShare({commit}, playload) {
+    let params = qs.stringify(playload)
+    return Axios.get(
+      `${rootPath}/User/getShareInfo?${params}`
+    ).then(res => {
+      return new Promise(resolve=>{resolve(res.data)})
+    })
+  },
 }
 
 const mutations = {

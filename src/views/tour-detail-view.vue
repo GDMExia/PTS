@@ -49,12 +49,17 @@
         {{item.goods_name}}
       </div>
     </div>
+    <!-- <div class="bottom">
+      <div class="button submit f15" >在线咨询</div>
+    </div> -->
+   
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
 import { Swiper } from 'vux'
+import wx from 'weixin-js-sdk'
 export default {
   components: {
     Swiper
@@ -74,7 +79,7 @@ export default {
     ...mapGetters(['getToken'])
   },
   methods: {
-    ...mapActions(['tourDetails', 'changeUser']),
+    ...mapActions(['tourDetails', 'changeUser','wxShare']),
     handleDetail() {
       const params = {
         // token: this.GetQueryString('token'),
@@ -131,6 +136,61 @@ export default {
       const that = this
       let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
       that.scrollTop = scrollTop
+    },
+    // 分享
+    share() {
+      let params = {
+        token: this.$store.state.token,
+        article_cid: 1,
+        article_id: this.$route.query.id,
+        share_url: encodeURIComponent(`http://pts.suoqoo.com/nh5/#/tours/tourDetail?id=${this.$route.query.id}`),
+        share_hash_url: `/tours/tourDetail?id=${this.$route.query.id}`
+      }
+      this.wxShare(params).then(res=>{
+        if (res.StatusInfo.success) {
+          this.shareWx(res)
+        }
+      })
+    },
+    shareWx(data) {
+      let that = this;
+      let title = data.shareInfo.title;
+      let links = data.shareInfo.link
+      let imgUrl = data.shareInfo.img
+      let desc = data.shareInfo.desc
+      wx.config({
+        debug: true,
+        appId: data.signPackage.appid,
+        timestamp: data.signPackage.timestamp,
+        nonceStr: data.signPackage.noncestr,
+        signature: data.signPackage.signature,
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage']
+      });
+      wx.ready(function() {
+        console.log(title, '23444')
+        //分享到朋友圈
+        wx.onMenuShareTimeline({
+          title: title, // 分享标题
+          link: links, // 分享链接
+          imgUrl: imgUrl,
+          success: function() {
+            // 用户点击了分享后执行的回调函数
+            console.log('分享到朋友圈成功')
+          }
+        });
+        wx.onMenuShareAppMessage({
+          title: title, // 分享标题
+          desc: desc,
+          link: links,
+          imgUrl: imgUrl, // 分享图标
+          type: '', // 分享类型,music、video或link，不填默认为link
+          dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+          success: function() {
+            // 用户点击了分享后执行的回调函数
+            console.log('分享到朋友成功')
+          }
+        });
+      })
     }
   },
   beforeDestroy() {
@@ -138,6 +198,7 @@ export default {
   },
   created() {
     this.handleDetail()
+    this.share()
   },
   mounted() {
     this.id = this.$route.query.id
@@ -308,5 +369,25 @@ p img {
   margin-left: 10px;
   align-items: center;
   display: flex;
+}
+.bottom {
+  width: 100%;
+  padding: 6px 4% 37px;
+  background: #ffffff;
+  margin-top: 20px;
+}
+.button {
+  width: 100%;
+  border-radius: 22px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+}
+.submit {
+  background: #06D5DE;
+  color: #ffffff;
+  -moz-box-shadow:0px 6px 9px rgba(0, 0, 0, 0.14); 
+  -webkit-box-shadow:0px 6px 9px rgba(0, 0, 0, 0.14); 
+  box-shadow:0px 6px 9px rgba(0, 0, 0, 0.14);
 }
 </style>
