@@ -12,7 +12,7 @@
         <group>
             <XInput title="昵称" v-model="nickname" text-align="right"></XInput>
             <Selector title="性别" v-model="sex" :options="sexlist" direction="rtl"></Selector>
-            <XInput title="年龄" v-model="age" text-align="right" placeholder="请输入年龄" placeholder-align="right"></XInput>
+            <Calendar title="生日" v-model="age" text-align="right" placeholder="请输入年龄" placeholder-align="right"></Calendar>
             <XInput title="手机号" is-type="china-mobile" v-model="phone" text-align="right" placeholder="请输入手机号" placeholder-align="right"></XInput>
             <XInput title="验证码" v-model="phone_code" text-align="right" placeholder="请输入验证码" placeholder-align="right" :show-clear="false" @on-blur="fixScroll"><div slot="right" style="color:#06D5DE;borderLeft:1px solid #F0F0F0" @click="getcode">{{codeshow}}</div></XInput>
         </group>
@@ -24,14 +24,15 @@
 </template>
 
 <script>
-import { Group , Selector , XInput } from 'vux'
+import { Group , Selector , XInput , Calendar } from 'vux'
 import { setInterval, clearInterval } from 'timers';
 
 export default {
     components:{
         Group,
         Selector,
-        XInput
+        XInput,
+        Calendar
     },
     data(){
         return{
@@ -95,7 +96,7 @@ export default {
             method: 'post',
             url: `${this.rootPath}/User/createMember?token=${this.$store.state.token}`,
             header: {
-                'Content-Type':'multipart/form-data'  
+                'Content-Type':'multipart/form-data'
             },
             params: {token:this.$store.state.token,nickname:this.nickname,sex:this.sex=='男'?'1':'0',phone:this.phone,phone_code:this.phone_code,age:this.age}
             });
@@ -167,4 +168,5 @@ export default {
 .form{width:92%;margin-left:4%;border-radius: 10px;overflow: hidden}
 .handle{height:83px;width:100%;background-color: #fff;position: fixed;bottom:0;box-sizing: border-box;padding-top: 10px}
 .handle .button{width:84%;margin-left:8%;height:40px;line-height: 40px;border-radius: 20px;background-color: #06D5DE;text-align: center;color: #fff;font-size: 15px}
+
 </style>

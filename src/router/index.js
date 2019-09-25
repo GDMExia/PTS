@@ -353,13 +353,13 @@ export default new Router({
     },
     {
       path: '/merchantCheck',
-      name: '验票',
+      name: '线下核销',
       component: merchantCheck
       // 商家首页
     },
     {
       path: '/merchantCheckSec',
-      name: '验票',
+      name: '线下核销',
       component: merchantCheckSec
       // 商家首页
     },

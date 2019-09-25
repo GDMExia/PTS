@@ -64,54 +64,30 @@ export default {
             window.scrollTo(0, 0);
         },
         submit(){
-            this.$router.push({path:'/merchantHome'})
-            // if(this.phone&&this.phone_code){
-            //     // let token=this.GetQueryString('token')
-            //     let data=new FormData()
-            //     data.append('phone',this.phone)
-            //     data.append('phone_code',this.phone_code)
-            //     data.append('token',this.$store.state.token)
-            //     this.$http({
-            //     method: 'post',
-            //     url: `${this.rootPath}/Merchants/login`,
-            //     header: {
-            //         'Content-Type':'multipart/form-data'
-            //     },
-            //     data: data
-            //     }).then(res=>{
-            //         console.log(res)
-            //         if(res.data.StatusInfo.success){
-            //             this.$vux.toast.text('登录成功', 'top')
-            //             if(res.data.StatusInfo.ReturnCode==801){
-            //                 this.$router.push({path:'/merchantapply',query:{phone:this.phone}})
-            //             }
-            //             if(res.data.StatusInfo.ReturnCode==802){
-            //                 this.$router.push({path:'/merchantchecking'})
-            //             }
-            //             if(res.data.StatusInfo.ReturnCode==803){
-            //                 this.$vux.toast.text('您的审核未通过，请稍后重试', 'top')
-            //             }
-            //             if(res.data.StatusInfo.ReturnCode==806){
-            //                 this.$router.push({path:'/merchantchecked',query:{m_number:res.data.m_number}})
-            //             }
-            //             if(res.data.StatusInfo.ReturnCode==807){
-            //                 this.$router.push({path:'/merchantbeforeagreementsign',query:{m_number:res.data.m_number}})
-            //             }
-            //             if(res.data.StatusInfo.ReturnCode==805){
-            //                 this.$router.push({path:'/merchantsigned'})
-            //             }
-            //             // this.$router.push({path:'/merchantagreementsign',query:{data:JSON.stringify(res.data.userInfo)}})
-            //         }else{
-            //             if(res.data.StatusInfo.ReturnCode==603){
-            //                 this.$store.commit('setToken','')
-            //                 location.href = `http://pts.suoqoo.com/home.php/WechatLogin/merchantsAccountLogin`
-            //                 // this.$router.push({path:'/merchantagreement'})
-            //             }else{
-            //                 this.$vux.toast.text(res.data.StatusInfo.ErrorDetailCode, 'top')
-            //             }
-            //         }
-            //     })
-            // }
+            // this.$router.push({path:'/merchantHome'})
+            if(this.phone&&this.phone_code){
+                // let token=this.GetQueryString('token')
+                let data=new FormData()
+                data.append('phone',this.phone)
+                data.append('phone_code',this.phone_code)
+                data.append('token',this.$store.state.token)
+                this.$http({
+                method: 'post',
+                url: `${this.rootPath}/Merchants/loginCancel`,
+                header: {
+                    'Content-Type':'multipart/form-data'
+                },
+                data: data
+                }).then(res=>{
+                    console.log(res)
+                    if(res.data.StatusInfo.success){
+                        this.$vux.toast.text('登录成功', 'top')
+                        this.$router.push({path:'/merchantHome',query:{token:res.data.token}})
+                    }else{
+                        this.$vux.toast.text(res.data.StatusInfo.ErrorDetailCode, 'top')
+                    }
+                })
+            }
         }
     },
     mounted(){
