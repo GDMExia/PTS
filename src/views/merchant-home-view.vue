@@ -8,7 +8,7 @@
           <div style="position: absolute;top:27px;font-size: 18px;color:#333">{{real_name}}</div>
           <div style="position: absolute;top:62px;font-size: 12px;color:#333">{{phone}}</div>
           <div style="position: absolute;top:83px;font-size: 12px;color:#333">{{merchants_name}}</div>
-          <div style="width:20%;height:30px;position: absolute;top:50px;right:11%;background-color:#F5F5F7;border-radius: 20px;text-align: center;"><p style="margin-top:5px;vertical-align:middle;font-size: 12px">退出</p></div>
+          <div style="width:20%;height:30px;position: absolute;top:50px;right:11%;background-color:#F5F5F7;border-radius: 20px;text-align: center;" @click="$router.replace('/merchantLogin')"><p style="margin-top:5px;vertical-align:middle;font-size: 12px">退出</p></div>
         </div>
       </div>
       <div style="background-color:#fff;height: 325px;width:95%;margin-left:2.5%;border-radius: 10px;margin-top:10px;padding-top:28px;box-sizing: border-box">
@@ -124,7 +124,11 @@ export default {
                     // alert(res.resultStr)
                     that.$vux.toast.text(res.resultStr, 'top')
                     let uid = JSON.parse(res.resultStr).uid; // 当needResult 为 1 时，扫码返回的结果
-                    that.$router.push({path: '/merchantCheck', query: {uid: uid,token: that.token}})
+                    if(uid) {
+                        that.$router.push({path: '/merchantCheck', query: {uid: uid, token: that.token}})
+                    }
+                    let order_no=JSON.parse(res.resultStr).order_no
+                    that.$router.push({path: '/merchantCheck', query: {order_no: order_no, token: that.token}})
                 }
             });
         }

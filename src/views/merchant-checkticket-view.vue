@@ -1,23 +1,53 @@
 <template>
     <div style="background-color:#F5F5F7;touch-action: none;">
-      <div style="background: url('../../static/img/icon/yp_bg@2x.png') no-repeat center;background-size: 100% 85px;width: 95%;height: 85px;margin-left: 2.5%;position: relative;margin-top:12px">
-        <img src="../../static/img/icon/yp_bg@2x.png" style="width:100%;height: 85px"/>
-        <img src="../../static/img/icon/yp_ic@2x.png" style="width: 56px;height: 56px;position: absolute;left:1.5%;top:15px"/>
-        <p style="position: absolute;left:18%;top:28px;font-size: 20px;color: #fff;">{{merchants_name}}</p>
-      </div>
-      <group style="marginTop:12px">
-        <XInput :title='`<span style="color:#666666;font-size:14px">会员名称</span>`' v-model="nickname" text-align="right" disabled></XInput>
-        <XInput :title='`<span style="color:#666666;font-size:14px">会员当前积分</span>`' v-model="account_price" text-align="right" disabled></XInput>
-      </group>
-      <group style="marginTop:12px">
-        <XInput :title='`<span style="color:#666666;font-size:14px">本次消费</span>`' type="number" v-model="original_price" text-align="right" placeholder="请输入本次消费"  @blur="fixScroll"></XInput>
-        <XInput :title='`<span style="color:#666666;font-size:14px">本次积分抵扣</span>`' type="number" v-model="discount_price" text-align="right" :placeholder="`${original_price?`最多抵扣${parseFloat(this.original_price)-(parseFloat(this.original_price)*(this.discount/10))}积分`:'请输入本次积分抵扣'}`"  @blur="fixScroll"></XInput>
-        <XInput :title='`<span style="color:#666666;font-size:14px">本次实际支付</span>`' v-model="really_price" text-align="right" placeholder="待计算" style="color:#FF0000" @blur="fixScroll"></XInput>
-      </group>
+      <div v-if="uid">
+        <div style="background: url('../../static/img/icon/yp_bg@2x.png') no-repeat center;background-size: 100% 85px;width: 95%;height: 85px;margin-left: 2.5%;position: relative;margin-top:12px">
+          <img src="../../static/img/icon/yp_bg@2x.png" style="width:100%;height: 85px"/>
+          <img src="../../static/img/icon/yp_ic@2x.png" style="width: 56px;height: 56px;position: absolute;left:1.5%;top:15px"/>
+          <p style="position: absolute;left:18%;top:28px;font-size: 20px;color: #fff;">{{merchants_name}}</p>
+        </div>
+        <group style="marginTop:12px">
+          <XInput :title='`<span style="color:#666666;font-size:14px">会员名称</span>`' v-model="nickname" text-align="right" disabled></XInput>
+          <XInput :title='`<span style="color:#666666;font-size:14px">会员当前积分</span>`' v-model="account_price" text-align="right" disabled></XInput>
+        </group>
+        <group style="marginTop:12px">
+          <XInput :title='`<span style="color:#666666;font-size:14px">本次消费</span>`' type="number" v-model="original_price" text-align="right" placeholder="请输入本次消费"  @blur="fixScroll"></XInput>
+          <XInput :title='`<span style="color:#666666;font-size:14px">本次积分抵扣</span>`' type="number" v-model="discount_price" text-align="right" :placeholder="`${original_price?`最多抵扣${parseFloat(this.original_price)-(parseFloat(this.original_price)*(this.discount/10))}积分`:'请输入本次积分抵扣'}`"  @blur="fixScroll"></XInput>
+          <XInput :title='`<span style="color:#666666;font-size:14px">本次实际支付</span>`' v-model="really_price" text-align="right" placeholder="待计算" style="color:#FF0000" @blur="fixScroll"></XInput>
+        </group>
 
-      <div style="display: flex;width:100%;justify-content:space-around;margin-top:83px">
-<!--        <div style="flex: 1;background-color:rgba(6, 213, 222, 0.5);color:#fff;text-align: center;width:40%;height:40px;border-radius: 20px;margin:10px 5%;padding-top:9px" @click="$router.go(-1)">确认并返回</div>-->
-        <div style="flex: 1;background-color:rgba(6, 213, 222, 0.5);color:#fff;text-align: center;width:40%;height:40px;border-radius: 20px;margin:10px 5%;padding-top:9px" :class="(really_price!=''&&really_price!='待计算')?'sure':''" @click="pay">确认</div>
+        <div style="display: flex;width:100%;justify-content:space-around;margin-top:83px">
+  <!--        <div style="flex: 1;background-color:rgba(6, 213, 222, 0.5);color:#fff;text-align: center;width:40%;height:40px;border-radius: 20px;margin:10px 5%;padding-top:9px" @click="$router.go(-1)">确认并返回</div>-->
+          <div style="flex: 1;background-color:rgba(6, 213, 222, 0.5);color:#fff;text-align: center;width:40%;height:40px;border-radius: 20px;margin:10px 5%;padding-top:9px" :class="(really_price!=''&&really_price!='待计算')?'sure':''" @click="pay">确认</div>
+        </div>
+      </div>
+      <div v-if="order_no">
+        <div class="productinfo" :class="orderstatus==1?'showcode':''">
+          <div class="image">
+            <img :src="goods_pic" alt="">
+          </div>
+          <div class="name">{{goods_name}}</div>
+          <div class="time">
+            <p style="font-size: 18px;color:#DE1E06">¥{{order_price}}</p><p style="font-size: 14px;color:#FF6C00;vertical-align: bottom">+{{total_price-order_price}}积分</p>
+          </div>
+        </div>
+        <group style="marginTop:12px">
+          <XInput :title='`<span style="color:#666666;font-size:14px">会员名称</span>`' v-model="nickname" text-align="right" disabled></XInput>
+          <XInput :title='`<span style="color:#666666;font-size:14px">会员当前积分</span>`' v-model="account_price" text-align="right" disabled></XInput>
+        </group>
+        <group style="marginTop:12px">
+          <XInput :title='`<span style="color:#666666;font-size:14px">报名人数</span>`' v-model="goods_number" text-align="right" disabled><span slot="right" style="font-size:14px">人</span></XInput>
+          <XInput :title='`<span style="color:#666666;font-size:14px">实际人数</span>`' v-model="account_price" text-align="right"><span slot="right" style="font-size:14px" @blur="fixScroll">人</span></XInput>
+        </group>
+        <group style="marginTop:12px">
+          <XInput :title='`<span style="color:#666666;font-size:14px">本次消费</span>`' type="number" v-model="original_price" text-align="right" placeholder="待计算" disabled></XInput>
+          <XInput :title='`<span style="color:#666666;font-size:14px">本次积分抵扣</span>`' type="number" v-model="discount_price" text-align="right" disabled :placeholder="`${original_price?`最多抵扣${parseFloat(this.original_price)-(parseFloat(this.original_price)*(this.discount/10))}积分`:'待计算'}`"  @blur="fixScroll"></XInput>
+          <XInput :title='`<span style="color:#666666;font-size:14px">本次实际支付</span>`' v-model="really_price" text-align="right" placeholder="待计算" disabled style="color:#FF0000"></XInput>
+        </group>
+        <div style="display: flex;width:100%;justify-content:space-around;margin-top:83px">
+          <!--        <div style="flex: 1;background-color:rgba(6, 213, 222, 0.5);color:#fff;text-align: center;width:40%;height:40px;border-radius: 20px;margin:10px 5%;padding-top:9px" @click="$router.go(-1)">确认并返回</div>-->
+          <div style="flex: 1;background-color:rgba(6, 213, 222, 0.5);color:#fff;text-align: center;width:40%;height:40px;border-radius: 20px;margin:10px 5%;padding-top:9px" :class="(really_price!=''&&really_price!='待计算')?'sure':''" @click="pay">确认</div>
+        </div>
       </div>
     </div>
 </template>
@@ -34,13 +64,15 @@ export default {
         return{
             uid: this.$route.query.uid,
             token: this.$route.query.token,
+            order_no: this.$route.query.order_no||"A9902303122098629",
             nickname:'',
             merchants_name:'',
             account_price:'',
             original_price:'',
             discount_price:'',
             really_price:'',
-            discount:''
+            discount:'',
+            goods_pic:'',
         }
     },
     methods:{
@@ -95,20 +127,37 @@ export default {
         },
         getData(){
             // /Merchants/getConsumptionInfo
-            this.$http.post(`${this.rootPath}/Merchants/getConsumptionInfo?token=${this.token}&uid=${this.uid}`).then(res=> {
-                console.log(res)
-                if(res.data.StatusInfo.success){
-                    this.merchants_name=res.data.merchantsInfo.merchants_name
-                    this.discount=res.data.merchantsInfo.discount
-                    this.account_price=res.data.userMemberInfo.account_price
-                    this.nickname=res.data.userMemberInfo.nickname
-                }else{
-                    this.$vux.toast.text(res.data.StatusInfo.ErrorDetailCode, 'top')
-                }
-            })
+            if(this.uid) {
+                this.$http.post(`${this.rootPath}/Merchants/getConsumptionInfo?token=${this.token}&uid=${this.uid}`).then(res => {
+                    console.log(res)
+                    if (res.data.StatusInfo.success) {
+                        this.merchants_name = res.data.merchantsInfo.merchants_name
+                        this.discount = res.data.merchantsInfo.discount
+                        this.account_price = res.data.userMemberInfo.account_price
+                        this.nickname = res.data.userMemberInfo.nickname
+                    } else {
+                        this.$vux.toast.text(res.data.StatusInfo.ErrorDetailCode, 'top')
+                    }
+                })
+            }
+            if(this.order_no){
+                this.$http.post(`${this.rootPath}/Merchants/getGoodsInfo?token=${this.token}&order_no=${this.order_no}`).then(res => {
+                      console.log(res)
+                      if (res.data.StatusInfo.success) {
+                          this.goods_pic = res.data.orderInfo.goods_pic
+                          this.goods_name = res.data.orderInfo.goods_name
+                          this.order_price = res.data.orderInfo.order_price
+                          this.total_price = res.data.orderInfo.total_price
+                          this.goods_number = res.data.orderInfo.goods_number
+                          this.account_price = res.data.userMemberInfo.account_price
+                          this.nickname = res.data.userMemberInfo.real_name
+                      } else {
+                          this.$vux.toast.text(res.data.StatusInfo.ErrorDetailCode, 'top')
+                      }
+                  })
+            }
         },
         pay(){
-            console.log(11111111111)
             if(this.original_price&&this.original_price) {
                 let data = new FormData()
                 data.append('token', this.token)
@@ -221,4 +270,11 @@ export default {
   .sure{
     background-color: #06D5DE!important;
   }
+  .productinfo{width:92%;margin-left: 4%;height: 150px;border-radius: 20px;position: relative;padding-top: 15px;margin-top: 12px;background-color: #fff;}
+  .productinfo .image{width:120px;height:120px;margin-left: 3%;border-radius: 10px;background-color:aqua;}
+  .productinfo .image img{width:120px;height:120px;border-radius: 10px;}
+  .productinfo .name{width:55.5%;font-size: 16px;color:#323643;font-weight: bold;position: absolute;top:15px;left:45%;}
+  .productinfo .time{font-size: 12px;color:#666;position: absolute;left:45%;top:104px;width:60%;}
+  .productinfo .time p{vertical-align: top;display: inline-block;vertical-align: top}
+  .productinfo .time img{width:12px;height:12px;display: inline-block}
 </style>
