@@ -27,11 +27,11 @@
     <div v-if="changeShow" class="tour-vip" @click="handlechangeUser">
       <img src="../../static/img/btn_qh@2x.png" alt="">
     </div>
-    <!-- <div class="tour-share f10">
+    <div class="tour-share f10" v-if="userBindInfo">
       <span>分享来自</span>
-      <img src="http://iph.href.lu/20x20" alt="">
-      <span>我的名字叫</span>
-    </div> -->
+      <img :src="userBindInfo.header_pic" alt="">
+      <span>我的名字叫{{userBindInfo.nickname}}</span>
+    </div>
     <div class="tour-content" v-html="tourItem.content">
       <!-- <img src="../../static/img/img@2x.png" alt=""> -->
     </div>
@@ -49,20 +49,36 @@
         {{item.goods_name}}
       </div>
     </div>
-    <!-- <div class="bottom">
+    <!-- <div class="bottom" v-if="userBindInfo">
       <div class="button submit f15" >在线咨询</div>
     </div> -->
-   
+   <div>
+      <div v-show="maskShow" class="modal_confirm_mask"></div>
+      <confirm v-model="show"
+        title="提醒"
+        confirm-text="升级VIP"
+        cancel-text="返回"
+        @on-cancel="onCancel"
+        @on-confirm="onConfirm">
+          <p style="text-align:left;">
+            开通VIP后转发文章可带自己的名片信息
+            可浏览更多旅游资讯
+            现在升级VIP，特惠价{{VIPprice}}元/年
+          </p>
+        </confirm>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import { Swiper } from 'vux'
+import moment from 'moment'
+import { Swiper,Confirm } from 'vux'
 import wx from 'weixin-js-sdk'
 export default {
   components: {
-    Swiper
+    Swiper,
+    Confirm
   },
   name: "HomePage",
   data() {
@@ -70,21 +86,30 @@ export default {
       storeList: [],
       tourItem: {},
       picList: [],
+      userBindInfo: null, // 分享者信息
       id: 0,
       changeShow: true,
-      scrollTop: 0
+      scrollTop: 0,
+      show: false,
+      maskShow: false,
+      VIPprice: 0,
+      userInfo: {}
     };
   },
   computed: {
     ...mapGetters(['getToken'])
   },
   methods: {
-    ...mapActions(['tourDetails', 'changeUser','wxShare']),
+    ...mapActions(['tourDetails', 'changeUser','wxShare', 'userDetail', 'getVIP']),
     handleDetail() {
-      const params = {
+      let params = {
         // token: this.GetQueryString('token'),
-        token: this.getToken,
-        tourism_id: this.$route.query.id
+        token: this.$store.state.token,
+        tourism_id: this.$route.query.id,
+        uid_number: this.GetQueryString('token')
+      }
+      if(location.href.includes('uid_number')) {
+        params.uid_number = location.href.split('uid_number=')[1]
       }
       this.tourDetails(params).then(res=>{
         if(res.StatusInfo.success) {
@@ -94,6 +119,54 @@ export default {
             return item
           })
           this.storeList = res.newsCateTree
+          this.userBindInfo = res.userBindInfo
+        } else {
+          if(res.StatusInfo.ReturnCode==603){
+            this.$store.commit('setToken','')
+            this.$router.go(0)
+          }else{
+            this.toastShow(res.StatusInfo.ErrorDetailCode)
+          }
+        }
+      })
+    },
+    // 不是VIP点击取消
+    onCancel() {
+      this.maskShow = false
+    },
+    // 不是VIP点击升级VIP
+    onConfirm() {
+      this.$router.push('/owners/getvip')
+    },
+    // 查看会员预览
+    handleVIP() {
+      let params = {
+        token: this.$store.state.token,
+      }
+      this.getVIP(params).then(res=>{
+        if(res.StatusInfo.success) {
+          this.VIPprice = res.vipPrice 
+        } else {
+          if(res.StatusInfo.ReturnCode==603){
+            this.$store.commit('setToken','')
+            this.$router.go(0)
+          }else{
+            this.toastShow(res.StatusInfo.ErrorDetailCode)
+          }
+        }
+      })
+    },
+    // 查看是否是会员，如果是且未过期，则浏览数据，否则弹出升级VIP
+    handleUser() {
+      let params = {
+        token: this.$store.state.token,
+      }
+      this.userDetail(params).then(res=>{
+        if(res.StatusInfo.success) {
+          this.userInfo = res.userInfo
+          if(res.userInfo.is_member == 0 || res.userInfo.over_time < moment().format("YYYY-MM-DD")) {
+            this.show = true
+          } 
         } else {
           if(res.StatusInfo.ReturnCode==603){
             this.$store.commit('setToken','')
@@ -106,7 +179,7 @@ export default {
     },
     handlechangeUser() {
       const params = {
-        token: this.getToken
+        token: this.$store.state.token
       }
       this.changeUser(params).then(res=>{
         if(res.StatusInfo.success) {
@@ -143,7 +216,8 @@ export default {
         token: this.$store.state.token,
         article_cid: 1,
         article_id: this.$route.query.id,
-        share_url: encodeURIComponent(`http://pts.suoqoo.com/nh5/#/tours/tourDetail?id=${this.$route.query.id}`),
+        share_url: encodeURIComponent(location.href),
+        // share_url: encodeURIComponent(`http://pts.suoqoo.com/nh5/#/tours/tourDetail?id=${this.$route.query.id}`),
         share_hash_url: `/tours/tourDetail?id=${this.$route.query.id}`
       }
       this.wxShare(params).then(res=>{
@@ -198,6 +272,8 @@ export default {
   },
   created() {
     this.handleDetail()
+    this.handleVIP()
+    this.handleUser()
     this.share()
   },
   mounted() {

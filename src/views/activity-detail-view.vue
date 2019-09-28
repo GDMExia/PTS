@@ -21,8 +21,13 @@
         </div>
       </div>
     </div>
-    <img class="activity-type" v-if="detail.pid==2" src="../../static/img/ic_guanfang@2x.png" alt="">
-    <img class="activity-type" v-if="detail.pid==1" src="../../static/img/ic_shangjia@2x.png" alt="">
+    <img class="activity-type" v-if="detail.pid==2&&!userBindInfo" src="../../static/img/ic_guanfang@2x.png" alt="">
+    <img class="activity-type" v-if="detail.pid==1&&!userBindInfo" src="../../static/img/ic_shangjia@2x.png" alt="">
+    <div class="tour-share f10" v-if="userBindInfo">
+      <span>分享来自</span>
+      <img :src="userBindInfo.header_pic" alt="">
+      <span>我的名字叫{{userBindInfo.nickname}}</span>
+    </div>
     <div class="tour-content" v-html="detail.content">
       <!-- <img style="width: 100%" src="../../static/img/img@2x.png" alt=""> -->
     </div>
@@ -36,13 +41,16 @@
         {{item.goods_name}}
       </div>
     </div>
-    <div class="bottom">
+    <div class="bottom" v-if="!userBindInfo">
       <div class="button disabled f15" v-if="detail.registration_time < date || detail.goods_status==2">报名已结束</div>
       <div class="button disabled f15" v-else-if="detail.registration_number==detail.join_number">该活动已报满</div>
       <div class="button disabled f15" v-else-if="detail.pid==1&&userInfo.is_member==0">成为VIP即可报名</div>
       <div class="button submit f15" v-else @click="$router.push('/activities/signup')">立即报名</div>
     </div>
     <div class="fixed-image" @click="$router.push('/home')"></div>
+    <div class="bottom" v-if="userBindInfo&&userInfo.is_member==0">
+      <div class="button submit f15" >在线咨询</div>
+    </div>
   </div>
 </template>
 
@@ -63,21 +71,31 @@ export default {
       detail: {},
       id: 0,
       userInfo: {},
+      userBindInfo: null,
       date: moment().format("YYYY-MM-DD")
     };
   },
   methods: {
     ...mapActions(['activityDetails','userDetail','wxShare']),
     handleDetail() {
-      const params = {
+      let params = {
         goods_id: this.$route.query.id
+      }
+      if(location.href.includes('uid_number')) {
+        params.uid_number = location.href.split('uid_number=')[1]
       }
       this.activityDetails(params).then(res=>{
         if(res.StatusInfo.success) {
           this.detail = res.goodsInfo
           this.storeList = res.goodsCateTree
+          this.userBindInfo = res.userBindInfo
         } else {
-          this.toastShow(res.StatusInfo.ErrorDetailCode)
+          if(res.StatusInfo.ReturnCode==603){
+            this.$store.commit('setToken','')
+            this.$router.go(0)
+          }else{
+            this.toastShow(res.StatusInfo.ErrorDetailCode)
+          }
         }
       })
     },
@@ -88,13 +106,18 @@ export default {
     },
     handleUser() {
       let params = {
-        token: this.GetQueryString('token'),
+        token: this.$store.state.token,
       }
       this.userDetail(params).then(res=>{
         if(res.StatusInfo.success) {
           this.userInfo = res.userInfo
         } else {
-          this.toastShow(res.StatusInfo.ErrorDetailCode)
+          if(res.StatusInfo.ReturnCode==603){
+            this.$store.commit('setToken','')
+            this.$router.go(0)
+          }else{
+            this.toastShow(res.StatusInfo.ErrorDetailCode)
+          }
         }
       })
     },
@@ -121,10 +144,11 @@ export default {
     // 分享
     share() {
       let params = {
-        token: this.GetQueryString('token'),
+        token: this.$store.state.token,
         article_cid: 3,
         article_id: this.$route.query.id,
-        share_url: encodeURIComponent(`http://pts.suoqoo.com/nh5/#/activities/activityDetail?id=${this.$route.query.id}`),
+        share_url: encodeURIComponent(location.href),
+        // share_url: encodeURIComponent(`http://pts.suoqoo.com/nh5/#/activities/activityDetail?id=${this.$route.query.id}`),
         share_hash_url: `/activities/activityDetail?id=${this.$route.query.id}`
       }
       this.wxShare(params).then(res=>{
@@ -373,5 +397,22 @@ p img {
   background-size: 44px 44px;
   right: 26px;
   bottom: 172px;
+}
+.tour-share {
+  position: absolute;
+  right: 0;
+  height: 28px;
+  border-radius: 22pt  0pt  0pt  22pt ;
+  border: 1px solid #ffffff;
+  top: 12px;
+  border-right: 0;
+  padding: 0 15px;
+  color: #ffffff;
+}
+.tour-share img {
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  display: inline-block;
 }
 </style>

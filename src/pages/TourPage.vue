@@ -97,7 +97,7 @@ export default {
       const params = {
         page: this.pageNum,
         pageSize: 5,
-        token: this.getToken,
+        token: this.$store.state.token,
         keywords: this.value
       }
       this.tourList(params).then(res=>{
@@ -141,7 +141,7 @@ export default {
     // 查看会员预览
     handleVIP() {
       let params = {
-        token: this.getToken,
+        token: this.$store.state.token,
       }
       this.getVIP(params).then(res=>{
         if(res.StatusInfo.success) {
@@ -159,7 +159,7 @@ export default {
     // 查看是否是会员，如果是且未过期，则浏览数据，否则弹出升级VIP
     handleUser() {
       let params = {
-        token: this.getToken,
+        token: this.$store.state.token,
       }
       this.userDetail(params).then(res=>{
         if(res.StatusInfo.success) {
