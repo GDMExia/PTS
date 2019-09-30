@@ -37,12 +37,12 @@
         </group>
         <group style="marginTop:12px">
           <XInput :title='`<span style="color:#666666;font-size:14px">报名人数</span>`' v-model="goods_number" text-align="right" disabled><span slot="right" style="font-size:14px">人</span></XInput>
-          <XInput :title='`<span style="color:#666666;font-size:14px">实际人数</span>`' v-model="account_price" text-align="right"><span slot="right" style="font-size:14px" @blur="fixScroll">人</span></XInput>
+          <XInput :title='`<span style="color:#666666;font-size:14px">实际人数</span>`' type="number" v-model="actual_number" text-align="right"><span slot="right" style="font-size:14px" @blur="fixScroll">人</span></XInput>
         </group>
         <group style="marginTop:12px">
           <XInput :title='`<span style="color:#666666;font-size:14px">本次消费</span>`' type="number" v-model="original_price" text-align="right" placeholder="待计算" disabled></XInput>
           <XInput :title='`<span style="color:#666666;font-size:14px">本次积分抵扣</span>`' type="number" v-model="discount_price" text-align="right" disabled :placeholder="`${original_price?`最多抵扣${parseFloat(this.original_price)-(parseFloat(this.original_price)*(this.discount/10))}积分`:'待计算'}`"  @blur="fixScroll"></XInput>
-          <XInput :title='`<span style="color:#666666;font-size:14px">本次实际支付</span>`' v-model="really_price" text-align="right" placeholder="待计算" disabled style="color:#FF0000"></XInput>
+          <XInput :title='`<span style="color:#666666;font-size:14px">本次实际支付</span>`' v-model="really_price" text-align="right" placeholder="待计算" disabled style="color:#FF0000;font-size:14px"></XInput>
         </group>
         <div style="display: flex;width:100%;justify-content:space-around;margin-top:83px">
           <!--        <div style="flex: 1;background-color:rgba(6, 213, 222, 0.5);color:#fff;text-align: center;width:40%;height:40px;border-radius: 20px;margin:10px 5%;padding-top:9px" @click="$router.go(-1)">确认并返回</div>-->
@@ -73,6 +73,8 @@ export default {
             really_price:'',
             discount:'',
             goods_pic:'',
+            goods_number:'',
+            actual_number:''
         }
     },
     methods:{
@@ -253,6 +255,13 @@ export default {
                     this.discount_price=''
                     this.really_price='待计算'
                 }
+            }
+        },
+        actual_number:{
+            handler:function(val){
+                this.original_price=val*this.total_price
+                this.discount_price=val*(this.total_price-this.order_price)
+                this.really_price=val*this.order_price
             }
         }
     }
