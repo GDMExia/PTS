@@ -142,7 +142,8 @@ export default {
         article_id: this.$route.query.article_id,
         share_url: encodeURIComponent(location.href),
         // share_url: encodeURIComponent(`http://pts.suoqoo.com/nh5/#/schools/detail?article_id=${this.$route.query.article_id}`),
-        share_hash_url: `/schools/detail?article_id=${this.$route.query.article_id}`
+        // share_hash_url: `/schools/detail?article_id=${this.$route.query.article_id}`,
+        is_article: 1
       }
       this.wxShare(params).then(res=>{
         if (res.StatusInfo.success) {
@@ -164,7 +165,7 @@ export default {
       let imgUrl = data.shareInfo.img
       let desc = data.shareInfo.desc
       wx.config({
-        debug: true,
+        debug: false,
         appId: data.signPackage.appid,
         timestamp: data.signPackage.timestamp,
         nonceStr: data.signPackage.noncestr,
