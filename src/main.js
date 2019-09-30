@@ -8,7 +8,7 @@ import Axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueBus from 'vue-bus'
 
-// import Vconsole from 'vconsole'
+import Vconsole from 'vconsole'
 // import $ from 'jquery'
 
 import App from './App'
@@ -41,8 +41,9 @@ router.beforeEach((to, from, next) => {
   console.log(to.fullPath)
   var reg = new RegExp("(^|&)token=([^&]*)(&|$)");
   const search = location.search.substr(1).match(reg)
-  console.log(search, '3334444')
-
+  if(location.href.indexOf('from=singlemessage&isappinstalled=0')>0) {
+    location.href = location.href.replace('from=singlemessage&isappinstalled=0', '')
+  }
   if(to.fullPath.indexOf('merchantLogin')>=0||to.fullPath.indexOf('merchantHome')>=0||to.fullPath.indexOf('merchantCheck')>=0){
     next();
   }else if(to.fullPath.indexOf('merchantpaytw')>=0){
@@ -72,9 +73,9 @@ router.beforeEach((to, from, next) => {
       next()
       // router.push(`${to.fullPath}`)
     }else{
-      location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.31.144:8080/#${to.fullPath}`
-      // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.9.106:8080/#${to.fullPath}`
-      // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://pts.suoqoo.com/nh5/#${to.fullPath}`
+      // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.1.2:8080/#${to.fullPath}`
+      // location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://192.168.0.103:8080/#${to.fullPath}`
+      location.href = `http://pts.suoqoo.com/home.php/WechatLogin/accountLogin?callback_url=http://pts.suoqoo.com/nh5/#${to.fullPath}`
       // store.commit('setRefuse', true)
       // next()
       // router.push(`${to.fullPath}`)
@@ -98,8 +99,8 @@ router.beforeEach((to, from, next) => {
 //   routes
 // })
 
-// const vConsole = new Vconsole()
-// console.log(vConsole)
+const vConsole = new Vconsole()
+console.log(vConsole)
 
 FastClick.attach(document.body)
 

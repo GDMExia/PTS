@@ -22,11 +22,11 @@
                 <div class="image"><img src="../../static/img/icon/icon_wode_s@2x.png" alt=""></div>
                 <div class="publishername">发布者：{{goodsInfo.create_name}}</div>
             </div>
-            <!-- <div class="origin">
+            <div class="origin" v-if="userBindInfo">
               <p class="originfrom">分享来自</p>
-              <img :src="goodsInfo.cover" alt="">
-              <p class="originname">我的名字叫雪梨</p>
-            </div> -->
+              <img :src="goodsInfo.header_pic" alt="">
+              <p class="originname">我的名字叫{{userBindInfo.nickname}}</p>
+            </div>
         </div>
         <div class="video" v-for="(item,index) of videoList" :key="index">
           <video :src="item.file_path" style="width:100%;height:100%" controls="controls"></video>
@@ -53,6 +53,8 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+import wx from 'weixin-js-sdk'
 import { Confirm } from 'vux'
 export default {
   components: {
@@ -69,19 +71,26 @@ export default {
       gocode_name:'',
       cid:'',
       show:false,
-      goarticle_id:''
+      goarticle_id:'',
+      userBindInfo: null, // 分享者信息
     };
   },
   methods: {
+    ...mapActions(['wxShare']),
     getdetail(){
       window.scrollTo(0,0)
-      this.$http.get(`${this.rootPath}/Index/getArticleView?article_id=${this.article_id}&code_name=${this.code_name}`).then(res=>{
+      let link = `${this.rootPath}/Index/getArticleView?article_id=${this.article_id}&code_name=${this.code_name}`
+      if(location.href.includes('uid_number')) {
+        link = `${this.rootPath}/Index/getArticleView?article_id=${this.article_id}&code_name=${this.code_name}&uid_number=${location.href}.split('uid_number=')[1]`
+      }
+      this.$http.get(link).then(res=>{
       console.log(res)
       if(res.data.StatusInfo.ReturnCode==200){
           this.$nextTick(()=>{
             this.goodsInfo=res.data.goodsInfo
             this.goodsCateTree=res.data.goodsCateTree
             this.videoList=res.data.videoList
+            this.userBindInfo = res.userBindInfo
           })
       }
       })
@@ -126,6 +135,69 @@ export default {
       // this.$router.push({path:'/schools/detail',query:{article_id:item.article_id,code_name:val}})
       // this.$router.push('/owners/getvip')
     },
+    share() {
+      let params = {
+        token: this.$store.state.token,
+        article_cid: 2,
+        article_id: this.$route.query.article_id,
+        share_url: encodeURIComponent(location.href),
+        // share_url: encodeURIComponent(`http://pts.suoqoo.com/nh5/#/schools/detail?article_id=${this.$route.query.article_id}`),
+        // share_hash_url: `/schools/detail?article_id=${this.$route.query.article_id}`,
+        is_article: 1
+      }
+      this.wxShare(params).then(res=>{
+        if (res.StatusInfo.success) {
+          this.shareWx(res)
+        } else {
+          if(res.StatusInfo.ReturnCode==603){
+            this.$store.commit('setToken','')
+            this.$router.go(0)
+          }else{
+            this.toastShow(res.StatusInfo.ErrorDetailCode)
+          }
+        }
+      })
+    },
+    shareWx(data) {
+      let that = this;
+      let title = data.shareInfo.title;
+      let links = data.shareInfo.link
+      let imgUrl = data.shareInfo.img
+      let desc = data.shareInfo.desc
+      wx.config({
+        debug: false,
+        appId: data.signPackage.appid,
+        timestamp: data.signPackage.timestamp,
+        nonceStr: data.signPackage.noncestr,
+        signature: data.signPackage.signature,
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage']
+      });
+      wx.ready(function() {
+        console.log(title, '23444')
+        //分享到朋友圈
+        wx.onMenuShareTimeline({
+          title: title, // 分享标题
+          link: links, // 分享链接
+          imgUrl: imgUrl,
+          success: function() {
+            // 用户点击了分享后执行的回调函数
+            console.log('分享到朋友圈成功')
+          }
+        });
+        wx.onMenuShareAppMessage({
+          title: title, // 分享标题
+          desc: desc,
+          link: links,
+          imgUrl: imgUrl, // 分享图标
+          type: '', // 分享类型,music、video或link，不填默认为link
+          dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+          success: function() {
+            // 用户点击了分享后执行的回调函数
+            console.log('分享到朋友成功')
+          }
+        });
+      })
+    }
   },
   computed: {
     
@@ -135,6 +207,7 @@ export default {
   },
   created() {
     this.getdetail()
+    this.share()
   },
   mounted() {
     this.$bus.emit("onTabBarEvent", {});

@@ -34,7 +34,7 @@
     </div>
     <div v-show="storeList.length > 0" class="div-title f16">
       <p style="color: #222222;font-weight: 600;padding-top: 11px;padding-left: 20px;">店铺活动</p>
-      <div v-for="item in storeList" :key="item.id" class="store-activity">
+      <div v-for="item in storeList" :key="item.id" @click="$router.push(`/activities/activityDetail?id=${item.goods_id}`)" class="store-activity">
         <img class="store-activity-img" :src="item.cover" alt="">
         <div class="store-right f16">
           {{item.goods_name}}

@@ -137,7 +137,7 @@ export default {
             const params = {
                 page: this.pageNum,
                 pageSize: 5,
-                token: this.getToken,
+                token: this.$store.state.token,
                 keywords: this.search
             }
             this.tourList(params).then(res=>{

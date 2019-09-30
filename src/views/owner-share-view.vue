@@ -6,7 +6,7 @@
     </div>
     <scroller style="height: 100%;" v-if="activityListData.length" lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottomView">
       <div class="box" v-for="(item, index) in activityListData" :key="index">
-        <img class="box-img" :src="item.img" alt="">
+        <img class="box-img" :src="item.pic" alt="">
         <p class="f16 color-323 box-title">{{item.title}}</p>
         <div class="box-bottom">
           <span class="f10 color-98 scan-text">浏览量</span>
