@@ -12,7 +12,7 @@
         </div>
         <div class="persons">
             <div class="sign f15">
-                <x-number title="报名人数" width="44px" v-model="formItem.perNum" :min="1" :max="maxNum" @on-change="useAccount"></x-number>
+                <x-number title="报名人数" width="44px" v-model="formItem.perNum" :min="1" @on-change="useAccount"></x-number>
             </div>
             <div class="sign f15">
                 <x-input title="联系人" placeholder="请输入" v-model="userInfo.nickname" placeholder-align="right"></x-input>
@@ -27,17 +27,40 @@
                 <span>￥{{amount}}</span>
             </div> -->
             <div class="sign f16 center">
-                <span>积分余额</span>
+                <span>现有积分余额</span>
                 <span>{{userInfo.account_price}}</span>
             </div>
-            <div class="sign f16 center" style="border: 0">
-                <div>
-                    <span>积分抵扣</span>
-                    <span class="f12 color45">(每人可抵扣{{goodsInfo.discount_price}}）</span>
-                </div>
-                <img v-if="accountCheck" style="width: 16px; height: 16px;" src="../../static/img/check out_s@2x.png" alt="">
-                <!-- <img v-if="!accountCheck" @click="usediscount()" style="width: 16px; height: 16px;" src="../../static/img/icon/icon_danxuan@2x.png" alt=""> -->
-            </div>
+<!--            <div class="sign f16 center" style="border: 0">-->
+<!--                <div>-->
+<!--                    <span>积分抵扣</span>-->
+<!--                    <span class="f12 color45">(每人可抵扣{{goodsInfo.discount_price}}）</span>-->
+<!--                </div>-->
+<!--                <img v-if="accountCheck" style="width: 16px; height: 16px;" src="../../static/img/check out_s@2x.png" alt="">-->
+<!--                &lt;!&ndash; <img v-if="!accountCheck" @click="usediscount()" style="width: 16px; height: 16px;" src="../../static/img/icon/icon_danxuan@2x.png" alt=""> &ndash;&gt;-->
+<!--            </div>-->
+        </div>
+        <div class="persons" style="margin-top: 12px;">
+          <div class="sign f16 center">
+            <span>原价</span>
+            <span style="color:#FF0000">{{amount+'元/人'}}</span>
+          </div>
+          <div class="sign f16 center">
+            <span>需抵扣嘻格格平台积分</span>
+            <span style="color:#FF0000">{{amount-payAmount+'/人'}}</span>
+          </div>
+          <div class="sign f16 center">
+            <span>实际支付</span>
+            <span style="color:#FF0000">{{payAmount+'元/人'}}</span>
+          </div>
+<!--          <div class="sign f15">-->
+<!--            <x-number title="报名人数" width="44px" v-model="formItem.perNum" :min="1" :max="maxNum" @on-change="useAccount"></x-number>-->
+<!--          </div>-->
+<!--          <div class="sign f15">-->
+<!--            <x-input title="联系人" placeholder="请输入" v-model="userInfo.nickname" placeholder-align="right"></x-input>-->
+<!--          </div>-->
+<!--          <div class="sign f15" style="border: 0">-->
+<!--            <x-input title="联系电话" name="mobile" v-model="userInfo.phone" placeholder="请输入" placeholder-align="right" keyboard="number" is-type="china-mobile"></x-input>-->
+<!--          </div>-->
         </div>
         <div class="tips f0">
             <span class="f12 color666">提交支付，视为阅读并同意</span>
@@ -52,18 +75,25 @@
                 支付
             </div>
         </div>
+      <Confirm
+        v-model="confirm"
+        :title="'积分不足，是否前往充值积分'"
+        @on-cancel="onCancel"
+        @on-confirm="onConfirm" >
+      </Confirm>
     </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import { Group, Cell, XNumber, XInput } from 'vux'
+import { Group, Cell, XNumber, XInput, Confirm } from 'vux'
 export default {
   components: {
     Group,
     Cell,
     XNumber,
-    XInput
+    XInput,
+    Confirm
   },
   computed: {
     ...mapGetters(['getToken', 'getActivityDetail', 'getUserInfo'])
@@ -80,7 +110,8 @@ export default {
         amount: 0,
         payAmount: 0,
         accountCheck: true,
-        maxNum: 1
+        maxNum: 1,
+        confirm:false
     };
   },
   methods: {
@@ -97,18 +128,21 @@ export default {
         }
         this.paymentAmount(params).then(res=>{
             if(res.StatusInfo.success) {
-               if(this.accountCheck) {
+               // if(this.accountCheck) {
                     this.payAmount = res.orderPrice
                     this.amount = res.totalPrice
-                } else {
-                    this.payAmount = res.totalPrice
-                    this.amount = res.totalPrice
-                } 
+                // } else {
+                //     this.payAmount = res.totalPrice
+                //     this.amount = res.totalPrice
+                // }
             } else {
                 this.toastShow(res.StatusInfo.ErrorDetailCode)
             }
-            
+
         })
+        if((this.amount-this.payAmount)>this.userInfo.account_price){
+          this.confirm=true
+        }
     },
     // 立即报名
     handleSign() {
@@ -138,15 +172,15 @@ export default {
     }
   },
   beforeDestroy() {
-    
+
   },
   created() {
-    
+
   },
   mounted() {
     this.goodsInfo = this.getActivityDetail.goodsInfo
     this.userInfo = this.getUserInfo.userInfo
-    this.maxNum = Math.floor(this.userInfo.account_price/this.goodsInfo.discount_price)
+    // this.maxNum = Math.floor(this.userInfo.account_price/this.goodsInfo.discount_price)
     this.useAccount()
     // this.payAmount = this.amount = this.goodsInfo.goods_price
   }
@@ -218,6 +252,7 @@ p img {
   height: 12px;
   display: inline-block;
   vertical-align: middle;
+  margin-bottom: 2px;
   margin-right: 5px;
 }
 .f15 {
@@ -230,7 +265,7 @@ p img {
 .persons .sign {
    margin-left: 15px;
    height: 50px;
-   border-bottom: 1px solid #F0F0F0;
+   /*border-bottom: 1px solid #F0F0F0;*/
 }
 .persons .sign .weui-cell {
     height: 100%;
@@ -255,7 +290,7 @@ p img {
     align-items: center;
 }
 .tips {
-    margin: 36px 36px 30px 36px;  
+    margin: 36px 36px 30px 36px;
 }
 .f0 {
     font-size: 0;
@@ -271,8 +306,8 @@ p img {
     background:#38DDE5;
     border-radius: 30px;
     color: #ffffff;
-    -moz-box-shadow:0px 6px 9px rgba(56, 221, 229, 0.3); 
-    -webkit-box-shadow:0px 6px 9px rgba(56, 221, 229, 0.3); 
+    -moz-box-shadow:0px 6px 9px rgba(56, 221, 229, 0.3);
+    -webkit-box-shadow:0px 6px 9px rgba(56, 221, 229, 0.3);
     box-shadow:0px 6px 9px rgba(56, 221, 229, 0.3);
     width: 160px;
     height: 40px;

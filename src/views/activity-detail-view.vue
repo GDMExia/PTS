@@ -7,12 +7,12 @@
         <div>
           <p class="time">
             <img src="../../static/img/icon_time@2x.png" alt="">
-            参与日期：{{detail.join_time}}
+            活动日期：{{detail.join_time}}
           </p>
-          <p class="time mt12" @click="handleStore">
+          <p class="time mt12" @click="handleStore" style="display: inline-block">
             <img src="../../static/img/icon_fabuzhe@2x.png" alt="">
-            发布者：{{detail.create_name}}
-            <img class="arrow" src="../../static/img/icon/ic_arrow03@2x.png" alt="">
+            发布者：<p style="color:#06D5DE;display:inline-block;font-size: 12px">{{detail.create_name}}</p>
+<!--            <img class="arrow" src="../../static/img/icon/ic_arrow03@2x.png" alt="">-->
           </p>
         </div>
         <div style="text-align: right;">
@@ -35,11 +35,15 @@
       <span class="local-life-text">相关活动</span>
       <span class="local-life-more">MORE</span>
     </div>
-    <div v-for="item in storeList" :key="item.goods_id"  @click="backTop(item.goods_id)" class="store">
+    <div v-for="item in storeList" :key="item.goods_id"  @click="backTop(item.goods_id)" class="store" style="position: relative">
       <img class="store-img" :src="item.cover" alt="">
       <div class="store-right f16">
         {{item.goods_name}}
       </div>
+      <p class="moretime">
+        <img src="../../static/img/icon_time@2x.png" alt="">
+        活动日期：{{item.registration_time}}
+      </p>
     </div>
     <div class="bottom" v-if="!userBindInfo">
       <div class="button disabled f15" v-if="detail.registration_time < date || detail.goods_status==2">报名已结束</div>
@@ -102,7 +106,7 @@ export default {
     handleStore(merchants_id) {
       if(this.detail.pid==1) {
         this.$router.push(`/homes/storeDetail?id=${this.detail.merchants_id}`)
-      } 
+      }
     },
     handleUser() {
       let params = {
@@ -134,7 +138,7 @@ export default {
         }
       }, 16)
     },
- 
+
     // 为了计算距离顶部的高度，当高度大于60显示回顶部图标，小于60则隐藏
     scrollToTop () {
       const that = this
@@ -200,10 +204,10 @@ export default {
     }
   },
   computed: {
-    
+
   },
   beforeDestroy() {
-    
+
   },
   created() {
     this.handleDetail()
@@ -225,6 +229,7 @@ export default {
 .main {
   height: 100%;
   position: relative;
+  padding-bottom: 87px;
 }
 .container {
   margin: 10px;
@@ -280,6 +285,13 @@ export default {
   color: #666666;
   font-size: 12px;
 }
+.moretime{
+  color: #666666;
+  font-size: 12px;
+  position:absolute;
+  bottom: 20px;
+  left:110px
+}
 .mt12 {
   margin-top: 12px;
 }
@@ -288,6 +300,7 @@ p img {
   height: 12px;
   display: inline-block;
   vertical-align: middle;
+  margin-bottom: 2px;
 }
 .tour-vip {
   position: absolute;
@@ -366,6 +379,8 @@ p img {
   margin-left: 8px;
 }
 .bottom {
+  position: fixed;
+  bottom:0;
   width: 100%;
   padding: 6px 4% 37px;
   background: #ffffff;
@@ -381,8 +396,8 @@ p img {
 .submit {
   background: #06D5DE;
   color: #ffffff;
-  -moz-box-shadow:0px 6px 9px rgba(0, 0, 0, 0.14); 
-  -webkit-box-shadow:0px 6px 9px rgba(0, 0, 0, 0.14); 
+  -moz-box-shadow:0px 6px 9px rgba(0, 0, 0, 0.14);
+  -webkit-box-shadow:0px 6px 9px rgba(0, 0, 0, 0.14);
   box-shadow:0px 6px 9px rgba(0, 0, 0, 0.14);
 }
 .disabled {
