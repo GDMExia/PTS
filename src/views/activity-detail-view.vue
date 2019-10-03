@@ -4,20 +4,26 @@
     <div class="tour-detail">
       <p class="title-text">{{detail.goods_name}}</p>
       <div class="name-price">
-        <div>
+        <div style="padding-top: 10px">
           <p class="time">
             <img src="../../static/img/icon_time@2x.png" alt="">
             活动日期：{{detail.join_time}}
           </p>
-          <p class="time mt12" @click="handleStore" style="display: inline-block">
+          <p class="time mt6" @click="handleStore" style="display: inline-block">
             <img src="../../static/img/icon_fabuzhe@2x.png" alt="">
             发布者：<p style="color:#06D5DE;display:inline-block;font-size: 12px">{{detail.create_name}}</p>
 <!--            <img class="arrow" src="../../static/img/icon/ic_arrow03@2x.png" alt="">-->
           </p>
+          <p class="time mt6" @click="handleStore" style="display: inline-block">
+            <img src="../../static/img/address@2x.png" alt="">
+            地址：<p style="display:inline-block;font-size: 12px">{{detail.address}}</p>
+          <!--            <img class="arrow" src="../../static/img/icon/ic_arrow03@2x.png" alt="">-->
+          </p>
         </div>
         <div style="text-align: right;">
-          <p class="price">{{detail.goods_price}}</p>
-          <p class="num">最高可抵扣{{detail.discount_price}}积分</p>
+          <p class="price">{{"¥"+detail.goods_price}}</p>
+          <p class="num" style="display: inline-block">最高抵扣积分<p style="font-size: 14px;color:#FF6C00;display: inline-block;vertical-align: middle">{{detail.discount_price}}</p></p>
+          <p style="color:#FF7612;font-size: 10px;background-color: #FFEFE3;text-align: center;border-radius: 2px;margin-top:6px">1积分=1人民币</p>
         </div>
       </div>
     </div>
@@ -243,7 +249,7 @@ export default {
 }
 .tour-detail {
   width: 92%;
-  height: 130px;
+  min-height: 130px;
   border-radius: 5px;
   background: #ffffff;
   position: absolute;
@@ -294,6 +300,9 @@ export default {
 }
 .mt12 {
   margin-top: 12px;
+}
+.mt6 {
+  margin-top: 6px;
 }
 p img {
   width: 12px;

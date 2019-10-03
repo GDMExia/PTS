@@ -6,7 +6,7 @@
                 <p class="f16 title-text">{{goodsInfo.goods_name}}</p>
                 <p class="time">
                     <img src="../../static/img/icon_time@2x.png" alt="">
-                    参与日期：{{goodsInfo.join_time}}
+                    活动日期：{{goodsInfo.join_time}}
                 </p>
             </div>
         </div>
@@ -42,15 +42,15 @@
         <div class="persons" style="margin-top: 12px;">
           <div class="sign f16 center">
             <span>原价</span>
-            <span style="color:#FF0000">{{amount+'元/人'}}</span>
+            <span style="color:#FF0000">{{amount+'元'}}</span>
           </div>
           <div class="sign f16 center">
             <span>需抵扣嘻格格平台积分</span>
-            <span style="color:#FF0000">{{amount-payAmount+'/人'}}</span>
+            <span style="color:#FF0000">{{discountPoint+'分'}}</span>
           </div>
           <div class="sign f16 center">
             <span>实际支付</span>
-            <span style="color:#FF0000">{{payAmount+'元/人'}}</span>
+            <span style="color:#FF0000">{{payAmount+'元'}}</span>
           </div>
 <!--          <div class="sign f15">-->
 <!--            <x-number title="报名人数" width="44px" v-model="formItem.perNum" :min="1" :max="maxNum" @on-change="useAccount"></x-number>-->
@@ -66,7 +66,7 @@
             <span class="f12 color666">提交支付，视为阅读并同意</span>
             <span class="f12 color05DE">《PTS平台退订协议》</span>
         </div>
-        <div class="bottom">
+        <div class="bottom" style="position: absolute;bottom: 0;width:100%">
             <div class="f0" style="height: 48px;display: flex;align-items: center;">
                 <span class="f12 color49">线下须支付</span>
                 <span class="f20 colorred">¥ {{payAmount}}</span>
@@ -77,7 +77,7 @@
         </div>
       <Confirm
         v-model="confirm"
-        :title="'积分不足，是否前往充值积分'"
+        :title="'积分不足，请前往充值积分'"
         @on-cancel="onCancel"
         @on-confirm="onConfirm" >
       </Confirm>
@@ -111,7 +111,8 @@ export default {
         payAmount: 0,
         accountCheck: true,
         maxNum: 1,
-        confirm:false
+        confirm:false,
+        discountPoint:0
     };
   },
   methods: {
@@ -131,6 +132,10 @@ export default {
                // if(this.accountCheck) {
                     this.payAmount = res.orderPrice
                     this.amount = res.totalPrice
+                    this.discountPoint=res.discountPoint
+                    if(this.discountPoint>this.userInfo.account_price){
+                        this.confirm=true
+                    }
                 // } else {
                 //     this.payAmount = res.totalPrice
                 //     this.amount = res.totalPrice
@@ -140,9 +145,7 @@ export default {
             }
 
         })
-        if((this.amount-this.payAmount)>this.userInfo.account_price){
-          this.confirm=true
-        }
+
     },
     // 立即报名
     handleSign() {
@@ -162,14 +165,50 @@ export default {
             phone: this.userInfo.phone,
             // discount_price: this.discount_price,
         }
+
         this.signUp(params).then(res=>{
             if(res.StatusInfo.success) {
-                this.$router.push({path:'/owners/orderdetail',query:{order_no:res.order_no}})
+                // this.$router.push({path:'/owners/orderdetail',query:{order_no:res.order_no}})
+                let dat={
+                    order_no:res.order_no,
+                    token:this.$store.state.token
+                }
+                console.log(dat)
+                this.$http({
+                    method: 'post',
+                    url: `${this.rootPath}/User/checkAccountPrice?token=${this.$store.state.token}&order_no=${res.order_no}`,
+                    header: {
+                        'Content-Type':'multipart/form-data'
+                    },
+                    data: dat
+                }).then(ret=>{
+                // this.$http.post(`${this.rootPath}/User/checkAccountPrice`,{order_no=res.order_no}).then(res=>{
+                    console.log(ret)
+                    if(ret.data.StatusInfo.ReturnCode==200){
+                      if(ret.data.is_pay===1){
+                          // this.$http.get(`${this.rootPath}/Pay/orderGoodsPay?order_no=${res.order_no}`).then(res=>{
+                          //     console.log(res)
+                          // })
+                          location.href=`${this.rootPath}/Pay/orderGoodsPay?order_no=${res.order_no}`
+                      }else{
+                          this.confirm=true
+                      }
+                    }
+                })
             } else {
                 this.toastShow(res.StatusInfo.ErrorDetailCode)
             }
         })
-    }
+    },
+    onCancel(){
+      if(this.formItem.perNum>1){
+          this.formItem.perNum--;
+          this.useAccount();
+      }
+    },
+      onConfirm(){
+        this.$router.push('/owners/pay')
+      }
   },
   beforeDestroy() {
 

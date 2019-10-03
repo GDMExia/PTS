@@ -35,7 +35,7 @@
                 </p>
               </div>
               <div style="text-align: right;">
-                <p class="price">{{item.goods_price}}</p>
+                <p class="price">{{"¥"+item.goods_price}}</p>
                 <p class="num">抵{{item.discount_price}}积分</p>
               </div>
             </div>
@@ -46,7 +46,7 @@
     </div>
     <tabbarComponent :tabIndex=2></tabbarComponent>
     <home-provider></home-provider>
-    
+
   </div>
 </template>
 
@@ -103,7 +103,7 @@ export default {
           this.toastShow(res.StatusInfo.ErrorDetailCode)
         }
         this.loadDataDone = true; // 请求成功 控制空数据显示
-        this.onFetching = false; // 防止重复请求 
+        this.onFetching = false; // 防止重复请求
       })
     },
     onScrollBottom () {
@@ -131,18 +131,18 @@ export default {
           this.toastShow(res.StatusInfo.ErrorDetailCode)
         }
         this.loadDataDone = true; // 请求成功 控制空数据显示
-        this.onFetching = false; // 防止重复请求 
+        this.onFetching = false; // 防止重复请求
       })
     },
   },
   computed: {
-    
+
   },
   beforeDestroy() {
-    
+
   },
   created() {
-    
+
   },
   mounted() {
     // this.$nextTick(() => {
@@ -179,13 +179,13 @@ export default {
   height: 100%;
   line-height: 40px;
   cursor: pointer;
-} 
+}
 .active {
   background:#38DDE5;
   border-radius: 30px;
   color: #ffffff;
-  -moz-box-shadow:0px 6px 9px rgba(56, 221, 229, 0.3); 
-  -webkit-box-shadow:0px 6px 9px rgba(56, 221, 229, 0.3); 
+  -moz-box-shadow:0px 6px 9px rgba(56, 221, 229, 0.3);
+  -webkit-box-shadow:0px 6px 9px rgba(56, 221, 229, 0.3);
   box-shadow:0px 6px 9px rgba(56, 221, 229, 0.3);
 }
 .header_btn{
@@ -215,7 +215,7 @@ export default {
 .main-content .image img{
   width:100%;
   height:177px;
-  border-radius: 20px 20px 0 0 
+  border-radius: 20px 20px 0 0
 }
 .activity-type {
   width: 36px;

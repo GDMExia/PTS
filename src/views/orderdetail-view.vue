@@ -10,7 +10,7 @@
             </div>
             <div class="name">{{goods_name}}</div>
             <div class="time">
-                <img src="../../static/img/icon_time@2x.png" alt=""><p>参与时间：{{create_time}}</p>
+                <img src="../../static/img/icon_time@2x.png" alt="" style="vertical-align: middle;margin-bottom: 2px"><p>参与时间：{{create_time}}</p>
             </div>
             <div class="qrcode" v-if="orderstatus==1">
                <img :src="code_img" alt="" />

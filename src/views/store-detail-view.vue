@@ -5,9 +5,10 @@
       <div class="store-detail-content">
         <p class="f16 store-name">{{storeItem.merchants_name}}</p>
         <div class="store-discount">
-          <p class="store-address f14">
+          <p class="store-address f14" style="width:100%;">
             <img style="height: 17px;" src="../../static/img/ic_yhq@2x.png" alt="">
-            <marquee><font class="store-address-item" style="width: 100%;">嘻格格会员在本店消费，可享至少20积分抵扣</font></marquee>
+            <marquee><font class="store-address-item" style="width: 100%;">{{storeItem.announcement?storeItem.announcement:'嘻格格会员在本店消费，可享积分抵扣'}}</font></marquee>
+<!--            嘻格格会员在本店消费，可享至少20积分抵扣-->
             <!-- <span class="store-address-item" style="width: 100%;">嘻格格会员在本店消费，可享至少20积分抵扣</span> -->
           </p>
           <!-- <p class="store-address f14">
@@ -84,13 +85,13 @@ export default {
     }
   },
   computed: {
-    
+
   },
   beforeDestroy() {
-    
+
   },
   created() {
-    
+
   },
   mounted() {
     this.id = this.$route.query.id
@@ -133,8 +134,8 @@ export default {
   display: flex;
   justify-content: space-between;
   background: #FFF3DE;
-  margin: 0 -10px;
-  width: 375px;
+  /*margin: 0 -10px;*/
+  width: 100%;
   padding: 0 15px;
 }
 .store-address {
@@ -142,14 +143,14 @@ export default {
   color: #666666;
   display: flex;
   align-items: center;
-  height: 50px; 
+  height: 50px;
 }
 .store-address-item {
   width: 90%;
-  text-overflow: -o-ellipsis-lastline; 
-  overflow: hidden; 
-  text-overflow: ellipsis; 
-  display: -webkit-box; 
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
