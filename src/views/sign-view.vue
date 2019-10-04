@@ -91,7 +91,7 @@ export default {
             today:'',
             siginContinuousCount:'',
             siginTotalCount:'',
-            Count:'300'
+            Count:''
         }
     },
     methods:{
@@ -192,7 +192,7 @@ export default {
         setDayarray(){
             let daysarray=new Array(this.days)
             // console.log(array)
-            
+
             for(let i=0;i<this.days;i++){
                 if((i+1)<10){
                     daysarray[i]='0'+(i+1)
@@ -225,12 +225,28 @@ export default {
                 }
             })
         },
+        getinfo(){
+            this.$http.get(`${this.rootPath}/User/getUserInfo?token=${this.$store.state.token}`).then(res=>{
+                // this.userDetail({token: 'c1599f283f6bce195a98a3f3d9c3f10865891753'}).then(res=>{})
+                console.log(res)
+                if(res.data.StatusInfo.ReturnCode==200){
+                    this.$nextTick(()=>{
+                        this.Count=res.data.userInfo.account_price
+                    })
+                }else{
+                    if(res.data.StatusInfo.ReturnCode==603){
+                        this.$store.commit('setToken','')
+                    }
+                }
+                // console.log(this.$store.state.isMember)
+            })
+        },
         sign(){
             this.$http({
                 method: 'post',
                 url: `${this.rootPath}/User/createSign?token=${this.$store.state.token}`,
                 header: {
-                    'Content-Type':'multipart/form-data'  
+                    'Content-Type':'multipart/form-data'
                 },
                 params: {token:this.$store.state.token}
             }).then(res=>{
@@ -250,6 +266,7 @@ export default {
         this.getDays(this.year,this.month)
         this.setDate()
         this.setDayarray()
+        this.getinfo()
     },
     created(){
         this.getSignlist()

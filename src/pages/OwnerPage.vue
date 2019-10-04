@@ -8,8 +8,8 @@
           <img :src="header_pic" alt="">
         </div>
         <div class="vip" v-if="is_member==1">
-          <img src="../../static/img/icon/vip@2x.png" alt="">
-          <p style="color:#1BDBE4;font-size: 12px;position: absolute;left:32%;top:4px">{{uid_number}}</p>
+          <img src="../../static/img/icon/vip@2x.png" style="position: absolute" alt="">
+          <p style="color:#1BDBE4;font-size: 12px;position: absolute;width: 93%;height:26px;line-height: 26px;text-align: right;">{{uid_number}}</p>
         </div>
         </div>
         <div class="name">{{nickname}}</div>
@@ -35,7 +35,7 @@
     <div class="mylink">
     <Group>
       <CellBox :is-link="true" class="link" link=/owners/info><span>个人信息</span></CellBox>
-      <CellBox :is-link="true" class="link" link=/owners/mywallet><span>我的钱包</span></CellBox>
+      <CellBox :is-link="true" class="link" link=/owners/mywallet><span>我的积分</span></CellBox>
       <CellBox :is-link="true" class="link" link=/owners/myorder><span>我的订单</span></CellBox>
       <!-- <CellBox :is-link="true" class="link" link=/owners/mydiscount><span>我的优惠</span></CellBox> -->
       <CellBox :is-link="true" class="link" link=/owners/myshare><span>我的分享</span></CellBox>
@@ -45,10 +45,16 @@
     </div>
     <div class="placeholder"></div>
 
-    <div class="Poptip" v-if="showPop">
-      <img src="../../static/img/icon/mycode@2x.png" alt="" style="width: 52.8%;height:28px;margin-left:23.6%">
-      <img :src="codeImgUrl" alt="" style="width:60%;height:128px;margin-top: 26px;margin-left: 20%">
-      <img src="../../static/img/icon/pop_del@2x.png" alt="" style="position: absolute;bottom:-50px;width:14%;height:30px;left: 43%" @click="hidecode">
+    <div class="Poptip" v-if="showPop" style="display: flex;flex-direction: column;">
+      <div style="display: flex;width: 100%;justify-content: center">
+        <img src="../../static/img/icon/mycode@2x.png" alt="" style="width: 128px;height:28px;">
+      </div>
+      <div style="display: flex;width: 100%;justify-content: center">
+        <img :src="codeImgUrl" alt="" style="width:128px;height:128px;margin-top: 26px;">
+      </div>
+      <div style="display: flex;width: 100%;justify-content: center">
+        <img src="../../static/img/icon/pop_del@2x.png" alt="" style="position: absolute;bottom:-50px;width:30px;height:30px;" @click="hidecode">
+      </div>
     </div>
     <div class="mask" v-if="showPop"></div>
   </div>

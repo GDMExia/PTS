@@ -249,7 +249,7 @@ export default {
 }
 .tour-detail {
   width: 92%;
-  min-height: 130px;
+  min-height: 120px;
   border-radius: 5px;
   background: #ffffff;
   position: absolute;

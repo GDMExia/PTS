@@ -45,7 +45,7 @@
         </div>
         <div class="tips f0">
             <span class="f12 color666">提交支付，视为阅读并同意</span>
-            <span class="f12 color05DE">《PTS平台退订协议》</span>
+            <span class="f12 color05DE">《平台退订协议》</span>
         </div>
         <div class="bottom">
             <div class="f0" style="height: 48px;display: flex;align-items: center;">
@@ -107,11 +107,11 @@ export default {
                 } else {
                     this.payAmount = res.totalPrice
                     this.amount = res.totalPrice
-                } 
+                }
             } else {
                 this.toastShow(res.StatusInfo.ErrorDetailCode)
             }
-            
+
         })
     },
     // 立即报名
@@ -142,10 +142,10 @@ export default {
     }
   },
   beforeDestroy() {
-    
+
   },
   created() {
-    
+
   },
   mounted() {
     // this.goodsInfo = this.getActivityDetail.goodsInfo
@@ -305,7 +305,7 @@ p img {
     align-items: center;
 }
 .tips {
-    margin: 36px 36px 30px 36px;  
+    margin: 36px 36px 30px 36px;
 }
 .f0 {
     font-size: 0;
@@ -321,8 +321,8 @@ p img {
     background:#38DDE5;
     border-radius: 30px;
     color: #ffffff;
-    -moz-box-shadow:0px 6px 9px rgba(56, 221, 229, 0.3); 
-    -webkit-box-shadow:0px 6px 9px rgba(56, 221, 229, 0.3); 
+    -moz-box-shadow:0px 6px 9px rgba(56, 221, 229, 0.3);
+    -webkit-box-shadow:0px 6px 9px rgba(56, 221, 229, 0.3);
     box-shadow:0px 6px 9px rgba(56, 221, 229, 0.3);
     width: 160px;
     height: 40px;

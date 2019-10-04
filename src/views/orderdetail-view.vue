@@ -10,10 +10,17 @@
             </div>
             <div class="name">{{goods_name}}</div>
             <div class="time">
-                <img src="../../static/img/icon_time@2x.png" alt="" style="vertical-align: middle;margin-bottom: 2px"><p>参与时间：{{create_time}}</p>
+              <img src="../../static/img/icon_time@2x.png" alt="" style="vertical-align: middle;margin-bottom: 2px">
+              <p>活动时间：{{create_time}}</p>
+            </div>
+            <div class="time2" style="display: inline-block">
+              <img src="../../static/img/address@2x.png" alt="" style="vertical-align: middle;margin-bottom: 2px">
+              <p>地址：{{address}}</p>
+            <!--            <img class="arrow" src="../../static/img/icon/ic_arrow03@2x.png" alt="">-->
             </div>
             <div class="qrcode" v-if="orderstatus==1">
-               <img :src="code_img" alt="" />
+              <img :src="code_img" alt="" />
+              <p style="text-align: center;font-size: 10px;color:#666">核销二维码</p>
             </div>
         </div>
         <div class="personinfo">
@@ -25,18 +32,18 @@
         </div>
         <div class="priceinfo">
             <group>
-                <XInput title="线下须支付" v-model="total_price" disabled text-align="right"></XInput>
+                <XInput title="原价" v-model="total_price" disabled text-align="right"></XInput>
                 <XInput title="积分抵扣" v-model="deduction_price" disabled text-align="right" placeholder="请输入年龄" placeholder-align="right"></XInput>
                 <XInput title="实际支付" v-model="order_price" disabled text-align="right" placeholder="请输入手机号" placeholder-align="right"></XInput>
             </group>
         </div>
-        <div class="moreinfo">
-            <img src="../../static/img/icon/icon_ddxq_tishi@2x.png" alt=""><p>如需退订，可在待使用状态下点击【退订】按钮，提交基本信息，我们将进行线下退款</p>
-        </div>
-        <div class="placeholder"></div>
-        <div class="handle">
-            <div class="button" :class="orderstatus!='1'?'unsubscribe':''" @click="orderstatus==1?$router.push({path:'/owners/unsubscribe',query:{order_no:order_no}}):''">{{orderstatus==1?'退订':orderstatus==2?'评价':orderstatus==3?'退订情况':orderstatus==4?'退订情况':''}}</div>
-        </div>
+<!--        <div class="moreinfo">-->
+<!--            <img src="../../static/img/icon/icon_ddxq_tishi@2x.png" alt=""><p>如需退订，可在待使用状态下点击【退订】按钮，提交基本信息，我们将进行线下退款</p>-->
+<!--        </div>-->
+<!--        <div class="placeholder"></div>-->
+<!--        <div class="handle">-->
+<!--            <div class="button" :class="orderstatus!='1'?'unsubscribe':''" @click="orderstatus==1?$router.push({path:'/owners/unsubscribe',query:{order_no:order_no}}):''">{{orderstatus==1?'退订':orderstatus==2?'评价':orderstatus==3?'退订情况':orderstatus==4?'退订情况':''}}</div>-->
+<!--        </div>-->
     </div>
 </template>
 
@@ -61,7 +68,8 @@ export default {
             deduction_price:'',
             total_price:'',
             orderstatus:'',
-            code_img:''
+            code_img:'',
+            address:''
         }
     },
     methods:{
@@ -80,6 +88,8 @@ export default {
                     this.total_price=res.data.orderInfo.total_price
                     this.orderstatus=res.data.orderInfo.order_status
                     this.code_img=res.data.orderInfo.code_img
+                    this.address=res.data.orderInfo.address
+                    console.log(this.address)
                 }
             })
         }
@@ -97,10 +107,13 @@ export default {
 .productinfo{width:92%;margin-left: 4%;height: 196px;border-radius: 20px;position: relative;background-color: #fff;padding-top: px;margin-top: 12px}
 .productinfo .image{width:120px;height:120px;margin-left: 3%;border-radius: 10px;background-color:aqua;margin-top: 13px}
 .productinfo .image img{width:120px;height:120px;border-radius: 10px;}
-.productinfo .name{width:55.5%;font-size: 16px;color:#323643;font-weight: bold;position: absolute;top:63px;left:45%;}
-.productinfo .time{font-size: 12px;color:#666;position: absolute;left:45%;top:150px;width:60%;}
+.productinfo .name{width:55.5%;font-size: 16px;color:#323643;font-weight: bold;position: absolute;top:63px;left:140px;}
+.productinfo .time{font-size: 12px;color:#666;position: absolute;left:140px;top:120px;width:60%;}
 .productinfo .time p{vertical-align: top;display: inline-block;vertical-align: top}
 .productinfo .time img{width:12px;height:12px;display: inline-block}
+.productinfo .time2{font-size: 12px;color:#666;position: absolute;left:140px;top:150px;width:60%;}
+.productinfo .time2 p{vertical-align: top;display: inline-block;vertical-align: top}
+.productinfo .time2 img{width:12px;height:12px;display: inline-block}
 .moreinfo{width:87%;margin-left: 6.5%;margin-top:10px;overflow: hidden}
 .moreinfo img{width:16px;height:16px;display: inline-block;float: left}
 .moreinfo p{display: inline-block;font-size: 12px;color:#999;width:90%;vertical-align: bottom;float: right;}

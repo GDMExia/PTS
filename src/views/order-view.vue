@@ -3,13 +3,14 @@
         <div class="orderitem" v-for="(item,index) of orderList" :key="index">
             <div class="name">{{item.goods_name}}</div>
             <div class="time">
-                <img src="../../static/img/icon_time@2x.png" alt="" style="vertical-align: middle;margin-bottom: 2px"><p>参与时间：{{item.create_time}}</p>
+                <img src="../../static/img/icon_time@2x.png" alt="" style="vertical-align: middle;margin-bottom: 2px"><p>活动时间：{{item.create_time}}</p>
             </div>
             <!-- 0=待支付 ;1=待使用 ;2=已完成;3=退订 审核中;4=已退订; -->
-            <div class="status" :class="item.order_status==1?'waiting':item.order_status==2?'finished':item.order_status==3?'checking':item.order_status==4?'unsubscribe':'waitingforpay'"></div>
+            <div class="status" :class="item.order_status==0?'waitingforpay':item.order_status==1?'waiting':item.order_status==2?'finished':item.order_status==3?'checking':item.order_status==4?'unsubscribe':item.order_status==5?'cancelled':'ended'"></div>
             <div class="num">*{{item.goods_number}}</div>
             <div class="handlebutton">
-                <div class="unsubscribebtn" @click="item.order_status==1?$router.push({path:'/owners/unsubscribe',query:{order_no:item.order_no}}):item.order_status==2?(item.is_evaluation==0?$router.push({path:'/owners/advice',query:{order_no:item.order_no}}):$router.push({path:'/owners/advice',query:{order_no:item.order_no}})):item.order_status==3?$router.push({path:'/owners/unsubscribedetail',query:{order_no:item.order_no}}):item.order_status==4?$router.push({path:'/owners/unsubscribedetail',query:{order_no:item.order_no}}):pay(item.order_no)">{{item.order_status==1?'退订':item.order_status==2?(item.is_evaluation==0?'评价':'我的评价'):item.order_status==3?'退订情况':item.order_status==4?'退订情况':'支付'}}</div>
+              <div class="unsubscribebtn2" @click="cancelpay(item.order_no)" v-if="item.order_status==0">取消支付</div>
+              <div class="unsubscribebtn" v-if="item.order_status!=3&&item.order_status!=4&&item.order_status!=5&&item.order_status!=6" @click="item.order_status==0?pay(item.order_no):item.order_status==1?$router.push({path:'/owners/unsubscribe',query:{order_no:item.order_no}}):item.order_status==2?(item.is_evaluation==0?$router.push({path:'/owners/advice',query:{order_no:item.order_no}}):$router.push({path:'/owners/advice',query:{order_no:item.order_no}})):''">{{item.order_status==0?'继续支付':item.order_status==1?'退订':item.order_status==2?(item.is_evaluation==0?'评价':'我的评价'):item.order_status==3?'退订情况':item.order_status==4?'退订情况':''}}</div>
                 <div class="view" @click="$router.push({path:'/owners/orderdetail',query:{order_no:item.order_no}})">查看</div>
             </div>
         </div>
@@ -19,6 +20,12 @@
         @on-cancel="onCancel"
         @on-confirm="onConfirm" >
       </Confirm>
+      <Confirm
+        v-model="cancelconfirm"
+        :title="'确认取消订单？取消后订单将被删除'"
+        @on-cancel="onCancelCancel"
+        @on-confirm="onCancelConfirm" >
+      </Confirm>
     </div>
 </template>
 
@@ -27,7 +34,9 @@ export default {
     data(){
         return {
             orderList:[],
-            confirm:false
+            confirm:false,
+            cancelconfirm:false,
+            order_no:''
         }
     },
     methods:{
@@ -38,6 +47,10 @@ export default {
                     this.orderList=res.data.orderList
                 }
             })
+        },
+        cancelpay(order_no){
+            this.cancelconfirm=true
+            this.order_no=order_no
         },
         pay(order_no){
             let dat={
@@ -75,6 +88,26 @@ export default {
         },
         onConfirm(){
             this.$router.push('/owners/pay')
+        },
+        onCancelCancel(){
+            this.order_no=''
+        },
+        onCancelConfirm(){
+            this.$http({
+                method: 'post',
+                url: `${this.rootPath}/User/cancelGoodsOrder?token=${this.$store.state.token}&order_no=${this.order_no}`,
+                header: {
+                    'Content-Type':'multipart/form-data'
+                },
+            }).then(res=>{
+                console.log(res)
+                if(res.data.StatusInfo.ReturnCode==200){
+                    this.$vux.toast.text('取消成功', 'top')
+                    this.getOrderlist()
+                }else{
+                    this.$vux.toast.text('取消失败', 'top')
+                }
+            })
         }
     },
     created(){
@@ -96,9 +129,11 @@ export default {
 .checking{background: url('../../static/img/icon/checking@2x.png') center no-repeat;background-size: 54px 21px;}
 .unsubscribe{background: url('../../static/img/icon/unsubscribe@2x.png') center no-repeat;background-size: 54px 21px;}
 .waitingforpay{background: url('../../static/img/icon/waitingForPay@2x.png') center no-repeat;background-size: 54px 21px;}
-
+.cancelled{background: url('../../static/img/icon/cancelled@2x.png') center no-repeat;background-size: 54px 21px;}
+.ended{background: url('../../static/img/icon/ended@2x-2.png') center no-repeat;background-size: 54px 21px;}
 .orderitem .num{position: absolute;top:54px;right:4%;font-size: 15px;color:#333;}
 .orderitem .handlebutton{height:57px;width:94%;margin-left:6%;border-top: 1px solid #F0F0F0;position: absolute;bottom:0;}
 .orderitem .handlebutton .unsubscribebtn{width:27%;height:34px;text-align: center;line-height: 34px;margin-top:10px;color:#06D5DE;border-radius: 20px;border: 1px solid #06D5DE;font-size: 14px;display: inline-block;position: absolute;right:36%}
+.orderitem .handlebutton .unsubscribebtn2{width:27%;height:34px;text-align: center;line-height: 34px;margin-top:10px;color:#06D5DE;border-radius: 20px;border: 1px solid #06D5DE;font-size: 14px;display: inline-block;position: absolute;right:66%}
 .orderitem .handlebutton .view{width:27%;height:34px;text-align: center;line-height: 34px;margin-top:10px;color:#fff;border-radius: 20px;border: 1px solid #06D5DE;background-color: #06D5DE;font-size: 14px;display: inline-block;position: absolute;right:5.6%}
 </style>

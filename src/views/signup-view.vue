@@ -8,6 +8,11 @@
                     <img src="../../static/img/icon_time@2x.png" alt="">
                     活动日期：{{goodsInfo.join_time}}
                 </p>
+              <p class="time" style="margin-top:-5px">
+                <img src="../../static/img/address@2x.png" alt="" style="vertical-align: middle;margin-bottom: 2px">
+                地址：{{goodsInfo.address}}
+                <!--            <img class="arrow" src="../../static/img/icon/ic_arrow03@2x.png" alt="">-->
+              </p>
             </div>
         </div>
         <div class="persons">
@@ -64,11 +69,11 @@
         </div>
         <div class="tips f0">
             <span class="f12 color666">提交支付，视为阅读并同意</span>
-            <span class="f12 color05DE">《PTS平台退订协议》</span>
+            <span class="f12 color05DE">《平台退订协议》</span>
         </div>
         <div class="bottom" style="position: absolute;bottom: 0;width:100%">
             <div class="f0" style="height: 48px;display: flex;align-items: center;">
-                <span class="f12 color49">线下须支付</span>
+<!--                <span class="f12 color49">线下须支付</span>-->
                 <span class="f20 colorred">¥ {{payAmount}}</span>
             </div>
             <div class="pay-submit f15" @click="handleSign">
@@ -201,10 +206,7 @@ export default {
         })
     },
     onCancel(){
-      if(this.formItem.perNum>1){
-          this.formItem.perNum--;
-          this.useAccount();
-      }
+
     },
       onConfirm(){
         this.$router.push('/owners/pay')
