@@ -1,7 +1,7 @@
 <template>
     <div style="background-color:#F5F5F7">
         <div class="background">
-            <div style="font-size:20px;">嘻格格商家版</div>
+            <div style="font-size:20px;">嘻格格商家核销工具</div>
             <div style="font-size:16px;margin-top:14px">- 仅商家使用 -</div>
         </div>
         <div style="background-color:#fff;height:50px;width:83%;margin-left:8.5%;border-radius:50px;margin-top:-16px;overflow: hidden">

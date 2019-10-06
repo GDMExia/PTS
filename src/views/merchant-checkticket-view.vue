@@ -11,14 +11,15 @@
           <XInput :title='`<span style="color:#666666;font-size:14px">会员当前积分</span>`' v-model="account_price" text-align="right" disabled></XInput>
         </group>
         <group style="marginTop:12px">
-          <XInput :title='`<span style="color:#666666;font-size:14px">本次消费</span>`' type="number" v-model="original_price" text-align="right" placeholder="请输入本次消费"  @blur="fixScroll"></XInput>
-          <XInput :title='`<span style="color:#666666;font-size:14px">本次积分抵扣</span>`' type="number" v-model="discount_price" text-align="right" :placeholder="`${original_price?`最多抵扣${parseFloat(this.original_price)-(parseFloat(this.original_price)*(this.discount/10))}积分`:'请输入本次积分抵扣'}`"  @blur="fixScroll"></XInput>
-          <XInput :title='`<span style="color:#666666;font-size:14px">本次实际支付</span>`' v-model="really_price" text-align="right" placeholder="待计算" style="color:#FF0000" @blur="fixScroll"></XInput>
+          <XInput :title='`<span style="color:#666666;font-size:14px;white-space: nowrap">本次消费总额</span>`' type="number" @on-change="ChangeO" v-model="original_price" text-align="right" placeholder=""  @blur="fixScroll"><span style="font-size: 14px" slot="right">元</span></XInput>
+          <XInput :title='`<span style="color:#666666;font-size:14px;white-space: nowrap">积分最多可抵扣</span>`' type="number" v-model="dis_price" text-align="right" :placeholder="`${original_price?`${parseFloat(this.original_price)-(parseFloat(this.original_price)*(this.discount/10))}分`:'待计算'}`"  @blur="fixScroll" disabled></XInput>
+          <XInput :title='`<span style="color:#666666;font-size:14px;white-space: nowrap">本次消费积分抵扣</span>`' type="number" v-model="discount_price" text-align="right" placeholder=""  @blur="fixScroll"><span style="font-size: 14px" slot="right">分</span></XInput>
+          <XInput :title='`<span style="color:#666666;font-size:14px;white-space: nowrap">本次消费实际应支付</span>`' v-model="really_price" text-align="right" :placeholder="`${discount_price?`${parseFloat(this.original_price)-parseFloat(this.discount_price)}元`:'待计算'}`" disabled @blur="fixScroll"></XInput>
         </group>
 
         <div style="display: flex;width:100%;justify-content:space-around;margin-top:83px;position: fixed;bottom:0;height: 87px">
   <!--        <div style="flex: 1;background-color:rgba(6, 213, 222, 0.5);color:#fff;text-align: center;width:40%;height:40px;border-radius: 20px;margin:10px 5%;padding-top:9px" @click="$router.go(-1)">确认并返回</div>-->
-          <div style="flex: 1;background-color:rgba(6, 213, 222, 0.5);color:#fff;text-align: center;width:40%;height:40px;border-radius: 20px;margin:10px 5%;padding-top:9px" :class="(really_price!=''&&really_price!='待计算')?'sure':''" @click="pay">确认</div>
+          <div style="flex: 1;background-color:rgba(6, 213, 222, 0.5);color:#fff;text-align: center;width:40%;height:40px;border-radius: 20px;margin:10px 5%;padding-top:9px" :class="discount_price!=''?'sure':''" @click="pay">确认</div>
         </div>
       </div>
       <div v-if="order_no" style="padding-bottom: 87px">
@@ -80,7 +81,8 @@ export default {
             goods_name:'',
             order_price:'',
             show_discount_price:'',
-            actual_price:''
+            actual_price:'',
+            dis_price:''
         }
     },
     methods:{
@@ -189,6 +191,7 @@ export default {
                     }
                 })
             }
+            this.really_price=parseFloat(this.original_price)-parseFloat(this.discount_price)
             if(this.order_no&&this.actual_number&&this.show_discount_price&&this.actual_price){
                 let data = new FormData()
                 data.append('token', this.token)
@@ -259,6 +262,17 @@ export default {
             this.show_discount_price=this.show_discount_price.toFixed(2)
             this.actual_price=this.actual_price.toFixed(2)
             console.log(1111)
+        },
+        ChangeO(){
+            // alert(1111)
+            if(this.discount_price) {
+                this.discount_price = ''
+            }
+            // }
+            if(this.really_price) {
+                this.really_price = ''
+            }
+            // this.dis_price=parseFloat(this.original_price)-(parseFloat(this.original_price)*(this.discount/10))
         }
     },
     mounted(){
@@ -272,29 +286,28 @@ export default {
             handler:function(val){
                 if(parseFloat(this.original_price)>0){
                     if(parseFloat(val)&&(parseFloat(this.original_price)-(parseFloat(this.original_price)*(this.discount/10)))>=val&&val>0&&val<=parseFloat(this.account_price)){
-                        this.discount_price=parseFloat(val)
-                        this.really_price=parseFloat(this.original_price)-parseFloat(this.discount_price)
+                        // this.discount_price=parseFloat(val)
+                        // this.really_price=parseFloat(this.original_price)-parseFloat(this.discount_price)
                     }else{
                         this.discount_price=''
-                        this.really_price='待计算'
+                        this.really_price=''
                         this.$vux.toast.text('请输入正确的抵扣积分数量', 'middle')
                     }
                 }else{
                     this.discount_price=''
-                    this.really_price='待计算'
+                    this.really_price=''
                 }
             }
         },
         original_price:{
             handler:function (val) {
                 if(parseFloat(val)){
-                    this.original_price=parseFloat(val)
-                    this.discount_price=''
-                    this.really_price='待计算'
+                    // this.original_price=parseFloat(val)
+                    // if(this.discount_price) {
                 }else{
                     this.original_price=''
                     this.discount_price=''
-                    this.really_price='待计算'
+                    this.really_price=''
                 }
             }
         },

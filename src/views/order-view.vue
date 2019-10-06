@@ -17,12 +17,16 @@
       <Confirm
         v-model="confirm"
         :title="'积分不足，请前往充值积分'"
+        :ref="'sure'"
+        :name="'sure'"
         @on-cancel="onCancel"
         @on-confirm="onConfirm" >
       </Confirm>
       <Confirm
         v-model="cancelconfirm"
         :title="'确认取消订单？取消后订单将被删除'"
+        :ref="'cancel'"
+        :name="'cancel'"
         @on-cancel="onCancelCancel"
         @on-confirm="onCancelConfirm" >
       </Confirm>
@@ -30,7 +34,11 @@
 </template>
 
 <script>
+import { Confirm } from 'vux'
 export default {
+    components:{
+        Confirm
+    },
     data(){
         return {
             orderList:[],
@@ -50,6 +58,7 @@ export default {
         },
         cancelpay(order_no){
             this.cancelconfirm=true
+            console.log(1111111)
             this.order_no=order_no
         },
         pay(order_no){

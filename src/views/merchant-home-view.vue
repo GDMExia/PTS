@@ -6,8 +6,8 @@
         </div>
         <div style="position: relative;display: inline-block;width: 79%;float:right;height:130px;margin-top:-45px">
           <div style="position: absolute;top:27px;font-size: 18px;color:#333">{{real_name}}</div>
-          <div style="position: absolute;top:62px;font-size: 12px;color:#333">{{phone}}</div>
-          <div style="position: absolute;top:83px;font-size: 12px;color:#333">{{merchants_name}}</div>
+          <div style="position: absolute;top:62px;font-size: 14px;color:#333">{{phone}}</div>
+          <div style="position: absolute;top:83px;font-size: 14px;color:#333">{{merchants_name}}</div>
           <div style="width:20%;height:30px;position: absolute;top:50px;right:11%;background-color:#F5F5F7;border-radius: 20px;text-align: center;" @click="$router.replace('/merchantLogin')"><p style="margin-top:5px;vertical-align:middle;font-size: 12px">退出</p></div>
         </div>
       </div>
@@ -122,7 +122,7 @@ export default {
                 success: function (res) {
                     console.log(res.resultStr.uid)
                     // alert(res.resultStr)
-                    that.$vux.toast.text(res.resultStr, 'top')
+                    // that.$vux.toast.text(res.resultStr, 'top')
                     let uid = JSON.parse(res.resultStr).uid; // 当needResult 为 1 时，扫码返回的结果
                     if(uid) {
                         that.$router.push({path: '/merchantCheck', query: {uid: uid, token: that.token}})

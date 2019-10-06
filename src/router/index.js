@@ -353,7 +353,7 @@ export default new Router({
     },
     {
       path: '/merchantCheck',
-      name: '线下核销',
+      name: '线下消费核销',
       component: merchantCheck
       // 商家首页
     },
