@@ -20,7 +20,7 @@
             </div>
             <div class="qrcode" v-if="orderstatus==1">
               <img :src="code_img" alt="" />
-              <p style="text-align: center;font-size: 10px;color:#666">核销二维码</p>
+              <p style="text-align: center;font-size: 10px;color:#666;margin-top:-10px">核销二维码</p>
             </div>
         </div>
         <div class="personinfo">
@@ -82,10 +82,10 @@ export default {
                     this.phone=res.data.orderInfo.phone
                     this.goods_number=res.data.orderInfo.goods_number
                     this.goods_pic=res.data.orderInfo.goods_pic
-                    this.create_time=res.data.orderInfo.create_time
+                    this.create_time=res.data.orderInfo.join_time
                     this.order_price=res.data.orderInfo.order_price
-                    this.deduction_price=res.data.orderInfo.deduction_price
-                    this.total_price=res.data.orderInfo.total_price
+                    this.deduction_price=res.data.orderInfo.deduction_price*this.goods_number
+                    this.total_price=res.data.orderInfo.total_price*this.goods_number
                     this.orderstatus=res.data.orderInfo.order_status
                     this.code_img=res.data.orderInfo.code_img
                     this.address=res.data.orderInfo.address

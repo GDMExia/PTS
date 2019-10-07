@@ -7,7 +7,7 @@
           <p style="position: absolute;left:18%;top:28px;font-size: 20px;color: #fff;">{{merchants_name}}</p>
         </div>
         <group style="marginTop:12px">
-          <XInput :title='`<span style="color:#666666;font-size:14px">会员名称</span>`' v-model="nickname" text-align="right" disabled></XInput>
+          <XInput :title='`<span style="color:#666666;font-size:14px">会员姓名</span>`' v-model="nickname" text-align="right" disabled></XInput>
           <XInput :title='`<span style="color:#666666;font-size:14px">会员当前积分</span>`' v-model="account_price" text-align="right" disabled></XInput>
         </group>
         <group style="marginTop:12px">
@@ -23,17 +23,17 @@
         </div>
       </div>
       <div v-if="order_no" style="padding-bottom: 87px">
-        <div class="productinfo">
-          <div class="image">
-            <img :src="goods_pic" alt="">
-          </div>
-          <div class="name">{{goods_name}}</div>
-          <div class="time">
-            <p style="font-size: 18px;color:#DE1E06">¥{{order_price}}</p><p style="font-size: 14px;color:#FF6C00;vertical-align: bottom">+{{(total_price-order_price).toFixed(2)}}积分</p>
-          </div>
-        </div>
+<!--        <div class="productinfo">-->
+<!--          <div class="image">-->
+<!--            <img :src="goods_pic" alt="">-->
+<!--          </div>-->
+<!--          <div class="name">{{goods_name}}</div>-->
+<!--          <div class="time">-->
+<!--            <p style="font-size: 18px;color:#DE1E06">¥{{order_price}}</p><p style="font-size: 14px;color:#FF6C00;vertical-align: bottom">+{{((total_price-order_price)*goods_number).toFixed(2)}}积分</p>-->
+<!--          </div>-->
+<!--        </div>-->
         <group style="marginTop:12px">
-          <XInput :title='`<span style="color:#666666;font-size:14px">会员名称</span>`' v-model="nickname" text-align="right" disabled></XInput>
+          <XInput :title='`<span style="color:#666666;font-size:14px">会员姓名</span>`' v-model="nickname" text-align="right" disabled></XInput>
           <XInput :title='`<span style="color:#666666;font-size:14px">会员当前积分</span>`' v-model="account_price" text-align="right" disabled></XInput>
         </group>
         <group style="marginTop:12px">
@@ -41,25 +41,34 @@
           <XInput :title='`<span style="color:#666666;font-size:14px">实际人数</span>`' type="number" @on-change="changeNum" v-model="actual_number" text-align="right"><span slot="right" style="font-size:14px" @blur="fixScroll">人</span></XInput>
         </group>
         <group style="marginTop:12px">
-          <XInput :title='`<span style="color:#666666;font-size:14px">本次消费</span>`' type="number" v-model="show_total_price" text-align="right" placeholder="待计算" disabled></XInput>
-          <XInput :title='`<span style="color:#666666;font-size:14px">本次积分抵扣</span>`' type="number" v-model="show_discount_price" text-align="right" disabled :placeholder="'待计算'"  @blur="fixScroll"></XInput>
-          <XInput :title='`<span style="color:#666666;font-size:14px">本次实际支付</span>`' v-model="actual_price" text-align="right" placeholder="待计算" disabled style="color:#FF0000;font-size:14px"></XInput>
+          <XInput :title='`<span style="color:#666666;font-size:14px">原价</span>`' type="number" v-model="show_total_price" text-align="right" placeholder="待计算" disabled></XInput>
+          <XInput :title='`<span style="color:#666666;font-size:14px">积分抵扣</span>`' type="number" v-model="show_discount_price" text-align="right" disabled :placeholder="'待计算'"  @blur="fixScroll"></XInput>
+          <XInput :title='`<span style="color:#666666;font-size:14px">实际支付</span>`' v-model="actual_price" text-align="right" placeholder="待计算" disabled></XInput>
         </group>
         <div style="display: flex;width:100%;justify-content:space-around;margin-top:83px;;position: fixed;bottom:0;height: 87px">
           <!--        <div style="flex: 1;background-color:rgba(6, 213, 222, 0.5);color:#fff;text-align: center;width:40%;height:40px;border-radius: 20px;margin:10px 5%;padding-top:9px" @click="$router.go(-1)">确认并返回</div>-->
           <div style="flex: 1;background-color:rgba(6, 213, 222, 0.5);color:#fff;text-align: center;width:40%;height:40px;border-radius: 20px;margin:10px 5%;padding-top:9px" :class="actual_number!=''?'sure':''" @click="pay">确认</div>
         </div>
       </div>
+      <Confirm
+        v-model="confirm"
+        :title="'是否确认核销？'"
+        :ref="'cancel'"
+        :name="'cancel'"
+        @on-cancel="onCancel"
+        @on-confirm="onConfirm" >
+      </Confirm>
     </div>
 </template>
 
 <script>
-import { Group , XInput } from 'vux'
+import { Group , XInput , Confirm } from 'vux'
 
 export default {
   components:{
     Group,
-    XInput
+    XInput,
+    Confirm
   },
     data(){
         return{
@@ -82,7 +91,8 @@ export default {
             order_price:'',
             show_discount_price:'',
             actual_price:'',
-            dis_price:''
+            dis_price:'',
+            confirm:false
         }
     },
     methods:{
@@ -158,6 +168,7 @@ export default {
                           this.goods_name = res.data.orderInfo.goods_name
                           this.order_price = res.data.orderInfo.order_price
                           this.total_price = res.data.orderInfo.total_price
+                          this.deduction_price = res.data.orderInfo.deduction_price
                           this.goods_number = res.data.orderInfo.goods_number
                           this.account_price = res.data.userMemberInfo.account_price
                           this.nickname = res.data.userMemberInfo.real_name
@@ -193,29 +204,33 @@ export default {
             }
             this.really_price=parseFloat(this.original_price)-parseFloat(this.discount_price)
             if(this.order_no&&this.actual_number&&this.show_discount_price&&this.actual_price){
-                let data = new FormData()
-                data.append('token', this.token)
-                data.append('order_no', this.order_no)
-                data.append('actual_number', this.actual_number)
-                data.append('discount_price', this.show_discount_price)
-                data.append('actual_price', this.actual_price)
-                this.$http({
-                    method: 'post',
-                    url: `${this.rootPath}/Merchants/createOrderGoods`,
-                    header: {
-                        'Content-Type': 'multipart/form-data'
-                    },
-                    data: data
-                }).then(res => {
-                    console.log(res)
-                    if (res.data.StatusInfo.success) {
-                        this.$vux.toast.text('核销成功', 'top')
-                        this.$router.push({path: '/merchantHome', query: {token: this.token}})
-                    } else {
-                        this.$vux.toast.text(res.data.StatusInfo.ErrorDetailCode, 'top')
-                    }
-                })
+                this.confirm=true
             }
+        },
+        onCancel(){},
+        onConfirm(){
+            let data = new FormData()
+            data.append('token', this.token)
+            data.append('order_no', this.order_no)
+            data.append('actual_number', this.actual_number)
+            data.append('discount_price', this.show_discount_price)
+            data.append('actual_price', this.actual_price)
+            this.$http({
+                method: 'post',
+                url: `${this.rootPath}/Merchants/createOrderGoods`,
+                header: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                data: data
+            }).then(res => {
+                console.log(res)
+                if (res.data.StatusInfo.success) {
+                    this.$vux.toast.text('核销成功', 'top')
+                    this.$router.push({path: '/merchantHome', query: {token: this.token}})
+                } else {
+                    this.$vux.toast.text(res.data.StatusInfo.ErrorDetailCode, 'top')
+                }
+            })
         },
         // handleOriginalPrice(val){
         //     console.log(console.log(val))
@@ -252,12 +267,15 @@ export default {
             window.scrollTo(0, 0);
         },
         changeNum(){
-            if(!parseFloat(this.actual_number)||this.actual_number>this.goods_number){
-                this.actual_number=this.goods_number
+            // !parseFloat(this.actual_number)||
+            if(this.actual_number>this.goods_number){
+                this.$nextTick(()=>{
+                    this.actual_number=this.goods_number
+                })
             }
             this.show_total_price=this.total_price*this.actual_number
-            this.show_discount_price=(this.total_price-this.order_price)*this.actual_number
-            this.actual_price=this.order_price*this.actual_number
+            this.show_discount_price=(this.deduction_price/this.goods_number)*this.actual_number
+            this.actual_price=this.order_price/this.goods_number*this.actual_number
             this.show_total_price=this.show_total_price.toFixed(2)
             this.show_discount_price=this.show_discount_price.toFixed(2)
             this.actual_price=this.actual_price.toFixed(2)
@@ -313,8 +331,8 @@ export default {
         },
         actual_number:{
             handler:function(val){
-                if(val>this.goods_number){
-                    this.actual_number=this.this.goods_number
+                if(this.actual_number>this.goods_number){
+                    this.actual_number=''
                 }
             }
         }
