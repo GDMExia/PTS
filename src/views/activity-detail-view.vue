@@ -160,7 +160,7 @@ export default {
         share_url: encodeURIComponent(location.href),
         // share_url: encodeURIComponent(`http://pts.suoqoo.com/nh5/#/activities/activityDetail?id=${this.$route.query.id}`),
         // share_hash_url: `/activities/activityDetail?id=${this.$route.query.id}`,
-        is_article: 1
+        is_article: 0
       }
       this.wxShare(params).then(res=>{
         if (res.StatusInfo.success) {
