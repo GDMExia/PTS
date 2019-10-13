@@ -126,10 +126,10 @@ export default {
             }
             this.page=1
             if(this.type == 0) {
-                // this.articleList=[]
+                this.activityList=[]
                 this.handleTour()
             }else{
-                // this.activityList=[]
+                this.articleList=[]
                 this.getSchoolArticleList()
             }
         },
