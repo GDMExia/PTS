@@ -72,7 +72,7 @@ export default {
       cateTree:[],
       articleList:[],
       page:1,
-      pageSize:10,
+      pageSize:10000,
       totalPage: 0,
       pid:'',
       cid:'',

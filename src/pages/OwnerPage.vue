@@ -63,6 +63,7 @@
 </template>
 
 <script>
+import wx from 'weixin-js-sdk'
 import TabbarComponent from "@/components/TabbarComponent.vue";
 import { Flexbox, FlexboxItem , Group , CellBox } from 'vux'
 import { mapActions } from "vuex";
@@ -148,8 +149,12 @@ export default {
   },
   created() {
     this.getinfo()
+    this.$wechat.hideOptionMenu()
   },
   mounted() {
+    this.$nextTick(()=>{
+      this.$wechat.hideOptionMenu()
+    })
     this.$bus.emit("onTabBarEvent", {});
     this.getDate()
   }

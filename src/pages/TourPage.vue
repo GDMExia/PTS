@@ -96,7 +96,7 @@ export default {
     handleTourList() {
       const params = {
         page: this.pageNum,
-        pageSize: 5,
+        pageSize: 10000,
         token: this.$store.state.token,
         keywords: this.value
       }

@@ -4,8 +4,8 @@
       <img class="store-img" :src="storeItem.pic" alt="">
       <div class="store-detail-content" style="position: relative">
         <p class="f16 store-name">{{storeItem.merchants_name}}</p>
-        <p style="float:right;display: inline-block;padding: 12px 0 25px 5px;color: #000000;">专享抵积分{{parseFloat(storeItem.discount)}}折</p>
-        <p style="position:absolute;right:5%;top:26px;color:#FF7612;font-size: 10px;background-color: #FFEFE3;text-align: center;border-radius: 2px;margin-top:6px">1积分=1人民币</p>
+        <p style="float:right;display: inline-block;padding: 16px 0 25px 5px;color: #000000;font-size:14px">专享抵积分{{parseFloat(storeItem.discount)}}折</p>
+        <p style="position:absolute;right:5%;top:30px;color:#FF7612;font-size: 10px;background-color: #FFEFE3;text-align: center;border-radius: 2px;margin-top:6px">1积分=1人民币</p>
         <div class="store-discount">
           <p class="store-address f14" style="width:100%;">
             <img style="height: 17px;" src="../../static/img/ic_yhq@2x.png" alt="">

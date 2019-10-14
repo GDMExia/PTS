@@ -34,9 +34,9 @@
                 <img style="width: 40px; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
                 <span> 暂无数据 </span>
             </div>
-            <scroller v-else-if="activityList.length" lock-x height="-88"  @on-scroll-bottom="onScrollBottom" ref="scrollerBottom">
+            <scroller v-if="activityList.length" lock-x height="-88" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom">
                 <div class="ofy_auto flx_1">
-                    <div class="container" @click="handleClick(item.tourism_id)" v-for="item in activityList" :key="item">
+                    <div class="container" @click="handleClick(item.tourism_id)" v-for="item in activityList" :key="item.id">
                         <img class="activity-img" :src="item.pic" alt="">
                         <div class="activity-title">
                             <div class="name-price">
@@ -59,7 +59,7 @@
                 <img style="width: 40px; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
                 <span> 暂无数据 </span>
             </div>
-            <scroller v-else-if="articleList.length&&type==1" height="-78" lock-x @on-scroll-bottom="onScrollBottomSchool" :use-pullup="true">
+            <scroller v-if="articleList.length&&type==1" height="-78" lock-x @on-scroll-bottom="onScrollBottomSchool" :use-pullup="true">
                 <div class="menu">
                     <div class="detail" @click="item.is_code!=1?goToArticleDetail({article_id:item.article_id}):confirmToArticleDetail({article_id:item.article_id,cid:item.cid})" v-for="(item,index) of articleList" :key="index">
                     <div class="image"><img :src="item.cover" alt=""></div>
@@ -120,16 +120,16 @@ export default {
             if(val!=0&&val!=1){
                 this.type=this.type
             }else{
+                this.articleList=[]
+                this.activityList=[]
                 this.type = val
             }
             this.page=1
-            this.articleList=[]
-            this.activityList=[]
             if(this.type == 0) {
-                this.articleList=[]
+                this.activityList=[]
                 this.handleTour()
             }else{
-                this.activityList=[]
+                this.articleList=[]
                 this.getSchoolArticleList()
             }
         },
@@ -142,19 +142,22 @@ export default {
             }
             this.tourList(params).then(res=>{
                 if(res.StatusInfo.success) {
-                    this.activityList = res.newsList?res.newsList:[]
+                    this.activityList = res.newsList?this.activityList.concat(res.newsList):this.activityList.concat([])
                     this.totalPage = res.PageInfo.TotalPages
                 } else {
                     this.toastShow(res.StatusInfo.ErrorDetailCode)
                 }
+                this.loadDataDone = true; // 请求成功 控制空数据显示
+                this.onFetching = false; // 防止重复请求 
             })
         },
         onScrollBottom () {
+            console.log(this.pageNum, '223222')
             if (this.onFetching) return;
             this.onFetching = true;
             this.pageNum += 1;
             if (this.pageNum > this.totalPage) return;
-            this.handleQuery();
+            this.handleTour()
         },
         handleClick(id) {
             console.log(id)
@@ -165,7 +168,7 @@ export default {
                 console.log(res)
                 if(res.data.StatusInfo.success){
                 // Object.assign(this.articleList,res.data.articleList)
-                this.articleList=this.articleList.concat(res.data.articleList)
+                this.articleList=res.data.articleList?this.articleList.concat(res.data.articleList):this.articleList.concat([])
                 this.totalPage=res.data.PageInfo.TotalPages
                 }
                 this.loadDataDone = true; // 请求成功 控制空数据显示
@@ -218,11 +221,12 @@ export default {
         },
     },
     created() {
-        this.$nextTick(()=>{
+
+        // this.$nextTick(()=>{
             this.type = this.$route.query.type
             this.search = this.$route.query.search
             this.handleQuery()
-        })
+        // }),
     },
     mounted() {
         console.log(this.$route.query.type)
