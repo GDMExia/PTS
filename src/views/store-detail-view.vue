@@ -2,8 +2,10 @@
   <div class="main">
     <div class="store-detail">
       <img class="store-img" :src="storeItem.pic" alt="">
-      <div class="store-detail-content">
+      <div class="store-detail-content" style="position: relative">
         <p class="f16 store-name">{{storeItem.merchants_name}}</p>
+        <p style="float:right;display: inline-block;padding: 12px 0 25px 5px;color: #000000;">专享抵积分{{parseFloat(storeItem.discount)}}折</p>
+        <p style="position:absolute;right:5%;top:26px;color:#FF7612;font-size: 10px;background-color: #FFEFE3;text-align: center;border-radius: 2px;margin-top:6px">1积分=1人民币</p>
         <div class="store-discount">
           <p class="store-address f14" style="width:100%;">
             <img style="height: 17px;" src="../../static/img/ic_yhq@2x.png" alt="">
@@ -129,6 +131,7 @@ export default {
   padding: 16px 0 25px 5px;
   font-weight: 600;
   color: #000000;
+  display: inline-block
 }
 .store-discount {
   display: flex;
@@ -155,7 +158,7 @@ export default {
   -webkit-box-orient: vertical;
 }
 .line {
-  border-top: 1px solid #E6E6E6;
+  border-top: 1px solid #ffeeee;
 }
 .mobile {
   width: 99px;

@@ -10,11 +10,11 @@
             </div>
             <div class="name">{{goods_name}}</div>
             <div class="time">
-              <img src="../../static/img/icon_time@2x.png" alt="" style="vertical-align: middle;margin-bottom: 2px">
+              <img src="../../static/img/icon_time@2x.png" alt="" style="vertical-align: bottom;margin-bottom: 2px">
               <p>活动时间：{{create_time}}</p>
             </div>
             <div class="time2" style="display: inline-block">
-              <img src="../../static/img/address@2x.png" alt="" style="vertical-align: middle;margin-bottom: 2px">
+              <img src="../../static/img/address@2x.png" alt="" style="vertical-align: bottom;margin-bottom: 2px">
               <p>地址：{{address}}</p>
             <!--            <img class="arrow" src="../../static/img/icon/ic_arrow03@2x.png" alt="">-->
             </div>
@@ -24,18 +24,18 @@
             </div>
         </div>
         <div class="personinfo">
-            <group>
+            <div style="background-color:#fff;margin-top: 20pxx">
                 <XInput title="报名人数" v-model="goods_number" disabled text-align="right"></XInput>
                 <XInput title="联系人" v-model="real_name" disabled text-align="right" placeholder="请输入年龄" placeholder-align="right"></XInput>
                 <XInput title="手机号" v-model="phone" disabled text-align="right" placeholder="请输入手机号" placeholder-align="right"></XInput>
-            </group>
+            </div>
         </div>
         <div class="priceinfo">
-            <group>
+            <div style="background-color:#fff;margin-top: 20px">
                 <XInput title="原价" v-model="total_price" disabled text-align="right"></XInput>
                 <XInput title="积分抵扣" v-model="deduction_price" disabled text-align="right" placeholder="请输入年龄" placeholder-align="right"></XInput>
                 <XInput title="实际支付" v-model="order_price" disabled text-align="right" placeholder="请输入手机号" placeholder-align="right"></XInput>
-            </group>
+            </div>
         </div>
 <!--        <div class="moreinfo">-->
 <!--            <img src="../../static/img/icon/icon_ddxq_tishi@2x.png" alt=""><p>如需退订，可在待使用状态下点击【退订】按钮，提交基本信息，我们将进行线下退款</p>-->

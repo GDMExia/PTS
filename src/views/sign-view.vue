@@ -4,23 +4,23 @@
             <div class="showdetail">
                 <div class="siginContinuousCount">
                     <div class="Num">{{siginContinuousCount}}</div>
-                    <p>连续签到（天）</p>
+                    <p style="margin-top: 9px">连续打卡(天)</p>
                 </div>
                 <div class="siginTotalCount">
                     <div class="Num">{{siginTotalCount}}</div>
-                    <p>累计签到（天）</p>
+                    <p style="margin-top: 9px">累计打卡(天)</p>
                 </div>
                 <div class="Count">
                     <div class="Num">{{Count}}</div>
-                    <p>获得总积分</p>
+                    <p style="margin-top: 9px">获得总积分</p>
                 </div>
             </div>
         </div>
-        <div class="calendar">
+        <div class="calendar" style="border-radius: 10px">
             <div class="date">
-                <div @click="cutmonth" style="cursor:pointer" class="left"></div>
-                <div class="nowdate">{{year+'/'+month}}</div>
-                <div @click="addmonth" style="cursor:pointer" class="right"></div>
+                <div @click="cutmonth" style="cursor:pointer;margin-right: 5%;" class="left"></div>
+                <div class="nowdate" style="15px">{{year+'/'+month}}</div>
+                <div @click="addmonth" style="cursor:pointer;margin-left: 5%;" class="right"></div>
             </div>
             <table>
                 <thead>
@@ -222,6 +222,7 @@ export default {
                     this.signList=res.data.signList.map(el=>{return el.signin_date})
                     this.siginTotalCount=res.data.siginTotalCount
                     this.siginContinuousCount=res.data.siginContinuousCount
+                    this.Count=res.data.siginTotalIntegral
                 }
             })
         },
@@ -231,7 +232,7 @@ export default {
                 console.log(res)
                 if(res.data.StatusInfo.ReturnCode==200){
                     this.$nextTick(()=>{
-                        this.Count=res.data.userInfo.account_price
+                        // this.Count=res.data.userInfo.account_price
                     })
                 }else{
                     if(res.data.StatusInfo.ReturnCode==603){
@@ -278,9 +279,9 @@ export default {
 .backgroundcolor{background-color: #81D8D0;width:100%;height:299px;padding-top: 20px;box-sizing: border-box}
 .showdetail{height:110px;display: flex;}
 .showdetail>div{flex:1}
-.Num{font-size:30px;text-align: center;color:#333;font-weight: bold}
+.Num{font-size:20px;text-align: center;color:#333;font-weight: bold}
 .showdetail>div p {font-size: 14px;text-align: center;color:#666}
-.calendar{width:84%;margin-left:8%;border-radius: 5px;background-color: #fff;height:275px;position: absolute;top:110px}
+.calendar{width:90%;margin-left:5%;border-radius: 10px;background-color: #fff;min-height:309px;position: absolute;top:90px}
 .date{font-size: 14px;color:#666;text-align: center;margin-top:20px}
 .date div{display: inline-block;font-size: 14px;color:#666;}
 .left{width:8px;height:8px;background: url('../assets/icon/arrow_left@2x.png') center no-repeat;background-size: 8px 8px}
@@ -288,20 +289,20 @@ export default {
 table{width:100%}
 table tr{margin:10px 0;display: flex}
 table thead tr{margin:10px 0 0 0;display: flex;}
-table thead tr td{color:#666;font-size: 10px}
-table td{margin:0 4%;display: inline-block;flex:1;text-align: center;padding-top:2px;width:20px;height:20px;font-size: 10px}
-.today{width:20px;height:20px;background: url('../assets/icon/VIPlevel@2x.png') center no-repeat;background-size: 20px 20px}
-.signed{width:20px;height:20px;background: url('../assets/icon/icon_data_b@2x.png') center no-repeat;background-size: 20px 20px}
-.unsigned{width:20px;height:20px;background: url('../assets/icon/icon_data_g@2x.png') center no-repeat;background-size: 20px 20px}
+table thead tr td{color:#666;font-size: 12px}
+table td{margin:0 2%;display: inline-block;flex:1;text-align: center;width:28px;height:28px;line-height:28px;font-size: 15px;color:#666}
+.today{width:28px;height:28px;background: url('../assets/icon/VIPlevel@2x.png') center no-repeat;background-size: 28px 28px}
+.signed{width:28px;height:28px;background: url('../assets/icon/icon_data_b@2x.png') center no-repeat;background-size: 28px 28px;color:#fff}
+.unsigned{width:28px;height:28px;background: url('../assets/icon/icon_data_g@2x.png') center no-repeat;background-size: 28px 28px;color:#fff}
 
-.discribe{font-size: 8px;color:#999}
+.discribe{font-size: 11px;color:#999}
 .discribe>div{display: inline-block;margin-left:5%;width:20%}
 .discribe>div>div{display: inline-block;}
-.todaydiscribe{width:7px;height:7px;background: url('../assets/icon/round_jt@2x.png') center no-repeat;background-size: 7px 7px;margin-right: 10%}
-.signeddiscribe{width:7px;height:7px;background: url('../assets/icon/round_yqd@2x.png') center no-repeat;background-size: 7px 7px;margin-right: 10%}
-.unsigneddiscribe{width:7px;height:7px;background: url('../assets/icon/round_wqd@2x.png') center no-repeat;background-size: 7px 7px;margin-right: 10%}
+.todaydiscribe{width:10px;height:10px;background: url('../assets/icon/round_jt@2x.png') center no-repeat;background-size: 10px 10px;margin-right: 10%;vertical-align:baseline}
+.signeddiscribe{width:10px;height:10px;background: url('../assets/icon/round_yqd@2x.png') center no-repeat;background-size: 10px 10px;margin-right: 10%;vertical-align:baseline}
+.unsigneddiscribe{width:10px;height:10px;background: url('../assets/icon/round_wqd@2x.png') center no-repeat;background-size: 10px 10px;margin-right: 10%;vertical-align:baseline}
 
-.more{margin-top:109px;width:100%;padding-left:2.5%}
+.more{margin-top:119px;width:100%;padding-left:2.5%;margin-left:5%}
 .title{font-size: 16px;color:#222;margin-bottom:23px}
 .more ul li{list-style-position: inside!important;font-size: 15px;color:#494949;list-style-type: disc!important;}
 

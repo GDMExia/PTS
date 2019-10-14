@@ -1,13 +1,13 @@
 <template>
     <div>
         <div class="form">
-        <group>
+        <div style="background-color:#fff;margin-top: 10px;border-radius: 10px">
             <XInput title="昵称" v-model="nickname" text-align="right"></XInput>
             <Selector title="性别" v-model="sex" :options="sexlist" direction="rtl"></Selector>
-            <Calendar title="生日" v-model="age" text-align="right" placeholder="请输入年龄" placeholder-align="right" disable-future></Calendar>
+            <Datetime title="生日" v-model="age" text-align="right" placeholder="请选择出生日期" :min-year="1930" :max-year="nowYear" placeholder-align="right" disable-future></Datetime>
             <XInput title="手机号" is-type="china-mobile" v-model="phone" text-align="right" placeholder="请输入手机号" placeholder-align="right"></XInput>
-            <XInput title="验证码" v-model="phone_code" text-align="right" placeholder="请输入验证码" placeholder-align="right" :show-clear="false" @on-blur="fixScroll"><div slot="right" style="color:#06D5DE;borderLeft:1px solid #F0F0F0" @click="getcode">{{codeshow}}</div></XInput>
-        </group>
+            <XInput title="验证码" v-model="phone_code" text-align="right" placeholder="请输入验证码" placeholder-align="right" :show-clear="false" @on-blur="fixScroll"><div slot="right" style="color:#06D5DE;borderLeft:1px solid #F0F0F0;height:20px;line-height: 20px;font-size: 14px" @click="getcode">{{codeshow}}</div></XInput>
+        </div>
         </div>
         <div class="handle">
             <div class="button" @click="setinfo">提交</div>
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { Group , Selector , XInput , Calendar } from 'vux'
+import { Group , Selector , XInput , Datetime } from 'vux'
 import { mapActions } from "vuex";
 
 export default {
@@ -24,7 +24,7 @@ export default {
         Group,
         Selector,
         XInput,
-        Calendar
+        Datetime
     },
     data(){
         return{
@@ -37,6 +37,7 @@ export default {
             clickable:true,
             codeshow:'获取验证码',
             interval:'',
+            nowYear: ''
         }
     },
     methods:{
@@ -111,6 +112,8 @@ export default {
     },
     created(){
         this.getinfo()
+        let date = new Date()
+        this.nowYear = date.getFullYear()
     },
     watch:{
         codeshow:{

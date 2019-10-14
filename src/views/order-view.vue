@@ -3,7 +3,7 @@
         <div class="orderitem" v-for="(item,index) of orderList" :key="index">
             <div class="name">{{item.goods_name}}</div>
             <div class="time">
-                <img src="../../static/img/icon_time@2x.png" alt="" style="vertical-align: middle;margin-bottom: 2px"><p>活动时间：{{item.create_time}}</p>
+                <img src="../../static/img/icon_time@2x.png" alt="" style="vertical-align: middle;margin-bottom: 2px"><p style="vertical-align: baseline">活动时间：{{item.create_time}}</p>
             </div>
             <!-- 0=待支付 ;1=待使用 ;2=已完成;3=退订 审核中;4=已退订; -->
             <div class="status" :class="item.order_status==0?'waitingforpay':item.order_status==1?'waiting':item.order_status==2?'finished':item.order_status==3?'checking':item.order_status==4?'unsubscribe':item.order_status==5?'cancelled':'ended'"></div>

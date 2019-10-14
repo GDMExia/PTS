@@ -4,7 +4,7 @@
       <img style="width: 40px; margin: 65% 0px; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
       <span> 暂无数据 </span>
     </div>
-    <scroller style="height: 100%;" v-if="activityList.length" height="-15" lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottomView">
+    <scroller v-if="activityList.length" height="-15" lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottomView">
       <div style="">
         <div class="container" v-for="item in activityList" :key="item.news_id" @click="$router.push(`/homes/shareDetail?id=${item.news_id}`)">
           <img class="activity-img" :src="item.pic" alt="">
@@ -40,7 +40,7 @@ export default {
         // {id: 1, img:'http://iph.href.lu/355x177', title: '【回顾】送给妈妈装满爱的花篮', created: '2019/07/24'},
         // {id: 2, img:'http://iph.href.lu/355x177', title: '【回顾】送给妈妈装满爱的花篮', created: '2019/07/24'},
         // {id: 3, img:'http://iph.href.lu/355x177', title: '【回顾】送给妈妈装满爱的花篮', created: '2019/07/24'},
-        
+
       ],
       pageNum: 1,
       totalPage: 0,
@@ -59,13 +59,13 @@ export default {
       }
       this.articleList(params).then(res=>{
         if(res.StatusInfo.success) {
-          this.activityList = res.newsList?this.activityList.concat(res.newsList):[]
+          this.activityList = res.newsList?this.activityList.concat(res.newsList):this.activityList
           this.totalPage = res.PageInfo.TotalPages
         } else {
           this.toastShow(res.StatusInfo.ErrorDetailCode)
         }
         this.loadDataDone = true; // 请求成功 控制空数据显示
-        this.onFetching = false; // 防止重复请求 
+        this.onFetching = false; // 防止重复请求
       })
     },
     onScrollBottom () {
@@ -77,13 +77,13 @@ export default {
     },
   },
   computed: {
-    
+
   },
   beforeDestroy() {
-    
+
   },
   created() {
-    
+
   },
   mounted() {
     this.handleQuery()

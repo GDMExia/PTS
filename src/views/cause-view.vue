@@ -2,7 +2,7 @@
   <div style="height:100%;">
     <home-provider></home-provider>
     <div>
-      <confirm 
+      <confirm
         v-model="show"
         title="有验证码才可查看哦"
         confirm-text="确定"
@@ -154,7 +154,7 @@ export default {
     touchmove(e){
       console.log(e.changedTouches[0].pageX-this.start)
       // console.log(this.$refs.top.scrollLeft)
-      
+
       if(this.start>e.changedTouches[0].pageX){
       this.$refs.top.scrollTo(this.end+this.start-e.changedTouches[0].pageX,0)
       }else{
@@ -190,10 +190,10 @@ export default {
     },
   },
   computed: {
-    
+
   },
   beforeDestroy() {
-    
+
   },
   created() {
     this.getSchoolList()
@@ -212,13 +212,13 @@ export default {
 .header_btn{display:inline-block;width:90px;height:40px;margin-left:8px;background-color:#fff;border-radius:30px;text-align: center;color:#06D5DE;padding-top: 10px;font-size: 15px;}
 .selected{color:#fff;background-color: #06D5DE;}
 .menu{width:100%;padding-top:15px;background-color: #F8F8F8;padding-bottom: 100px}
-.detail{min-height:257px;width: 95%;margin-left:2.5%;border-radius: 20px;background-color: #fff;margin-top:10px}
+.detail{min-height:257px;width: 95%;margin-left:2.5%;border-radius: 20px;background-color: #fff;margin-top:10px;overflow: hidden}
 .detail .image{background-color: aqua;width:100%;height:177px;border-radius: 20px 20px 0 0 }
 .detail .image img{width:100%;height:100%}
 .detail .body{background-color: #fff;position: relative;border-radius:0 0 20px 20px }
-.detail .body .title{max-width: 88%;color: #323643;font-size: 16px;margin-left:6%;margin-top:12px}
+.detail .body .title{max-width: 88%;color: #323643;font-size: 16px;margin-left:6%;margin-top:12px;font-weight: 600}
 .detail .body .more{color:#666666;font-size: 13px;margin-left:6%;margin-top:10px;padding-bottom: 15px}
-.detail .body .clock{width:12px;height: 12px;position: absolute;right:26.5%;bottom:17px}
+.detail .body .clock{width:12px;height: 12px;position: absolute;right:22%;bottom:16px}
 .detail .body .clock img{width:12px;height: 12px}
 .detail .body .time{position: absolute;bottom:15px;right: 6%;color:#999999;font-size: 12px}
 </style>

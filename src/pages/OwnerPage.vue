@@ -1,5 +1,5 @@
 <template>
-  <div style="height:100%;">
+  <div style="height:100%;width: 100%;overflow: hidden">
     <tabbarComponent :tabIndex=4></tabbarComponent>
     <home-provider></home-provider>
       <div class="personnalinfo">
@@ -33,15 +33,17 @@
         <div class="getvip" v-else @click="getvip">成为VIP</div>
       </div>
     <div class="mylink">
-    <Group>
+<!--    <Group style="border: 0">-->
+    <div style="background-color:#fff;border-radius: 10px;width: 100%;overflow: hidden">
       <CellBox :is-link="true" class="link" link=/owners/info><span>个人信息</span></CellBox>
       <CellBox :is-link="true" class="link" link=/owners/mywallet><span>我的积分</span></CellBox>
       <CellBox :is-link="true" class="link" link=/owners/myorder><span>我的订单</span></CellBox>
       <!-- <CellBox :is-link="true" class="link" link=/owners/mydiscount><span>我的优惠</span></CellBox> -->
       <CellBox :is-link="true" class="link" link=/owners/myshare><span>我的分享</span></CellBox>
       <CellBox :is-link="true" class="link" ><span>联系客服</span></CellBox>
+    </div>
       <!-- link=/merchant -->
-    </Group>
+<!--    </Group>-->
     </div>
     <div class="placeholder"></div>
 
@@ -168,8 +170,8 @@ export default {
 .personnalinfo .infobox{width:100%;margin-top: 33px}
 .personnalinfo .infobox .expiretime{border-right:solid 1px #DDD}
 /* .personnalinfo .infobox .integral{} */
-.personnalinfo .infobox div .num{color:#333333;font-size: 15px;width: 100%;text-align: center}
-.personnalinfo .infobox div .infoname{color:#999999;font-size: 10px;width: 100%;text-align: center}
+.personnalinfo .infobox div .num{color:#333333;font-size: 16px;width: 100%;text-align: center}
+.personnalinfo .infobox div .infoname{color:#999999;font-size: 16px;width: 100%;text-align: center}
 /* width:150px!important; */
 /* 42.7% */
 .getvip{width:42.7%;height:39px;margin-left:28.65%;text-align: center;background-color: #38DDE5;line-height: 39px;font-size: 15px;color:#fff;border-radius: 20px;position: absolute;bottom:-20px}

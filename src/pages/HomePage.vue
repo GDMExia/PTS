@@ -8,7 +8,7 @@
       <div class="contain-activity">
         <div>
           <img src="../../static/img/home_ic_xstj@2x.png" alt="">
-          <p>心水推荐</p>
+          <p>小众好物</p>
         </div>
         <div @click="$router.push('/homes/activity')">
           <img src="../../static/img/home_ic_hdfx@2x.png" alt="">
@@ -52,7 +52,7 @@
     <!-- </div> -->
     <tabbarComponent :tabIndex=0></tabbarComponent>
     <home-provider></home-provider>
-    
+
   </div>
 </template>
 
@@ -162,10 +162,10 @@ export default {
     },
   },
   computed: {
-    
+
   },
   beforeDestroy() {
-    
+
   },
   created() {
     this.handleUser()
@@ -197,7 +197,7 @@ export default {
     bottom:14px
   }
   .vux-slider{
-    height:160px!important;    
+    height:160px!important;
     padding-top: 10px;
     left: 2.7%;
     overflow: visible;
@@ -334,10 +334,10 @@ export default {
     color: #303030;
     margin-top: 8px;
     margin-bottom: 12px;
-    text-overflow: -o-ellipsis-lastline; 
-    overflow: hidden; 
-    text-overflow: ellipsis; 
-    display: -webkit-box; 
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
   }

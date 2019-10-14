@@ -10,7 +10,7 @@
             <img style="width: 40px; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
             <span> 暂无数据 </span>
         </div>
-        <scroller v-if="activityList.length" height="" lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottom">
+        <scroller v-if="activityList.length" height="" :bounce="false" :use-pullup="true"  lock-x @on-pullup-loading="onScrollBottom" ref="scrollerBottom">
           <div class="ofy_auto flx_1" style="margin-top: -15px;">
             <div class="container" @click="handleDetail(item.tourism_id)" v-for="(item, index) in activityList" :key="index">
               <img class="activity-img" :src="item.pic" alt="">
@@ -32,7 +32,7 @@
           <!-- <load-more v-show="pageNum > totalPage" :show-loading="false" :tip="'暂无数据'" background-color="#fbf9fe"></load-more> -->
         </scroller>
       </div>
-      
+
       <div>
         <div v-show="maskShow" class="modal_confirm_mask"></div>
         <confirm v-model="show"
@@ -50,7 +50,7 @@
       </div>
     <tabbarComponent :tabIndex=1></tabbarComponent>
     <home-provider></home-provider>
-    
+
   </div>
 </template>
 
@@ -102,7 +102,11 @@ export default {
       }
       this.tourList(params).then(res=>{
         if(res.StatusInfo.success) {
-          this.activityList = res.newsList?this.activityList.concat(res.newsList):[]
+          this.activityList=this.activityList?(res.newsList?this.activityList.concat(res.newsList):this.activityList):(res.newsList?this.activityList.concat(res.newsList):[])
+            this.$nextTick(() => {
+                this.$refs.scrollerBottom.reset()
+            })
+          // this.activityList = res.newsList?this.activityList.push(res.newsList):this.activityList
           this.totalPage = res.PageInfo.TotalPages
         } else {
           if(res.StatusInfo.ReturnCode==603){
@@ -113,7 +117,7 @@ export default {
           }
         }
         this.loadDataDone = true; // 请求成功 控制空数据显示
-        this.onFetching = false; // 防止重复请求 
+        this.onFetching = false; // 防止重复请求
       })
     },
     handleDetail(id) {
@@ -145,7 +149,7 @@ export default {
       }
       this.getVIP(params).then(res=>{
         if(res.StatusInfo.success) {
-          this.VIPprice = res.vipPrice 
+          this.VIPprice = res.vipPrice
         } else {
           if(res.StatusInfo.ReturnCode==603){
             this.$store.commit('setToken','')
@@ -166,7 +170,7 @@ export default {
           this.userInfo = res.userInfo
           if(res.userInfo.is_member == 0 || res.userInfo.over_time < moment().format("YYYY-MM-DD")) {
             this.show = true
-          } 
+          }
         } else {
           if(res.StatusInfo.ReturnCode==603){
             this.$store.commit('setToken','')
@@ -186,7 +190,7 @@ export default {
     ...mapGetters(['getToken'])
   },
   beforeDestroy() {
-    
+
   },
   created() {
     this.handleTourList()
@@ -199,7 +203,7 @@ export default {
     // })
     this.$bus.emit("onTabBarEvent", {});
     window.scrollTo(0,0)
-    
+
   }
 };
 </script>
@@ -262,10 +266,10 @@ export default {
   font-size: 16px;
   font-weight: 600;
   width: 72%;
-  text-overflow: -o-ellipsis-lastline; 
-  overflow: hidden; 
-  text-overflow: ellipsis; 
-  display: -webkit-box; 
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }

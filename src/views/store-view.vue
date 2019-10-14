@@ -111,13 +111,13 @@ export default {
     },
   },
   computed: {
-    
+
   },
   beforeDestroy() {
-    
+
   },
   created() {
-    
+
   },
   mounted() {
     this.handleQuery()

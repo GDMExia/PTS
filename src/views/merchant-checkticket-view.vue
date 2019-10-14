@@ -16,6 +16,7 @@
           <XInput :title='`<span style="color:#666666;font-size:14px;white-space: nowrap">本次消费积分抵扣</span>`' type="number" v-model="discount_price" text-align="right" placeholder=""  @blur="fixScroll"><span style="font-size: 14px" slot="right">分</span></XInput>
           <XInput :title='`<span style="color:#666666;font-size:14px;white-space: nowrap">本次消费实际应支付</span>`' v-model="really_price" text-align="right" :placeholder="`${discount_price?`${parseFloat(this.original_price)-parseFloat(this.discount_price)}元`:'待计算'}`" disabled @blur="fixScroll"></XInput>
         </group>
+        <div style="margin-top:20px;text-align:center;font-size: 20px;color:#333">嘻格格用户专享抵积分{{discount}}折</div>
 
         <div style="display: flex;width:100%;justify-content:space-around;margin-top:83px;position: fixed;bottom:0;height: 87px">
   <!--        <div style="flex: 1;background-color:rgba(6, 213, 222, 0.5);color:#fff;text-align: center;width:40%;height:40px;border-radius: 20px;margin:10px 5%;padding-top:9px" @click="$router.go(-1)">确认并返回</div>-->

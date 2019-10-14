@@ -46,6 +46,11 @@
       <div class="store-right f16">
         {{item.goods_name}}
       </div>
+      <p class="address">
+        <img src="../../static/img/ic_dz02@2x.png" alt="">
+        <span style="display: inline-block">地址：{{item.address}}</span>
+<!--        {{item.registration_time}}-->
+      </p>
       <p class="moretime">
         <img src="../../static/img/icon_time@2x.png" alt="">
         活动日期：{{item.registration_time}}
@@ -291,6 +296,19 @@ export default {
   color: #666666;
   font-size: 12px;
 }
+.address{
+  color: #666666;
+  font-size: 12px;
+  position:absolute;
+  bottom: 40px;
+  left:110px
+}
+.address span{
+  width: 215px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .moretime{
   color: #666666;
   font-size: 12px;
@@ -372,8 +390,11 @@ p img {
 }
 .store-right {
   margin-left: 10px;
-  align-items: center;
+  /*align-items: center;*/
   display: flex;
+  color: #000000;
+  font-size: 16px;
+  font-weight: 600;
 }
 .activity-type {
   width: 36px;

@@ -3,7 +3,7 @@
     <tabbarComponent :tabIndex=3></tabbarComponent>
     <home-provider></home-provider>
     <div>
-      <confirm 
+      <confirm
         v-model="show"
         title="有验证码才可查看哦"
         confirm-text="确定"
@@ -31,7 +31,7 @@
           <tab-item @on-item-click="handler">推荐</tab-item>
         </tab>
       </div>
-      <scroller v-if="articleList" height="-225" lock-x @on-scroll-bottom="onScrollBottom" :use-pullup="true" style="marginTop:20px;">
+      <scroller v-if="articleList" height="-225" lock-x @on-pullup-loading="onScrollBottom" :use-pullup="true" style="marginTop:20px;">
       <div class="menu">
         <div class="detail" @click="item.is_code!=1?goToArticleDetail({article_id:item.article_id}):confirmToArticleDetail({article_id:item.article_id,cid:item.cid})" v-for="(item,index) of articleList" :key="index">
           <div class="image"><img :src="item.cover" alt=""></div>
@@ -119,7 +119,7 @@ export default {
           this.totalPage=res.data.PageInfo.TotalPages
         }
         this.loadDataDone = true; // 请求成功 控制空数据显示
-        this.onFetching = false; // 防止重复请求 
+        this.onFetching = false; // 防止重复请求
       })
     },
     getSchoolArticleList(){
@@ -128,10 +128,13 @@ export default {
         if(res.data.StatusInfo.success){
           // Object.assign(this.articleList,res.data.articleList)
           this.articleList=this.articleList.concat(res.data.articleList)
+            this.$nextTick(() => {
+                this.$refs.scrollerBottom.reset()
+            })
           this.totalPage=res.data.PageInfo.TotalPages
         }
         this.loadDataDone = true; // 请求成功 控制空数据显示
-        this.onFetching = false; // 防止重复请求 
+        this.onFetching = false; // 防止重复请求
       })
     },
     goToArticleDetail(val){
@@ -179,10 +182,10 @@ export default {
     },
   },
   computed: {
-    
+
   },
   beforeDestroy() {
-    
+
   },
   created() {
     this.getSchoolList()
@@ -206,13 +209,13 @@ export default {
 .searchbar{height:91px;width:100%;background-color: #fff;position: relative;padding-top: 59px}
 .searchbar input{position: absolute;top:12px;display: inline-block;width:92%;height: 32px;border-radius: 20px;background-color: #F3F3F3;text-align:center;margin-left:4%;}
 .menu{width:100%;padding-top:23px;background-color: #F8F8F8;padding-bottom: 70px}
-.detail{min-height:257px;width: 95%;margin-left:2.5%;border-radius: 20px;background-color: #fff;margin-top:10px}
+.detail{min-height:257px;width: 95%;margin-left:2.5%;border-radius: 20px;background-color: #fff;margin-top:10px;overflow: hidden}
 .detail .image{background-color: aqua;width:100%;height:177px;border-radius: 20px 20px 0 0 }
 .detail .image img{width:100%;height:100%}
 .detail .body{background-color: #fff;position: relative;border-radius:0 0 20px 20px }
-.detail .body .title{max-width: 88%;color: #323643;font-size: 16px;margin-left:6%;margin-top:12px}
+.detail .body .title{max-width: 88%;color: #323643;font-size: 16px;margin-left:6%;margin-top:12px;font-weight: 600}
 .detail .body .more{color:#666666;font-size: 13px;margin-left:6%;margin-top:10px;padding-bottom: 15px}
-.detail .body .clock{width:12px;height: 12px;position: absolute;right:26.5%;bottom:17px}
+.detail .body .clock{width:12px;height: 12px;position: absolute;right:22%;bottom:16px}
 .detail .body .clock img{width:12px;height: 12px}
 .detail .body .time{position: absolute;bottom:15px;right: 6%;color:#999999;font-size: 12px}
 </style>

@@ -17,7 +17,7 @@
         <span> 暂无数据 </span>
       </div>
       <scroller v-if="activityListData.length" lock-x @on-scroll-bottom="onScrollBottom" :height="type==1?'-192':'152'" ref="scrollerBottom">
-        <div class="ofy_auto flx_1" style="margin-top: -15px;">
+        <div class="ofy_auto flx_1" style="margin-top: -10px;">
           <div v-for="item in activityListData" :key="item.goods_id" class="main-content" @click="$router.push(`/activities/activityDetail?id=${item.goods_id}`)">
             <div class="image">
               <img :src="item.cover" alt="">
@@ -97,7 +97,10 @@ export default {
       }
       this.activityList(params).then(res=>{
         if(res.StatusInfo.success) {
-          this.activityListData = res.goodsList?this.activityListData.concat(res.goodsList):[]
+          this.activityListData = res.goodsList?this.activityListData.concat(res.goodsList):this.activityListData
+            this.$nextTick(() => {
+                this.$refs.scrollerBottom.reset()
+            })
           this.totalPage = res.PageInfo.TotalPages
         } else {
           this.toastShow(res.StatusInfo.ErrorDetailCode)
@@ -231,9 +234,9 @@ export default {
 }
 .name-price .content-left {
   max-width: 227px;
-  white-space: nowrap;
+  /*white-space: nowrap;*/
   overflow: hidden;
-  text-overflow: ellipsis
+  /*text-overflow: ellipsis*/
 }
 .name-price .price {
   color: #DE1E06;

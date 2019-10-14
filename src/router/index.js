@@ -213,7 +213,7 @@ export default new Router({
         },
         {
         path: 'mywallet',
-        name: '我的钱包',
+        name: '我的积分',
         component: WalletView
         },
         {
@@ -268,7 +268,7 @@ export default new Router({
         },
         {
           path: 'sign',
-          name: '打卡',
+          name: '每日打卡',
           component: SignView
         }
       ]

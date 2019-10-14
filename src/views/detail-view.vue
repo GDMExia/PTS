@@ -2,7 +2,7 @@
   <div>
     <home-provider></home-provider>
     <div>
-      <confirm 
+      <confirm
         v-model="show"
         title="有验证码才可查看哦"
         confirm-text="确定"
@@ -19,8 +19,10 @@
         <div class="title">
             <div class="name">{{goodsInfo.title}}</div>
             <div class="publisher">
-                <div class="image"><img src="../../static/img/icon/icon_wode_s@2x.png" alt=""></div>
-                <div class="publishername">发布者：{{goodsInfo.create_name}}</div>
+              <div class="image"><img src="../../static/img/icon/icon_wode_s@2x.png" alt=""></div>
+              <div class="publishername">发布者：{{goodsInfo.create_name}}</div>
+              <div class="image2"><img src="../../static/img/icon_time@2x.png" alt=""></div>
+              <div class="publishertime">发布时间：{{goodsInfo.create_time}}</div>
             </div>
             <div class="origin" v-if="userBindInfo">
               <p class="originfrom">分享来自</p>
@@ -200,10 +202,10 @@ export default {
     }
   },
   computed: {
-    
+
   },
   beforeDestroy() {
-    
+
   },
   created() {
     this.getdetail()
@@ -220,12 +222,16 @@ export default {
 <style scoped>
 /* *{padding:0;margin:0;touch-action: none;} */
 .main{position: relative;background-color: #F9F9F9}
-.title{width:100%;height:117px;background-color: #fff;padding-top: 11px;box-sizing: border-box}
-.title .name{font-size: 16px;color:#222222;width:92%;margin-left:4%;}
-.title .publisher{margin-left:4%;margin-top:12px;height: 17px;position: relative;}
+.title{width:100%;height:97px;background-color: #fff;padding-top: 11px;box-sizing: border-box}
+.title .name{font-size: 16px;color:#222222;width:92%;margin-left:4%;font-weight: bolder}
+.title .publisher{margin-left:4%;margin-top:20px;height: 17px;position: relative;}
 .title .publisher .image{width:12px;height:12px;display: inline-block;position: absolute;top:3px}
 .title .publisher .image img {width:12px;height:12px}
+.title .publisher .image2{width:10px;height:10px;display: inline-block;position: absolute;bottom:-17px;left:1px}
+.title .publisher .image2 img {width:10px;height:10px}
+
 .title .publisher .publishername{font-size:12px;color:#666666;display: inline-block;position: absolute;left:5%}
+.title .publisher .publishertime{font-size:12px;color:#666666;display: inline-block;position: absolute;left:5%;bottom:-20px}
 .title .origin{border: 1px solid #06D5DE;color:#06D5DE;border-radius: 20px 0 0 20px;height:28px;line-height: 28px;position: absolute;right: 0;top:59px;font-size: 10px;}
 .title .origin img{background-color: #06D5DE;border-radius: 50%;width:20px;height:20px;display: inline-block;margin-top:4px}
 .title .origin p{display: inline-block}
@@ -248,5 +254,15 @@ export default {
 .otherlink .linklist .link div{display: inline-block}
 .otherlink .linklist .link .image{width:90px;height: 90px;margin-left: 10px;margin-top:15px;background-color: #06D5DE;border-radius: 10px }
 .otherlink .linklist .link .image img{width:90px;height: 90px;}
-.otherlink .linklist .link .linkname{color:#323643;font-size: 16px;vertical-align: top;margin-top:20px;vertical-align:top;height:22px;line-height: 22px;width:60%}
+.otherlink .linklist .link .linkname{
+  color: #000000;
+  font-size: 16px;
+  font-weight: 600;
+  vertical-align: top;
+  margin-top:20px;
+  vertical-align:top;
+  height:22px;
+  line-height: 22px;
+  width:70%
+}
 </style>
