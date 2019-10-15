@@ -2,7 +2,7 @@
     <div class="main">
          <!-- style="touch-action: none;" -->
         <div>
-        <confirm 
+        <confirm
             v-model="show"
             title="有验证码才可查看哦"
             confirm-text="确定"
@@ -102,7 +102,7 @@ export default {
             totalPage: 0,
             articleList:[],
             page:1,
-            pageSize:10,
+            pageSize:10000,
             show:false,
             pid:'',
             cid:'',
@@ -136,7 +136,7 @@ export default {
         handleTour() {
             const params = {
                 page: this.pageNum,
-                pageSize: 5,
+                pageSize: 10000,
                 token: this.$store.state.token,
                 keywords: this.search
             }
@@ -148,7 +148,7 @@ export default {
                     this.toastShow(res.StatusInfo.ErrorDetailCode)
                 }
                 this.loadDataDone = true; // 请求成功 控制空数据显示
-                this.onFetching = false; // 防止重复请求 
+                this.onFetching = false; // 防止重复请求
             })
         },
         onScrollBottom () {
@@ -172,7 +172,7 @@ export default {
                 this.totalPage=res.data.PageInfo.TotalPages
                 }
                 this.loadDataDone = true; // 请求成功 控制空数据显示
-                this.onFetching = false; // 防止重复请求 
+                this.onFetching = false; // 防止重复请求
             })
         },
         onScrollBottomSchool () {
@@ -230,7 +230,7 @@ export default {
     },
     mounted() {
         console.log(this.$route.query.type)
-        
+
     },
 }
 </script>
@@ -292,10 +292,10 @@ export default {
   font-size: 16px;
   font-weight: 600;
   width: 56%;
-  text-overflow: -o-ellipsis-lastline; 
-  overflow: hidden; 
-  text-overflow: ellipsis; 
-  display: -webkit-box; 
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }

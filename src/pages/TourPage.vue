@@ -48,6 +48,7 @@
             </p>
           </confirm>
       </div>
+    <loading :show="show1" :text="text1"></loading>
     <tabbarComponent :tabIndex=1></tabbarComponent>
     <home-provider></home-provider>
 
@@ -60,7 +61,7 @@ import {listPullLoading} from 'list-pull-loading'
 import "list-pull-loading/dist/list-pull-loading.css"
 import TabbarComponent from "@/components/TabbarComponent.vue";
 import {mapActions,mapGetters} from 'vuex'
-import { XInput, Scroller,LoadMore,Confirm } from 'vux'
+import { XInput, Scroller,LoadMore,Confirm,Loading } from 'vux'
 export default {
   components: {
     TabbarComponent,
@@ -68,7 +69,8 @@ export default {
     listPullLoading,
     Scroller,
     LoadMore,
-    Confirm
+    Confirm,
+    Loading
   },
   name: "HomePage",
   data() {
@@ -88,12 +90,15 @@ export default {
       maskShow: false,
       activityList: [],
       userInfo: {},
-      VIPprice: 0
+      VIPprice: 0,
+      text1: 'Loading',
+      show1: false
     };
   },
   methods: {
     ...mapActions(['tourList', 'userDetail', 'getVIP']),
     handleTourList() {
+        this.show1=true
       const params = {
         page: this.pageNum,
         pageSize: 10000,
@@ -108,12 +113,14 @@ export default {
             })
           // this.activityList = res.newsList?this.activityList.push(res.newsList):this.activityList
           this.totalPage = res.PageInfo.TotalPages
+            this.show1=false
         } else {
           if(res.StatusInfo.ReturnCode==603){
             this.$store.commit('setToken','')
             this.$router.go(0)
           }else{
             this.toastShow(res.StatusInfo.ErrorDetailCode)
+            this.show1=false
           }
         }
         this.loadDataDone = true; // 请求成功 控制空数据显示
