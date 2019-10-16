@@ -91,7 +91,7 @@ export default {
     handleQuery() {
       const params = {
         cid: this.typeId,
-        pageSize: 10000,
+        pageSize: 100,
         page: this.pageNum,
         goods_status: this.type
       }

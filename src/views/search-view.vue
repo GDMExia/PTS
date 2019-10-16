@@ -102,7 +102,7 @@ export default {
             totalPage: 0,
             articleList:[],
             page:1,
-            pageSize:10000,
+            pageSize:100,
             show:false,
             pid:'',
             cid:'',
@@ -136,7 +136,7 @@ export default {
         handleTour() {
             const params = {
                 page: this.pageNum,
-                pageSize: 10000,
+                pageSize: 100,
                 token: this.$store.state.token,
                 keywords: this.search
             }
