@@ -65,7 +65,7 @@
 <!--        </group>-->
         <!-- <div style="width:100%;text-align:center;color:#06D5DE;font-size:16px;margin-top:24px;margin-bottom:20px">请如实完善以下信息</div>  -->
 
-        <span style="color:#666666;font-size:14px;margin-left:2%">请上传店铺实景图片（最多9张）</span>
+        <span style="color:#666666;font-size:14px;margin-left:2%">请上传店铺实景图片（最多5张）</span>
 
         <group style="margin-bottom:20px">
         <div style="width: 80px;height: 80px; position: relative;cursor:pointer;display:inline-block">
@@ -73,7 +73,7 @@
                 <x-icon type="ios-plus-empty" size="80"></x-icon>
             </div>
             <div style="position:absolute;left:0;top:0;width:80px;height:80px">
-                <input type="file" id="upload" @change="uploadshop_picture" style="width:80px;height:80px;opacity:0;" multiple :disabled="shop_picture.length>=9"/>
+                <input type="file" id="upload" @change="uploadshop_picture" style="width:80px;height:80px;opacity:0;" multiple :disabled="shop_picture.length>=5"/>
             </div>
             <!-- <div v-for="(item.index) of document_pic">{{item}}</div> -->
         </div>
@@ -81,7 +81,7 @@
         <div v-for="(item,index) of shop_picture1" :key="index">{{item.name}}</div>
         <!-- <p style="position:absolute;right:0;top:15px;display:inline-block;width:60%;height:80px;color:#999999;font-size:14px">请上传营业执照及食品安全认证、有机食品认证、品牌授权书等行业相关证书或证件的图片</p> -->
         </group>
-        <span style="color:#666666;font-size:14px;margin-left:2%">请上传产品图片，可含价目表、菜单等（最多20种）</span>
+        <span style="color:#666666;font-size:14px;margin-left:2%">请上传产品图片，可含价目表、菜单等（最多5种）</span>
         <div v-for="(item,index) of goods_list" :key="index">
             <group>
             <div style="width: 80px;height: 80px; position: relative;cursor:pointer;display:inline-block">
@@ -90,7 +90,7 @@
                     <!-- <img :src="goods_list1[index]" alt=""  style="position:absolute;left:0;top:0;width:80px;height:80px"> -->
                 </div>
                 <div style="position:absolute;left:0;top:0;width:80px;height:80px">
-                    <input type="file" id="upload" @change="uploadgoods_list" style="width:80px;height:80px;opacity:0;" multiple :disabled="goods_list.length>=20"/>
+                    <input type="file" id="upload" @change="uploadgoods_list" style="width:80px;height:80px;opacity:0;" multiple :disabled="goods_list.length>=5"/>
                 </div>
 
                 <!-- <div v-for="(item.index) of document_pic">{{item}}</div> -->
