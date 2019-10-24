@@ -20,7 +20,7 @@
             <div class="search">
                 <x-input placeholder="搜索文章关键词" style="width: 95%;" placeholder-align="center" v-model="search"  @on-enter="handleQuery()"></x-input>
                 <!-- <input placeholder="搜索文章关键词" v-model="search" type="text"> -->
-                <img style="width: 15px; height: 15px;margin-top: 3px;" src="../../static/img/sousuo_icon_search@2x.png" alt="">
+                <img style="width: 15px; height: 15px;margin-top: 3px;" src="../../static/img/sousuo_icon_search@2x.png" alt="" @click="handleQuery">
             </div>
             <div>
                 <tab :line-width="1" custom-bar-width="22px">
@@ -107,7 +107,7 @@ export default {
             pid:'',
             cid:'',
             article_id:'',
-            code_name:''
+            code_name:'',
         }
     },
     computed: {
@@ -115,7 +115,8 @@ export default {
     },
     methods: {
         ...mapActions(['tourList']),
-        handleQuery(val) {
+        handleQuery() {
+            let val = this.search
             console.log(val)
             if(val!=0&&val!=1){
                 this.type=this.type
@@ -241,7 +242,7 @@ export default {
     box-shadow: 0 2px 4px rgba(236, 236, 236, 0.5)
 }
 .top .search {
-    width: 345px;
+    width: 100%;
     height: 32px;
     background: rgba(243,243,243,1);
     border-radius: 16px;

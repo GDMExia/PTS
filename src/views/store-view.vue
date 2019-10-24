@@ -18,8 +18,8 @@
             <p class="store-name">{{item.merchants_name}}
             <img class="activity-enable" v-show="item.is_goods" src="../../static/img/ic_hdbq@2x.png" alt="">
             </p>
-            <p class="store-address mt12"><img src="../../static/img/ic_dz02@2x.png" alt=""><span>{{item.address}}</span></p>
-            <p class="store-address mt10"><img src="../../static/img/ic_owner@2x.png" alt=""><span>{{item.contact}}</span></p>
+            <p class="store-address mt12" v-if="item.merchants_id!='102'"><img src="../../static/img/ic_dz02@2x.png" alt=""><span>{{item.address}}</span></p>
+            <p class="store-address mt10" v-if="item.merchants_id!='102'"><img src="../../static/img/ic_owner@2x.png" alt=""><span>{{item.contact}}</span></p>
           </div>
         </div>
       </div>

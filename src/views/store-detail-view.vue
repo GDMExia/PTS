@@ -4,9 +4,9 @@
       <img class="store-img" :src="storeItem.pic" alt="">
       <div class="store-detail-content" style="position: relative">
         <p class="f16 store-name">{{storeItem.merchants_name}}</p>
-        <p style="float:right;display: inline-block;padding: 16px 0 25px 5px;color: #000000;font-size:14px">专享抵积分{{parseFloat(storeItem.discount)}}折</p>
-        <p style="position:absolute;right:5%;top:30px;color:#FF7612;font-size: 10px;background-color: #FFEFE3;text-align: center;border-radius: 2px;margin-top:6px">1积分=1人民币</p>
-        <div class="store-discount">
+        <p style="float:right;display: inline-block;padding: 16px 0 25px 5px;color: #000000;font-size:14px" v-if="storeItem.merchants_id!='102'&&storeItem.merchants_id!='101'&&storeItem.merchants_id!='67'">专享抵积分{{parseFloat(storeItem.discount)}}折</p>
+        <p style="position:absolute;right:5%;top:30px;color:#FF7612;font-size: 10px;background-color: #FFEFE3;text-align: center;border-radius: 2px;margin-top:6px" v-if="storeItem.merchants_id!='102'&&storeItem.merchants_id!='101'&&storeItem.merchants_id!='67'">1积分=1人民币</p>
+        <div class="store-discount" v-if="storeItem.merchants_id!='102'">
           <p class="store-address f14" style="width:100%;">
             <img style="height: 17px;" src="../../static/img/ic_yhq@2x.png" alt="">
             <marquee><font class="store-address-item" style="width: 100%;">{{storeItem.announcement?storeItem.announcement:'嘻格格会员在本店消费，可享积分抵扣'}}</font></marquee>
@@ -18,12 +18,12 @@
             <img style="margin-right: 0;width: 6px;height: 11px; margin-left: 12px;" src="../../static/img/ic_yhq_arrow@2x.png" alt="">
           </p> -->
         </div>
-        <p class="store-address f14">
+        <p class="store-address f14" v-if="storeItem.merchants_id!='102'">
           <img src="../../static/img/ic_dz02@2x.png" alt="">
           <span class="store-address-item"> {{storeItem.address}}</span>
         </p>
-        <div class="line"></div>
-        <div class="name-price">
+        <div class="line" v-if="storeItem.merchants_id!='102'"></div>
+        <div class="name-price" v-if="storeItem.merchants_id!='102'">
           <p class="store-address f14" style="">
             <img src="../../static/img/mobile@2x.png" alt="">
             <span class="store-address-item">{{storeItem.phone}}</span>
@@ -45,6 +45,9 @@
           <img v-if="item.goods_status==2" src="../../static/img/yjs@2x.png" alt="">
         </div>
       </div>
+    </div>
+    <div class="homebutton"  @click="$router.push('/home')">
+      <img src="../../static/img/icon/ic_btn_home@2x.png" alt="">
     </div>
   </div>
 </template>
@@ -215,4 +218,6 @@ p img {
   display: flex;
   box-shadow: 0 -2px 14px rgba(0,0,0,0.06)
 }
+.homebutton{width:44px;height:44px;position: fixed;right:6.4%;bottom:128px}
+.homebutton img{width:44px;height:44px;}
 </style>

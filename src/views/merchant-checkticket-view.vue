@@ -197,7 +197,7 @@ export default {
                     console.log(res)
                     if (res.data.StatusInfo.success) {
                         this.$vux.toast.text('核销成功', 'top')
-                        this.$router.push({path: '/merchantHome', query: {token: this.token}})
+                        this.$router.replace({path: '/merchantHome', query: {token: this.token}})
                     } else {
                         this.$vux.toast.text(res.data.StatusInfo.ErrorDetailCode, 'top')
                     }
@@ -227,7 +227,7 @@ export default {
                 console.log(res)
                 if (res.data.StatusInfo.success) {
                     this.$vux.toast.text('核销成功', 'top')
-                    this.$router.push({path: '/merchantHome', query: {token: this.token}})
+                    this.$router.replace({path: '/merchantHome', query: {token: this.token}})
                 } else {
                     this.$vux.toast.text(res.data.StatusInfo.ErrorDetailCode, 'top')
                 }

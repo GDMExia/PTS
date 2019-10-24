@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <div>
-      
+
     </div>
     <swiper loop auto :list="picList" dots-position="center" @swiper-indicator-active-color="'#76F7FC'" height="227px"></swiper>
     <!-- <img class="activity-img" src="http://iph.href.lu/375x227" alt=""> -->
@@ -66,6 +66,9 @@
             现在升级VIP，特惠价{{VIPprice}}元/年
           </p>
         </confirm>
+    </div>
+    <div class="homebutton"  @click="$router.push('/tour')">
+      <img src="../../static/img/icon/ic_btn_home@2x.png" alt="">
     </div>
   </div>
 </template>
@@ -145,7 +148,7 @@ export default {
       }
       this.getVIP(params).then(res=>{
         if(res.StatusInfo.success) {
-          this.VIPprice = res.vipPrice 
+          this.VIPprice = res.vipPrice
         } else {
           if(res.StatusInfo.ReturnCode==603){
             this.$store.commit('setToken','')
@@ -166,7 +169,7 @@ export default {
           this.userInfo = res.userInfo
           if(res.userInfo.is_member == 0 || res.userInfo.over_time < moment().format("YYYY-MM-DD")) {
             this.show = true
-          } 
+          }
         } else {
           if(res.StatusInfo.ReturnCode==603){
             this.$store.commit('setToken','')
@@ -203,7 +206,7 @@ export default {
         }
       }, 16)
     },
- 
+
     // 为了计算距离顶部的高度，当高度大于60显示回顶部图标，小于60则隐藏
     scrollToTop () {
       const that = this
@@ -269,7 +272,7 @@ export default {
     }
   },
   beforeDestroy() {
-    
+
   },
   created() {
     this.handleDetail()
@@ -463,8 +466,10 @@ p img {
 .submit {
   background: #06D5DE;
   color: #ffffff;
-  -moz-box-shadow:0px 6px 9px rgba(0, 0, 0, 0.14); 
-  -webkit-box-shadow:0px 6px 9px rgba(0, 0, 0, 0.14); 
+  -moz-box-shadow:0px 6px 9px rgba(0, 0, 0, 0.14);
+  -webkit-box-shadow:0px 6px 9px rgba(0, 0, 0, 0.14);
   box-shadow:0px 6px 9px rgba(0, 0, 0, 0.14);
 }
+.homebutton{width:44px;height:44px;position: fixed;right:6.4%;bottom:128px}
+.homebutton img{width:44px;height:44px;}
 </style>

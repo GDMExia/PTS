@@ -6,7 +6,7 @@
     </div>
     <!-- <div class="container"> -->
       <div class="contain-activity">
-        <div>
+        <div @click="goto">
           <img src="../../static/img/home_ic_xstj@2x.png" alt="">
           <p>小众好物</p>
         </div>
@@ -160,6 +160,9 @@ export default {
     handleToken(){
       this.accountLogin(this.GetQueryString('token'))
     },
+    goto () {
+        location.href=`http://xgh5.suoqoo.com/#/home`
+    }
   },
   computed: {
 

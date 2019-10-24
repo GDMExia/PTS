@@ -8,7 +8,7 @@ import Axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueBus from 'vue-bus'
 
-import Vconsole from 'vconsole'
+// import Vconsole from 'vconsole'
 // import $ from 'jquery'
 
 import App from './App'
@@ -99,8 +99,8 @@ router.beforeEach((to, from, next) => {
 //   routes
 // })
 
-const vConsole = new Vconsole()
-console.log(vConsole)
+// const vConsole = new Vconsole()
+// console.log(vConsole)
 
 FastClick.attach(document.body)
 

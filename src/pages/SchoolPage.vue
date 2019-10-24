@@ -24,7 +24,7 @@
         <FlexboxItem class="header_btn"><div @click="$router.push({path:'/tour'})"><p>套餐查询</p></div></FlexboxItem>
       </Flexbox>
       <div class="searchbar">
-        <input type="search" placeholder="搜索文章关键词" v-model="value" @search="search"/>
+        <input type="search" placeholder="搜索文章关键词" v-model="value" @search="search" @click="search"/>
         <tab default-color="#333333" :active-color="'#06D5DE'" custom-bar-width="32px">
           <tab-item @on-item-click="handler" selected>最新</tab-item>
           <tab-item @on-item-click="handler">最热</tab-item>
@@ -95,7 +95,7 @@ export default {
       window.scrollTo(0, 0);
     },
     search(){
-      this.$router.push(`/tours/search?type=1&search=${this.value}`)
+      this.$router.push(`/tours/search?type=1`)
     },
     handler(val){
       this.btn=val
