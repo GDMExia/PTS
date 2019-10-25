@@ -214,6 +214,8 @@ export default {
   mounted() {
     this.$bus.emit("onTabBarEvent", {});
     window.scrollTo(0,0)
+      this.share()
+
   }
 };
 </script>
