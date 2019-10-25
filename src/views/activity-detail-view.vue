@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <img class="activity-img" :src="detail.cover" alt="">
+    <img class="activity-img" :src="detail.banner" alt="">
     <div class="tour-detail">
       <p class="title-text">{{detail.goods_name}}</p>
       <div class="name-price">
@@ -42,7 +42,7 @@
       <span class="local-life-more">MORE</span>
     </div>
     <div v-for="item in storeList" :key="item.goods_id"  @click="backTop(item.goods_id)" class="store" style="position: relative">
-      <img class="store-img" :src="item.cover" alt="">
+      <img class="store-img" :src="item.thumb_img" alt="">
       <div class="store-right f16">
         {{item.goods_name}}
       </div>
