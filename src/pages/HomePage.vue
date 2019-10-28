@@ -40,7 +40,7 @@
         <div class="getmore" v-show="recomend_list.length>0">
           <div class="moreitem" v-for="(item, index) in recomend_list" :key="index" @click="$router.push(`/activities/activityDetail?id=${item.goods_id}`)">
             <div class="image">
-              <img :src="item.banner" alt="">
+              <img :src="item.thumb_img" alt="">
             </div>
             <p>{{item.goods_name}}</p>
             <img class="activity-type" v-if="item.pid==2" src="../../static/img/ic_guanfang@2x.png" alt="">
@@ -163,6 +163,26 @@ export default {
     goto () {
         location.href=`http://xgh5.suoqoo.com/#/home`
     },
+      setUid () {
+        let data = new FormData()
+          data.append('token', this.$store.state.token)
+          data.append('uid_number', this.$store.state.uid)
+          this.$http({
+              method: 'post',
+              url: `${this.rootPath}/User/createBindPromote?token=${this.$store.state.token}`,
+              header: {
+                  'Content-Type':'multipart/form-data'
+              },
+              data: data
+          }).then(res=>{
+              if(res.data.StatusInfo.success){
+                  // this.$router.push('/owner')
+              }else{
+                  this.$vux.toast.text(res.data.ErrorDetailCode, 'top')
+                  this.setUid ()
+              }
+          });
+      },
       // 分享
       share() {
           let params = {
@@ -237,6 +257,10 @@ export default {
   mounted() {
     this.$bus.emit("onTabBarEvent", {});
     this.$store.commit('setRefuse',true)
+      if(this.$store.state.uid) {
+          this.setUid()
+      }
+      // alert(this.$store.state.uid)
     // console.log(this.$store.state.token)
   }
 };

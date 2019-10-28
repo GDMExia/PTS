@@ -12,9 +12,10 @@
           <p style="color:#1BDBE4;font-size: 12px;position: absolute;width: 93%;height:26px;line-height: 26px;text-align: right;">{{uid_number}}</p>
         </div>
         </div>
+        <div class="qrcode2" v-if="is_member==1" @click="$router.push('/owners/mycode')"><img src="../../static/img/icon/qr@2x-2.png" alt="">我的名片</div>
         <div class="name">{{nickname}}</div>
         <div class="phone">{{phone}}</div>
-        <div class="qrcode" v-if="is_member==1" @click="showcode"><img src="../../static/img/icon/qr@2x.png" alt=""></div>
+        <div class="qrcode" v-if="is_member==1" @click="showcode"><img src="../../static/img/icon/qr@2x.png" alt="">我的核销码</div>
         <Flexbox class="infobox" v-if="is_member==1">
           <FlexboxItem class="expiretime">
             <p class="num">{{over_time}}</p>
@@ -22,7 +23,7 @@
           </FlexboxItem>
           <FlexboxItem class="integral">
             <p class="num">{{account_price}}</p>
-            <p class="infoname">当前积分</p>
+            <p class="infoname">当前积分<img class="payformore" @click="$router.push('/owners/pay')" src="../../static/img/icon/payformore@2x.png" /></p>
           </FlexboxItem>
         </Flexbox>
         <Flexbox v-if="is_member==1" style="marginTop:12px">
@@ -210,9 +211,9 @@ export default {
     // this.$wechat.hideOptionMenu()
   },
   mounted() {
-    // this.$nextTick(()=>{
-    //   this.$wechat.hideOptionMenu()
-    // })
+    this.$nextTick(()=>{
+      this.$wechat.showOptionMenu()
+    })
     this.$bus.emit("onTabBarEvent", {});
     this.getDate()
   }
@@ -228,13 +229,16 @@ export default {
 .personnalinfo .vip img{width:100%;height: 26px;}
 .personnalinfo .name{color:#333333;font-size: 20px;font-weight: bold;width:100%;text-align: center;margin-top: 20px}
 .personnalinfo .phone{color:#494949;font-size: 18px;width: 100%;text-align: center;margin-top: 12px}
-.personnalinfo .qrcode{position: absolute;right:8%;top:60px;width: 48px;height: 48px}
+.personnalinfo .qrcode2{position: absolute;left:8%;top:60px;width: 48px;height: 48px;font-size: 10px;color:#999999;white-space: nowrap}
+.personnalinfo .qrcode2 img{width: 48px;height: 48px}
+.personnalinfo .qrcode{position: absolute;right:8%;top:60px;width: 48px;height: 48px;font-size: 10px;color:#999999;white-space: nowrap}
 .personnalinfo .qrcode img{width: 48px;height: 48px}
 .personnalinfo .infobox{width:100%;margin-top: 33px}
 .personnalinfo .infobox .expiretime{border-right:solid 1px #DDD}
 /* .personnalinfo .infobox .integral{} */
 .personnalinfo .infobox div .num{color:#333333;font-size: 16px;width: 100%;text-align: center}
-.personnalinfo .infobox div .infoname{color:#999999;font-size: 16px;width: 100%;text-align: center}
+.personnalinfo .infobox div .infoname{color:#999999;font-size: 16px;width: 100%;text-align: center;display: inline-block}
+.personnalinfo .infobox div .payformore{width: 31px;height: 17px;display: inline-block;vertical-align: bottom}
 /* width:150px!important; */
 /* 42.7% */
 .getvip{width:42.7%;height:39px;margin-left:28.65%;text-align: center;background-color: #38DDE5;line-height: 39px;font-size: 15px;color:#fff;border-radius: 20px;position: absolute;bottom:-20px}

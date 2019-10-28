@@ -103,7 +103,7 @@ export default {
     ...mapGetters(['getToken'])
   },
   methods: {
-    ...mapActions(['tourDetails', 'changeUser','wxShare', 'userDetail', 'getVIP']),
+    ...mapActions(['tourShareDetails', 'changeUser','wxShare', 'userDetail', 'getVIP']),
     handleDetail() {
       let params = {
         // token: this.GetQueryString('token'),
@@ -114,7 +114,7 @@ export default {
       if(location.href.includes('uid_number')) {
         params.uid_number = location.href.split('uid_number=')[1]
       }
-      this.tourDetails(params).then(res=>{
+      this.tourShareDetails(params).then(res=>{
         if(res.StatusInfo.success) {
           this.tourItem = res.tourismInfo
           this.picList = res.picList.map(item=>{
@@ -215,12 +215,11 @@ export default {
     },
     // 分享
     share() {
-        // alert(location.href.replace('tourDetail', 'tourShareDetail'))
       let params = {
         token: this.$store.state.token,
         article_cid: 1,
         article_id: this.$route.query.id,
-        share_url: encodeURIComponent(location.href.replace('tourDetail', 'tourShareDetail')),
+        share_url: encodeURIComponent(location.href),
         // share_url: encodeURIComponent(`http://pts.suoqoo.com/nh5/#/tours/tourDetail?id=${this.$route.query.id}`),
         // share_hash_url: `/tours/tourDetail?id=${this.$route.query.id}`,
         is_article: 1

@@ -52,6 +52,7 @@ const state = {
   storeDetail: [],
   shareList: [],
   shareUserList: [],
+  uid: ''
 }
 
 const getters = {
@@ -203,7 +204,7 @@ const actions = {
   activityDetails({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
-      `${rootPath}/Index/goodsView?${params}`, 
+      `${rootPath}/Index/goodsView?${params}`,
     ).then(res => {
       if (res.data.StatusInfo.success) {
         commit(types.ACTIVITY_DETAILS, res.data)
@@ -216,6 +217,18 @@ const actions = {
     let params = qs.stringify(playload)
     return Axios.get(
       `${rootPath}/User/goodsTourismView?${params}`
+    ).then(res => {
+      if (res.data.StatusInfo.success) {
+        commit(types.TOUR_DETAILS, res.data)
+      }
+      return new Promise(resolve=>{resolve(res.data)})
+    })
+  },
+  // 旅游分享详情
+  tourShareDetails({commit}, playload) {
+    let params = qs.stringify(playload)
+    return Axios.get(
+      `${rootPath}/User/goodsTourismShareView?${params}`
     ).then(res => {
       if (res.data.StatusInfo.success) {
         commit(types.TOUR_DETAILS, res.data)
@@ -383,6 +396,9 @@ const mutations = {
   setRefuse(state, playload) {
     state.refuse = playload
   },
+  setUid(state, playload) {
+    state.uid = playload
+  },
   [types.BNNER_LIST](state, playload) {
     state.bannerList = playload
   },
@@ -438,10 +454,10 @@ const mutations = {
 
 const middlewares = store => {
     store.subscribe((mutation, state) => {
-  
+
     })
   }
-  
+
   const module = {
     state,
     getters,

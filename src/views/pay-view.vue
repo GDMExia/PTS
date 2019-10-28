@@ -56,7 +56,7 @@ export default {
             method: 'post',
             url: `${this.rootPath}/User/createPackageOrder?token=${this.$store.state.token}`,
             header: {
-                'Content-Type':'multipart/form-data'  
+                'Content-Type':'multipart/form-data'
             },
             params: {token:this.$store.state.token,package_id:this.btn}
             }).then(res=>{
@@ -67,7 +67,7 @@ export default {
                     let orderNo=res.data.order_no
                     if(res.data.StatusInfo.success){
                         // this.$router.push('/owner')
-                        location.href=this.rootPath+'/Pay/orderPay?order_no='+orderNo
+                        location.href=this.rootPath+'/Pay/packageOrderPay?order_no='+orderNo
                     }
                 }else{
                     this.$vux.toast.text('充值失败', 'top')

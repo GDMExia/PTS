@@ -13,7 +13,7 @@
     <scroller v-if="storeList.length" height="-137" lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottom">
       <div class="ofy_auto flx_1" style="margin-top: -15px;">
         <div v-for="item in storeList" :key="item.id" @click="$router.push(`/homes/storeDetail?id=${item.merchants_id}`)" class="store">
-          <img class="store-img" :src="item.pic" alt="">
+          <img class="store-img" :src="item.cover" alt="">
           <div class="store-right">
             <p class="store-name">{{item.merchants_name}}
             <img class="activity-enable" v-show="item.is_goods" src="../../static/img/ic_hdbq@2x.png" alt="">

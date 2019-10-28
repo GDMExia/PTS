@@ -127,7 +127,7 @@ export default {
     handleActivityType() {
       this.activityType().then(res=>{
         if(res.StatusInfo.success) {
-          this.typeList = res.cateTree
+          this.typeList = res.cateTree.reverse()
           this.typeId = this.typeList[0].cid
           this.handleQuery()
         } else {

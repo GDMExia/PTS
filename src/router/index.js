@@ -41,8 +41,10 @@ import merchantLogin from '@/views/merchant-login-view'
 import merchantHome from '@/views/merchant-home-view'
 import merchantCheck from '@/views/merchant-checkticket-view'
 import merchantCheckSec from '@/views/merchant-checkticket-sec-view'
+import mycode from '@/views/mycode'
 
 import TourDetailView from '@/views/tour-detail-view'
+import TourDetailShareView from '@/views/tour-detail-share-view'
 import ActivityDetailView from '@/views/activity-detail-view'
 import StoreDetailView from '@/views/store-detail-view'
 import PayView from '@/views/pay-view'
@@ -129,6 +131,11 @@ export default new Router({
           path: 'tourDetail',
           name: '详情',
           component: TourDetailView
+        },
+        {
+          path: 'tourShareDetail',
+          name: '分享详情',
+          component: TourDetailShareView
         },
         {
           path: 'search',
@@ -270,6 +277,11 @@ export default new Router({
           path: 'sign',
           name: '每日打卡',
           component: SignView
+        },
+        {
+          path: 'mycode',
+          name: '名片',
+          component: mycode
         }
       ]
     },

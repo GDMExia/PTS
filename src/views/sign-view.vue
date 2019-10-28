@@ -255,6 +255,7 @@ export default {
                 if(res.data.StatusInfo.success){
                     this.$vux.toast.text('签到成功', 'top')
                     this.getSignlist()
+                    this.$router.push('/owners/mycode')
                 }else{
                     this.$vux.toast.text(res.data.StatusInfo.ErrorDetailCode, 'top')
                 }
@@ -262,6 +263,9 @@ export default {
         }
     },
     mounted(){
+        this.$nextTick(()=>{
+            this.$wechat.showOptionMenu()
+        })
         this.getNowDate()
         // console.log(this.getDays(2016,2))
         this.getDays(this.year,this.month)

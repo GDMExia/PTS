@@ -12,7 +12,8 @@
         <group>
             <XInput title="昵称" v-model="nickname" text-align="right"></XInput>
             <Selector title="性别" v-model="sex" :options="sexlist" direction="rtl"></Selector>
-            <Calendar title="生日" v-model="age" text-align="right" placeholder="请输入年龄" placeholder-align="right"></Calendar>
+            <Datetime title="生日" v-model="age" text-align="right" placeholder="请选择出生日期" :min-year="1930" :max-year="nowYear" placeholder-align="right" disable-future></Datetime>
+<!--            <Calendar title="生日" v-model="age" text-align="right" placeholder="请输入年龄" placeholder-align="right"></Calendar>-->
             <XInput title="手机号" is-type="china-mobile" v-model="phone" text-align="right" placeholder="请输入手机号" placeholder-align="right"></XInput>
             <XInput title="验证码" v-model="phone_code" text-align="right" placeholder="请输入验证码" placeholder-align="right" :show-clear="false" @on-blur="fixScroll"><div slot="right" style="color:#06D5DE;borderLeft:1px solid #F0F0F0" @click="getcode">{{codeshow}}</div></XInput>
         </group>
@@ -24,7 +25,7 @@
 </template>
 
 <script>
-import { Group , Selector , XInput , Calendar } from 'vux'
+import { Group , Selector , XInput , Calendar, Datetime } from 'vux'
 import { setInterval, clearInterval } from 'timers';
 
 export default {
@@ -32,7 +33,8 @@ export default {
         Group,
         Selector,
         XInput,
-        Calendar
+        Calendar,
+        Datetime
     },
     data(){
         return{
@@ -46,7 +48,8 @@ export default {
             clickable:true,
             interval:'',
             overTime:'',
-            vipPrice:''
+            vipPrice:'',
+            nowYear: ''
         }
     },
     created() {
@@ -55,6 +58,8 @@ export default {
     // this.$http.get('http://pts.suoqoo.com/home.php/User/getUserInfo?token='+this.$store.state.token).then(res=>{
         this.getvipinfo()
         this.getinfo()
+        let date = new Date()
+        this.nowYear = date.getFullYear()
     },
     methods:{
         getvipinfo(){

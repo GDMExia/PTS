@@ -36,6 +36,11 @@ Vue.use(ToastPlugin)
 
 // 全局路由守卫
 router.beforeEach((to, from, next) => {
+  var rega = new RegExp("(^|&)uid_number=([^&]*)(&|$)");
+  const uid = location.search.substr(1).match(rega)
+  if(uid) {
+    store.commit('setUid', uid[2])
+  }
   const token = store.state.token
   // const refuse = store.state.refuse
   console.log(to.fullPath)
