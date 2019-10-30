@@ -2,7 +2,7 @@
     <div class="main">
         <p>请选择充值金额</p>
         <div class="selectmode">
-            <div class="button" :class="btn==item.package_id?'selected':''" @click="change(item.package_id)" v-for="(item,index) of vipList" :key="index">
+            <div class="button" :class="btn==item.package_id?'selected':''" @click="change(item.package_id)" v-for="(item,index) of vipList" :key="index" v-if="item.package_name!='100元'">
                 <p class="price">{{item.package_name}}</p>
                 <p class="detail">得{{item.package_integral}}积分</p>
             </div>
@@ -14,7 +14,7 @@
                 <p class="price">500元</p>
                 <p class="detail">得1500积分</p>
             </div> -->
-            <div class="placehold"></div>
+<!--            <div class="placehold"></div>-->
         </div>
         <div class="more">
             <p>充值说明</p>

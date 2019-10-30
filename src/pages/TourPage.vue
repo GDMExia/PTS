@@ -10,7 +10,7 @@
             <img style="width: 40px; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
             <span> 暂无数据 </span>
         </div>
-        <scroller v-if="activityList.length" height="" :bounce="false" :use-pullup="true"  lock-x @on-pullup-loading="onScrollBottom" ref="scrollerBottom">
+        <scroller v-if="activityList.length" height="-87" :bounce="false" :scrollbar-y="true" :use-pullup="true"  lock-x @on-pullup-loading="onScrollBottom" ref="scrollerBottom" @on-scroll="handleSC">
           <div class="ofy_auto flx_1" style="margin-top: -15px;">
             <div class="container" @click="handleDetail(item.tourism_id)" v-for="(item, index) in activityList" :key="index">
               <img class="activity-img" :src="item.pic" alt="">
@@ -98,6 +98,7 @@ export default {
   },
   methods: {
     ...mapActions(['tourList', 'userDetail', 'getVIP', 'wxShare']),
+      handleSC(position){console.log(position)},
     handleTourList() {
         this.show1=true
       const params = {
