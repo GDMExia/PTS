@@ -62,8 +62,9 @@
         @on-confirm="onConfirm">
           <p style="text-align:left;">
             开通VIP后转发文章可带自己的名片信息
-            可浏览更多旅游资讯
-            现在升级VIP，特惠价{{VIPprice}}元/年
+            并可浏览更多旅游资讯
+            现在成为终身会员 只需{{VIPprice}}元
+            还可得到400消费积分（1积分=1元）
           </p>
         </confirm>
     </div>
