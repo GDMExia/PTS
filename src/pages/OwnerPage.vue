@@ -17,17 +17,17 @@
         <div class="phone">{{phone}}</div>
         <div class="qrcode" v-if="is_member==1" @click="showcode"><img src="../../static/img/icon/qr@2x.png" alt="">我的核销码</div>
         <Flexbox class="infobox" v-if="is_member==1">
-          <FlexboxItem class="expiretime">
+          <!-- <FlexboxItem class="expiretime">
             <p class="num">{{over_time}}</p>
             <p class="infoname">会员到期日</p>
-          </FlexboxItem>
+          </FlexboxItem> -->
           <FlexboxItem class="integral">
             <p class="num">{{account_price}}</p>
             <p class="infoname">当前积分<img class="payformore" @click="$router.push('/owners/pay')" src="../../static/img/icon/payformore@2x.png" /></p>
           </FlexboxItem>
         </Flexbox>
         <Flexbox v-if="is_member==1" style="marginTop:12px">
-          <FlexboxItem v-if="is_member==1"><div class="header_btn header_btn1" @click="getvip">续费VIP</div></FlexboxItem>
+          <!-- <FlexboxItem v-if="is_member==1"><div class="header_btn header_btn1" @click="getvip">续费VIP</div></FlexboxItem> -->
           <FlexboxItem><div class="header_btn header_btn2" @click="$router.push('/owners/sign')">每日打卡</div></FlexboxItem>
           <!-- <FlexboxItem><div class="header_btn" @click="$router.push('/owners/advice')">成为vip</div></FlexboxItem> -->
         </Flexbox>
@@ -244,7 +244,7 @@ export default {
 .getvip{width:42.7%;height:39px;margin-left:28.65%;text-align: center;background-color: #38DDE5;line-height: 39px;font-size: 15px;color:#fff;border-radius: 20px;position: absolute;bottom:-20px}
 .header_btn{width:79%;margin-left:28.6%;height:39px;border-radius:20px;background:#06D5DE;line-height: 39px;text-align: center;color:#fff;font-size: 15px;flex: 1}
 .header_btn1{margin-left: 13.3%}
-.header_btn2{margin-left: 6%}
+.header_btn2{margin-left: 11%}
 .mylink{width: 95%;margin-left: 2.5%;margin-top:35px}
 .mylink .link{height:52px}
 .placeholder{height:100px}
