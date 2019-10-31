@@ -15,14 +15,14 @@
         </div>
         <div class="usedetail" v-if="btn==1&&paymentList">
             <div class="detail" v-for="(item,index) of paymentList" :key="index">
-                <div class="name">{{item.note}}</div>
+                <div class="name">{{item.note.split('-')[0]}}</div>
                 <div class="time">{{item.create_time}}</div>
                 <div class="changenum">-{{item.order_price}}</div>
             </div>
         </div>
         <div class="getdetail" v-if="btn==2&&paymentList.length>0">
             <div class="detail" v-for="(item,index) of paymentList" :key="index">
-                <div class="name">{{item.note}}</div>
+                <div class="name">{{item.note.split('+')[0]}}</div>
                 <div class="time">{{item.create_time}}</div>
                 <div class="changenum">+{{item.order_price}}</div>
             </div>
