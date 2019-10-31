@@ -23,7 +23,8 @@
           </FlexboxItem> -->
           <FlexboxItem class="integral">
             <p class="num">{{account_price}}</p>
-            <p class="infoname">当前积分<img class="payformore" @click="$router.push('/owners/pay')" src="../../static/img/icon/payformore@2x.png" /></p>
+            <p class="infoname">当前积分</p>
+            <!-- <img class="payformore" @click="$router.push('/owners/pay')" src="../../static/img/icon/payformore@2x.png" /> -->
           </FlexboxItem>
         </Flexbox>
         <Flexbox v-if="is_member==1" style="marginTop:12px">
