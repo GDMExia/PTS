@@ -28,7 +28,8 @@
           </FlexboxItem>
         </Flexbox>
         <Flexbox v-if="is_member==1" style="marginTop:12px">
-          <!-- <FlexboxItem v-if="is_member==1"><div class="header_btn header_btn1" @click="getvip">续费VIP</div></FlexboxItem> -->
+          <!-- <FlexboxItem v-if="is_member==1"><div class="header_btn header_btn1" @click="getvip">充值</div></FlexboxItem>$router.push('/owners/pay') -->
+          <FlexboxItem v-if="is_member==1"><div class="header_btn header_btn1" @click="$router.push('/owners/pay')">充值</div></FlexboxItem>
           <FlexboxItem><div class="header_btn header_btn2" @click="$router.push('/owners/sign')">每日打卡</div></FlexboxItem>
           <!-- <FlexboxItem><div class="header_btn" @click="$router.push('/owners/advice')">成为vip</div></FlexboxItem> -->
         </Flexbox>
@@ -245,7 +246,7 @@ export default {
 .getvip{width:42.7%;height:39px;margin-left:28.65%;text-align: center;background-color: #38DDE5;line-height: 39px;font-size: 15px;color:#fff;border-radius: 20px;position: absolute;bottom:-20px}
 .header_btn{width:79%;margin-left:28.6%;height:39px;border-radius:20px;background:#06D5DE;line-height: 39px;text-align: center;color:#fff;font-size: 15px;flex: 1}
 .header_btn1{margin-left: 13.3%}
-.header_btn2{margin-left: 11%}
+.header_btn2{margin-left: 10%}
 .mylink{width: 95%;margin-left: 2.5%;margin-top:35px}
 .mylink .link{height:52px}
 .placeholder{height:100px}
