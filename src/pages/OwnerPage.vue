@@ -29,7 +29,7 @@
         </Flexbox>
         <Flexbox v-if="is_member==1" style="marginTop:12px">
           <!-- <FlexboxItem v-if="is_member==1"><div class="header_btn header_btn1" @click="getvip">充值</div></FlexboxItem>$router.push('/owners/pay') -->
-          <FlexboxItem v-if="is_member==1"><div class="header_btn header_btn1" @click="$router.push('/owners/pay')">充值</div></FlexboxItem>
+          <FlexboxItem v-if="is_member==1"><div class="header_btn header_btn1" @click="$router.push('/owners/pay')">积分充值</div></FlexboxItem>
           <FlexboxItem><div class="header_btn header_btn2" @click="$router.push('/owners/sign')">每日打卡</div></FlexboxItem>
           <!-- <FlexboxItem><div class="header_btn" @click="$router.push('/owners/advice')">成为vip</div></FlexboxItem> -->
         </Flexbox>
