@@ -25,6 +25,8 @@
       </Flexbox>
       <div class="searchbar">
         <input type="search" placeholder="搜索文章关键词" v-model="value" @search="search" @click="search"/>
+        <img src="../../static/img/icon_search@2x.png" style="position: absolute;right:30px;top:24px" alt="">
+
         <tab default-color="#333333" :active-color="'#06D5DE'" custom-bar-width="32px">
           <tab-item @on-item-click="handler" selected>最新</tab-item>
           <tab-item @on-item-click="handler">最热</tab-item>
@@ -267,8 +269,8 @@ export default {
 .header_btn:first-child div{width:52px;height:87px;background:#FFF url('../../static/img/icon/ic_rmwz@2x.png') top no-repeat;background-size: 52px 52px;text-align: center;color:#fff;padding-top: 56px;font-size: 12px;color:#303030;}
 .header_btn:nth-child(2) div{width:52px;height:87px;background:#FFF url('../../static/img/icon/ic_ysd@2x.png') top no-repeat;background-size: 52px 52px;text-align: center;color:#fff;padding-top: 56px;font-size: 12px;color:#303030}
 .header_btn:last-child div{width:52px;height:87px;background:#FFF url('../../static/img/icon/ic_tccx@2x.png') top no-repeat;background-size: 52px 52px;text-align: center;color:#fff;padding-top: 56px;font-size: 12px;color:#303030}
-.searchbar{height:91px;width:100%;background-color: #fff;position: relative;padding-top: 59px}
-.searchbar input{position: absolute;top:12px;display: inline-block;width:92%;height: 32px;border-radius: 20px;background-color: #F3F3F3;text-align:center;margin-left:4%;}
+.searchbar{height:114px;width:100%;background-color: #fff;position: relative;padding-top: 82px}
+.searchbar input{position: absolute;top:12px;display: inline-block;width:92%;height: 55px;border-radius: 30px;background-color: #F3F3F3;text-align:center;margin-left:4%;display: inline-block}
 .menu{width:100%;padding-top:23px;background-color: #F8F8F8;padding-bottom: 70px}
 .detail{min-height:257px;width: 95%;margin-left:2.5%;border-radius: 20px;background-color: #fff;margin-top:10px;overflow: hidden}
 .detail .image{background-color: aqua;width:100%;height:177px;border-radius: 20px 20px 0 0 }

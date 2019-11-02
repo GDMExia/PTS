@@ -22,12 +22,12 @@
                 <!-- <input placeholder="搜索文章关键词" v-model="search" type="text"> -->
                 <img style="width: 15px; height: 15px;margin-top: 3px;" src="../../static/img/sousuo_icon_search@2x.png" alt="" @click="handleQuery">
             </div>
-            <div>
-                <tab :line-width="1" custom-bar-width="22px">
-                    <tab-item @on-item-click="handleQuery(0)" :selected="type==0">旅游</tab-item>
-                    <tab-item @on-item-click="handleQuery(1)" :selected="type==1">学院</tab-item>
-                </tab>
-            </div>
+<!--            <div>-->
+<!--                <tab :line-width="1" custom-bar-width="22px">-->
+<!--                    <tab-item @on-item-click="handleQuery(0)" :selected="type==0">旅游</tab-item>-->
+<!--                    <tab-item @on-item-click="handleQuery(1)" :selected="type==1">学院</tab-item>-->
+<!--                </tab>-->
+<!--            </div>-->
         </div>
         <div>
             <div style="display: flex;padding:68% 0;justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="type==0&&activityList.length==0">
@@ -239,7 +239,8 @@ export default {
 .top {
     background: #ffffff;
     padding: 12px 15px 0 15px;
-    box-shadow: 0 2px 4px rgba(236, 236, 236, 0.5)
+    box-shadow: 0 2px 4px rgba(236, 236, 236, 0.5);
+    height:60px
 }
 .top .search {
     width: 100%;

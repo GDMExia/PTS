@@ -31,8 +31,8 @@ const types = {
 
 const state = {
   tourList: [],
-  // token: '',
-  token:'9b13f61f13766f5ed236ebc0bb74b75cee3b8c5b',
+  token: '',
+  // token:'341e9fd6cad5ee74880359aac8b9eac8577c18bb',
   refuse:false,
   virtualNumber:'3453167517',
   bannerList: [],
@@ -346,7 +346,7 @@ const actions = {
   },
   accountLogin({commit}, playload) {
       if (playload) {
-        // commit('setToken',playload)
+        commit('setToken',playload)
       }
       return playload
   },
@@ -383,33 +383,6 @@ const actions = {
       return new Promise(resolve=>{resolve(res.data)})
     })
   },
-  // Base64图片解析
-  uploadsImageBase64({commit}, playload) {
-    let params = qs.stringify(playload)
-    return Axios.post(
-      `${rootPath}/File/uploadsImageBase64`,params
-    ).then(res => {
-      return new Promise(resolve=>{resolve(res.data)})
-    })
-  },
-  // 上传用户卡片图片
-  updateUserCard({commit}, playload) {
-    let params = qs.stringify(playload)
-    return Axios.post(
-      `${rootPath}/User/updateUserCard`,params
-    ).then(res => {
-      return new Promise(resolve=>{resolve(res.data)})
-    })
-  },
-  // 卡片分享
-  getCardShareInfo({commit}, playload) {
-    let params = qs.stringify(playload)
-    return Axios.get(
-      `${rootPath}/User/getCardShareInfo?${params}`
-    ).then(res => {
-      return new Promise(resolve=>{resolve(res.data)})
-    })
-  }
 }
 
 const mutations = {
@@ -417,7 +390,8 @@ const mutations = {
     state.tourList = playload
   },
   setToken(state, playload) {
-    state.token = '858b4ad2092b5d6919cacd7a39983f499c5c1282'
+    console.log(playload, '1111111')
+    state.token = playload
   },
   setRefuse(state, playload) {
     state.refuse = playload

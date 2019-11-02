@@ -1,8 +1,8 @@
 <template>
   <div style="height:100%;">
     <div class="tour-search">
-      <img src="../../static/img/icon_search@2x.png" alt="">
         <x-input placeholder="输入目的地/关键词" placeholder-align="left" v-model="value" @on-enter="handleSearch" @on-focus="handleSearch"></x-input>
+      <img src="../../static/img/icon_search@2x.png" alt="">
       <!-- <input type="search" v-model="value" placeholder="输入目的地/关键词"> -->
     </div>
       <div style=" height: 100%">
