@@ -8,7 +8,7 @@
         <div ref="scrollHeader">
             <tabbarComponent :tabIndex=3></tabbarComponent>
             <home-provider></home-provider>
-            <div class="main" style="background-color:#fff;padding-top:19px">
+            <div class="main" style="background-color:#fff;padding:19px 0 12px 0">
                 <Flexbox>
                     <FlexboxItem class="header_btn" v-for="(item,index) of cateTree" :key="index">
                         <div @click="$router.push({path:'/schools/cause',query:{pid:item.cid}})">
@@ -34,13 +34,13 @@
             </div>
         </div>
         <!-- <scroller v-if="articleList" lock-x @on-pullup-loading="onScrollBottom" :use-pullup="true" style="marginTop:20px;"> -->
-        <div class="menu" :scrollBoxStyle="scrollBoxStyle" ref="scrollBox" @scroll="menuScroll">
-            <div ref="scrollBoxMain">
+        <div class="menu" :style="scrollBoxStyle" ref="scrollBox" @scroll="menuScroll">
+            <div class="scrollBoxMain" ref="scrollBoxMain">
                 <div class="detail" @click="item.is_code!=1?goToArticleDetail({article_id:item.article_id}):confirmToArticleDetail({article_id:item.article_id,cid:item.cid})"
                     v-for="(item,index) of articleList" :key="index">
                     <div class="image"><img :src="item.cover" alt=""></div>
                     <div class="body">
-                        <div class="title">{{item.title}}{{scrollBoxStyle}}</div>
+                        <div class="title">{{item.title}}{{winHeight}}</div>
                         <div class="more">{{item.cate_name}}</div>
                         <div class="clock">
                             <img src="../../static/img/icon_time@2x.png" alt="">
@@ -85,6 +85,7 @@
                 loading: false,
                 noData: false,
                 canLoad: true,
+                winHeight:window.innerHeight,
                 cateTree: [],
                 articleList: [],
                 page: 1,
@@ -107,7 +108,7 @@
             ...mapActions(['wxShare']),
             menuScroll() {
                 //滚动到滚动区域底部
-                if (this.$refs.scrollBox.scrollTop + (window.outerHeight - 197 - 10 - 56) < this.$refs.scrollBoxMain.clientHeight) return;
+                if (this.$refs.scrollBox.scrollTop + (this.winHeight - 197 - 10 - 56) < this.$refs.scrollBoxMain.clientHeight) return;
                 if (!this.canLoad) return;
                 this.loading = true;
                 this.canLoad = false;
@@ -156,7 +157,6 @@
             },
             getSchoolArticleList() {
                 this.$http.get(`${this.rootPath}/Index/getArticle?page=${this.page}&pageSize=${this.pageSize}&order_sort=${this.btn}`).then(res => {
-                    console.log(res)
                     if (res.data.StatusInfo.success) {
                         // Object.assign(this.articleList,res.data.articleList)
                         this.articleList = this.articleList.concat(res.data.articleList)
@@ -185,16 +185,6 @@
                 this.page += 1;
                 if (this.page > this.totalPage) return;
                 this.getSchoolArticleList();
-            },
-            getClientHeight() {
-                var clientHeight = 0;
-                if (document.body.clientHeight && document.documentElement.clientHeight) {
-                    var clientHeight = (document.body.clientHeight < document.documentElement.clientHeight) ? document.body.clientHeight : document.documentElement.clientHeight;
-                }
-                else {
-                    var clientHeight = (document.body.clientHeight > document.documentElement.clientHeight) ? document.body.clientHeight : document.documentElement.clientHeight;
-                }
-                return clientHeight;
             },
             confirmcode() {
                 this.$http.get(`${this.rootPath}/Index/checkArticleCode?code_name=${this.code_name}&cid=${this.cid}`).then(res => {
@@ -281,25 +271,25 @@
             }
         },
         computed: {
-                scrollBoxStyle() {
-                
-                    return {
-                        'height': (this.getClientHeight() - 197 - 56 - 10) + 'px',
-                    }
+            scrollBoxStyle() {
+                return {
+                    'height': (this.winHeight - 197 - 56 - 10) + 'px',
                 }
-            },
-            beforeDestroy() {
-
-            },
-            created() {
-                this.getSchoolList()
-                this.getSchoolArticleList()
-                this.share()
-            },
-            mounted() {
-                this.$bus.emit("onTabBarEvent", {});
             }
-        };
+        },
+        beforeDestroy() {
+
+        },
+        created() {
+            console.log(window.innerHeight)
+            this.getSchoolList()
+            this.getSchoolArticleList()
+            this.share()
+        },
+        mounted() {
+            this.$bus.emit("onTabBarEvent", {});
+        }
+    };
 
 </script>
 
@@ -453,6 +443,10 @@
         color: #999999;
         font-size: 12px
     }
+    
+    .scrollBoxMain{
+        padding-top:10px;
+    }
 
     .no-result,
     .loading {
@@ -464,6 +458,7 @@
 
     .no-result .no-result-text {
         color: #666;
+        padding:15px 0;
     }
 
     .no-result img {
