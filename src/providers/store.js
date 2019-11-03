@@ -32,7 +32,7 @@ const types = {
 const state = {
   tourList: [],
   // token: '',
-  token:'9b13f61f13766f5ed236ebc0bb74b75cee3b8c5b',
+  token:'32b8172ee6377306fffc14bf5c26eebee741634e',
   refuse:false,
   virtualNumber:'3453167517',
   bannerList: [],
@@ -417,8 +417,8 @@ const mutations = {
     state.tourList = playload
   },
   setToken(state, playload) {
-    // state.token = '858b4ad2092b5d6919cacd7a39983f499c5c1282'
-    state.token = playload
+    state.token = '32b8172ee6377306fffc14bf5c26eebee741634e'
+    // state.token = playload
   },
   setRefuse(state, playload) {
     state.refuse = playload
