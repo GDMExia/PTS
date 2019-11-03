@@ -5,8 +5,8 @@
                 <img src="../../static/img/icon/icon_vip_small@2x.png" alt="">
             </div>
             <div class="vipname">VIP会员</div>
-            <div class="expiretime"><p>到期日</p> <p style="color:#06D5DE;">{{overTime}}</p></div>
-            <div class="price">{{vipPrice}}元/年</div>
+<!--            <div class="expiretime"><p>到期日</p> <p style="color:#06D5DE;">{{overTime}}</p></div>-->
+            <div class="price">{{vipPrice}}元终身</div>
         </div>
         <div class="form">
         <group>
