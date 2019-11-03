@@ -409,7 +409,15 @@ const actions = {
     ).then(res => {
       return new Promise(resolve=>{resolve(res.data)})
     })
-  }
+  },
+  getSigninBase({ commit }, playload) {
+    let params = qs.stringify(playload)
+    return Axios.get(
+      `${rootPath}/Index/getSigninBase?${params}`
+    ).then(res => {
+      return new Promise(resolve => { resolve(res.data) })
+    })
+  },
 }
 
 const mutations = {

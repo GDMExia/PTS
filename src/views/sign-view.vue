@@ -255,7 +255,7 @@ export default {
                 if(res.data.StatusInfo.success){
                     this.$vux.toast.text('签到成功', 'top')
                     this.getSignlist()
-                    this.$router.push('/owners/mycode')
+                    this.$router.push({path:'/owners/mycode',query:{flag:'sign'}})
                 }else{
                     this.$vux.toast.text(res.data.StatusInfo.ErrorDetailCode, 'top')
                 }

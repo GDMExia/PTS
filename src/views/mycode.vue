@@ -19,7 +19,7 @@
 						>
 					</div>
 					<div style="display: inline-block;color: #333333;font-size: 14px;position: absolute;top:22px;margin-left: 12px;">{{nickname}}</div>
-					<div style="display: inline-block;color: #454545;font-size: 18px;position:absolute;top:47px;margin-left: 12px">用心做好每一件小事，<br>祝嘻格格越来越好。</div>
+					<div style="display: inline-block;color: #454545;font-size: 18px;position:absolute;top:47px;margin-left: 12px" v-html="textInfo"></div>
 					<div style="display: inline-block;color: #454545;font-size: 12px;width:60%;text-align:center;position:absolute;bottom:44px">本页截屏发送好友，<br>加入我们，开启格调人生。</div>
 					<img
 						:src="promoteCodeImgUrl"
@@ -44,11 +44,12 @@ export default {
 			nickname: "",
 			header_pic: "",
 			promoteCodeImgUrl: "",
-			loadPicture:''
+			loadPicture:'',
+			textInfo:''
 		};
 	},
 	methods: {
-		...mapActions(["uploadsImageBase64", "updateUserCard","getCardShareInfo"]),
+		...mapActions(["uploadsImageBase64", "updateUserCard","getCardShareInfo","getSignIndex","getSigninBase"]),
 		getPixelRatio(context) {
 			let backingStore =
 				context.backingStorePixelRatio ||
@@ -159,17 +160,31 @@ export default {
 				)
 				.then(res => {
 					// this.userDetail({token: 'c1599f283f6bce195a98a3f3d9c3f10865891753'}).then(res=>{})
-					console.log(res);
 					if (res.data.StatusInfo.ReturnCode == 200) {
 						this.nickname = res.data.userInfo.nickname;
 						this.header_pic = res.data.userInfo.header_pic;
 						this.uid_number = res.data.userInfo.uid_number;
 						this.promoteCodeImgUrl =
 							res.data.userInfo.promoteCodeImgUrl;
-							this.$nextTick(res=>{
-								this.startHtml2canvas();
-							})
+							//区分是打卡的还是名片的
+							let {flag} = this.$route.query;
+							console.log(flag)
+							if(flag === 'sign'){
 								
+								this.getSigninBase().then(res=>{
+									this.textInfo = res.baseInfo.content;
+									this.$nextTick(res=>{
+										
+										this.startHtml2canvas();
+									})
+								})
+							}else{
+								this.textInfo = '用心做好每一件小事，<br>祝嘻格格越来越好。'
+								this.$nextTick(res=>{
+									
+									this.startHtml2canvas();
+								})
+							}
 							
 					} else {
 						if (res.data.StatusInfo.ReturnCode == 603) {
