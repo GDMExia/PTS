@@ -5,17 +5,11 @@
 				style="width: 92%;margin-left: 4%;background-color:#fff;border-radius: 20px"
 				ref="certificateShareImg"
 			>
-<!--				<img-->
-<!--					:src="img"-->
-<!--					alt=""-->
-<!--					style="width:100%"-->
-<!--          v-if="img!=''"-->
-<!--				>-->
-        <img
-          src="../../static/img/icon/signcard@2x.png"
-          alt=""
-          style="width:100%"
-        >
+				<img
+					src="../../static/img/icon/signcard@2x.png"
+					alt=""
+					style="width:100%"
+				>
 				<div style="height:200px;width:100%;position: relative">
 					<div style="width:57px;height: 57px;border-radius: 50%;overflow: hidden;margin-top: 22px;margin-left: 5%;display: inline-block">
 						<img
@@ -25,8 +19,8 @@
 						>
 					</div>
 					<div style="display: inline-block;color: #333333;font-size: 14px;position: absolute;top:22px;margin-left: 12px;">{{nickname}}</div>
-					<div style="display: inline-block;color: #454545;font-size: 18px;position:absolute;top:47px;margin-left: 12px;" v-html="textInfo"></div>
-					<div style="display: inline-block;color: #454545;font-size: 12px;width:60%;text-align:center;position:absolute;bottom:44px">本页发送好友，<br>加入我们，开启格调人生。</div>
+					<div style="display: inline-block;color: #454545;font-size: 18px;position:absolute;top:47px;margin-left: 12px">用心做好每一件小事，<br>祝嘻格格越来越好。</div>
+					<div style="display: inline-block;color: #454545;font-size: 12px;width:60%;text-align:center;position:absolute;bottom:44px">本页截屏发送好友，<br>加入我们，开启格调人生。</div>
 					<img
 						:src="promoteCodeImgUrl"
 						alt=""
@@ -50,14 +44,11 @@ export default {
 			nickname: "",
 			header_pic: "",
 			promoteCodeImgUrl: "",
-			loadPicture:'',
-			textInfo:'',
-      signInfo: {},
-        img: ''
+			loadPicture:''
 		};
 	},
 	methods: {
-		...mapActions(["uploadsImageBase64", "updateUserCard","getCardShareInfo","getSignIndex","getSigninBase"]),
+		...mapActions(["uploadsImageBase64", "updateUserCard","getCardShareInfo"]),
 		getPixelRatio(context) {
 			let backingStore =
 				context.backingStorePixelRatio ||
@@ -71,7 +62,6 @@ export default {
 		},
 		//绘制dom 元素，生成截图canvas
 		startHtml2canvas() {
-		    setTimeout(()=>{
 			let shareContent = this.$refs.certificateShareImg; //需要截图的包裹的（原生的）DOM 对象;// 需要绘制的部分的 (原生）dom 对象 ，注意容器的宽度不要使用百分比，使用固定宽度，避免缩放问题
 			let width = shareContent.clientWidth; // 获取(原生）dom 宽度
 			let height = shareContent.clientHeight; // 获取(原生）dom 高
@@ -113,7 +103,6 @@ export default {
 						this.shareWx(shareInfo)
 					})
 			});
-        },1000)
 		},
 		shareWx(data) {
 			let that = this;
@@ -161,7 +150,6 @@ export default {
 				)
 				.then(res => {
 					console.log(res);
-					this.signInfo=res.data.signinData
 				});
 		},
 		getinfo() {
@@ -171,47 +159,18 @@ export default {
 				)
 				.then(res => {
 					// this.userDetail({token: 'c1599f283f6bce195a98a3f3d9c3f10865891753'}).then(res=>{})
+					console.log(res);
 					if (res.data.StatusInfo.ReturnCode == 200) {
 						this.nickname = res.data.userInfo.nickname;
 						this.header_pic = res.data.userInfo.header_pic;
 						this.uid_number = res.data.userInfo.uid_number;
 						this.promoteCodeImgUrl =
 							res.data.userInfo.promoteCodeImgUrl;
-							//区分是打卡的还是名片的
-							let flag = this.$route.query.flag;
-							console.log(flag)
-							if(flag === 'sign'){
-
-								this.getSigninBase().then(res=>{
-                    // this.textInfo = res.baseInfo.content;
-                    this.textInfo = `今日打卡${this.signInfo.signin_time}<br>已经打卡${this.signInfo.siginContinuousCount}天`;
-                    // this.img=this.signInfo.pic
-                    this.$nextTick(res=>{
-
-                      this.startHtml2canvas();
-                    })
-								})
-							}else{
-
-                this.$http.get(`${this.rootPath}/Index/getSigninBase?id=2`).then(res=>{
-                    console.log(res)
-                    if(res.data.StatusInfo.success){
-                        this.textInfo = res.data.baseInfo.content.replace(/，/g,'，<br>')
-                        this.$nextTick(res=>{
-
-                            this.startHtml2canvas();
-                        })
-                    }else{
-                        this.textInfo = '用心做好每一件小事，<br>祝嘻格格越来越好。'
-                        this.$nextTick(res=>{
-
-                            this.startHtml2canvas();
-                        })
-                    }
-                })
-
-							}
-
+							this.$nextTick(res=>{
+								this.startHtml2canvas();
+							})
+								
+							
 					} else {
 						if (res.data.StatusInfo.ReturnCode == 603) {
 							this.$store.commit("setToken", "");

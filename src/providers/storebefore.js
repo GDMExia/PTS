@@ -4,7 +4,7 @@ import createPersistedState from 'vuex-persistedstate'
 import Axios from 'axios'
 import qs from 'qs'
 // import { stat } from 'fs';
-const rootPath = process.env.NODE_ENV === 'production' ? process.env.API_ROOT : ''
+const rootPath = process.env.NODE_ENV === 'production'?process.env.API_ROOT:''
 
 Vue.use(Vuex)
 
@@ -31,10 +31,10 @@ const types = {
 
 const state = {
   tourList: [],
-  token: '',
-  // token: '76f17288449230612bf57b8014486cb4146801f5',
-  refuse: false,
-  virtualNumber: '3453167517',
+  // token: '',
+  token:'9b13f61f13766f5ed236ebc0bb74b75cee3b8c5b',
+  refuse:false,
+  virtualNumber:'3453167517',
   bannerList: [],
   recomendList: [],
   localList: [],
@@ -127,13 +127,13 @@ const actions = {
       if (res.data.StatusInfo.success) {
         // commit('setToken', res.data)
       }
-      return new Promise(resolve => { resolve(res.data) })
+      return new Promise(resolve=>{resolve(res.data)})
     })
   },
   // 旅游列表
   tourList({ commit, state }, playload) {
     console.log(playload)
-    let params = qs.stringify(playload)
+    let params =  qs.stringify(playload)
     return Axios.get(
       `${rootPath}/User/getGoodsTourism?${params}`,
     ).then(res => {
@@ -141,7 +141,7 @@ const actions = {
       if (res.data.StatusInfo.success) {
         // commit('setToken', res.data)
       }
-      return new Promise(resolve => { resolve(res.data) })
+      return new Promise(resolve=>{resolve(res.data)})
     })
   },
   // 首页banner
@@ -152,7 +152,7 @@ const actions = {
       if (res.data.StatusInfo.success) {
         commit(types.BNNER_LIST, res.data)
       }
-      return new Promise(resolve => { resolve(res.data) })
+      return new Promise(resolve=>{resolve(res.data)})
     })
   },
   // 本地生活
@@ -163,7 +163,7 @@ const actions = {
       if (res.data.StatusInfo.success) {
         commit(types.LOCAL_LIST, res.data)
       }
-      return new Promise(resolve => { resolve(res.data) })
+      return new Promise(resolve=>{resolve(res.data)})
     })
   },
   // 精选推荐
@@ -174,7 +174,7 @@ const actions = {
       if (res.data.StatusInfo.success) {
         commit(types.RECOMEND_LIST, res.data)
       }
-      return new Promise(resolve => { resolve(res.data) })
+      return new Promise(resolve=>{resolve(res.data)})
     })
   },
   // 活动分类
@@ -185,23 +185,23 @@ const actions = {
       if (res.data.StatusInfo.success) {
         commit(types.ACTIVITY_TYPE, res.data)
       }
-      return new Promise(resolve => { resolve(res.data) })
+      return new Promise(resolve=>{resolve(res.data)})
     })
   },
   // 活动列表
   activityList({ commit, state }, playload) {
-    let params = qs.stringify(playload)
+    let params =  qs.stringify(playload)
     return Axios.get(
       `${rootPath}/Index/getGoods?${params}`,
     ).then(res => {
       if (res.data.StatusInfo.success) {
         commit(types.ACTIVITY_LIST, res.data)
       }
-      return new Promise(resolve => { resolve(res.data) })
+      return new Promise(resolve=>{resolve(res.data)})
     })
   },
   // 活动详情
-  activityDetails({ commit }, playload) {
+  activityDetails({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
       `${rootPath}/Index/goodsView?${params}`,
@@ -209,11 +209,11 @@ const actions = {
       if (res.data.StatusInfo.success) {
         commit(types.ACTIVITY_DETAILS, res.data)
       }
-      return new Promise(resolve => { resolve(res.data) })
+      return new Promise(resolve=>{resolve(res.data)})
     })
   },
   // 旅游详情
-  tourDetails({ commit }, playload) {
+  tourDetails({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
       `${rootPath}/User/goodsTourismView?${params}`
@@ -221,11 +221,11 @@ const actions = {
       if (res.data.StatusInfo.success) {
         commit(types.TOUR_DETAILS, res.data)
       }
-      return new Promise(resolve => { resolve(res.data) })
+      return new Promise(resolve=>{resolve(res.data)})
     })
   },
   // 旅游分享详情
-  tourShareDetails({ commit }, playload) {
+  tourShareDetails({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
       `${rootPath}/User/goodsTourismShareView?${params}`
@@ -233,11 +233,11 @@ const actions = {
       if (res.data.StatusInfo.success) {
         commit(types.TOUR_DETAILS, res.data)
       }
-      return new Promise(resolve => { resolve(res.data) })
+      return new Promise(resolve=>{resolve(res.data)})
     })
   },
   // 换成我的
-  changeUser({ commit }, playload) {
+  changeUser({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
       `${rootPath}/User/changeNickName?${params}`
@@ -245,11 +245,11 @@ const actions = {
       if (res.data.StatusInfo.success) {
         commit(types.CHANGE_USER, res.data)
       }
-      return new Promise(resolve => { resolve(res.data) })
+      return new Promise(resolve=>{resolve(res.data)})
     })
   },
   // 活动分享/指南列表
-  articleList({ commit }, playload) {
+  articleList({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
       `${rootPath}/Index/getNews?${params}`
@@ -257,11 +257,11 @@ const actions = {
       if (res.data.StatusInfo.success) {
         commit(types.ARTICLE_LIST, res.data)
       }
-      return new Promise(resolve => { resolve(res.data) })
+      return new Promise(resolve=>{resolve(res.data)})
     })
   },
   // 活动分享/指南详情
-  articleDetail({ commit }, playload) {
+  articleDetail({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
       `${rootPath}/Index/getNewsView?${params}`
@@ -269,11 +269,11 @@ const actions = {
       if (res.data.StatusInfo.success) {
         commit(types.ARTICLE_DETAIL, res.data)
       }
-      return new Promise(resolve => { resolve(res.data) })
+      return new Promise(resolve=>{resolve(res.data)})
     })
   },
   // 个人信息
-  userDetail({ commit }, playload) {
+  userDetail({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
       `${rootPath}/User/getUserInfo?${params}`
@@ -281,11 +281,11 @@ const actions = {
       if (res.data.StatusInfo.success) {
         commit(types.USER_INFO, res.data)
       }
-      return new Promise(resolve => { resolve(res.data) })
+      return new Promise(resolve=>{resolve(res.data)})
     })
   },
   // VIP价格
-  getVIP({ commit }, playload) {
+  getVIP({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
       `${rootPath}/User/previewMember?${params}`
@@ -293,11 +293,11 @@ const actions = {
       if (res.data.StatusInfo.success) {
         commit(types.USER_VIP, res.data)
       }
-      return new Promise(resolve => { resolve(res.data) })
+      return new Promise(resolve=>{resolve(res.data)})
     })
   },
   // 立即报名
-  signUp({ commit }, playload) {
+  signUp({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.post(
       `${rootPath}/User/createGoodsOrder?${params}`
@@ -305,11 +305,11 @@ const actions = {
       if (res.data.StatusInfo.success) {
         commit(types.USER_SIGN, res.data)
       }
-      return new Promise(resolve => { resolve(res.data) })
+      return new Promise(resolve=>{resolve(res.data)})
     })
   },
   // 报名实际支付
-  paymentAmount({ commit }, playload) {
+  paymentAmount({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.post(
       `${rootPath}/User/getOrderPrice?${params}`
@@ -317,11 +317,11 @@ const actions = {
       // if (res.data.StatusInfo.success) {
       //   commit(types.USER_SIGN, res.data)
       // }
-      return new Promise(resolve => { resolve(res.data) })
+      return new Promise(resolve=>{resolve(res.data)})
     })
   },
   // 商家列表
-  storeLists({ commit }, playload) {
+  storeLists({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
       `${rootPath}/Merchants/index?${params}`
@@ -329,11 +329,11 @@ const actions = {
       if (res.data.StatusInfo.success) {
         commit(types.STORE_LIST, res.data)
       }
-      return new Promise(resolve => { resolve(res.data) })
+      return new Promise(resolve=>{resolve(res.data)})
     })
   },
   // 商家详情
-  storeDetails({ commit }, playload) {
+  storeDetails({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
       `${rootPath}/Merchants/view?${params}`
@@ -341,17 +341,17 @@ const actions = {
       if (res.data.StatusInfo.success) {
         commit(types.STORE_DETAIL, res.data)
       }
-      return new Promise(resolve => { resolve(res.data) })
+      return new Promise(resolve=>{resolve(res.data)})
     })
   },
-  accountLogin({ commit }, playload) {
-    if (playload) {
-      // commit('setToken',playload)
-    }
-    return playload
+  accountLogin({commit}, playload) {
+      if (playload) {
+        // commit('setToken',playload)
+      }
+      return playload
   },
   // 我的分享
-  shareList({ commit }, playload) {
+  shareList({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
       `${rootPath}/User/getUserShare?${params}`
@@ -359,11 +359,11 @@ const actions = {
       if (res.data.StatusInfo.success) {
         commit(types.SHARE_LIST, res.data)
       }
-      return new Promise(resolve => { resolve(res.data) })
+      return new Promise(resolve=>{resolve(res.data)})
     })
   },
   // 查看分享浏览用户
-  shareUserList({ commit }, playload) {
+  shareUserList({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
       `${rootPath}/User/getUserShareLog?${params}`
@@ -371,53 +371,45 @@ const actions = {
       if (res.data.StatusInfo.success) {
         commit(types.SHARE_USER_LIST, res.data)
       }
-      return new Promise(resolve => { resolve(res.data) })
+      return new Promise(resolve=>{resolve(res.data)})
     })
   },
   // 微信分享
-  wxShare({ commit }, playload) {
+  wxShare({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
       `${rootPath}/User/getShareInfo?${params}`
     ).then(res => {
-      return new Promise(resolve => { resolve(res.data) })
+      return new Promise(resolve=>{resolve(res.data)})
     })
   },
   // Base64图片解析
-  uploadsImageBase64({ commit }, playload) {
+  uploadsImageBase64({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.post(
-      `${rootPath}/File/uploadsImageBase64`, params
+      `${rootPath}/File/uploadsImageBase64`,params
     ).then(res => {
-      return new Promise(resolve => { resolve(res.data) })
+      return new Promise(resolve=>{resolve(res.data)})
     })
   },
-  updateUserCard({ commit }, playload) {
+  // 上传用户卡片图片
+  updateUserCard({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.post(
-      `${rootPath}/User/updateUserCard`, params
+      `${rootPath}/User/updateUserCard`,params
     ).then(res => {
-      return new Promise(resolve => { resolve(res.data) })
+      return new Promise(resolve=>{resolve(res.data)})
     })
   },
-  getCardShareInfo({ commit }, playload) {
+  // 卡片分享
+  getCardShareInfo({commit}, playload) {
     let params = qs.stringify(playload)
     return Axios.get(
       `${rootPath}/User/getCardShareInfo?${params}`
     ).then(res => {
-      return new Promise(resolve => { resolve(res.data) })
+      return new Promise(resolve=>{resolve(res.data)})
     })
-  },
-  getSigninBase({ commit }, playload) {
-    let params = qs.stringify(playload)
-    return Axios.get(
-      `${rootPath}/Index/getSigninBase?${params}`
-    ).then(res => {
-      return new Promise(resolve => { resolve(res.data) })
-    })
-  },
-
-
+  }
 }
 
 const mutations = {
@@ -425,6 +417,7 @@ const mutations = {
     state.tourList = playload
   },
   setToken(state, playload) {
+    // state.token = '858b4ad2092b5d6919cacd7a39983f499c5c1282'
     state.token = playload
   },
   setRefuse(state, playload) {
@@ -487,17 +480,17 @@ const mutations = {
 }
 
 const middlewares = store => {
-  store.subscribe((mutation, state) => {
+    store.subscribe((mutation, state) => {
 
-  })
-}
+    })
+  }
 
-const module = {
-  state,
-  getters,
-  actions,
-  mutations,
-  plugins: [createPersistedState(), middlewares]
-}
-const store = new Vuex.Store(module)
-export default store
+  const module = {
+    state,
+    getters,
+    actions,
+    mutations,
+    plugins: [createPersistedState(), middlewares]
+  }
+  const store = new Vuex.Store(module)
+  export default store
