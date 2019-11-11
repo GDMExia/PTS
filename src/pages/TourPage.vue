@@ -14,7 +14,7 @@
 			>
 			<!-- <input type="search" v-model="value" placeholder="输入目的地/关键词"> -->
 		</div>
-		<div 
+		<div
             style=" height: 100%"
             :style="scrollBoxStyle"
 			ref="scrollBox"
@@ -28,7 +28,7 @@
 					style="width: 40px; height: 40px;margin-bottom: 16px;"
 					src="../../static/img/icon/no_data.png"
 				/>
-				<span> 暂无数据 </span>
+				<span> 暂无更多 </span>
 			</div> -->
 			<!-- <scroller
 				v-if="activityList.length"
@@ -88,10 +88,10 @@
 					class="no-result"
 					v-if="noData"
 				>
-					<div class="no-result-text">暂无数据</div>
+					<div class="no-result-text">暂无更多</div>
 				</div>
             </div>
-				<!-- <load-more v-show="pageNum > totalPage" :show-loading="false" :tip="'暂无数据'" background-color="#fbf9fe"></load-more> -->
+				<!-- <load-more v-show="pageNum > totalPage" :show-loading="false" :tip="'暂无更多'" background-color="#fbf9fe"></load-more> -->
 			<!-- </scroller> -->
 		</div>
 
@@ -211,7 +211,7 @@ export default {
 			this.show1 = true;
 			const params = {
 				page: this.pageNum,
-				pageSize: 300,
+				pageSize: 20,
 				token: this.$store.state.token,
 				keywords: this.value
 			};
@@ -230,7 +230,7 @@ export default {
 						? this.activityList.concat(res.newsList)
 						: [];
                         this.$nextTick(() => {
-                            this.$refs.scrollerBottom.reset();
+                            // this.$refs.scrollerBottom.reset();
                         });
                         // this.activityList = res.newsList?this.activityList.push(res.newsList):this.activityList
                         this.totalPage = res.PageInfo.TotalPages;

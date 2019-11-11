@@ -235,9 +235,7 @@ export default {
         scrollBoxStyle() {
             return {
                 height: this.winHeight - 56 + "px",
-                overflowY:'auto',
-                width: '100%',
-                overflowX: 'hidden'
+                overflowY:'auto'
             };
         }
     },
@@ -265,18 +263,12 @@ export default {
         },
         handleTourList() {
             this.show1 = true;
-            // const params = {
-            //     page: this.pageNum,
-            //     pageSize: 20,
-            //     token: this.$store.state.token,
-            //     keywords: this.value
-            // };
             const params = {
                 page: this.pageNum,
                 pageSize: 20,
                 token: this.$store.state.token,
-                keywords: this.search
-            }
+                keywords: this.value
+            };
             this.tourList(params).then(res => {
                 if (res.StatusInfo.success) {
                     if (this.pageNum > res.PageInfo.TotalPages) {

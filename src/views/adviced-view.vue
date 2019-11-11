@@ -5,10 +5,10 @@
                 <p>活动内容</p>
                 <div class="stars">
                     <div class="starselevt" v-for="(item,index) of Array(activitycontentstar)" :key="index">
-                        <img src="../../static/img/icon/icon_pingjia_pre@2x.png" alt="" @click="changeactivitycontent(index+1)">
+                        <img src="../../static/img/icon/icon_pingjia_pre@2x.png" alt="">
                     </div>
                     <div class="star" v-for="(item,index) of activitycontent" v-if="index>activitycontentstar-1" :key="index">
-                        <img src="../../static/img/icon/icon_pingjia@2x.png" alt="" @click="changeactivitycontent(index+1)">
+                        <img src="../../static/img/icon/icon_pingjia@2x.png" alt="">
                     </div>
                 </div>
             </div>
@@ -18,10 +18,10 @@
                 <p>服务态度</p>
                 <div class="stars">
                     <div class="starselevt" v-for="(item,index) of Array(servieattributestar)" :key="index">
-                        <img src="../../static/img/icon/icon_pingjia_pre@2x.png" alt="" @click="changeservieattribute(index+1)">
+                        <img src="../../static/img/icon/icon_pingjia_pre@2x.png" alt="">
                     </div>
                     <div class="star" v-for="(item,index) of servieattribute" v-if="index>servieattributestar-1" :key="index">
-                        <img src="../../static/img/icon/icon_pingjia@2x.png" alt="" @click="changeservieattribute(index+1)">
+                        <img src="../../static/img/icon/icon_pingjia@2x.png" alt="">
                     </div>
                 </div>
             </div>
@@ -31,10 +31,10 @@
                 <p>场地环境</p>
                 <div class="stars">
                     <div class="starselevt" v-for="(item,index) of Array(placeenvironmentstar)" :key="index">
-                        <img src="../../static/img/icon/icon_pingjia_pre@2x.png" alt="" @click="changeplaceenvironment(index+1)">
+                        <img src="../../static/img/icon/icon_pingjia_pre@2x.png" alt="">
                     </div>
                     <div class="star" v-for="(item,index) of placeenvironment" v-if="index>placeenvironmentstar-1" :key="index">
-                        <img src="../../static/img/icon/icon_pingjia@2x.png" alt="" @click="changeplaceenvironment(index+1)">
+                        <img src="../../static/img/icon/icon_pingjia@2x.png" alt="">
                     </div>
                 </div>
             </div>
@@ -44,27 +44,27 @@
                 <p>性价比</p>
                 <div class="stars">
                     <div class="starselevt" v-for="(item,index) of Array(costperformancestar)" :key="index">
-                        <img src="../../static/img/icon/icon_pingjia_pre@2x.png" alt="" @click="changecostperformance(index+1)">
+                        <img src="../../static/img/icon/icon_pingjia_pre@2x.png" alt="">
                     </div>
                     <div class="star" v-for="(item,index) of costperformance" v-if="index>costperformancestar-1" :key="index">
-                        <img src="../../static/img/icon/icon_pingjia@2x.png" alt="" @click="changecostperformance(index+1)">
+                        <img src="../../static/img/icon/icon_pingjia@2x.png" alt="">
                     </div>
                 </div>
             </div>
         </div>
         <div style="width:92%;marginLeft:4%;height:133px;overflow:hidden;borderRadius:0 0 20px 20px;backgroundColor:#fff">
         <group>
-            <x-textarea title="" v-model="value" placeholder="请输入内容"></x-textarea>
+            <x-textarea title="" v-model="value" placeholder="请输入内容" disabled></x-textarea>
         </group>
         </div>
         <div class="other">
             <p>是否愿意再次参加</p>
-            <div class="wish" :class="wish==1?'select':''" @click="change(1)">愿意</div>
-            <div class="unwish" :class="wish==0?'select':''" @click="change(0)">不愿意</div>
+            <div class="wish" :class="wish==1?'select':''">愿意</div>
+            <div class="unwish" :class="wish==0?'select':''">不愿意</div>
         </div>
-        <div class="handle">
-            <div class="button" @click="turnIn">提交</div>
-        </div>
+<!--        <div class="handle">-->
+<!--            <div class="button" @click="turnIn">提交</div>-->
+<!--        </div>-->
     </div>
 </template>
 
@@ -89,6 +89,9 @@ export default {
             wish:1,
             order_no: this.$route.query.order_no
         }
+    },
+    mounted(){
+        this.getAdvice()
     },
     methods:{
         change(val){
@@ -135,6 +138,21 @@ export default {
                 if(res.data.StatusInfo.success){
                     this.$router.push('/owners/myorder')
                     this.$vux.toast.text('评价成功', 'top')
+                }else{
+                    this.$vux.toast.text(res.data.ErrorDetailCode, 'top')
+                }
+            })
+        },
+        getAdvice(){
+            this.$http.get(`${this.rootPath}/User/getOrderEvaluation?token=${this.$store.state.token}&order_no=${this.order_no}`).then(res=>{
+                console.log(res)
+                if(res.data.StatusInfo.success){
+                    this.value=res.data.evaluationList[0].content
+                    this.activitycontentstar=parseInt(res.data.evaluationList[0].active_star)
+                    this.servieattributestar=parseInt(res.data.evaluationList[0].service_star)
+                    this.placeenvironmentstar=parseInt(res.data.evaluationList[0].site_star)
+                    this.costperformancestar=parseInt(res.data.evaluationList[0].price_star)
+                    this.wish=res.data.evaluationList[0].is_willing
                 }else{
                     this.$vux.toast.text(res.data.ErrorDetailCode, 'top')
                 }

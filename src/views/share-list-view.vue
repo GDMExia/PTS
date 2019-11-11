@@ -2,9 +2,9 @@
   <div class="main">
     <div style="display: flex;justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="activityListData.length==0">
       <img style="width: 40px; margin: 65% 0px; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
-      <span> 暂无数据 </span>
+      <span> 暂无更多 </span>
     </div>
-    <scroller style="height: 100%;" v-if="activityListData.length" lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottomView">
+<!--    <scroller style="height: 100%;" v-if="activityListData.length" lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottomView">-->
       <div class="box" v-for="(item, index) in activityListData" :key="index">
         <p class="box-name f15 color-333">{{item.real_name}}</p>
         <div class="box-phone" style="margin-top: 12px">
@@ -18,7 +18,7 @@
             <p class="f12 color-333 view-num">{{item.look_num}}次</p>
         </div>
       </div>
-    </scroller>
+<!--    </scroller>-->
   </div>
 </template>
 
@@ -51,7 +51,7 @@ export default {
     handleQuery() {
       const params = {
         page: this.pageNum,
-        pageSize: 5,
+        pageSize: 100,
         token: this.$store.state.token,
         article_id: this.$route.query.id
       }
@@ -63,7 +63,7 @@ export default {
           this.toastShow(res.StatusInfo.ErrorDetailCode)
         }
         this.loadDataDone = true; // 请求成功 控制空数据显示
-        this.onFetching = false; // 防止重复请求 
+        this.onFetching = false; // 防止重复请求
       })
     },
     onScrollBottom () {
@@ -75,10 +75,10 @@ export default {
     },
   },
   computed: {
-    
+
   },
   beforeDestroy() {
-    
+
   },
   created() {
     this.handleQuery()

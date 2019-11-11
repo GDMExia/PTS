@@ -8,7 +8,7 @@
       <div style=" height: 100%">
         <div style="display: flex;padding: 55% 0;justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="activityList.length==0">
             <img style="width: 40px; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
-            <span> 暂无数据 </span>
+            <span> 暂无更多 </span>
         </div>
         <scroller v-if="activityList.length" height="-87" :bounce="false" :scrollbar-y="true" :use-pullup="true"  lock-x @on-pullup-loading="onScrollBottom" ref="scrollerBottom" @on-scroll="handleSC">
           <div class="ofy_auto flx_1" style="margin-top: -15px;">
@@ -29,7 +29,7 @@
               </div>
             </div>
           </div>
-          <!-- <load-more v-show="pageNum > totalPage" :show-loading="false" :tip="'暂无数据'" background-color="#fbf9fe"></load-more> -->
+          <!-- <load-more v-show="pageNum > totalPage" :show-loading="false" :tip="'暂无更多'" background-color="#fbf9fe"></load-more> -->
         </scroller>
       </div>
 

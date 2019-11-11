@@ -230,7 +230,7 @@ export default {
       })
     },
     goToArticleDetail(val){
-      this.$router.push({path:'/schools/detail',query:{article_id:val.article_id}})
+      this.$router.push({path:'/schools/detailCode',query:{article_id:val.article_id}})
     },
     confirmToArticleDetail(val){
         let code_name=localStorage.getItem('code_name')
@@ -249,7 +249,7 @@ export default {
         console.log(res)
         if(res.data.StatusInfo.success){
           if(this.article_id!=''){
-            this.$router.push({path:'/schools/detail',query:{article_id:this.article_id,code_name:this.code_name}})
+            this.$router.push({path:'/schools/detailCode',query:{article_id:this.article_id,code_name:this.code_name}})
           }else{
             this.getSchoolArticleList()
           }
@@ -376,6 +376,8 @@ export default {
     this.getSchoolList()
     this.getSchoolArticleList()
       this.share()
+      this.$wechat.hideOptionMenu()
+
   },
   mounted() {
     this.$bus.emit("onTabBarEvent", {});

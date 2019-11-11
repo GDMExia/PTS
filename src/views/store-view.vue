@@ -6,12 +6,22 @@
     <div class="images-slide">
       <swiper loop auto :list="imageList" @swiper-indicator-active-color="'#76F7FC'" height="120px"  dots-position="center"></swiper>
     </div>
-    <div style="display: flex;padding: 55% 0;justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="storeList.length==0">
-      <img style="width: 40px; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
-      <span> 暂无数据 </span>
-    </div>
-    <scroller v-if="storeList.length" height="-137" lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottom">
-      <div class="ofy_auto flx_1" style="margin-top: -15px;">
+<!--    <div style="display: flex;padding: 55% 0;justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="storeList.length==0">-->
+<!--      <img style="width: 40px; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>-->
+<!--      <span> 暂无更多 </span>-->
+<!--    </div>-->
+<!--    <scroller v-if="storeList.length" height="-137" lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottom">-->
+<!--      <div class="ofy_auto flx_1" style="margin-top: -15px;">-->
+    <div
+      class="menu"
+      :style="scrollBoxStyle"
+      ref="scrollBox"
+      @scroll="menuScroll"
+    >
+      <div
+        class="scrollBoxMain"
+        ref="scrollBoxMain"
+      >
         <div v-for="item in storeList" :key="item.id" @click="$router.push(`/homes/storeDetail?id=${item.merchants_id}`)" class="store">
           <img class="store-img" :src="item.cover" alt="">
           <div class="store-right">
@@ -23,8 +33,26 @@
           </div>
         </div>
       </div>
-      <!-- <load-more v-show="pageNum > totalPage" :show-loading="false" :tip="'暂无数据'" background-color="#fbf9fe"></load-more> -->
-    </scroller>
+      <div
+        class="loading"
+        v-show="loading"
+      >
+        <img
+          src="../assets/loading.png"
+          class="loading-icon"
+          alt=""
+        >
+        <span>正在加载</span>
+      </div>
+      <div
+        class="no-result"
+        v-if="noData"
+      >
+        <div class="no-result-text">暂无更多</div>
+      </div>
+    </div>
+      <!-- <load-more v-show="pageNum > totalPage" :show-loading="false" :tip="'暂无更多'" background-color="#fbf9fe"></load-more> -->
+<!--    </scroller>-->
   </div>
 </template>
 
@@ -32,6 +60,8 @@
 import { mapGetters, mapActions } from "vuex";
 import wx from 'weixin-js-sdk'
 import { Scroller,LoadMore,Swiper } from 'vux'
+import {listPullLoading} from 'list-pull-loading'
+import "list-pull-loading/dist/list-pull-loading.css"
 export default {
   components: {
     Scroller,
@@ -44,6 +74,10 @@ export default {
   name: "HomePage",
   data() {
     return {
+        loading: false,
+        noData: false,
+        canLoad: true,
+        winHeight: window.innerHeight,
       imageList: [],
       category: [],
       storeList: [],
@@ -56,6 +90,20 @@ export default {
   },
   methods: {
     ...mapActions(['storeLists', 'wxShare']),
+      menuScroll() {
+          //滚动到滚动区域底部
+          if (
+              this.$refs.scrollBox.scrollTop +
+              (this.winHeight  - 100 - 37) <
+              this.$refs.scrollBoxMain.clientHeight
+          )
+              return;
+          if (!this.canLoad) return;
+          this.loading = true;
+          this.canLoad = false;
+          this.pageNum++;
+          this.handleQuery();
+      },
     handleQuery(id) {
       const group_id = this.$route.query.group_id
       const cate_id = this.$route.query.cate_id
@@ -74,7 +122,20 @@ export default {
       }
       this.storeLists(params).then(res=>{
         if(res.StatusInfo.success) {
-          this.storeList = res.merchantsList?this.storeList.concat(res.merchantsList):[]
+
+            if (this.pageNum > res.PageInfo.TotalPages) {
+                this.noData = true;
+                this.loading = false;
+            } else {
+                this.storeList = [
+                    ...this.storeList,
+                    ...res.merchantsList
+                ];
+                this.totalPage = res.PageInfo.TotalPages;
+                this.canLoad = true;
+            }
+
+          // this.storeList = res.merchantsList?this.storeList.concat(res.merchantsList):[]
           this.category = res.merchantsCateTree
           this.imageList = res.Banner.map(item=>{
             // 1活动页面;2外链页面;3签到页面;4旅游;5商家
@@ -168,9 +229,13 @@ export default {
           })
       }
   },
-  computed: {
-
-  },
+    computed: {
+        scrollBoxStyle() {
+            return {
+                height: this.winHeight  - 100 - 37+ "px"
+            };
+        }
+    },
   beforeDestroy() {
 
   },
@@ -262,5 +327,55 @@ p img {
   width: 37px;
   height: 16px;
   margin-left: 5px;
+}
+.scrollBoxMain {
+  padding-top: 10px;
+}
+.menu {
+  width: 100%;
+  overflow-y: auto;
+  /* padding-top: 23px; */
+  background-color: #f8f8f8;
+  /* padding-bottom: 70px */
+}
+.no-result,
+.loading {
+  text-align: center;
+  padding: 15px 0;
+  font-size: 13px;
+  color: #999;
+}
+
+.no-result .no-result-text {
+  color: #666;
+}
+
+.no-result img {
+  width: 140px;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading img {
+  animation: rotate linear 2s infinite;
+  width: 16px;
+  height: 16px;
+}
+
+.loading span {
+  padding-left: 5px;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

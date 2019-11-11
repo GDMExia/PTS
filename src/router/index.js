@@ -14,7 +14,9 @@ import ActivityView from '@/views/activity-view'
 import GuideView from '@/views/guide-view'
 import StoreView from '@/views/store-view'
 import CauseView from '@/views/cause-view'
+import CauseCodeView from '@/views/cause-code-view'
 import DetailView from '@/views/detail-view'
+import DetailCodeView from '@/views/detail-code-view'
 import InfoView from '@/views/info-view'
 import GetvipView from '@/views/getvip-view'
 import WalletView from '@/views/mywallet-view'
@@ -24,7 +26,7 @@ import OrderdetailView from '@/views/orderdetail-view'
 import UnsubscribeView from '@/views/unsubscribe-view'
 import UnsubscribedetailView from '@/views/unsubscribedetail-view'
 import AdvicelView from '@/views/advice-view'
-import MyAdvicelView from '@/views/myadvice-view'
+import MyAdvicelView from '@/views/adviced-view'
 import SignView from '@/views/sign-view'
 import EnterView from '@/views/enter-view'
 import EnterapplyView from '@/views/enter-apply-view'
@@ -42,6 +44,7 @@ import merchantHome from '@/views/merchant-home-view'
 import merchantCheck from '@/views/merchant-checkticket-view'
 import merchantCheckSec from '@/views/merchant-checkticket-sec-view'
 import mycode from '@/views/mycode'
+import mycodesign from '@/views/mycodesign'
 
 import TourDetailView from '@/views/tour-detail-view'
 import TourDetailShareView from '@/views/tour-detail-share-view'
@@ -182,6 +185,11 @@ export default new Router({
           component: CauseView
         },
         {
+          path: 'causeCode',
+          name: '事业学习',
+          component: CauseCodeView
+        },
+        {
           path: 'activity',
           name: '资料分享',
           component: ActivityView
@@ -195,6 +203,11 @@ export default new Router({
           path: 'detail',
           name: '详情',
           component: DetailView
+        },
+        {
+          path: 'detailCode',
+          name: '详情',
+          component: DetailCodeView
         }
       ]
     },
@@ -269,7 +282,7 @@ export default new Router({
         component: AdvicelView
         },
         {
-        path: 'myadvice',
+        path: 'adviced',
         name: '我的评价',
         component: MyAdvicelView
         },
@@ -282,6 +295,11 @@ export default new Router({
           path: 'mycode',
           name: '名片',
           component: mycode
+        },
+        {
+          path: 'mycodesign',
+          name: '打卡',
+          component: mycodesign
         }
       ]
     },

@@ -12,12 +12,22 @@
       </flexbox>
     </div>
     <div>
-      <div style="display: flex; ;padding:50% 0;justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="activityListData.length==0">
-        <img style="width: 40px; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
-        <span> 暂无数据 </span>
-      </div>
-      <scroller v-if="activityListData.length" lock-x @on-scroll-bottom="onScrollBottom" :height="type==1?'-192':'152'" ref="scrollerBottom">
-        <div class="ofy_auto flx_1" style="margin-top: -10px;">
+<!--      <div style="display: flex; ;padding:50% 0;justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="activityListData.length==0">-->
+<!--        <img style="width: 40px; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>-->
+<!--        <span> 暂无更多 </span>-->
+<!--      </div>-->
+<!--      <scroller v-if="activityListData.length" lock-x @on-scroll-bottom="onScrollBottom" :height="type==1?'-192':'152'" ref="scrollerBottom">-->
+<!--        <div class="ofy_auto flx_1" style="margin-top: -10px;">-->
+      <div
+        class="menu"
+        :style="scrollBoxStyle"
+        ref="scrollBox"
+        @scroll="menuScroll"
+      >
+        <div
+          class="scrollBoxMain"
+          ref="scrollBoxMain"
+        >
           <div v-for="item in activityListData" :key="item.goods_id" class="main-content" @click="$router.push(`/activities/activityDetail?id=${item.goods_id}`)">
             <div class="image">
               <img :src="item.cover" alt="">
@@ -40,9 +50,27 @@
               </div>
             </div>
           </div>
+          <div
+            class="loading"
+            v-show="loading"
+          >
+            <img
+              src="../assets/loading.png"
+              class="loading-icon"
+              alt=""
+            >
+            <span>正在加载</span>
+          </div>
+          <div
+            class="no-result"
+            v-if="noData"
+          >
+            <div class="no-result-text">暂无更多</div>
+          </div>
         </div>
-        <!-- <load-more v-show="pageNum > totalPage" :show-loading="false" :tip="'暂无数据'" background-color="#fbf9fe"></load-more> -->
-      </scroller>
+        <!-- <load-more v-show="pageNum > totalPage" :show-loading="false" :tip="'暂无更多'" background-color="#fbf9fe"></load-more> -->
+<!--      </scroller>-->
+      </div>
     </div>
     <tabbarComponent :tabIndex=2></tabbarComponent>
     <home-provider></home-provider>
@@ -68,6 +96,10 @@ export default {
   name: "HomePage",
   data() {
     return {
+      loading: false,
+      noData: false,
+      canLoad: true,
+      winHeight: window.innerHeight,
       type: 1,
       typeId: '',
       typeList: [],
@@ -80,28 +112,59 @@ export default {
   },
   methods: {
     ...mapActions(['activityType', 'activityList']),
+      menuScroll() {
+          //滚动到滚动区域底部
+          if (
+              this.$refs.scrollBox.scrollTop +
+              (this.winHeight - 200 - 15) <
+              this.$refs.scrollBoxMain.clientHeight
+          )
+              return;
+          if (!this.canLoad) return;
+          this.loading = true;
+          this.canLoad = false;
+          this.pageNum++;
+          this.handleQuery();
+      },
     changeTab(type) {
       if(this.type!=type) {
         this.activityListData = []
         this.type = type
         this.pageNum = 1
+          this.$nextTick(()=>{
+              this.pageNum = 1
+
+          })
         this.handleQuery()
       }
     },
     handleQuery() {
       const params = {
         cid: this.typeId,
-        pageSize: 100,
+        pageSize: 10,
         page: this.pageNum,
         goods_status: this.type
       }
       this.activityList(params).then(res=>{
         if(res.StatusInfo.success) {
-          this.activityListData = res.goodsList?this.activityListData.concat(res.goodsList):this.activityListData
-            this.$nextTick(() => {
-                this.$refs.scrollerBottom.reset()
-            })
-          this.totalPage = res.PageInfo.TotalPages
+            if (this.pageNum > res.PageInfo.TotalPages) {
+                this.noData = true;
+                this.loading = false;
+            } else {
+                this.activityListData = [
+                    ...this.activityListData,
+                    ...res.goodsList
+                ];
+                this.totalPage = res.PageInfo.TotalPages;
+                this.canLoad = true;
+            }
+
+
+          // this.activityListData = res.goodsList?this.activityListData.concat(res.goodsList):this.activityListData
+          //   this.$nextTick(() => {
+          //       this.$refs.scrollerBottom.reset()
+          //   })
+          // this.totalPage = res.PageInfo.TotalPages
         } else {
           this.toastShow(res.StatusInfo.ErrorDetailCode)
         }
@@ -121,6 +184,10 @@ export default {
         this.activityListData = []
         this.typeId = id
         this.pageNum = 1
+          this.$nextTick(()=>{
+              this.pageNum = 1
+
+          })
         this.handleQuery()
       }
     },
@@ -138,9 +205,13 @@ export default {
       })
     },
   },
-  computed: {
-
-  },
+    computed: {
+        scrollBoxStyle() {
+            return {
+                height: this.winHeight - 200 - 15 + "px"
+            };
+        }
+    },
   beforeDestroy() {
 
   },
@@ -263,5 +334,55 @@ p img {
   width: 12px;
   height: 12px;
   display: inline-block;
+}
+.scrollBoxMain {
+  padding-top: 10px;
+}
+.menu {
+  width: 100%;
+  overflow-y: auto;
+  /* padding-top: 23px; */
+  background-color: #f8f8f8;
+  /* padding-bottom: 70px */
+}
+.no-result,
+.loading {
+  text-align: center;
+  padding: 15px 0;
+  font-size: 13px;
+  color: #999;
+}
+
+.no-result .no-result-text {
+  color: #666;
+}
+
+.no-result img {
+  width: 140px;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading img {
+  animation: rotate linear 2s infinite;
+  width: 16px;
+  height: 16px;
+}
+
+.loading span {
+  padding-left: 5px;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

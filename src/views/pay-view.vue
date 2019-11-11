@@ -16,7 +16,7 @@
             </div> -->
 <!--            <div class="placehold"></div>-->
         </div>
-        <div class="more">
+        <div class="more1">
             <p>充值说明</p>
             <ul>
                 <li>1积分=1元</li>
@@ -90,7 +90,9 @@ p{font-size: 16px;color: #222;display: inline-block;margin: 12px 0 0 4%;font-wei
 .selectmode .button .price{text-align: center;font-size: 18px;color: #222;display: block;margin-top: 21px}
 .selectmode .button .detail{text-align: center;font-size: 15px;color: #999;display: block;}
 .placehold{flex: 1;width:180px;height: 105px;display:inline-block;flex-basis: 180px;}
-ul,li{list-style: disc!important;list-style-position: inside!important;font-size: 15px;color:#494949;width: 88%;margin-left:6%}
+ul,li{list-style: disc!important;list-style-position: inside!important;font-size: 15px;color:#494949;width: 88%;margin-left:4%}
 .handle{height:83px;width:100%;background-color: #fff;position: fixed;bottom:-2px;box-sizing: border-box;padding-top: 10px}
+.more1 {margin-top:119px;width:100%;padding-left:2.5%;margin-left: 1%}
+
 .handle .button{width:84%;margin-left:8%;height:40px;line-height: 40px;border-radius: 20px;background-color: #06D5DE;text-align: center;color: #fff;font-size: 15px}
 </style>

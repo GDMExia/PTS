@@ -29,9 +29,12 @@
 						v-for="(item,index) of cateTree"
 						:key="index"
 					>
-						<div @click="$router.push({path:'/schools/cause',query:{pid:item.cid}})">
+						<div v-if="item.is_code=='1'" @click="showConfirm(item)">
 							<p>{{item.cate_name}}</p>
 						</div>
+            <div v-else @click="goToCause(item.cid)">
+              <p>{{item.cate_name}}</p>
+            </div>
 					</FlexboxItem>
 					<FlexboxItem class="header_btn">
 						<div @click="$router.push({path:'/tour'})">
@@ -117,7 +120,7 @@
 					class="no-result"
 					v-if="noData"
 				>
-					<div class="no-result-text">暂无数据</div>
+					<div class="no-result-text">暂无更多</div>
 				</div>
 			</div>
 		</div>
@@ -257,7 +260,7 @@ export default {
 							res.data.articleList
 						);
 						this.$nextTick(() => {
-							this.$refs.scrollerBottom.reset();
+							// this.$refs.scrollerBottom.reset();
 						});
 						this.totalPage = res.data.PageInfo.TotalPages;
 					}
@@ -277,6 +280,20 @@ export default {
 			this.article_id = val.article_id;
 			// this.$router.push({path:'/schools/detail',query:{article_id:item.article_id,code_name:item.article_id}})
 		},
+      showConfirm(val){
+		    let code_name=localStorage.getItem('code_name')
+          this.cid = val.cid
+          if(code_name){
+              this.code_name=code_name
+              this.confirmcode()
+          }else {
+              console.log(val)
+              this.show = true;
+          }
+      },
+      goToCause(val){
+		    this.$router.push({path:'/schools/cause',query:{pid:val}})
+      },
 		onScrollBottom() {
 			// console.log(123)
 			if (this.onFetching) return;
@@ -293,15 +310,18 @@ export default {
 				.then(res => {
 					console.log(res);
 					if (res.data.StatusInfo.success) {
-						this.$router.push({
-							path: "/schools/detail",
-							query: {
-								article_id: this.article_id,
-								code_name: this.code_name
-							}
-						});
+					    localStorage.setItem('code_name',this.code_name)
+              this.$router.push({path:'/schools/causeCode',query:{pid:this.cid,code_name: this.code_name}})
+						// this.$router.push({
+						// 	path: "/schools/detail",
+						// 	query: {
+						// 		article_id: this.article_id,
+						// 		code_name: this.code_name
+						// 	}
+						// });
 					} else {
-						this.$vux.toast.text(
+              localStorage.setItem('code_name','')
+              this.$vux.toast.text(
 							`${res.data.StatusInfo.ErrorDetailCode}`,
 							"top"
 						);

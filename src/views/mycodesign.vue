@@ -1,9 +1,8 @@
 <template>
 	<div style="width: 100%;">
-<!--    style="opacity:0"-->
 		<div v-if="!loadPicture" style="opacity:0">
 			<div
-				style="width:100%;background-color:#fff;border-radius: 20px"
+				style="width: 100%;background-color:#fff;border-radius: 20px"
 				ref="certificateShareImg"
 			>
 <!--				<img-->
@@ -68,7 +67,6 @@ export default {
 			nickname: "",
 			header_pic: "",
 			promoteCodeImgUrl: "",
-        codeImgUrl: '',
 			loadPicture:'',
 			textInfo:'',
       signInfo: {},
@@ -106,16 +104,16 @@ export default {
 				useCORS: true,
         allowTaint:true,
         imageTimeout: 5000,
-        width: width, //dom 原始宽度
-        height: height //dom 原始高度
+				width: width, //dom 原始宽度
+				height: height //dom 原始高度
 			};
 			html2canvas(shareContent, opts).then(res => {
 				// let body = document.getElementsByTagName("body");
 				// body[0].appendChild(res);
-          console.log(res)
-          // let imgUrl = res.toDataURL("image/jpeg");
+				// let imgUrl = res.toDataURL("image/jpeg");
+        // this.loadPicture=imgUrl
           let imgUrl = res.toDataURL();
-          // this.loadPicture=imgUrl
+
           this.uploadsImageBase64({
 					file_image: imgUrl
 				})
@@ -205,18 +203,18 @@ export default {
 						this.uid_number = res.data.userInfo.uid_number;
               // this.promoteCodeImgUrl = res.data.userInfo.codeImgUrl;
               this.promoteCodeImgUrl = res.data.userInfo.promoteCodeImgUrl;
-              //区分是打卡的还是名片的
+							//区分是打卡的还是名片的
 							let flag = this.$route.query.flag;
 							console.log(flag)
 							if(flag === 'sign'){
 
 								this.getSigninBase().then(res=>{
                     // this.textInfo = res.baseInfo.content;
-                    this.$nextTick(res=>{
                     this.textInfo = `今日打卡${this.signInfo.signin_time}<br>已经打卡${this.signInfo.siginContinuousCount}天`;
-                      this.$nextTick(res=>{
-                        this.startHtml2canvas();
-                      })
+                    this.img=this.signInfo.pic
+                    this.$nextTick(res=>{
+
+                      this.startHtml2canvas();
                     })
 								})
 							}else{
@@ -225,22 +223,15 @@ export default {
                     console.log(res)
                     if(res.data.StatusInfo.success){
                         this.textInfo = res.data.baseInfo.content.replace(/，/g,'，<br>')
-                        this.img=this.signInfo.pic
                         this.$nextTick(res=>{
 
-                          this.$nextTick(res=>{
-
-                              this.startHtml2canvas();
-                          })
+                            this.startHtml2canvas();
                         })
                     }else{
+                        this.textInfo = '用心做好每一件小事，<br>祝嘻格格越来越好。'
                         this.$nextTick(res=>{
 
-                            this.textInfo = '用心做好每一件小事，<br>祝嘻格格越来越好。'
-                          this.$nextTick(res=>{
-
-                              this.startHtml2canvas();
-                          })
+                            this.startHtml2canvas();
                         })
                     }
                 })

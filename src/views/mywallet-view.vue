@@ -27,7 +27,7 @@
                 <div class="changenum">+{{item.order_price}}</div>
             </div>
         </div>
-        <div style="width:100%;text-align:center;margin-top:20px;color:#999" v-else>暂无数据</div>
+        <div style="width:100%;text-align:center;margin-top:20px;color:#999" v-else>暂无更多</div>
     </div>
 </template>
 

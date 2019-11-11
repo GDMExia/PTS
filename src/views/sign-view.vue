@@ -243,7 +243,7 @@ export default {
             })
         },
         sign(){
-            this.$router.push({path:'/owners/mycode',query:{flag:'sign'}})
+            this.$router.push({path:'/owners/mycodesign',query:{flag:'sign'}})
             this.$http({
                 method: 'post',
                 url: `${this.rootPath}/User/createSign?token=${this.$store.state.token}`,

@@ -2,7 +2,7 @@
   <div class="main">
     <div style="display: flex;justify-content: center;align-items: center;flex-direction:column;font-size: 16px;color: #ccc;" v-if="activityListData.length==0">
       <img style="width: 40px; margin: 65% 0px; height: 40px;margin-bottom: 16px;" src="../../static/img/icon/no_data.png"/>
-      <span> 暂无数据 </span>
+      <span> 暂无更多 </span>
     </div>
     <scroller style="height: 100%;" v-if="activityListData.length" lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottomView">
       <div class="box" v-for="(item, index) in activityListData" :key="index">
@@ -68,7 +68,7 @@ export default {
           this.toastShow(res.StatusInfo.ErrorDetailCode)
         }
         this.loadDataDone = true; // 请求成功 控制空数据显示
-        this.onFetching = false; // 防止重复请求 
+        this.onFetching = false; // 防止重复请求
       })
     },
     onScrollBottom () {
@@ -80,10 +80,10 @@ export default {
     },
   },
   computed: {
-    
+
   },
   beforeDestroy() {
-    
+
   },
   created() {
     this.handleQuery()
@@ -139,10 +139,10 @@ export default {
   margin: 14px 7.6% 9px 5.6%;
   height: 44px;
   overflow: hidden;
-  text-overflow: -o-ellipsis-lastline; 
-  overflow: hidden; 
-  text-overflow: ellipsis; 
-  display: -webkit-box; 
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
@@ -153,7 +153,7 @@ export default {
   height: 34px;
   text-align: center;
   line-height: 32px;
-} 
+}
 .box-bottom {
   display: flex;
   /* padding: 0 3.7% 17px 5.6%; */

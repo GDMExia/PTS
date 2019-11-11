@@ -10,7 +10,7 @@
             <div class="num">*{{item.goods_number}}</div>
             <div class="handlebutton">
               <div class="unsubscribebtn2" @click="cancelpay(item.order_no)" v-if="item.order_status==0">取消支付</div>
-              <div class="unsubscribebtn" v-if="item.order_status!=3&&item.order_status!=4&&item.order_status!=5&&item.order_status!=6" @click="item.order_status==0?pay(item.order_no):item.order_status==1?$router.push({path:'/owners/unsubscribe',query:{order_no:item.order_no}}):item.order_status==2?(item.is_evaluation==0?$router.push({path:'/owners/advice',query:{order_no:item.order_no}}):$router.push({path:'/owners/advice',query:{order_no:item.order_no}})):''">{{item.order_status==0?'继续支付':item.order_status==1?'退订':item.order_status==2?(item.is_evaluation==0?'评价':'我的评价'):item.order_status==3?'退订情况':item.order_status==4?'退订情况':''}}</div>
+              <div class="unsubscribebtn" v-if="item.order_status!=3&&item.order_status!=4&&item.order_status!=5&&item.order_status!=6" @click="item.order_status==0?pay(item.order_no):item.order_status==1?$router.push({path:'/owners/unsubscribe',query:{order_no:item.order_no}}):item.order_status==2?(item.is_evaluation==0?$router.push({path:'/owners/advice',query:{order_no:item.order_no}}):$router.push({path:'/owners/adviced',query:{order_no:item.order_no}})):''">{{item.order_status==0?'继续支付':item.order_status==1?'退订':item.order_status==2?(item.is_evaluation==0?'评价':'我的评价'):item.order_status==3?'退订情况':item.order_status==4?'退订情况':''}}</div>
                 <div class="view" @click="$router.push({path:'/owners/orderdetail',query:{order_no:item.order_no}})">查看</div>
             </div>
         </div>
