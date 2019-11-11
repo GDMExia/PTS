@@ -1,84 +1,99 @@
 <template>
 	<div style="width: 100%;">
-<!--    style="opacity:0"-->
-		<div v-if="!loadPicture" style="opacity:0">
+		<!--    style="opacity:0"-->
+		<div
+			v-if="!loadPicture"
+			style="opacity:0"
+		>
 			<div
 				style="width:100%;background-color:#fff;border-radius: 20px"
 				ref="certificateShareImg"
 			>
-<!--				<img-->
-<!--					:src="img"-->
-<!--					alt=""-->
-<!--					style="width:100%"-->
-<!--          v-if="img!=''"-->
-<!--				>-->
-        <img
-          :src="img"
-          alt=""
-          style="width:100%"
-          v-if="img"
-        >
-        <img
-          src="../../static/img/icon/signcard@2x.png"
-          alt=""
-          style="width:100%"
-          v-else
-        >
+				<img
+					:src="img"
+					alt=""
+					style="width:100%"
+					v-if="img"
+					crossorigin="anonymous"
+				>
+				<img
+					src="../../static/img/icon/signcard@2x.png"
+					alt=""
+					style="width:100%"
+					v-else
+				>
 				<div style="height:200px;width:100%;position: relative">
 					<div style="width:57px;height: 57px;border-radius: 50%;overflow: hidden;margin-top: 22px;margin-left: 5%;display: inline-block">
 						<img
 							:src="header_pic"
 							alt=""
 							style="width:57px;height: 57px"
+							crossorigin="anonymous"
 						>
 					</div>
 					<div style="display: inline-block;color: #333333;font-size: 14px;position: absolute;top:22px;margin-left: 12px;">{{nickname}}</div>
-					<div style="display: inline-block;color: #454545;font-size: 18px;position:absolute;top:47px;margin-left: 12px;" v-html="textInfo"></div>
+					<div
+						style="display: inline-block;color: #454545;font-size: 18px;position:absolute;top:47px;margin-left: 12px;"
+						v-html="textInfo"
+					></div>
 					<div style="display: inline-block;color: #454545;font-size: 12px;width:60%;text-align:center;position:absolute;bottom:44px">本页发送好友，<br>加入我们，开启格调人生。</div>
 					<img
 						:src="promoteCodeImgUrl"
 						alt=""
 						style="width: 84px;height: 84px;position: absolute;right: 10px;bottom: 23px;z-index:999"
+						crossorigin="anonymous"
 					>
 				</div>
 			</div>
 		</div>
-		<img :src="loadPicture" v-else alt="" style="width:100%">
-    <loading
-      :show="show1"
-      :text="text1"
-    ></loading>
+		<img
+			:src="loadPicture"
+			v-else
+			alt=""
+			style="width:100%"
+			crossorigin="anonymous"
+		>
+		<loading
+			:show="show1"
+			:text="text1"
+		></loading>
 	</div>
 </template>
 
 <script>
-import wx from 'weixin-js-sdk'
+import wx from "weixin-js-sdk";
 import html2canvas from "html2canvas";
-import {Loading} from 'vux'
+import { Loading } from "vux";
 // import { XInput, Scroller, LoadMore, Confirm, Loading } from "vux";
 
 import { mapGetters, mapActions } from "vuex";
 export default {
 	name: "mycode",
-    components:{
-        Loading
-    },
+	components: {
+		Loading
+	},
 	data() {
 		return {
 			nickname: "",
 			header_pic: "",
 			promoteCodeImgUrl: "",
-        codeImgUrl: '',
-			loadPicture:'',
-			textInfo:'',
-      signInfo: {},
-        img: '',
-        show1: true,
-        text1: '图片合成中'
+			codeImgUrl: "",
+			loadPicture: "",
+			textInfo: "",
+			signInfo: {},
+			img: "",
+			show1: true,
+			text1: "图片合成中"
 		};
 	},
 	methods: {
-		...mapActions(["uploadsImageBase64", "updateUserCard","getCardShareInfo","getSignIndex","getSigninBase"]),
+		...mapActions([
+			"uploadsImageBase64",
+			"updateUserCard",
+			"getCardShareInfo",
+			"getSignIndex",
+			"getSigninBase"
+		]),
 		getPixelRatio(context) {
 			let backingStore =
 				context.backingStorePixelRatio ||
@@ -92,7 +107,7 @@ export default {
 		},
 		//绘制dom 元素，生成截图canvas
 		startHtml2canvas() {
-		    // setTimeout(()=>{
+			// setTimeout(()=>{
 			let shareContent = this.$refs.certificateShareImg; //需要截图的包裹的（原生的）DOM 对象;// 需要绘制的部分的 (原生）dom 对象 ，注意容器的宽度不要使用百分比，使用固定宽度，避免缩放问题
 			let width = shareContent.clientWidth; // 获取(原生）dom 宽度
 			let height = shareContent.clientHeight; // 获取(原生）dom 高
@@ -104,19 +119,19 @@ export default {
 			context2.scale(scaleBy, scaleBy);
 			let opts = {
 				useCORS: true,
-        allowTaint:true,
-        imageTimeout: 5000,
-        width: width, //dom 原始宽度
-        height: height //dom 原始高度
+				// allowTaint:true,
+				imageTimeout: 5000,
+				width: width, //dom 原始宽度
+				height: height //dom 原始高度
 			};
 			html2canvas(shareContent, opts).then(res => {
 				// let body = document.getElementsByTagName("body");
 				// body[0].appendChild(res);
-          console.log(res)
-          // let imgUrl = res.toDataURL("image/jpeg");
-          let imgUrl = res.toDataURL();
-          // this.loadPicture=imgUrl
-          this.uploadsImageBase64({
+				console.log(res);
+				// let imgUrl = res.toDataURL("image/jpeg");
+				let imgUrl = res.toDataURL();
+				// this.loadPicture=imgUrl
+				this.uploadsImageBase64({
 					file_image: imgUrl
 				})
 					.then(res => {
@@ -124,24 +139,26 @@ export default {
 					})
 					.then(pic => {
 						this.loadPicture = pic.file_image_url;
-              this.show1=false
+						this.show1 = false;
 
-              return this.updateUserCard({
+						return this.updateUserCard({
 							token: this.$store.state.token,
 							cid: 1,
 							pic: pic.file_image_url
 						});
-					}).then(share=>{
+					})
+					.then(share => {
 						return this.getCardShareInfo({
 							token: this.$store.state.token,
 							cid: 1,
-							share_url:window.location.href
-						})
-					}).then(shareInfo=>{
-						this.shareWx(shareInfo)
+							share_url: window.location.href
+						});
 					})
+					.then(shareInfo => {
+						this.shareWx(shareInfo);
+					});
 			});
-        // },6000)
+			// },6000)
 		},
 		shareWx(data) {
 			let that = this;
@@ -189,7 +206,7 @@ export default {
 				)
 				.then(res => {
 					console.log(res);
-					this.signInfo=res.data.signinData
+					this.signInfo = res.data.signinData;
 				});
 		},
 		getinfo() {
@@ -203,56 +220,112 @@ export default {
 						this.nickname = res.data.userInfo.nickname;
 						this.header_pic = res.data.userInfo.header_pic;
 						this.uid_number = res.data.userInfo.uid_number;
-              // this.promoteCodeImgUrl = res.data.userInfo.codeImgUrl;
-              this.promoteCodeImgUrl = res.data.userInfo.promoteCodeImgUrl;
-              //区分是打卡的还是名片的
-							let flag = this.$route.query.flag;
-							console.log(flag)
-							if(flag === 'sign'){
-
-								this.getSigninBase().then(res=>{
-                    // this.textInfo = res.baseInfo.content;
-                    this.$nextTick(res=>{
-                    this.textInfo = `今日打卡${this.signInfo.signin_time}<br>已经打卡${this.signInfo.siginContinuousCount}天`;
-                      this.$nextTick(res=>{
-                        this.startHtml2canvas();
-                      })
-                    })
-								})
-							}else{
-
-                this.$http.get(`${this.rootPath}/Index/getSigninBase?id=2`).then(res=>{
-                    console.log(res)
-                    if(res.data.StatusInfo.success){
-                        this.textInfo = res.data.baseInfo.content.replace(/，/g,'，<br>')
-                        this.img=this.signInfo.pic
-                        this.$nextTick(res=>{
-
-                          this.$nextTick(res=>{
-
-                              this.startHtml2canvas();
-                          })
-                        })
-                    }else{
-                        this.$nextTick(res=>{
-
-                            this.textInfo = '用心做好每一件小事，<br>祝嘻格格越来越好。'
-                          this.$nextTick(res=>{
-
-                              this.startHtml2canvas();
-                          })
-                        })
-                    }
-                })
-
-							}
-
+						this.promoteCodeImgUrl =
+							res.data.userInfo.promoteCodeImgUrl;
+						//区分是打卡的还是名片的
+						let flag = this.$route.query.flag;
+						if (flag === "sign") {
+							this.getSigninBase().then(res => {
+								// this.textInfo = res.baseInfo.content;
+								this.textInfo = `今日打卡${this.signInfo.signin_time}<br>已经打卡${this.signInfo.siginContinuousCount}天`;
+								new Promise((resolve, reject) => {
+									const img = new Image();
+									img.src = this.promoteCodeImgUrl;
+									img.onload = () =>
+										resolve(this.promoteCodeImgUrl);
+									img.onerror = () =>
+										reject(
+											new Error(
+												this.promoteCodeImgUrl +
+													" load error"
+											)
+										);
+								}).then(res => {
+									this.$nextTick(() => {
+										this.startHtml2canvas();
+									});
+								});
+							});
+						} else {
+							this.$http
+								.get(
+									`${this.rootPath}/Index/getSigninBase?id=2`
+								)
+								.then(res => {
+									if (res.data.StatusInfo.success) {
+										this.textInfo = res.data.baseInfo.content.replace(
+											/，/g,
+											"，<br>"
+										);
+										this.img = this.signInfo.pic;
+										let picArr = [
+											new Promise((resolve, reject) => {
+												const img = new Image();
+												img.src = this.promoteCodeImgUrl;
+												img.onload = () =>
+													resolve(
+														this.promoteCodeImgUrl
+													);
+												img.onerror = () =>
+													reject(
+														new Error(
+															this
+																.promoteCodeImgUrl +
+																" load error"
+														)
+													);
+											}),
+											new Promise((resolve, reject) => {
+												const img = new Image();
+												img.src = this.img;
+												img.onload = () =>
+													resolve(this.img);
+												img.onerror = () =>
+													reject(
+														new Error(
+															this.img +
+																" load error"
+														)
+													);
+											})
+										];
+										Promise.all(picArr)
+											.then(() => {
+												this.$nextTick(res => {
+													this.startHtml2canvas();
+												});
+											})
+											.catch(e => {
+												console.log(e);
+											});
+									} else {
+										this.textInfo =
+											"用心做好每一件小事，<br>祝嘻格格越来越好。";
+										new Promise((resolve, reject) => {
+											const img = new Image();
+											img.src = this.promoteCodeImgUrl;
+											img.onload = () =>
+												resolve(this.promoteCodeImgUrl);
+											img.onerror = () =>
+												reject(
+													new Error(
+														this.promoteCodeImgUrl +
+															" load error"
+													)
+												);
+										}).then(res => {
+											this.$nextTick(() => {
+												this.startHtml2canvas();
+											});
+										});
+									}
+								});
+						}
 					} else {
 						if (res.data.StatusInfo.ReturnCode == 603) {
 							this.$store.commit("setToken", "");
 						}
 					}
-					// console.log(this.$store.state.isMember)
 				});
 		}
 	},
