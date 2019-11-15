@@ -1,9 +1,8 @@
 <template>
 	<div style="width: 100%;">
-		<!--    style="opacity:0"-->
-		<div
-			v-if="!loadPicture"
-			style="opacity:0"
+    <div
+      v-if="!loadPicture"
+      style="opacity:0"
 		>
 			<div
 				style="width:100%;background-color:#fff;border-radius: 20px"
@@ -33,23 +32,24 @@
 					</div>
 					<div style="display: inline-block;color: #333333;font-size: 14px;position: absolute;top:22px;margin-left: 12px;">{{nickname}}</div>
 					<div
-						style="display: inline-block;color: #454545;font-size: 18px;position:absolute;top:47px;margin-left: 12px;"
+						style="display: inline-block;color: #454545;font-size: 18px;position:absolute;top:90px;left:20px"
+            :style="getWidthby"
 						v-html="textInfo"
 					></div>
-					<div style="display: inline-block;color: #454545;font-size: 12px;width:60%;text-align:center;position:absolute;bottom:44px">本页发送好友，<br>加入我们，开启格调人生。</div>
-					<img
-						:src="promoteCodeImgUrl"
-						alt=""
-						style="width: 84px;height: 84px;position: absolute;right: 10px;bottom: 23px;z-index:999"
-						crossorigin="anonymous"
-					>
+					<div style="display: inline-block;color: #454545;font-size: 12px;width:84px;text-align:center;position:absolute;bottom:55px;right:20px">加入嘻格格<br>开启格调人生</div>
+					<div
+						id="qrcode"
+						ref="qrcode"
+						style="width: 84px;height: 84px;position: absolute;right: 20px;top: 20px;z-index:999"
+					></div>
 				</div>
 			</div>
 		</div>
-		<img
+
+    <img
 			:src="loadPicture"
-			v-else
 			alt=""
+      v-else
 			style="width:100%"
 			crossorigin="anonymous"
 		>
@@ -64,6 +64,7 @@
 import wx from "weixin-js-sdk";
 import html2canvas from "html2canvas";
 import { Loading } from "vux";
+import QRCode from "qrcodejs2";
 // import { XInput, Scroller, LoadMore, Confirm, Loading } from "vux";
 
 import { mapGetters, mapActions } from "vuex";
@@ -83,7 +84,8 @@ export default {
 			signInfo: {},
 			img: "",
 			show1: true,
-			text1: "图片合成中"
+			text1: "图片合成中",
+      innerWidth:window.innerWidth
 		};
 	},
 	methods: {
@@ -94,6 +96,18 @@ export default {
 			"getSignIndex",
 			"getSigninBase"
 		]),
+		qrCode(url) {
+			let qrcode = new QRCode("qrcode", {
+				width: 84, //图像宽度
+				height: 84, //图像高度
+				colorDark: "#000000", //前景色
+				colorLight: "#ffffff", //背景色
+				typeNumber: 4,
+				correctLevel: QRCode.CorrectLevel.H //容错级别 容错级别有：（1）QRCode.CorrectLevel.L （2）QRCode.CorrectLevel.M （3）QRCode.CorrectLevel.Q （4）QRCode.CorrectLevel.H
+			});
+			qrcode.clear(); //清除二维码
+			qrcode.makeCode(url); //生成另一个新的二维码
+		},
 		getPixelRatio(context) {
 			let backingStore =
 				context.backingStorePixelRatio ||
@@ -140,7 +154,6 @@ export default {
 					.then(pic => {
 						this.loadPicture = pic.file_image_url;
 						this.show1 = false;
-
 						return this.updateUserCard({
 							token: this.$store.state.token,
 							cid: 1,
@@ -220,31 +233,31 @@ export default {
 						this.nickname = res.data.userInfo.nickname;
 						this.header_pic = res.data.userInfo.header_pic;
 						this.uid_number = res.data.userInfo.uid_number;
-						this.promoteCodeImgUrl =
-							res.data.userInfo.promoteCodeImgUrl;
+						// this.promoteCodeImgUrl = res.data.userInfo.promoteCodeImgUrl;
+						this.qrCode(res.data.userInfo.promoteCodeInfo);
 						//区分是打卡的还是名片的
 						let flag = this.$route.query.flag;
 						if (flag === "sign") {
 							this.getSigninBase().then(res => {
 								// this.textInfo = res.baseInfo.content;
 								this.textInfo = `今日打卡${this.signInfo.signin_time}<br>已经打卡${this.signInfo.siginContinuousCount}天`;
-								new Promise((resolve, reject) => {
-									const img = new Image();
-									img.src = this.promoteCodeImgUrl;
-									img.onload = () =>
-										resolve(this.promoteCodeImgUrl);
-									img.onerror = () =>
-										reject(
-											new Error(
-												this.promoteCodeImgUrl +
-													" load error"
-											)
-										);
-								}).then(res => {
-									this.$nextTick(() => {
-										this.startHtml2canvas();
-									});
+								// new Promise((resolve, reject) => {
+								// 	const img = new Image();
+								// 	img.src = this.promoteCodeImgUrl;
+								// 	img.onload = () =>
+								// 		resolve(this.promoteCodeImgUrl);
+								// 	img.onerror = () =>
+								// 		reject(
+								// 			new Error(
+								// 				this.promoteCodeImgUrl +
+								// 					" load error"
+								// 			)
+								// 		);
+								// }).then(res => {
+								this.$nextTick(() => {
+									this.startHtml2canvas();
 								});
+								// });
 							});
 						} else {
 							this.$http
@@ -253,71 +266,72 @@ export default {
 								)
 								.then(res => {
 									if (res.data.StatusInfo.success) {
-										this.textInfo = res.data.baseInfo.content.replace(
-											/，/g,
-											"，<br>"
-										);
+										this.textInfo = res.data.baseInfo.content
+                        // .replace(
+                        //     /，/g,
+                        //     "，<br>"
+                        // );
 										this.img = this.signInfo.pic;
-										let picArr = [
-											new Promise((resolve, reject) => {
-												const img = new Image();
-												img.src = this.promoteCodeImgUrl;
-												img.onload = () =>
-													resolve(
-														this.promoteCodeImgUrl
-													);
-												img.onerror = () =>
-													reject(
-														new Error(
-															this
-																.promoteCodeImgUrl +
-																" load error"
-														)
-													);
-											}),
-											new Promise((resolve, reject) => {
-												const img = new Image();
-												img.src = this.img;
-												img.onload = () =>
-													resolve(this.img);
-												img.onerror = () =>
-													reject(
-														new Error(
-															this.img +
-																" load error"
-														)
-													);
-											})
-										];
-										Promise.all(picArr)
-											.then(() => {
-												this.$nextTick(res => {
-													this.startHtml2canvas();
-												});
-											})
-											.catch(e => {
-												console.log(e);
-											});
+										// let picArr = [
+										// 	new Promise((resolve, reject) => {
+										// 		const img = new Image();
+										// 		img.src = this.promoteCodeImgUrl;
+										// 		img.onload = () =>
+										// 			resolve(
+										// 				this.promoteCodeImgUrl
+										// 			);
+										// 		img.onerror = () =>
+										// 			reject(
+										// 				new Error(
+										// 					this
+										// 						.promoteCodeImgUrl +
+										// 						" load error"
+										// 				)
+										// 			);
+										// 	}),
+										// 	new Promise((resolve, reject) => {
+										// 		const img = new Image();
+										// 		img.src = this.img;
+										// 		img.onload = () =>
+										// 			resolve(this.img);
+										// 		img.onerror = () =>
+										// 			reject(
+										// 				new Error(
+										// 					this.img +
+										// 						" load error"
+										// 				)
+										// 			);
+										// 	})
+										// ];
+										// Promise.all(picArr)
+										// 	.then(() => {
+										this.$nextTick(res => {
+											this.startHtml2canvas();
+										});
+										// })
+										// .catch(e => {
+										// 	console.log(e);
+										// });
 									} else {
 										this.textInfo =
 											"用心做好每一件小事，<br>祝嘻格格越来越好。";
-										new Promise((resolve, reject) => {
-											const img = new Image();
-											img.src = this.promoteCodeImgUrl;
-											img.onload = () =>
-												resolve(this.promoteCodeImgUrl);
-											img.onerror = () =>
-												reject(
-													new Error(
-														this.promoteCodeImgUrl +
-															" load error"
-													)
-												);
-										}).then(res => {
-											this.$nextTick(() => {
-												this.startHtml2canvas();
-											});
+										// new Promise((resolve, reject) => {
+										// 	const img = new Image();
+										// 	img.src = this.promoteCodeImgUrl;
+										// 	img.onload = () =>
+										// 		resolve(this.promoteCodeImgUrl);
+										// 	img.onerror = () =>
+										// 		reject(
+										// 			new Error(
+										// 				this.promoteCodeImgUrl +
+										// 					" load error"
+										// 			)
+										// 		);
+										// }).then(res => {
+										this.$nextTick(() => {
+											this.startHtml2canvas();
 										});
+										// });
 									}
 								});
 						}
@@ -335,7 +349,15 @@ export default {
 		this.$nextTick(() => {
 			this.$wechat.hideOptionMenu();
 		});
-	}
+		console.log(this.innerWidth)
+	},
+  computed:{
+      getWidthby(){
+          return {
+              width: this.innerWidth-84-10-57+'px'
+          }
+      }
+  }
 };
 </script>
 
