@@ -1,9 +1,9 @@
 <template>
     <div class="main">
         <div class="info">
-            <div class="expiretime">
-                <p style="color:#999999">会员到期日</p> <p style="color:#333333">{{over_time}}</p>
-            </div>
+<!--            <div class="expiretime">-->
+<!--&lt;!&ndash;                <p style="color:#999999">会员到期日</p> <p style="color:#333333">{{over_time}}</p>&ndash;&gt;-->
+<!--            </div>-->
             <div class="integral">
                 <p style="color:#999999">当前积分</p><img src="../../static/img/icon/icon_tishi@2x.png" alt=""> <p style="color:#333333">{{account_price}}</p>
             </div>
@@ -81,7 +81,7 @@ export default {
 .info{width: 92%;height:100px;margin-left: 4%;border-radius: 10px;background-color: #fff;margin-top: 10px;position: relative;}
 .info .expiretime{font-size: 15px;position: absolute;top: 24px;left: 6.2%;width: 50%}
 .info .expiretime p{display: inline-block}
-.info .integral{font-size: 15px;position: absolute;top: 60px;left: 6.2%;width: 50%}
+.info .integral{font-size: 15px;position: absolute;top: 40px;left: 6.2%;width: 50%}
 .info .integral p{display: inline-block;vertical-align: top}
 .info .integral img{width: 16px;height: 16px;display: inline-block;margin-top:2px}
 .info .paybutton{width:118px;height:58px;background: #fff url('../../static/img/icon/btn_wycz@2x.png') center no-repeat;background-size: 118px 58px;position: absolute;top:22px;right:1.5%}
